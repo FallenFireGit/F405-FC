@@ -4,4 +4,3 @@ __pycache__/
 fp-info-cache
 *.lck
 _autosave-*
-datasheets/*.pdf
