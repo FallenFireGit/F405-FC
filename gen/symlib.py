@@ -5,7 +5,7 @@ import re
 
 from sexpr import Sym, find, findall, parse
 
-KICAD_SYM_DIR = r"C:\Program Files\KiCad\10.0\share\kicad\symbols"
+KICAD_SYM_DIR = os.environ.get("KICAD_SYMBOL_DIR", r"C:\Program Files\KiCad\10.0\share\kicad\symbols")
 _cache = {}
 
 

@@ -6,7 +6,7 @@ import pcbnew
 import schgen
 import symlib
 
-FP_DIR = r"C:\Program Files\KiCad\10.0\share\kicad\footprints"
+FP_DIR = os.environ.get("KICAD_FOOTPRINT_DIR", r"C:\Program Files\KiCad\10.0\share\kicad\footprints")
 
 
 def mm(v):
