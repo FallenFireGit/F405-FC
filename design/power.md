@@ -268,7 +268,7 @@ The analog OSD (AT7456E) was removed in rev C (`design/decisions.md` D-01); its 
 
 **Components:**
 - EN tied to IN. VEN(on) must be at least 1.8 V at VIN = 4 V and 3 V at VIN = 6 V; tying to VIN satisfies this.
-- CIN = 1 uF 25 V X5R 0603 within 1 cm (section 8.2.2.2.1), plus the 10 uF 5V_SYS bulk.
+- CIN = 1 uF 25 V X5R 0603 within 1 cm (section 8.2.2.2.1), plus the 4.7 uF 5V_SYS bulk.
 - COUT = 10 uF 10 V X5R 0805 (Murata GRM21BR61A106KE19L) plus 100 nF. ESR about 5 mOhm is inside the 5-500 mOhm window.
 
 ---

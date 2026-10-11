@@ -91,6 +91,7 @@ def main():
     existing = pcbnew.LoadBoard(PCB) if os.path.exists(PCB) and "--fresh" not in sys.argv else None
     board = pcbgen.build(circuit.c, PCB, local_libs={"F405FC": os.path.join(ROOT, "lib", "F405FC.pretty")},
                          existing=existing)
+    board = pcbnew.LoadBoard(PCB)  # reload: design settings of a python-created BOARD are not wrapped
     outline(board)
     rules(board)
     import placement
