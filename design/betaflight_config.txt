@@ -1,6 +1,8 @@
 # Betaflight / STM32F405 (S405) 4.5.x  --  unified-target style CLI config
 # Board: F405FC (custom), STM32F405RGT6 LQFP-64
-# Companion document: design/pinmap.md (pin table + DMA proof). Rev B, 2026-10-10
+# Companion document: design/pinmap.md (pin table + DMA proof). Rev C, 2026-10-11
+# Rev C: analog OSD (AT7456E) removed -> SPI2 unused, M7 (B07) gets DMA1 S3 (DShot);
+#        PINIO1 (C15) = VTX OFF when high (pulls 10 V buck EN low).
 # (Gate 0 audit fixes: beeper->PB2, CAM_SEL->PC13, ESC TLM->UART4 RX PA1,
 #  M7 PB7 / M8 PA0 PWM-servo only, VBUS detect removed, UART5 full spare).
 #
@@ -37,13 +39,10 @@ resource I2C_SDA 1 B09
 resource LED 1 B14
 resource LED 2 B15
 resource SPI_SCK 1 A05
-resource SPI_SCK 2 B13
 resource SPI_SCK 3 B03
 resource SPI_SDI 1 A06
-resource SPI_SDI 2 C02
 resource SPI_SDI 3 B04
 resource SPI_SDO 1 A07
-resource SPI_SDO 2 C03
 resource SPI_SDO 3 B05
 resource ADC_BATT 1 C00
 resource ADC_RSSI 1 C05
@@ -51,7 +50,6 @@ resource ADC_CURR 1 C01
 resource PINIO 1 C15
 resource PINIO 2 C13
 resource FLASH_CS 1 B06
-resource OSD_CS 1 B12
 resource GYRO_EXTI 1 C04
 resource GYRO_EXTI 2 C14
 resource GYRO_CS 1 A04
@@ -73,7 +71,7 @@ timer C09 AF3
 timer A08 AF1
 # pin A08: TIM1 CH1 (AF1)          LED_STRIP
 timer B07 AF2
-# pin B07: TIM4 CH2 (AF2)          MOTOR 7 (extra pad, PWM/servo only)
+# pin B07: TIM4 CH2 (AF2)          MOTOR 7 (extra pad, DShot capable)
 timer A00 AF2
 # pin A00: TIM5 CH1 (AF2)          MOTOR 8 (extra pad, PWM/servo only)
 
@@ -83,10 +81,6 @@ dma SPI_SDO 1 0
 # SPI_SDO 1: DMA2 Stream 3 Channel 3
 dma SPI_SDI 1 0
 # SPI_SDI 1: DMA2 Stream 0 Channel 3
-dma SPI_SDO 2 0
-# SPI_SDO 2: DMA1 Stream 4 Channel 0
-dma SPI_SDI 2 0
-# SPI_SDI 2: DMA1 Stream 3 Channel 0
 dma SPI_SDO 3 0
 # SPI_SDO 3: DMA1 Stream 5 Channel 0
 dma SPI_SDI 3 0
@@ -109,15 +103,15 @@ dma pin C09 0
 # pin C09: DMA2 Stream 7 Channel 7
 dma pin A08 0
 # pin A08: DMA2 Stream 6 Channel 0
-dma pin B07 NONE
-# pin B07: no DMA (only option DMA1 S3 Ch2 = SPI2_RX) -> PWM/servo only, no DShot
+dma pin B07 0
+# pin B07: DMA1 Stream 3 Channel 2 (free since SPI2/OSD removed) -> DShot capable
 dma pin A00 NONE
 # pin A00: no DMA (only option DMA1 S2 Ch6 = M2)     -> PWM/servo only, no DShot
 
-# DMA1: S0 SPI3_RX | S1 M3 | S2 M2 | S3 SPI2_RX | S4 SPI2_TX | S5 SPI3_TX | S6 M4 | S7 M1
+# DMA1: S0 SPI3_RX | S1 M3 | S2 M2 | S3 M7 | S4 free | S5 SPI3_TX | S6 M4 | S7 M1
 # DMA2: S0 SPI1_RX | S1 free | S2 M5 | S3 SPI1_TX | S4 ADC1 | S5 free | S6 LED_STRIP | S7 M6
-# M7 (B07) and M8 (A00): no DMA. Use as servos (resource SERVO n B07/A00) or PWM/Oneshot.
-# A >6-motor mixer with DShot will NOT work on M7/M8.
+# M8 (A00): no DMA. Use as a servo (resource SERVO n A00) or PWM/Oneshot.
+# An 8-motor mixer with DShot will NOT work on M8 (7 DShot motors do).
 
 # ---------------------------------------------------------------- features
 feature RX_SERIAL
@@ -171,9 +165,6 @@ set mag_hardware = AUTO
 set i2c1_pullup = OFF
 set i2c1_clockspeed_khz = 400
 
-# OSD AT7456E on SPI2
-set max7456_spi_bus = 2
-
 # Blackbox W25N01GV on SPI3
 set flash_spi_bus = 3
 set blackbox_device = SPIFLASH
@@ -200,18 +191,18 @@ set beeper_od = OFF
 # Status LEDs PB14/PB15 wired 3V3 -> R -> LED -> pin (sink, low = on) = BF non-inverted
 set led_inversion = 0
 
-# PINIO1 (C15) = VTX 10 V switch EN (high = on). 129 = output, inverted:
-#   USER1 off -> pin HIGH -> VTX ON (default after boot); USER1 on -> VTX OFF (pit/power cut)
+# PINIO1 (C15) = VTX power cut: HIGH turns Q2 on, which pulls the 10 V buck EN low (VTX OFF).
+#   1 = output, normal: USER1 off -> pin LOW -> VTX ON (also ON through reset/DFU via 100k gate pulldown)
+#   USER1 on -> pin HIGH -> VTX OFF (pit/power cut)
 # PINIO2 (C13) = camera select (low = CAM1). 1 = output, normal: USER2 on -> CAM2
-set pinio_config = 129,1,1,1
+set pinio_config = 1,1,1,1
 set pinio_box = 40,41,255,255
 
 # Receiver
 set serialrx_provider = CRSF
 
-# OSD: analog AT7456E by default; switch to MSP for HD VTX
-# AUTO picks the AT7456E when it is detected; HD (MSP DisplayPort) users must set MSP.
-set osd_displayport_device = AUTO
+# OSD: no analog OSD chip on this board (D-01). MSP DisplayPort over UART1 to the HD VTX.
+set osd_displayport_device = MSP
 
 # ---------------------------------------------------------------------------
 # APPENDIX: equivalent Betaflight 4.5 config.h (betaflight/config format)
@@ -232,7 +223,6 @@ set osd_displayport_device = AUTO
 # #define USE_MAG_LIS2MDL
 # #define USE_FLASH
 # #define USE_FLASH_W25N01G
-# #define USE_MAX7456
 #
 # #define BEEPER_PIN           PB2
 # #define MOTOR1_PIN           PB0
@@ -260,13 +250,10 @@ set osd_displayport_device = AUTO
 # #define LED0_PIN             PB14
 # #define LED1_PIN             PB15
 # #define SPI1_SCK_PIN         PA5
-# #define SPI2_SCK_PIN         PB13
 # #define SPI3_SCK_PIN         PB3
 # #define SPI1_SDI_PIN         PA6
-# #define SPI2_SDI_PIN         PC2
 # #define SPI3_SDI_PIN         PB4
 # #define SPI1_SDO_PIN         PA7
-# #define SPI2_SDO_PIN         PC3
 # #define SPI3_SDO_PIN         PB5
 # #define ADC_VBAT_PIN         PC0
 # #define ADC_CURR_PIN         PC1
@@ -274,7 +261,6 @@ set osd_displayport_device = AUTO
 # #define PINIO1_PIN           PC15
 # #define PINIO2_PIN           PC13
 # #define FLASH_CS_PIN         PB6
-# #define MAX7456_SPI_CS_PIN   PB12
 # #define GYRO_1_EXTI_PIN      PC4
 # #define GYRO_2_EXTI_PIN      PC14
 # #define GYRO_1_CS_PIN        PA4
@@ -287,16 +273,16 @@ set osd_displayport_device = AUTO
 #     TIMER_PIN_MAP( 3, PB11, 1,  1) \
 #     TIMER_PIN_MAP( 4, PC8 , 2,  0) \
 #     TIMER_PIN_MAP( 5, PC9 , 2,  0) \
-#     TIMER_PIN_MAP( 6, PA8 , 1,  0) \n#     TIMER_PIN_MAP( 7, PB7 , 1, -1) \n#     TIMER_PIN_MAP( 8, PA0 , 2, -1)
+#     TIMER_PIN_MAP( 6, PA8 , 1,  0) \
+#     TIMER_PIN_MAP( 7, PB7 , 1,  0) \
+#     TIMER_PIN_MAP( 8, PA0 , 2, -1)
 #   (2nd arg = occurrence index of that pin in BF fullTimerHardware[]:
 #    PB0 -> TIM1_CH2N(1) TIM3_CH3(2); PB1 -> TIM1_CH3N(1) TIM3_CH4(2);
 #    PC8 -> TIM3_CH3(1) TIM8_CH3(2); PC9 -> TIM3_CH4(1) TIM8_CH4(2);
-#    PB7 -> TIM4_CH2(1); PA0 -> TIM2_CH1(1) TIM5_CH1(2). dma -1 = none)
+#    PB7 -> TIM4_CH2(1); PA0 -> TIM2_CH1(1) TIM5_CH1(2) per timer_stm32f4xx.c l.63/75. dma -1 = none)
 #
 # #define SPI1_TX_DMA_OPT      0
 # #define SPI1_RX_DMA_OPT      0
-# #define SPI2_TX_DMA_OPT      0
-# #define SPI2_RX_DMA_OPT      0
 # #define SPI3_TX_DMA_OPT      0
 # #define SPI3_RX_DMA_OPT      0
 # #define ADC1_DMA_OPT         1
@@ -314,11 +300,10 @@ set osd_displayport_device = AUTO
 # #define GYRO_2_SPI_INSTANCE         SPI1
 # #define GYRO_1_ALIGN                CW0_DEG
 # #define GYRO_2_ALIGN                CW0_DEG
-# #define MAX7456_SPI_INSTANCE        SPI2
 # #define FLASH_SPI_INSTANCE          SPI3
 # #define BARO_I2C_INSTANCE           I2CDEV_1
 # #define MAG_I2C_INSTANCE            I2CDEV_1
-# #define PINIO1_CONFIG               129
+# #define PINIO1_CONFIG               1
 # #define PINIO1_BOX                  40
 # #define PINIO2_BOX                  41
 # #define SERIALRX_UART               SERIAL_PORT_USART2
