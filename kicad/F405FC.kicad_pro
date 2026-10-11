@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "filename": "F405FC.kicad_pro",
+    "version": 3
+  },
+  "board": {
+    "design_settings": {}
+  },
+  "net_settings": {
+    "classes": [
+      {
+        "name": "Default",
+        "clearance": 0.127,
+        "track_width": 0.127,
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "diff_pair_width": 0.2,
+        "diff_pair_gap": 0.15,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1
+      }
+    ],
+    "meta": {
+      "version": 4
+    }
+  },
+  "schematic": {
+    "meta": {
+      "version": 1
+    }
+  },
+  "sheets": [
+    [
+      "85397873-de58-5f94-9eed-9a7928bbcb45",
+      "Root"
+    ],
+    [
+      "bcd455a5-023f-52b3-acb5-03ca815a8484",
+      "Power"
+    ],
+    [
+      "d9dd2f91-3141-5a18-a766-de1f3392fe7d",
+      "MCU"
+    ],
+    [
+      "26784101-3758-547d-afe0-41d24b65b376",
+      "Sensors"
+    ],
+    [
+      "2044f6dd-e7bb-58bb-b615-40e24245c19a",
+      "Video"
+    ],
+    [
+      "f8e9c891-1f95-5efa-838e-66cdcd6f9d2d",
+      "Connectors"
+    ]
+  ],
+  "erc": {
+    "rule_severities": {
+      "single_global_label": "error",
+      "global_label_dangling": "error",
+      "similar_labels": "warning",
+      "unconnected_wire_endpoint": "warning",
+      "lib_symbol_issues": "warning",
+      "lib_symbol_mismatch": "warning",
+      "footprint_link_issues": "warning"
+    }
+  }
+}

@@ -170,9 +170,10 @@ timerHardware_t timerHardware[] = {
 const int timerHardwareCount = sizeof(timerHardware) / sizeof(timerHardware[0]);
 ```
 
-Note on S8: INAV's `DEF_TIM` macro always records the dmavar-0 stream. Because the pin is declared `TIM_USE_SERVO`, INAV drives it
-as plain PWM and never starts DMA on it, so it does not conflict with M2 at run time. If INAV's mixer ever assigns it as a motor
-with DShot, the M2/M8 DMA clash would break M2; the target therefore keeps it servo-only. **Confirm with an INAV build + bench test.**
+Note on S8: the INAV `DEF_TIM(tim, ch, pin, usage, flags, dmavar)` macro (timer_def_stm32f4xx.h l.25) records the DMA option
+selected by `dmavar`; TIM5_CH1 has only D(1,2,6), which is M2's stream. The pin is declared `TIM_USE_SERVO`, and INAV only starts
+timer DMA for DShot motor outputs, so as a servo it is driven as plain PWM and does not contend with M2. If it were ever used as a
+DShot motor the DMA1 S2 clash would break M2; keep it servo-only. **Confirm with an INAV build and a bench test.**
 
 ## Driver checklist (INAV)
 

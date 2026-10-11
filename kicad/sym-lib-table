@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "F405FC")(type "KiCad")(uri "${KIPRJMOD}/../lib/F405FC.kicad_sym")(options "")(descr "F405-FC custom symbols"))
+)

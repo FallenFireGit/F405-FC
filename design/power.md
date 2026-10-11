@@ -30,9 +30,11 @@ Decisions and requirement deviations are logged in `design/decisions.md`.
 - **Internal compensation, EN abs max = VIN + 0.3 V:** no RC compensation network and no EN zener. Per rail the part count drops from
   about 16 to 10 (IC, L, CIN, CHF, CBOOT, RT, 2 x RFB, 2 x REN, COUT).
 - **Cost of the change:** the 2 A device rating. The datasheet guarantees output current through the valley limit (Eq. 7:
-  IOUTmax = ILS + dIL/2, ILS = 1.8 A min / 2.3 typ). With our inductors that is **1.96-2.20 A minimum** across 2S-6S (5 V rail) and
-  **1.97-2.13 A** (10 V rail). So the requirement "5 V / 2.5 A" is **derated to 1.8 A continuous** (see the budget in section 12.1) and
-  "10 V / 2 A" to **1.5 A continuous, 2 A peak**. The lead accepted these deviations (`design/decisions.md` D-03).
+  IOUTmax = ILS + dIL/2, ILS = 1.8 A min / 2.3 typ). With nominal inductance and frequency that is 1.96-2.20 A across 2S-6S (5 V) and
+  1.97-2.13 A (10 V). Including −20 % inductance, −20 % RT/oscillator spread and the −8 % spread-spectrum dip (audit P0-03), the
+  floor is **≥ 1.87 A (5 V)** and **≥ 1.78 A (10 V)**. So the requirement "5 V / 2.5 A" is **derated to 1.8 A continuous** (section 12.1;
+  the 1.79 A budget leaves ≥ 0.08 A to the worst-case limit, so the LED-strip cap in firmware is mandatory, not advisory) and
+  "10 V / 2 A" to **1.5 A continuous** (peaks to ~1.8 A guaranteed, ~2.3 A typical). The lead accepted these deviations (`design/decisions.md` D-03).
 - **Thermals (section 12):** worst-case Tj 86-104 C (5 V at 1.8 A, 2S) and 74-88 C (10 V at 1.5 A, 4-6S) at Ta = 50 C, against
   150 C max / 163 C TSD. Rev A's diode reached 161 C.
 - I kept the TPS54360B as the documented fallback (rev A design) if the 5 V budget ever has to return to 2.5 A.
@@ -55,7 +57,7 @@ Block diagram:
            │  │  │  └── D5 PMEG4030ER ──┐
            │  │  └── Buzzer (+)          │
            │  └── LED strip 5V pad       ├── 5V_SYS (≈4.76 V on battery, ≈4.65 V on USB)
-           └── CAM1 / CAM2 5V pads,      │      ├── U4 LP38692-3.3 → 3V3 (MCU, flash, baro, mag, LEDs[, OSD])
+           └── CAM1 / CAM2 5V pads,      │      ├── U4 LP38692-3.3 → 3V3 (MCU, flash, baro, mag, LEDs)
                GPS 5V (buck-only, G0-03) │      ├── U5 LP5907-3.3  → 3V3_IMU (ICM-42688-P, BMI270)
                                          │      └── RX 5V pad (ELRS)
  USB-C VBUS ── D4 PMEG4030ER ────────────┘
@@ -76,7 +78,7 @@ fetches), so pull the PDF before release.
 
 | Parameter | Value | Check |
 |---|---|---|
-| VR (stand-off) | 26.0 V | > 25.2 V (6S at 4.20 V/cell). LiHV 6S at 4.35 V/cell = 26.1 V is 0.1 V above VR but still 2.8 V below VBR(min), so leakage stays in the uA range. If LiHV support matters, use the SMBJ28A (VBR 31.1-34.4 V, VC 45.4 V; 45.4 V is still below 50 V caps and the 65 V IC). |
+| VR (stand-off) | 26.0 V | > 25.2 V (6S at 4.20 V/cell). LiHV 6S at 4.35 V/cell = 26.1 V is 0.1 V above VR but still 2.8 V below VBR(min), so leakage stays in the uA range. If LiHV support matters, use the SMBJ28A (VBR 31.1-34.4 V, VC 45.4 V; 45.4 V is still below the 50 V caps and the 85 V LMR38020). |
 | VBR @ 1 mA | 28.9 V min, 31.9 V max | A 35 V regen spike is clamped (the TVS starts conducting at 28.9-31.9 V). |
 | VC @ IPP = 14.3 A | 42.1 V max | < 50 V ceramic rating, < **85 V** LMR38020 VIN/SW abs max. Only the bucks, input caps, EN dividers, VBAT divider and the ESC connector sit on VBAT. |
 | Dynamic resistance (derived) | (42.1 - 31.9) / 14.3 = 0.71 Ohm | Clamp at 5 A is about 31.9 + 5 x 0.71 = **35.5 V**; at 1 A about 32.6 V |
@@ -87,19 +89,22 @@ Margin summary at the worst-case clamp (42.1 V):
 - 50 V X7R input ceramics: 7.9 V margin. 42.1 V is the worst case at full rated pulse current; realistic ESC regen pulses clamp near 32-36 V.
 - VBAT ADC pin: 42.1 / 11 = 3.83 V. The pin's ESD diode clamps it, with injection current (42.1 - 3.6)/10k - 3.6/1k = **0.25 mA**, far below the STM32 ±5 mA IINJ limit (DS8626 section 6.2).
 
-Note that there is no reverse-polarity protection. A reversed pack forward-biases the TVS, which will short and probably fail as
+Note that there is no reverse-polarity protection (audit P0-09). A reversed pack forward-biases the TVS **and** both LMR38020 low-side
+body diodes (VIN −0.3 V abs max), so both bucks are likely destroyed along with the TVS. The ESC harness sets polarity; the bring-up guide
+requires a current-limited first power-up. The TVS fails short as
 the indicator; this is normal for FPV FCs because polarity is set by the ESC harness.
 
 ### 1.2 Input ceramics
 
 | Ref | Value | MPN | Placement |
 |---|---|---|---|
-| C1 | 10 uF 50 V X7R 1210 | Murata GRM32ER71H106KA12L | Board entry, next to D1 |
-| C2 / C3 | 10 uF 50 V X7R 1210 | GRM32ER71H106KA12L | U1 / U2 VIN-GND, inside the hot loop |
+| C1 | 10 uF 50 V X7R 1210 | Samsung CL32B106KBJNNNE | Board entry, next to D1 |
+| C2+C2b / C3+C3b | 2 x 10 uF 50 V X7R 1210 per IC | CL32B106KBJNNNE | U1 / U2 VIN-GND, inside the hot loop (audit P0-06: two per IC so each meets 4.7 uF effective locally) |
 | C4 / C5 | 100 nF 100 V X7R 0603 | Murata GRM188R72A104KA35D | U1 / U2 VIN pin, closest (datasheet 9.2.2.6: 100-220 nF HF bypass) |
 
-- LMR38020 needs at least **4.7 uF effective** on VIN (9.2.2.6). A 10 uF/50 V 1210 keeps about 4.5 uF at 25 V; together with the shared
-  entry cap C1 (also about 4.5 uF, within 10 mm) each IC sees about 9 uF.
+- LMR38020 needs at least **4.7 uF effective** on VIN (9.2.2.6). A 10 uF/50 V 1210 keeps about 4.5 uF at 25 V, so each IC gets **two**
+  (≈ 9 uF effective locally), plus the shared entry cap C1. Murata GRM32ER71H106KA12L was replaced by Samsung CL32B106KBJNNNE
+  (DigiKey 1276-3387-1-ND) because one DigiKey listing showed the Murata part as discontinued.
 - RMS ripple current ≈ IOUT/2 (Eq. 12): 0.9 A (5 V) and 0.75 A (10 V). A 1210 X7R handles 2-3 A at a few mOhm ESR.
 - **External bulk:** a low-ESR electrolytic of 470-1000 uF, 35 V min (50 V preferred for 6S) across the ESC battery pads. It damps the
   battery-lead/ceramic LC on hot-plug and absorbs regen energy; the TVS is the backstop.
@@ -116,16 +121,18 @@ parametric equivalent (1,401 pcs, $4.55, Oct 2026 web snapshot; re-check at orde
 ### 2.1 Frequency
 - **RT = 34.8 kOhm** (Table 8-1, Eq. 2 gives 34.5 k) → **750 kHz** (EC table: 430-650 kHz at 49.9 k gives roughly ±20 % spread).
 - tON at 25.2 V = 270 ns, at the 42.1 V clamp 162 ns. Both exceed tON-MIN max 131 ns, so there is no foldback below 51.9 V (Eq. 5).
-- Low-VIN foldback starts below 6.58 V (Eq. 6, tOFF-MIN 300 ns max). Below that the frequency drops toward about 140 kHz and the rail
-  stays near 5.1 V down to VIN ≈ 5.9 V at 1.8 A (dropout ≈ IOUT x (RDS,HS,hot + DCR)).
+- Low-VIN foldback starts below 6.58 V (Eq. 6, tOFF-MIN 300 ns max). Below that the frequency drops toward about 140 kHz. With the 97 %
+  maximum duty cycle the rail regulates down to VIN ≈ **6.25-6.4 V** at 1.8 A (audit P0-04); below that it tracks
+  VOUT ≈ 0.97·VIN − IOUT·(RDS,HS,hot + DCR). A 2S pack under load (≥ 6.0 V) gives ≥ 4.9 V.
 
 ### 2.2 Inductor: Würth WE-MAPI 74438357068 (6.8 uH, 4030: 4.1 x 4.1 x 3.1 mm max)
 - Eq. 11 sub-harmonic floor: LMIN = 0.25 x 5.1 / 750k = **1.70 uH**. 6.8 uH is 4x above.
 - Ripple (Eq. 10 rearranged): 0.31 A (7.4 V), 0.60 A (12.6 V), **0.80 A (25.2 V)** = K 0.44 of the 1.8 A budget, 0.40 of the 2 A rating.
   That is at the top of TI's 20-40 % window, chosen to keep the guaranteed valley-limit current (Eq. 7) above 1.96 A.
-- Peak at 2.0 A/25.2 V: 2.40 A. WE-MAPI 74438357068 (DigiKey 732-11204-1-ND): rated 3.0 A, DCR max 74 mOhm, Isat quoted 3.5-5.5 A
-  depending on source (iron-alloy core, soft saturation). The HS current limit (3.8 A max) is at or below Isat, so a short-circuit is
-  limited cycle by cycle plus hiccup (8.3.8). **Gate 2 must confirm Isat from the Würth datasheet.**
+- Peak at 2.0 A/25.2 V: 2.40 A. WE-MAPI 74438357068 (DigiKey 732-11204-1-ND): rated 3.0 A, DCR max 74 mOhm. Search-snippet figures
+  from the Würth datasheet (audit P0-07): **Isat(10 %) 3.5 A**, Isat(30 %) about 5.5 A. The worst full-load peak (2.4 A) is well below
+  Isat(10 %). The HS current limit (3.8 A max) is **above** Isat(10 %) but below Isat(30 %); the iron-alloy core saturates softly, and the
+  valley limit + hiccup (8.3.8) end a short circuit. Acceptable; Gate 2 confirms from the Würth PDF.
 - Coilcraft XGL5030 (rev A choice) is not obtainable at DigiKey ("no longer available at DigiKey"), so it is excluded.
 - Height 3.1 mm max (top-side limit 3.5 mm).
 
@@ -161,7 +168,8 @@ Same IC, RT (34.8 k), UVLO network (301 k / 100 k), boot cap, input caps and PG 
 ### 3.1 Inductor: Würth WE-MAPI 74438357082 (8.2 uH, 4030)
 - LMIN (Eq. 11) = 0.25 x 10.09 / 750k = 3.36 uH.
 - Ripple: 0.66 A (16.8 V), 0.98 A (25.2 V), 1.25 A (42.1 V clamp). Peak at 1.5 A/25.2 V = 1.99 A, below the 2.8 A rating
-  (aggregator listing: 8.2 uH, 2.8 A, 86 mOhm, 4030, AEC-Q200; Isat quoted 5.2 A). DigiKey PN not yet seen: Gate 2 to confirm.
+  (8.2 uH, rated 2.8 A, 86 mOhm, 4030, AEC-Q200; Isat(10 %) ≈ 3.35 A per the Würth figures quoted in the audit). Same soft-saturation
+  argument as L1. DigiKey PN not yet seen: Gate 2 to confirm.
 - Guaranteed output (Eq. 7, ILS min): 2.13 A (16.8 V), 2.11 A (25.2 V).
 
 ### 3.2 Output capacitors
@@ -171,12 +179,16 @@ Same IC, RT (34.8 k), UVLO network (301 k / 100 k), boot cap, input caps and PG 
 ### 3.3 Feedback
 RFBT 100 kOhm, RFBB **11.0 kOhm** → **10.09 V** (9.76-10.43 V).
 
-### 3.4 Dropout on 2S / 3S (documented limitation)
-- Regulation without foldback needs VIN ≥ 13.0 V (Eq. 6). With foldback the duty cycle extends toward 100 % at about 140 kHz, so the
-  rail holds 10 V down to VIN ≈ 10.8 V at 1.5 A.
-- Below that, VOUT ≈ VIN − IOUT x (RDS,HS,hot + DCR) ≈ VIN − 0.7 V at 1.5 A: **6.6 V at 7.4 V (2S nominal)**, 7.7 V at 8.4 V.
-- DJI O3 (7.4-26.4 V) and some Walksnail units brown out on sagging 2S. Analog VTXs rated 5-36 V are fine. This is user-documented
-  behaviour. The rail can never exceed VBAT.
+### 3.4 Dropout on 2S / 3S (requirement deviation D-11)
+- Regulation without foldback needs VIN ≥ 13.0 V (Eq. 6). With foldback the frequency drops to ~140 kHz, but the **97 % maximum duty
+  cycle** still applies (audit P0-02), so the rail regulates only above **VIN ≈ 11.3-11.5 V** at 1.5 A.
+- Below that, VOUT ≈ 0.97·VIN − IOUT·(RDS,HS,hot + DCR): at 1.5 A about **6.2-6.35 V from 7.4 V** (2S nominal) and **7.2-7.3 V from 8.4 V**
+  (2S full); 3S at 3.7 V/cell (11.1 V) gives about 9.9 V.
+- **Consequence:** an HD VTX with a 7.4 V minimum (DJI O3) does **not** run reliably from the 10 V rail on 2S. Analog VTXs rated 5-36 V
+  are fine. **2S HD builds must power the VTX from the VBAT pads** (wire to the VTX directly; pit-mode power cut is then unavailable).
+  This is logged as deviation D-11 and goes in the user guide. A VBAT/10V solder-jumper option was rejected: tying VBAT onto the
+  regulated 10 V node back-drives U2 (FPWM sinks up to 0.9 A of reverse current) and defeats the pit-mode switch.
+- The rail can never exceed VBAT.
 
 ---
 
@@ -189,10 +201,12 @@ Rev A used a TPS22810 load switch after the 10 V buck. The audit (rev A R8) foun
 - Gate driven from **PC15 / VTX_PWR_EN** through **R 1 kOhm**, with **100 kOhm gate pulldown** (gate side).
 - **GPIO high → Q2 on → EN < 0.95 V → U2 off → VTX off.** GPIO low or floating (reset, ROM DFU, early boot) → Q2 off → U2 runs → VTX on.
   Losing video because firmware is mid-flash or misconfigured is worse than lacking pit mode; this matches commercial practice.
-- EN with Q2 on at the 42.1 V clamp: 42.1 V / 301 k x RDS(on) (< 5 Ohm at VGS = 3.0 V) ≈ 0.7 mV, far below VEN-L min 0.95 V.
+- EN with Q2 on at the 42.1 V clamp: Q2 sinks 42.1 V / 301 k = 140 uA. Any RDS(on) below 6.8 kOhm keeps EN under VEN-L min 0.95 V;
+  the NX7002AK datasheet specifies 3/4.5 Ohm at VGS = 10 V and shows tens of ohms at most at VGS = 2.5-3 V (Fig. 8), so the margin is
+  several orders of magnitude.
 - Turn-on uses the LMR38020's internal 4 ms soft start (8.3.9) plus 18 ms OCP blanking, so inrush into a VTX's input caps is limited and
   start-up into a large capacitive load does not hiccup.
-- PC15 is a low-drive pin (G0-08): the load is one SOT-23 gate (Ciss ≈ 30-50 pF) through 1 kOhm, static, so the 2 MHz/30 pF/3 mA limits
+- PC15 is a low-drive pin (G0-08): the load is one SOT-23 gate (NX7002AK Ciss 15/20 pF typ/max, datasheet) through 1 kOhm, static, so the 2 MHz/30 pF/3 mA limits
   don't bind. The pinmap rule "CMOS-only loads on PC13-15" is met in spirit (a MOSFET gate is a capacitive CMOS-like load).
 - **Betaflight:** `set pinio_config = 1,...` (output, not inverted), `pinio_box = 40` (USER1). USER1 inactive → pin LOW → VTX on.
   USER1 active → pin HIGH → VTX off. Pinmap section 6 is updated to match.
@@ -211,7 +225,7 @@ The ESC JST-SH VBAT pin is rated 1 A (JST SH, AWG 28). Rev B adds:
 | 10V, GND | 2.0 x 3.0 mm SMD each | 10V / GND | Analog VTX (> 1 A) or HD VTX by wire |
 | 5V, GND (LED strip) | 1.5 x 2.0 mm | 5V / GND | WS2812 strip power |
 
-Current check: 6S worst-case board input is about 1.3 A (section 12.4), 2S worst case about 3.6 A. A 2.5 x 4 mm pad with 20 AWG carries
+Current check: 6S worst-case board input is about 1.06 A (section 12.4), 2S worst case about 2.95 A. A 2.5 x 4 mm pad with 20 AWG carries
 that easily. Copper from the pads to D1/C1 uses ≥ 1.5 mm traces or pours on L1 + L3.
 
 ---
@@ -227,10 +241,7 @@ that easily. Copper from the pads to D1/C1 uses ≥ 1.5 mm traces or pours on L1
 
 ## 7. 3.3 V main rail: TI LP38692MP-3.3/NOPB (SOT-223-5)
 
-**AT7456E supply check** ([AT7456E.pdf], ZHONGKEWEI datasheet, DC characteristics):
-- AVDD, DVDD and PVDD are each specified **3.15-5.25 V**.
-- Supply current: IAVDD 2.2 typ / 2.5 max, IDVDD 43.1 typ / 60 max, IPVDD 6.0 typ / 10 max (100 % white field). That is **51.3 mA typ / 72.5 mA max**.
-- SPI VIH is 0.65 x VDVDD. At 5 V that is 3.25 V, which a 3.3 V MCU only marginally meets. So the AT7456E is powered from **3V3** (supported range, and logic levels match). The MAX7456 it clones is 5 V-only ([MAX7456_DS.pdf]), so check any reference schematic before copying.
+The analog OSD (AT7456E) was removed in rev C (`design/decisions.md` D-01); its 72.5 mA no longer loads 3V3.
 
 **3V3 load budget:**
 
@@ -238,11 +249,10 @@ that easily. Copper from the pads to D1/C1 uses ≥ 1.5 mm traces or pours on L1
 |---|---|---|---|
 | STM32F405RGT6 @168 MHz, all peripherals on | ~90 mA | 120 mA | DS8626 run-mode table (verify exact row) |
 | W25N01GV (read/program) | 25 mA | 35 mA | Winbond DS |
-| AT7456E | 51 mA | 72.5 mA | above |
 | BMP390 + IIS2MDC | <1 mA | 1 mA | Bosch/ST DS |
 | 3 x LEDs @ about 2 mA | 6 mA | 6 mA | |
 | Pull-ups, misc | 2 mA | 5 mA | |
-| **Total** | **~175 mA** | **~240 mA, use 250 mA** | |
+| **Total** | **~125 mA** | **~170 mA** | |
 
 **Why the LP38692:**
 - 1 A rated, 2.7-**10 V** input (12 V abs max). The headroom over the 5 V rail tolerates load-dump transients that a 5.5 V-max LDO (TLV757P, AP2112, TLV1117LV) would not.
@@ -283,7 +293,7 @@ that easily. Copper from the pads to D1/C1 uses ≥ 1.5 mm traces or pours on L1
 - 5V_SYS feeds only the two LDOs and the RX 5V pin. LED strip, cameras, GPS (G0-03) and buzzer stay on 5V (battery only).
 
 Why:
-1. **USB never powers the LED strip or the cameras.** Worst-case USB load is 5V_SYS = 0.25 (3V3, with OSD) + 0.01 (IMU) + 0.15 (RX) = **0.41 A** (0.33 A without OSD), typically about 0.25 A. That is close to the USB 2.0 500 mA budget without the LED strip's 1 A blowing it. The single-diode version would let a connected LED strip pull up to 1 A more from the laptop.
+1. **USB never powers the LED strip or the cameras.** Worst-case USB load is 5V_SYS = 0.17 (3V3) + 0.01 (IMU) + 0.15 (RX) = **0.33 A**, typically about 0.2 A. That is close to the USB 2.0 500 mA budget without the LED strip's 1 A blowing it. The single-diode version would let a connected LED strip pull up to 1 A more from the laptop.
 2. **No back-feed into VBAT on USB.** With a single diode onto the buck output, USB current flows back through the LMR38020 high-side FET body diode (SW to VIN) and raises VBAT to about 3.9 V. That powers the ESC MCUs and the VBAT divider from USB and makes VBAT read about 3.9 V. D5 blocks this path.
 3. **No back-feed into the USB host.** D4 blocks the battery-side rail from VBUS.
 4. With battery and USB both present, 5V_SYS ≈ 5.115 - 0.35 = 4.76 V from the battery and 5.0 - 0.35 = 4.65 V from USB, so the battery path carries essentially all the current. Sharing near equality is harmless.
@@ -296,10 +306,15 @@ Why:
 
 **VBUS details:**
 - Add a **100 kOhm bleeder from VBUS to GND** (after the USB ESD device). D4's reverse leakage (5V_SYS to VBUS, uA at 25 °C, up to about 0.5 mA hot) would otherwise float an unplugged VBUS up toward 4-5 V and confuse anything that looks at VBUS. (Rev B has no VBUS-detect pin; the bleeder is kept for a clean unplugged state.)
-- Place 1 uF 25 V on VBUS. USB-C sinks must keep VBUS capacitance at or below 10 uF.
+- Place 1 uF 25 V on VBUS. USB-C sinks must keep VBUS capacitance at or below 10 uF. Through D4 the host also charges the 5V_SYS
+  capacitance at plug-in (audit P0-05): 5V_SYS bulk is reduced to **4.7 uF** (+ 1 uF + 1 uF LDO input caps = 6.7 uF), and the LDO outputs
+  (≈ 12 uF) charge through the LDOs' current limit after start-up, so the inrush seen by the host is bounded by about 7.7 uF.
+- VBUS surge: the USBLC6-2SC6 VBUS pin is a clamp to GND (its internal Zener) and is the only VBUS surge protection; the LP5907 (6 V abs
+  max) sits behind D4 (−0.35 V) and the 1 uF + 6.7 uF capacitance. The TPD2E2U06 alternate has **no** VBUS clamp, so it is **not** an
+  acceptable substitute (Gate 2).
 
 **Notes for users:**
-- On USB only, LEDs, cameras, buzzer, GPS and the VTX are unpowered (no 10 V either). RX, MCU, sensors, flash (and OSD if fitted) run.
+- On USB only, LEDs, cameras, buzzer, GPS and the VTX are unpowered (no 10 V either). RX, MCU, sensors and flash run.
 - The RX sees about 4.76 V on battery and about 4.65 V on USB; ELRS receivers (onboard LDOs) are fine. The GPS sees 5.115 V.
 
 ---
@@ -348,11 +363,11 @@ Why:
 
 | Rail | Loads | Budget | Capability | Margin |
 |---|---|---|---|---|
-| 3V3 (LP38692) | MCU 120, flash 35, baro+mag 1, LEDs 6, misc 5 (+ OSD 72.5 only if fitted) | 170 mA (250 mA with OSD) | 1 A | ≥ 4x |
+| 3V3 (LP38692) | MCU 120, flash 35, baro+mag 1, LEDs 6, misc 5 | 170 mA | 1 A | ≥ 5x |
 | 3V3_IMU (LP5907) | 2 IMUs | 10 mA | 250 mA | 25x |
 | 5V_SYS (via D5 / D4) | 3V3 + IMU + RX 150 mA | 0.33-0.41 A | D 3 A | USB budget 0.5 A OK |
-| 5V (U1) | 5V_SYS 0.41 + LED strip **0.80** + 2 cams 0.40 + GPS 0.10 + buzzer 0.08 | **1.79 A** | 1.96 A guaranteed (Eq. 7) | 0.17 A |
-| 10V (U2) to VTX | HD VTX (O3 about 0.9 A, Walksnail/HDZero about 0.8-1 A) / analog | **1.5 A cont.** | 1.97 A guaranteed | 0.47 A |
+| 5V (U1) | 5V_SYS 0.33 + LED strip **0.80** + 2 cams 0.40 + GPS 0.10 + buzzer 0.08 | **1.71 A** | ≥ 1.87 A worst case (Eq. 7 + tolerances) | 0.16 A |
+| 10V (U2) to VTX | HD VTX (O3 about 0.9 A, Walksnail/HDZero about 0.8-1 A) / analog | **1.5 A cont.** | ≥ 1.78 A worst case | 0.28 A |
 
 LED strip: 0.8 A ≈ 13 WS2812 at full white; set `ledstrip_brightness` ≤ 50 % for longer strips. This replaces rev A's 1.0 A.
 
@@ -377,8 +392,7 @@ Every case stays below 150 C, and the hottest (2.0 A overload on 2S) is 113 C.
 
 | Part | P | θ | Tj |
 |---|---|---|---|
-| U4 LP38692 (170 mA, no OSD) | (4.76 − 3.3) x 0.17 = 0.25 W | 68.5 | 67 C |
-| U4 with OSD (250 mA) | 0.36 W | 68.5 | 75 C |
+| U4 LP38692 (170 mA) | (4.76 − 3.3) x 0.17 = 0.25 W | 68.5 | 67 C (+ board rise, 12.5) |
 | D5 PMEG4030ER (0.41 A) | 0.14 W | 130 | 68 C |
 | VBAT divider | 0.06 W | | |
 
@@ -387,6 +401,36 @@ Bench-testing at full LED + VTX load without airflow will still overheat the boa
 
 Thermal layout rules: each LMR38020 PowerPAD gets ≥ 6 x 0.3 mm thermal vias into L2 GND (TI layout 9.5); VIN/GND pins 1/3 with the
 input caps on the same layer; SW copper kept minimal (no diode tab any more).
+
+### 12.5 Board-level thermal model (audit P0-01) and operating envelope
+
+The per-IC Tj numbers in 12.2 use RθJA values measured on large boards (JEDEC 76 x 114 mm; TI EVM). On a 36 x 36 mm board all the heat
+leaves through the board itself, so the whole board heats up and each IC sits a further ψJB-type step above it:
+
+**Tj ≈ Ta + P_board · R_board-air + P_ic · R_ic-board**, with
+- R_board-air: both faces of a 36 x 36 mm 4-layer board, 2 x 13 cm². Still air (natural convection + radiation, h ≈ 10-15 W/m²K):
+  **≈ 25-38 K/W**. In flight, prop wash of 3-10 m/s (h ≈ 40-80 W/m²K): **≈ 5-10 K/W**.
+- R_ic-board: LMR38020 RθJB 13.6 C/W (datasheet 7.4) plus local spreading, use **≈ 20 C/W**.
+
+| Case | P_board | P_U1 | Ta | Board rise | U1 Tj | Board (MCU ambient) |
+|---|---|---|---|---|---|---|
+| In flight, worst-case load, 6S (5 V 1.8 A, 10 V 1.5 A, LED 0.8 A) | 3.3 W | 1.3 W | 50 C (frame) | 17-33 C | **93-109 C** | 67-83 C |
+| In flight, typical 4S (5 V 1.0 A, 10 V 1.0 A) | 1.5 W | 0.6 W | 50 C | 8-15 C | 70-77 C | 58-65 C |
+| Bench, still air, worst-case load | 3.3 W | 1.3 W | 25 C | 83-125 C | **134-176 C (TSD)** | **108-150 C: NOT ALLOWED** |
+| Bench, still air, bench envelope (below) | ≤ 1.0 W | ≤ 0.4 W | 25 C | 25-38 C | 58-71 C | 50-63 C |
+
+Additions the audit asked for: the 10 V rail's dropout loss on 2S (U2 at ~100 % duty, I²·RDS,hot ≈ 1.5² x 0.44 ≈ 1.0 W) is covered by
+the 1.3 W per-IC figure; the 10 ns edge time is optimistic and no Coss/dead-time loss was modelled, so add ~0.1-0.2 W per IC of margin
+(already inside the 1.3 W used here).
+
+**Operating envelope (goes in docs/ bring-up guide):**
+- **Flight (airflow):** full design budget (5 V 1.8 A, 10 V 1.5 A). Worst case with Ta = 50 C puts the board at up to ~83 C, at the
+  STM32F405RGT6's 85 C ambient rating; the STM32F405RGT**7** (105 C ambient, same pinout, DigiKey 497-19007-1-ND) is the drop-in
+  alternative if hot-climate full-load operation matters. The requirement names the -T6, so the -T6 stays the default.
+- **Bench / still air:** total board dissipation ≤ 1 W: VTX in pit mode or ≤ 1 A, LED strip ≤ 0.2 A, cameras OK. Do not run an HD VTX at
+  full power on the bench without a fan (standard practice for HD VTXs anyway).
+- **Pass/fail thermal gate at bring-up:** with a fan at ~3 m/s, 6S input, 5 V at 1.8 A and 10 V at 1.5 A for 10 min, the U1/U2 case
+  (thermocouple on the PowerPAD side) must stay ≤ 105 C and the MCU case ≤ 80 C. If not, derate the LED-strip budget further.
 
 ### 12.4 Battery-side current
 
@@ -410,7 +454,7 @@ DigiKey PNs and evidence: `design/parts_signal.md`, `review/sourcing_research_no
 | U1, U2 | 2 | 80 V 2 A sync buck, FPWM + SS | LMR38020FSDDAR (TI) | HSOIC-8 PowerPAD |
 | L1 | 1 | 6.8 uH 3 A 74 mOhm | 74438357068 (Würth WE-MAPI) | 4030 |
 | L2 | 1 | 8.2 uH 2.8 A 86 mOhm | 74438357082 (Würth WE-MAPI) | 4030 |
-| C1-C3 | 3 | 10 uF 50 V X7R | GRM32ER71H106KA12L (Murata) | 1210 |
+| C (VBAT entry + 2 per IC) | 5 | 10 uF 50 V X7R | CL32B106KBJNNNE (Samsung) | 1210 |
 | C4, C5 | 2 | 100 nF 100 V X7R | GRM188R72A104KA35D (Murata) | 0603 |
 | Cout | 6 | 22 uF 25 V X5R (3 per rail) | CL31A226KAHNNNE (Samsung) | 1206 |
 | Cboot, HF out | 4 | 100 nF 16 V X7R | CL05B104KO5NNNC (Samsung) | 0402 |
@@ -435,12 +479,16 @@ DigiKey PNs and evidence: `design/parts_signal.md`, `review/sourcing_research_no
 - **R1 (closed by rev B): JST-SH power contacts.** VBAT/GND and 10V/GND pads added (section 5). Users must solder battery leads to the pads
   (or confirm their ESC harness current); the bring-up guide says so.
 - **R2 (closed by rev B): catch-diode temperature.** No catch diode. Worst-case IC Tj 104 C at the design budget (section 12.2).
-- **R3 (decision): AT7456E sourcing.** See `design/decisions.md` D-01.
+- **R3 (closed): AT7456E sourcing.** Analog OSD removed (`design/decisions.md` D-01).
 - **R4 (low): ceramic DC-bias derating.** Effective capacitance figures are estimates. Every requirement keeps ≥ 1.5x margin.
 - **R5 (low): LP38692 θJA from a column-scrambled text extraction.** Re-read Table 6.4 from the PDF.
 - **R6 (medium): requirement deviation** 5 V 2.5 A → 1.8 A continuous, 10 V 2 A → 1.5 A continuous (D-03). The LED strip budget is the
   item that absorbs it.
-- **R7 (low): U2 high-side short** puts VBAT on the VTX output (section 4). No on-board part can be damaged by it.
+- **R7 (low, double fault): U2 high-side short** puts VBAT on the 10 V net (audit P0-08). The VTX sees VBAT, and the 25 V-rated 10 V
+  output capacitors see up to 25.2 V (42 V during TVS-clamped transients) and may crack or fail short, which would then load VBAT through
+  the failed FET. Accepted as a double fault (a shorted FET first); it is not a first-power-up risk.
 - **R8 (low): switching-edge losses** use a 10 ns estimate (TI publishes no rise/fall time). Confirm the 5 V rail's case temperature
   on the bench at 1.8 A on 2S and 6S (bring-up guide).
-- **R9 (low): WE-MAPI Isat** values disagree between sources (3.5-5.5 A); verify against the Würth datasheet at Gate 2.
+- **R9 (low): WE-MAPI Isat(10 %)** 3.5 A / 3.35 A (snippets) is below the 3.8 A max HS current limit; soft saturation makes this acceptable (section 2.2). Verify against the Würth PDF at Gate 2.
+- **R10 (medium): 10 V rail on 2S / low 3S** cannot reach 10 V (section 3.4, D-11). HD VTXs needing ≥ 7.4 V brown out on 2S.
+- **R11 (medium): thermal in still air** (section 12.5). Bench running at full load without airflow is not allowed; the bring-up thermal test is a pass/fail gate.

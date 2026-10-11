@@ -1,0 +1,21 @@
+ERC report (2026-10-11T15:03:44, Encoding UTF8)
+Report includes: Errors, Warnings, Exclusions
+
+***** Sheet /
+
+***** Sheet /Power/
+
+***** Sheet /MCU/
+
+***** Sheet /Sensors/
+
+***** Sheet /Video/
+
+***** Sheet /Connectors/
+
+ ** ERC messages: 0  Errors 0  Warnings 0
+
+ ** Ignored checks:
+    - Four connection points are joined together
+    - SPICE model issue
+    - Assigned footprint doesn't match footprint filters

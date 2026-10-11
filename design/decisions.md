@@ -83,3 +83,20 @@ Accepted by the lead in rev B; unchanged.
 
 ICM-42688-P, BMI270 and BMP390 are named in the requirements. DigiKey snapshots showed them at 0 stock in some regions with 8-26 week
 lead times, but all three are Active DigiKey catalogue parts with confirmed PNs. They stay; the summary lists this as a procurement risk.
+
+## D-11 10 V rail does not reach 10 V on 2S / low 3S (power audit P0-02)
+
+The LMR38020's 97 % maximum duty cycle limits the 10 V rail to about 6.2-6.35 V at 1.5 A from a 7.4 V (2S) pack and 7.2-7.3 V from
+8.4 V. HD VTXs with a 7.4 V minimum (DJI O3) will not run reliably from it on 2S. **Deviation:** "10 V / 2 A" applies to 3S (≥ 11.5 V)
+through 6S. 2S HD builds wire the VTX to the VBAT pads (no pit-mode power cut). A VBAT/10V jumper was rejected because it back-drives
+the regulated 10 V node. Documented in `design/power.md` 3.4 and the bring-up guide.
+
+## D-12 Thermal operating envelope (power audit P0-01)
+
+The 36 x 36 mm board cannot shed the 3.3 W worst-case loss in still air. Full budgets assume in-flight airflow; the bench envelope is
+≤ 1 W total dissipation. A fan-cooled full-load thermal test at bring-up is a pass/fail gate (`design/power.md` 12.5). STM32F405RGT7
+(105 C) is the documented drop-in alternative to the required -T6.
+
+## D-13 Unused MCU pins pulled down (pin-map re-audit R-03)
+
+PC2, PC3, PB12, PB13 (ex-OSD SPI2) each get a 100k pulldown to GND so they are not floating CMOS inputs.

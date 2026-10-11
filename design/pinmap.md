@@ -11,6 +11,7 @@ Firmware targets: Betaflight 4.5 (`design/betaflight_config.txt`, board_name `F4
 | D-01 | **M7 (PB7, TIM4_CH2) now has DMA** (DMA1 S3 Ch2, freed by SPI2_RX) and supports DShot + bidir. M8 (PA0) stays PWM/servo only (DMA1 S2 = M2) |
 | D-04 | **VTX_PWR_EN (PC15) polarity inverted:** PC15 drives an NX7002AK gate (1k series, 100k pulldown) that pulls the 10 V buck EN low. **High = VTX off.** Low/floating (reset, DFU, boot) = VTX on. BF `pinio_config 1 = 1` |
 | G0-09 | CURR/RSSI protection fixed to **10k series + 10 nF + BAT54S** (matches `design/power.md` 10.2) |
+| R-01..R-08 | Re-audit minors: stale TPS22810/2N7002/AHCT text fixed; 100k pulldowns on the 4 unused pins; Q2 pulldown on the gate side; DFU-on-USB-only note |
 
 ### Rev B change log (vs rev A)
 
@@ -51,8 +52,8 @@ Firmware targets: Betaflight 4.5 (`design/betaflight_config.txt`, board_name `F4
 * **PC13/PC14/PC15 (low-drive) carry only CMOS-level loads:**
   * PC13 = CAM_SEL output into a TS5A3159A IN pin (static, a few pF).
   * PC14 = GYRO2_INT input.
-  * PC15 = VTX_PWR_EN output into the TPS22810 EN pin (static CMOS).
-  * No LEDs, no FET gates, no chip selects on PC13-15 (G0-08).
+  * PC15 = VTX_PWR_EN output into the gate of Q2 (NX7002AK, Ciss 15-20 pF) through 1k, static; DC load 33 uA into the 100k gate pulldown (rev C, D-04).
+  * No LEDs, no chip selects, and no large-gate FETs on PC13-15 (G0-08). A single small-signal FET gate through 1k is a static capacitive load.
 * **Beeper on PB2/BOOT1.** BOOT1 needs a 10k pulldown for ROM DFU, and the same resistor holds the N-MOSFET gate low (silent) through reset. BF drives PB2 only after boot, so the strap is sampled correctly.
 * **ESC telemetry on UART4_RX (PA1).** UART4 is RX-only; telemetry needs RX only.
 * **Betaflight must run `dshot_bitbang = OFF`, `dshot_burst = OFF`.** On F4, bit-bang turns on automatically once bidir is enabled. It needs TIM1/TIM8 and disables SPI DMA on DMA2.
@@ -60,7 +61,7 @@ Firmware targets: Betaflight 4.5 (`design/betaflight_config.txt`, board_name `F4
 ## 2. Full LQFP-64 pin table
 
 AF numbers are from the ST GPIO database (DS8626 Table 9). "DMA" is the stream/channel Betaflight uses with this config.
-Rev C: 47 of 51 I/O pins are used. PC2, PC3, PB12, PB13 (ex-SPI2/OSD) are unconnected.
+Rev C: 47 of 51 I/O pins are used. PC2, PC3, PB12, PB13 (ex-SPI2/OSD) have only a 100k pulldown each (no pads).
 
 | Pin | Name | Net / function | AF | Peripheral / timer ch | DMA (BF) | Notes |
 |---|---|---|---|---|---|---|
@@ -73,8 +74,8 @@ Rev C: 47 of 51 I/O pins are used. PC2, PC3, PB12, PB13 (ex-SPI2/OSD) are unconn
 | 7 | NRST | NRST | - | Reset | - | 100 nF to GND. SWD pad |
 | 8 | PC0 | VBAT_ADC | analog | ADC123_IN10 | ADC1 → DMA2 S4 | 10k/1k divider (36 V gives 3.27 V), 100 nF at the pin. `vbat_scale = 110` |
 | 9 | PC1 | CURR_ADC | analog | ADC123_IN11 | (ADC1) | ESC connector CURR. **Mandatory** 10k series + 10 nF + BAT54S clamp to 3V3/GND: comes from off-board and ADC pins are not 5 V tolerant in analog mode (G0-09) |
-| 10 | PC2 | NC (was SPI2_MISO) | - | - | - | **Unused** (rev C, OSD removed). No connection; firmware leaves it as analog input |
-| 11 | PC3 | NC (was SPI2_MOSI) | - | - | - | **Unused** (rev C) |
+| 10 | PC2 | UNUSED_PC2 (was SPI2_MISO) | - | - | - | **Unused** (rev C, OSD removed). **100k pulldown to GND** so the floating-input reset state is defined (re-audit R-03) |
+| 11 | PC3 | UNUSED_PC3 (was SPI2_MOSI) | - | - | - | **Unused** (rev C), 100k pulldown |
 | 12 | VSSA | GND | - | Analog ground | - | Solid GND plane |
 | 13 | VDDA | 3V3A | - | Analog supply / internal VREF+ | - | Ferrite bead from 3V3, 1 µF + 100 nF. **No VREF+ pin on LQFP-64** |
 | 14 | PA0-WKUP | MOTOR8 (extra pad S8) | AF2 | TIM5_CH1 | **none** | **PWM/servo only.** TIM5_CH1 → DMA1 S2 Ch6 collides with M2. TIM5 is used by nothing else. (Was UART4_TX, so UART4 is RX-only. Can be given back with `resource MOTOR 8 NONE` + `resource SERIAL_TX 4 A00`) |
@@ -91,20 +92,20 @@ Rev C: 47 of 51 I/O pins are used. PC2, PC3, PB12, PB13 (ex-SPI2/OSD) are unconn
 | 25 | PC5 | RSSI_ADC | analog | ADC12_IN15 | (ADC1) | **Mandatory** 10k series + 10 nF + BAT54S clamp (G0-09) |
 | 26 | PB0 | MOTOR1 | AF2 | TIM3_CH3 | DMA1 S7 Ch5 | ESC connector M1 |
 | 27 | PB1 | MOTOR2 | AF2 | TIM3_CH4 | DMA1 S2 Ch5 | ESC connector M2 |
-| 28 | PB2 (BOOT1) | BEEPER | GPIO out PP | BF `BEEPER` | - | N-MOSFET gate (2N7002 class) for the 5 V buzzer, active-high. **10k pulldown to GND (BOOT1 strap, also the gate pulldown).** Any series gate resistor (≤100 Ω) goes between the pin node and the gate, never between the pulldown and the pin. `beeper_inversion = ON` |
+| 28 | PB2 (BOOT1) | BEEPER | GPIO out PP | BF `BEEPER` | - | N-MOSFET gate (PMV40UN2, `power.md` section 11) for the 5 V buzzer, active-high. **10k pulldown to GND (BOOT1 strap, also the gate pulldown).** Any series gate resistor (≤100 Ω) goes between the pin node and the gate, never between the pulldown and the pin. `beeper_inversion = ON` |
 | 29 | PB10 | MOTOR3 | AF1 | TIM2_CH3 | DMA1 S1 Ch3 | ESC connector M3 |
 | 30 | PB11 | MOTOR4 | AF1 | TIM2_CH4 | DMA1 S6 Ch3 (dmaopt 1) | ESC connector M4. opt 0 (S7) would collide with M1 |
 | 31 | VCAP_1 | VCAP1 | - | Core regulator | - | 2.2 µF low-ESR (ESR < 2 Ω) to GND |
 | 32 | VDD | 3V3 | - | | - | 100 nF |
-| 33 | PB12 | NC (was OSD_CS) | - | - | - | **Unused** (rev C) |
-| 34 | PB13 | NC (was SPI2_SCK) | - | - | - | **Unused** (rev C) |
+| 33 | PB12 | UNUSED_PB12 (was OSD_CS) | - | - | - | **Unused** (rev C), 100k pulldown |
+| 34 | PB13 | UNUSED_PB13 (was SPI2_SCK) | - | - | - | **Unused** (rev C), 100k pulldown |
 | 35 | PB14 | STATUS_LED_BLUE (LED0) | GPIO out | BF `LED 1` | - | 3V3 → R → LED → pin (low = on) |
 | 36 | PB15 | STATUS_LED_GREEN (LED1) | GPIO out | BF `LED 2` | - | Same as LED0 |
 | 37 | PC6 | UART6_TX | AF8 | USART6 | - | Spare UART (full) |
 | 38 | PC7 | UART6_RX | AF8 | USART6 | - | Spare UART (full) |
 | 39 | PC8 | MOTOR5 (extra pad S5) | AF3 | TIM8_CH3 | DMA2 S2 Ch0 | DShot + bidir |
 | 40 | PC9 | MOTOR6 (extra pad S6) | AF3 | TIM8_CH4 | DMA2 S7 Ch7 | DShot + bidir |
-| 41 | PA8 | LED_STRIP | AF1 | TIM1_CH1 | DMA2 S6 Ch0 | WS2812 DIN via ~220-330 Ω. **Fit a 74AHCT1G125 (or 74LVC1T45) 3.3→5 V buffer footprint with a 0 Ω bypass** (WS2812 VIH ≈ 3.5 V; G0-10) |
+| 41 | PA8 | LED_STRIP | AF1 | TIM1_CH1 | DMA2 S6 Ch0 | WS2812 DIN via ~220-330 Ω. **SN74LV1T125 3.3→5 V buffer (VCC = 5 V) with a DNP 0 Ω bypass** (D-07) (WS2812 VIH ≈ 3.5 V; G0-10) |
 | 42 | PA9 | UART1_TX | AF7 | USART1 | - | HD VTX connector TX |
 | 43 | PA10 | UART1_RX | AF7 | USART1 | - | HD VTX connector RX |
 | 44 | PA11 | USB_DM | AF10 | OTG_FS_DM | - | Via ESD array, 90 Ω diff |
@@ -256,7 +257,7 @@ Requirement "6 UARTs: ELRS, GPS, HD VTX, ESC telemetry RX, 2 spare" is met: 2 fu
 | S7 | PB7 | TIM4_CH2 | **yes (DMA1 S3, rev C)** | yes |
 | S8 | PA0 | TIM5_CH1 | **no (no DMA)** | yes |
 
-The requirement reads "4 extra motor/servo pads", so S7/S8 satisfy it. Rev C: hepta-DShot is possible, octo-DShot is **not** (M8 has no DMA). If a pilot needs a 7th DShot output, the LED_STRIP pad (PA8, TIM1_CH1, DMA2 S6) can be remapped in the CLI.
+The requirement reads "4 extra motor/servo pads", so S7/S8 satisfy it. Rev C: hepta-DShot is possible, octo-DShot is **not** (M8 has no DMA). If a pilot needs an 8th DShot output, the LED_STRIP pad (PA8, TIM1_CH1, DMA2 S6) can be remapped in the CLI.
 
 Deviation from the original architect brief: the brief asked for "all 6 UARTs TX+RX". **UART4 is RX-only** in this map, because its TX pin is M8. The lead accepted this by choosing the G0-01 remap. The CLI can swap it back.
 
@@ -280,14 +281,15 @@ Deviation from the original architect brief: the brief asked for "all 6 UARTs TX
 * **NRST (7):** 100 nF to GND. SWD pad.
 * **HSE:** 8 MHz crystal on PH0/PH1. Load caps per crystal CL.
 * **Chip-select pull-ups (G0-04): 10k to 3V3 on GYRO1_CS (PA4), GYRO2_CS (PA15), FLASH_CS (PB6).** (OSD_CS removed in rev C.) These keep every SPI device deselected until firmware drives the CS lines. Bring-up check from the audit: cold-boot repeatedly and confirm both IMUs always detect. The BMI270 starts in I2C mode until its first CS rising edge. If detection is flaky, swap the gyro_1/gyro_2 order so the BMI270 is probed first.
-* **Default-state pulldowns:** 100k on CAM_SEL (PC13) and 100k on the Q2 gate (VTX_PWR_EN side of the 1k, so PC15 also reads low).
+* **Default-state pulldowns:** 100k on CAM_SEL (PC13) and 100k on the Q2 **gate side** of the 1k series resistor (matches `power.md` section 4; PC15 still reads low through the 1k).
 * **I2C1:** 2.2k pull-ups to 3V3 on SCL/SDA.
 * **Flash:** /WP and /HOLD to 3V3 via 10k.
 * **ADC inputs from off-board (CURR, RSSI):** series 10k + 10 nF + BAT54S clamp. **Mandatory.**
-* **LED strip:** buffer footprint (74AHCT1G125 powered from 5 V, or 74LVC1T45) with 0 Ω bypass, then 220-330 Ω series.
+* **LED strip:** SN74LV1T125 powered from 5 V, DNP 0 Ω bypass, then 330 Ω series.
 * **HD-VTX connector pin 6 (SBUS/R2):** not connected by default. DNP 0R to UART5_RX (PD2). No inverter.
 * **GPS 5 V:** from the buck-only 5 V rail (not the USB OR-ed rail), so the GPS is off during USB-only DFU and can't disturb the ROM bootloader on USART3 (G0-03).
 * **Test firmware:** never enable LSE/RTC (PC14/PC15 are GPIO).
+* **ROM DFU:** enter DFU on **USB power only**. With a battery connected the VTX is on by default and drives PA10 (USART1_RX, a bootloader port), which can capture the ROM bootloader (re-audit R-08). BF's `bl` command (software DFU) is unaffected.
 
 ## 8. Open questions
 
@@ -311,8 +313,8 @@ MCU-side net name for every pin. Off-board-side nets (after series resistors, bu
 | 7 | NRST | NRST |
 | 8 | PC0 | VBAT_ADC |
 | 9 | PC1 | CURR_ADC |
-| 10 | PC2 | (NC) |
-| 11 | PC3 | (NC) |
+| 10 | PC2 | UNUSED_PC2 |
+| 11 | PC3 | UNUSED_PC3 |
 | 12 | VSSA | GND |
 | 13 | VDDA | 3V3A |
 | 14 | PA0 | MOTOR8 |
@@ -334,8 +336,8 @@ MCU-side net name for every pin. Off-board-side nets (after series resistors, bu
 | 30 | PB11 | MOTOR4 |
 | 31 | VCAP_1 | VCAP1 |
 | 32 | VDD | 3V3 |
-| 33 | PB12 | (NC) |
-| 34 | PB13 | (NC) |
+| 33 | PB12 | UNUSED_PB12 |
+| 34 | PB13 | UNUSED_PB13 |
 | 35 | PB14 | STATUS_LED_BLUE |
 | 36 | PB15 | STATUS_LED_GREEN |
 | 37 | PC6 | UART6_TX |
