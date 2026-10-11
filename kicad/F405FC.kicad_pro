@@ -140,11 +140,11 @@
       },
       "rules": {
         "max_error": 0.005,
-        "min_clearance": 0.0,
+        "min_clearance": 0.127,
         "min_connection": 0.0,
-        "min_copper_edge_clearance": 0.5,
+        "min_copper_edge_clearance": 0.3,
         "min_groove_width": 0.0,
-        "min_hole_clearance": 0.25,
+        "min_hole_clearance": 0.2,
         "min_hole_to_hole": 0.25,
         "min_microvia_diameter": 0.2,
         "min_microvia_drill": 0.1,
@@ -153,9 +153,9 @@
         "min_text_height": 0.8,
         "min_text_thickness": 0.08,
         "min_through_hole_diameter": 0.3,
-        "min_track_width": 0.2,
-        "min_via_annular_width": 0.1,
-        "min_via_diameter": 0.5,
+        "min_track_width": 0.127,
+        "min_via_annular_width": 0.15,
+        "min_via_diameter": 0.6,
         "solder_mask_to_copper_clearance": 0.0,
         "use_height_for_length_calcs": true
       },
@@ -259,17 +259,6 @@
   "cvpcb": {
     "equivalence_files": []
   },
-  "erc": {
-    "rule_severities": {
-      "footprint_link_issues": "warning",
-      "global_label_dangling": "error",
-      "lib_symbol_issues": "warning",
-      "lib_symbol_mismatch": "warning",
-      "similar_labels": "warning",
-      "single_global_label": "error",
-      "unconnected_wire_endpoint": "warning"
-    }
-  },
   "libraries": {
     "pinned_footprint_libs": [],
     "pinned_symbol_libs": []
@@ -281,19 +270,23 @@
   "net_settings": {
     "classes": [
       {
+        "bus_width": 12,
         "clearance": 0.127,
-        "diff_pair_gap": 0.15,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
+        "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
         "name": "Default",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": -1,
+        "priority": 2147483647,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.127,
+        "track_width": 0.15,
         "tuning_profile": "",
         "via_diameter": 0.6,
-        "via_drill": 0.3
+        "via_drill": 0.3,
+        "wire_width": 6
       }
     ],
     "meta": {
@@ -318,9 +311,6 @@
     "bus_aliases": {},
     "legacy_lib_dir": "",
     "legacy_lib_list": [],
-    "meta": {
-      "version": 1
-    },
     "top_level_sheets": [
       {
         "filename": "F405FC.kicad_sch",
@@ -329,32 +319,7 @@
       }
     ]
   },
-  "sheets": [
-    [
-      "85397873-de58-5f94-9eed-9a7928bbcb45",
-      "Root"
-    ],
-    [
-      "bcd455a5-023f-52b3-acb5-03ca815a8484",
-      "Power"
-    ],
-    [
-      "d9dd2f91-3141-5a18-a766-de1f3392fe7d",
-      "MCU"
-    ],
-    [
-      "26784101-3758-547d-afe0-41d24b65b376",
-      "Sensors"
-    ],
-    [
-      "2044f6dd-e7bb-58bb-b615-40e24245c19a",
-      "Video"
-    ],
-    [
-      "f8e9c891-1f95-5efa-838e-66cdcd6f9d2d",
-      "Connectors"
-    ]
-  ],
+  "sheets": [],
   "text_variables": {},
   "tuning_profiles": {
     "meta": {

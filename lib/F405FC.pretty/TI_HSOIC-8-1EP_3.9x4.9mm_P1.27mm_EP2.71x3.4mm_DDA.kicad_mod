@@ -207,11 +207,6 @@
 		(size 2.95 4.9)
 		(layers "F.Cu")
 	)
-	(pad "9" smd rect
-		(at 0 0)
-		(size 2.95 4.9)
-		(layers "B.Cu")
-	)
 	(pad "9" thru_hole circle
 		(at -0.65 -1.95)
 		(size 0.6 0.6)

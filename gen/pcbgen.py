@@ -70,8 +70,13 @@ def build(c, board_path, local_libs=None, existing=None):
         fp.SetSheetfile([f for s, f in c.sheets if s == p.sheet][0])
         fp.SetDNP(bool(p.dnp))
         for k, v in p.fields.items():
-            if k in ("MPN", "Manufacturer", "DigiKey"):
-                fp.SetField(k, v)
+            fp.SetField(k, v)  # every symbol field, so schematic parity has nothing to report
+            if k != "Description":
+                f = fp.GetField(k) if hasattr(fp, "GetField") else None
+                if f is not None:
+                    f.SetVisible(False)
+        if p.fields.get("InBOM") == "no":
+            fp.SetExcludedFromBOM(True)
         pinmap = res[p.ref]
         pnames = {q["number"]: q["name"] for q in symlib.pins(c.symbol_tree(p.lib_id), p.unit)}
         for pad in fp.Pads():

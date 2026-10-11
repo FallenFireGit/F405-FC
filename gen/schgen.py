@@ -223,19 +223,27 @@ def _symbol_instance(c, p, pl, ox, oy, root_uuid, sheet_uuid):
             props.append(prop(k, v, ox, oy, 0, hide=True))
     pins = [[S("pin"), q["number"], [S("uuid"), uid(c.name, p.ref, "pin", q["number"])]] for q in pl]
     return ([S("symbol"), [S("lib_id"), p.lib_id], [S("at"), ox, oy, 0], [S("unit"), p.unit],
-             [S("exclude_from_sim"), S("no")], [S("in_bom"), S("yes")], [S("on_board"), S("yes")],
+             [S("exclude_from_sim"), S("no")], [S("in_bom"), S("no") if p.fields.get("InBOM") == "no" else S("yes")],
+             [S("on_board"), S("yes")],
              [S("dnp"), S("yes") if p.dnp else S("no")], [S("uuid"), sym_uuid]] + props + pins +
             [[S("instances"), [S("project"), c.name,
                                [S("path"), f"/{root_uuid}/{sheet_uuid}", [S("reference"), p.ref], [S("unit"), p.unit]]]]])
 
 
 def write_project(c, outdir, netclasses=None):
-    pro = {
-        "meta": {"filename": c.name + ".kicad_pro", "version": 3},
-        "board": {"design_settings": {}},
-        "net_settings": {"classes": netclasses or [], "meta": {"version": 4}},
-        "schematic": {"meta": {"version": 1}},
-        "sheets": [[uid(c.name, "root"), "Root"]] + [[uid(c.name, "sheet", s), s] for s, _ in c.sheets],
-    }
-    with open(os.path.join(outdir, c.name + ".kicad_pro"), "w") as f:
+    """Create or update the .kicad_pro. Existing content (board design settings written by pcbnew, ERC settings)
+    is merged, never discarded (Gate 1 G1N-01)."""
+    path = os.path.join(outdir, c.name + ".kicad_pro")
+    pro = {}
+    if os.path.exists(path):
+        with open(path) as f:
+            pro = json.load(f)
+    pro.setdefault("meta", {"filename": c.name + ".kicad_pro", "version": 3})
+    pro.setdefault("board", {"design_settings": {}})
+    pro.setdefault("schematic", {"meta": {"version": 1}})
+    if netclasses is not None:
+        ns = pro.setdefault("net_settings", {"meta": {"version": 4}})
+        ns["classes"] = netclasses
+    pro["sheets"] = [[uid(c.name, "root"), "Root"]] + [[uid(c.name, "sheet", s), s] for s, _ in c.sheets]
+    with open(path, "w") as f:
         json.dump(pro, f, indent=2)

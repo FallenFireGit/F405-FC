@@ -4413,7 +4413,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL10A105KA8NNNC.do"
 			(at 162.56 35.56 0)
 			(effects
 				(font
@@ -5185,7 +5185,7 @@
 			)
 		)
 	)
-	(global_label "10V"
+	(global_label "VTX_PWR"
 		(shape passive)
 		(at 27.94 86.36 180)
 		(effects
@@ -5460,8 +5460,142 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 88.9 91.44 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2ca1378d-4e5b-53ee-a871-c6cbd6a5f7db")
+		(property "Reference" "R41"
+			(at 88.9 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "0R 2A"
+			(at 88.9 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 88.9 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
+			(at 88.9 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 88.9 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RC0805JR-070RL"
+			(at 88.9 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 88.9 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "311-0.0ARCT-ND"
+			(at 88.9 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "aa1e1395-3faf-54b1-879a-7be3c5125b9e")
+		)
+		(pin "2"
+			(uuid "119c23e9-2749-5fbd-9b20-e7aae7655368")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/f8e9c891-1f95-5efa-838e-66cdcd6f9d2d"
+					(reference "R41")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(global_label "10V"
+		(shape passive)
+		(at 88.9 87.63 90)
+		(effects
+			(font
+				(size 1 1)
+			)
+			(justify left)
+		)
+		(uuid "d8fcd92b-22f2-5be9-8949-4d048d4ceb69")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 88.9 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "VTX_PWR"
+		(shape passive)
+		(at 88.9 95.25 270)
+		(effects
+			(font
+				(size 1 1)
+			)
+			(justify left)
+		)
+		(uuid "4f81c43d-d0f2-58c6-8ea8-06a25ca2aaf1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 88.9 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Connector_Generic_MountingPin:Conn_01x06_MountingPin")
-		(at 96.52 91.44 0)
+		(at 121.92 91.44 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5469,7 +5603,7 @@
 		(dnp no)
 		(uuid "16afd28c-311c-5184-a181-50a9be32f400")
 		(property "Reference" "J4"
-			(at 96.52 83.82 0)
+			(at 121.92 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5477,7 +5611,7 @@
 			)
 		)
 		(property "Value" "GPS"
-			(at 96.52 106.68 0)
+			(at 121.92 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5485,7 +5619,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_SH_SM06B-SRSS-TB_1x06-1MP_P1.00mm_Horizontal"
-			(at 96.52 91.44 0)
+			(at 121.92 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5494,7 +5628,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.jst-mfg.com/product/pdf/eng/eSH.pdf"
-			(at 96.52 91.44 0)
+			(at 121.92 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5503,7 +5637,7 @@
 			)
 		)
 		(property "Description" "GPS: 5V GND TX RX SDA SCL"
-			(at 96.52 91.44 0)
+			(at 121.92 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5512,7 +5646,7 @@
 			)
 		)
 		(property "MPN" "SM06B-SRSS-TB(LF)(SN)"
-			(at 96.52 91.44 0)
+			(at 121.92 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5521,7 +5655,7 @@
 			)
 		)
 		(property "Manufacturer" "JST"
-			(at 96.52 91.44 0)
+			(at 121.92 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5530,7 +5664,7 @@
 			)
 		)
 		(property "DigiKey" "455-1806-1-ND"
-			(at 96.52 91.44 0)
+			(at 121.92 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5570,7 +5704,7 @@
 	)
 	(global_label "5V"
 		(shape passive)
-		(at 91.44 86.36 180)
+		(at 116.84 86.36 180)
 		(effects
 			(font
 				(size 1 1)
@@ -5579,7 +5713,7 @@
 		)
 		(uuid "e100e425-de3a-5d43-b94d-0bec7fed1347")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 91.44 86.36 0)
+			(at 116.84 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5590,7 +5724,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 91.44 88.9 180)
+		(at 116.84 88.9 180)
 		(effects
 			(font
 				(size 1 1)
@@ -5599,7 +5733,7 @@
 		)
 		(uuid "1761a3ce-3a73-57d1-83af-b4e06091e8d0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 91.44 88.9 0)
+			(at 116.84 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5610,7 +5744,7 @@
 	)
 	(global_label "UART3_TX"
 		(shape passive)
-		(at 91.44 91.44 180)
+		(at 116.84 91.44 180)
 		(effects
 			(font
 				(size 1 1)
@@ -5619,7 +5753,7 @@
 		)
 		(uuid "6a942dcc-3c65-5466-bc93-83fd588e7b91")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 91.44 91.44 0)
+			(at 116.84 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5630,7 +5764,7 @@
 	)
 	(global_label "UART3_RX"
 		(shape passive)
-		(at 91.44 93.98 180)
+		(at 116.84 93.98 180)
 		(effects
 			(font
 				(size 1 1)
@@ -5639,7 +5773,7 @@
 		)
 		(uuid "c61697ae-8597-5f79-98a4-96f5b6a1b89f")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 91.44 93.98 0)
+			(at 116.84 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5650,7 +5784,7 @@
 	)
 	(global_label "I2C1_SDA"
 		(shape passive)
-		(at 91.44 96.52 180)
+		(at 116.84 96.52 180)
 		(effects
 			(font
 				(size 1 1)
@@ -5659,7 +5793,7 @@
 		)
 		(uuid "e1b0429c-9a2a-5229-b71a-46a8d38ac7c4")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 91.44 96.52 0)
+			(at 116.84 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5670,7 +5804,7 @@
 	)
 	(global_label "I2C1_SCL"
 		(shape passive)
-		(at 91.44 99.06 180)
+		(at 116.84 99.06 180)
 		(effects
 			(font
 				(size 1 1)
@@ -5679,7 +5813,7 @@
 		)
 		(uuid "30bfd34c-f152-5ec7-be8e-57d1525d89a8")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 91.44 99.06 0)
+			(at 116.84 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5690,7 +5824,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 96.52 104.14 270)
+		(at 121.92 104.14 270)
 		(effects
 			(font
 				(size 1 1)
@@ -5699,7 +5833,7 @@
 		)
 		(uuid "bb48ce40-4e9f-52d1-bfbe-813fb650e6a6")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 96.52 104.14 0)
+			(at 121.92 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5710,7 +5844,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic_MountingPin:Conn_01x04_MountingPin")
-		(at 129.54 88.9 0)
+		(at 157.48 88.9 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5718,7 +5852,7 @@
 		(dnp no)
 		(uuid "0e3f74a9-af7a-5541-a8ab-04115def28e7")
 		(property "Reference" "J5"
-			(at 129.54 83.82 0)
+			(at 157.48 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5726,7 +5860,7 @@
 			)
 		)
 		(property "Value" "ELRS"
-			(at 129.54 101.6 0)
+			(at 157.48 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5734,7 +5868,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal"
-			(at 129.54 88.9 0)
+			(at 157.48 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5743,7 +5877,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.jst-mfg.com/product/pdf/eng/eSH.pdf"
-			(at 129.54 88.9 0)
+			(at 157.48 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5752,7 +5886,7 @@
 			)
 		)
 		(property "Description" "ELRS RX: 5V GND TX RX"
-			(at 129.54 88.9 0)
+			(at 157.48 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5761,7 +5895,7 @@
 			)
 		)
 		(property "MPN" "SM04B-SRSS-TB(LF)(SN)"
-			(at 129.54 88.9 0)
+			(at 157.48 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5770,7 +5904,7 @@
 			)
 		)
 		(property "Manufacturer" "JST"
-			(at 129.54 88.9 0)
+			(at 157.48 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5779,7 +5913,7 @@
 			)
 		)
 		(property "DigiKey" "455-1804-1-ND"
-			(at 129.54 88.9 0)
+			(at 157.48 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5813,7 +5947,7 @@
 	)
 	(global_label "5V_SYS"
 		(shape passive)
-		(at 124.46 86.36 180)
+		(at 152.4 86.36 180)
 		(effects
 			(font
 				(size 1 1)
@@ -5822,7 +5956,7 @@
 		)
 		(uuid "3a580370-f6a6-53e3-9e7b-968540076656")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 124.46 86.36 0)
+			(at 152.4 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5833,7 +5967,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 124.46 88.9 180)
+		(at 152.4 88.9 180)
 		(effects
 			(font
 				(size 1 1)
@@ -5842,7 +5976,7 @@
 		)
 		(uuid "2f591a58-eb41-5e9e-aaa9-6b00be9d2e72")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 124.46 88.9 0)
+			(at 152.4 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5853,7 +5987,7 @@
 	)
 	(global_label "UART2_TX"
 		(shape passive)
-		(at 124.46 91.44 180)
+		(at 152.4 91.44 180)
 		(effects
 			(font
 				(size 1 1)
@@ -5862,7 +5996,7 @@
 		)
 		(uuid "9d2c25a6-96a8-50df-ad01-d6de6b29d672")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 124.46 91.44 0)
+			(at 152.4 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5873,7 +6007,7 @@
 	)
 	(global_label "UART2_RX"
 		(shape passive)
-		(at 124.46 93.98 180)
+		(at 152.4 93.98 180)
 		(effects
 			(font
 				(size 1 1)
@@ -5882,7 +6016,7 @@
 		)
 		(uuid "5292d0a3-7a90-5cb5-ac07-6e4a90b7cbeb")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 124.46 93.98 0)
+			(at 152.4 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5893,7 +6027,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 129.54 99.06 270)
+		(at 157.48 99.06 270)
 		(effects
 			(font
 				(size 1 1)
@@ -5902,7 +6036,7 @@
 		)
 		(uuid "63ac9176-5b52-52fa-9298-79d43e32dfce")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 129.54 99.06 0)
+			(at 157.48 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5913,7 +6047,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 160.02 91.44 0)
+		(at 185.42 91.44 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5921,7 +6055,7 @@
 		(dnp no)
 		(uuid "2a508b63-04d0-5209-85d2-b7c0a3bdf5ce")
 		(property "Reference" "R38"
-			(at 160.02 85.09 0)
+			(at 185.42 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5929,7 +6063,7 @@
 			)
 		)
 		(property "Value" "10.0K"
-			(at 160.02 97.79 0)
+			(at 185.42 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5937,7 +6071,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 160.02 91.44 0)
+			(at 185.42 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5946,7 +6080,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 160.02 91.44 0)
+			(at 185.42 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5955,7 +6089,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 160.02 91.44 0)
+			(at 185.42 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5964,7 +6098,7 @@
 			)
 		)
 		(property "MPN" "RC0402FR-0710KL"
-			(at 160.02 91.44 0)
+			(at 185.42 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5973,7 +6107,7 @@
 			)
 		)
 		(property "Manufacturer" "Yageo"
-			(at 160.02 91.44 0)
+			(at 185.42 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5982,7 +6116,7 @@
 			)
 		)
 		(property "DigiKey" "311-10.0KLRCT-ND"
-			(at 160.02 91.44 0)
+			(at 185.42 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6007,7 +6141,7 @@
 	)
 	(global_label "ESC_CURR"
 		(shape passive)
-		(at 160.02 87.63 90)
+		(at 185.42 87.63 90)
 		(effects
 			(font
 				(size 1 1)
@@ -6016,7 +6150,7 @@
 		)
 		(uuid "df01b0bb-09ed-530b-9902-884e322f91d9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 160.02 87.63 0)
+			(at 185.42 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6027,7 +6161,7 @@
 	)
 	(global_label "CURR_ADC"
 		(shape passive)
-		(at 160.02 95.25 270)
+		(at 185.42 95.25 270)
 		(effects
 			(font
 				(size 1 1)
@@ -6036,7 +6170,7 @@
 		)
 		(uuid "1bb91168-3f24-5897-b2a9-a48370b57484")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 160.02 95.25 0)
+			(at 185.42 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6047,7 +6181,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 187.96 91.44 0)
+		(at 215.9 91.44 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6055,7 +6189,7 @@
 		(dnp no)
 		(uuid "8a6b0e6c-fb87-5df0-a950-ff40456e646f")
 		(property "Reference" "C52"
-			(at 187.96 85.09 0)
+			(at 215.9 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6063,7 +6197,7 @@
 			)
 		)
 		(property "Value" "10nF X7R 50V"
-			(at 187.96 97.79 0)
+			(at 215.9 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6071,7 +6205,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 187.96 91.44 0)
+			(at 215.9 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6079,8 +6213,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
-			(at 187.96 91.44 0)
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B103KB5NNNC.do"
+			(at 215.9 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6089,7 +6223,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 187.96 91.44 0)
+			(at 215.9 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6098,7 +6232,7 @@
 			)
 		)
 		(property "MPN" "CL05B103KB5NNNC"
-			(at 187.96 91.44 0)
+			(at 215.9 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6107,7 +6241,7 @@
 			)
 		)
 		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 187.96 91.44 0)
+			(at 215.9 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6116,7 +6250,7 @@
 			)
 		)
 		(property "DigiKey" "1276-1015-1-ND (verify)"
-			(at 187.96 91.44 0)
+			(at 215.9 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6141,7 +6275,7 @@
 	)
 	(global_label "CURR_ADC"
 		(shape passive)
-		(at 187.96 87.63 90)
+		(at 215.9 87.63 90)
 		(effects
 			(font
 				(size 1 1)
@@ -6150,7 +6284,7 @@
 		)
 		(uuid "a8a1d363-b27a-5296-b463-96a31d7637cf")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 187.96 87.63 0)
+			(at 215.9 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6161,7 +6295,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 187.96 95.25 270)
+		(at 215.9 95.25 270)
 		(effects
 			(font
 				(size 1 1)
@@ -6170,7 +6304,7 @@
 		)
 		(uuid "0bdea4c1-b3df-50f3-aa38-a3b409be6570")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 187.96 95.25 0)
+			(at 215.9 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6181,7 +6315,7 @@
 	)
 	(symbol
 		(lib_id "Diode:BAT54S")
-		(at 223.52 86.36 0)
+		(at 251.46 86.36 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6189,7 +6323,7 @@
 		(dnp no)
 		(uuid "a0d023ed-1592-50f9-89b9-d3bd40a28811")
 		(property "Reference" "D7"
-			(at 223.52 83.82 0)
+			(at 251.46 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6197,7 +6331,7 @@
 			)
 		)
 		(property "Value" "BAT54S"
-			(at 223.52 93.98 0)
+			(at 251.46 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6205,7 +6339,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 223.52 86.36 0)
+			(at 251.46 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6214,7 +6348,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds11005.pdf"
-			(at 223.52 86.36 0)
+			(at 251.46 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6223,7 +6357,7 @@
 			)
 		)
 		(property "Description" "ADC clamp"
-			(at 223.52 86.36 0)
+			(at 251.46 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6232,7 +6366,7 @@
 			)
 		)
 		(property "MPN" "BAT54S-7-F"
-			(at 223.52 86.36 0)
+			(at 251.46 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6241,7 +6375,7 @@
 			)
 		)
 		(property "Manufacturer" "Diodes Incorporated"
-			(at 223.52 86.36 0)
+			(at 251.46 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6250,7 +6384,7 @@
 			)
 		)
 		(property "DigiKey" "BAT54S-FDICT-ND"
-			(at 223.52 86.36 0)
+			(at 251.46 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6278,7 +6412,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 215.9 86.36 180)
+		(at 243.84 86.36 180)
 		(effects
 			(font
 				(size 1 1)
@@ -6287,7 +6421,7 @@
 		)
 		(uuid "7f05cb93-d6d5-5ebd-b736-5649b1bbf2ea")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 215.9 86.36 0)
+			(at 243.84 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6298,7 +6432,7 @@
 	)
 	(global_label "3V3"
 		(shape passive)
-		(at 231.14 86.36 0)
+		(at 259.08 86.36 0)
 		(effects
 			(font
 				(size 1 1)
@@ -6307,7 +6441,7 @@
 		)
 		(uuid "f5f18a55-57b0-512b-9ddd-eabcefbcb642")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 231.14 86.36 0)
+			(at 259.08 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6318,7 +6452,7 @@
 	)
 	(global_label "CURR_ADC"
 		(shape passive)
-		(at 223.52 91.44 270)
+		(at 251.46 91.44 270)
 		(effects
 			(font
 				(size 1 1)
@@ -6327,7 +6461,7 @@
 		)
 		(uuid "e3a20ff5-3fb4-5ab1-831e-cebdf4440587")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 223.52 91.44 0)
+			(at 251.46 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6338,7 +6472,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 261.62 91.44 0)
+		(at 27.94 124.46 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6346,7 +6480,7 @@
 		(dnp no)
 		(uuid "d1777672-4ea3-59f8-8b94-2f377b54efd0")
 		(property "Reference" "R39"
-			(at 261.62 85.09 0)
+			(at 27.94 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6354,7 +6488,7 @@
 			)
 		)
 		(property "Value" "10.0K"
-			(at 261.62 97.79 0)
+			(at 27.94 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6362,7 +6496,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 261.62 91.44 0)
+			(at 27.94 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6371,7 +6505,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 261.62 91.44 0)
+			(at 27.94 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6380,7 +6514,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 261.62 91.44 0)
+			(at 27.94 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6389,7 +6523,7 @@
 			)
 		)
 		(property "MPN" "RC0402FR-0710KL"
-			(at 261.62 91.44 0)
+			(at 27.94 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6398,7 +6532,7 @@
 			)
 		)
 		(property "Manufacturer" "Yageo"
-			(at 261.62 91.44 0)
+			(at 27.94 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6407,7 +6541,7 @@
 			)
 		)
 		(property "DigiKey" "311-10.0KLRCT-ND"
-			(at 261.62 91.44 0)
+			(at 27.94 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6432,7 +6566,7 @@
 	)
 	(global_label "RSSI_IN"
 		(shape passive)
-		(at 261.62 87.63 90)
+		(at 27.94 120.65 90)
 		(effects
 			(font
 				(size 1 1)
@@ -6441,7 +6575,7 @@
 		)
 		(uuid "ab0ef837-2815-5261-b127-63522f362349")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 261.62 87.63 0)
+			(at 27.94 120.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6452,7 +6586,7 @@
 	)
 	(global_label "RSSI_ADC"
 		(shape passive)
-		(at 261.62 95.25 270)
+		(at 27.94 128.27 270)
 		(effects
 			(font
 				(size 1 1)
@@ -6461,7 +6595,7 @@
 		)
 		(uuid "c4ce0ff3-0c88-54fa-8062-148729016989")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 261.62 95.25 0)
+			(at 27.94 128.27 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6472,7 +6606,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 27.94 124.46 0)
+		(at 55.88 124.46 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6480,7 +6614,7 @@
 		(dnp no)
 		(uuid "c24145e7-0950-5402-b64d-126a486e85f5")
 		(property "Reference" "C53"
-			(at 27.94 118.11 0)
+			(at 55.88 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6488,7 +6622,7 @@
 			)
 		)
 		(property "Value" "10nF X7R 50V"
-			(at 27.94 130.81 0)
+			(at 55.88 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6496,7 +6630,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 27.94 124.46 0)
+			(at 55.88 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6504,8 +6638,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
-			(at 27.94 124.46 0)
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B103KB5NNNC.do"
+			(at 55.88 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6514,7 +6648,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 27.94 124.46 0)
+			(at 55.88 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6523,7 +6657,7 @@
 			)
 		)
 		(property "MPN" "CL05B103KB5NNNC"
-			(at 27.94 124.46 0)
+			(at 55.88 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6532,7 +6666,7 @@
 			)
 		)
 		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 27.94 124.46 0)
+			(at 55.88 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6541,7 +6675,7 @@
 			)
 		)
 		(property "DigiKey" "1276-1015-1-ND (verify)"
-			(at 27.94 124.46 0)
+			(at 55.88 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6566,7 +6700,7 @@
 	)
 	(global_label "RSSI_ADC"
 		(shape passive)
-		(at 27.94 120.65 90)
+		(at 55.88 120.65 90)
 		(effects
 			(font
 				(size 1 1)
@@ -6575,7 +6709,7 @@
 		)
 		(uuid "20694546-d8cc-5506-b618-abccec097d88")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.94 120.65 0)
+			(at 55.88 120.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6586,7 +6720,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 27.94 128.27 270)
+		(at 55.88 128.27 270)
 		(effects
 			(font
 				(size 1 1)
@@ -6595,7 +6729,7 @@
 		)
 		(uuid "2c53a584-a0bf-5fd6-8133-80212b76259b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.94 128.27 0)
+			(at 55.88 128.27 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6606,7 +6740,7 @@
 	)
 	(symbol
 		(lib_id "Diode:BAT54S")
-		(at 63.5 121.92 0)
+		(at 93.98 121.92 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6614,7 +6748,7 @@
 		(dnp no)
 		(uuid "3dae1bdc-72cb-520c-b53f-c72d86cc8e7b")
 		(property "Reference" "D8"
-			(at 63.5 119.38 0)
+			(at 93.98 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6622,7 +6756,7 @@
 			)
 		)
 		(property "Value" "BAT54S"
-			(at 63.5 129.54 0)
+			(at 93.98 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6630,7 +6764,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 63.5 121.92 0)
+			(at 93.98 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6639,7 +6773,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds11005.pdf"
-			(at 63.5 121.92 0)
+			(at 93.98 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6648,7 +6782,7 @@
 			)
 		)
 		(property "Description" "ADC clamp"
-			(at 63.5 121.92 0)
+			(at 93.98 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6657,7 +6791,7 @@
 			)
 		)
 		(property "MPN" "BAT54S-7-F"
-			(at 63.5 121.92 0)
+			(at 93.98 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6666,7 +6800,7 @@
 			)
 		)
 		(property "Manufacturer" "Diodes Incorporated"
-			(at 63.5 121.92 0)
+			(at 93.98 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6675,7 +6809,7 @@
 			)
 		)
 		(property "DigiKey" "BAT54S-FDICT-ND"
-			(at 63.5 121.92 0)
+			(at 93.98 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6703,7 +6837,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 55.88 121.92 180)
+		(at 86.36 121.92 180)
 		(effects
 			(font
 				(size 1 1)
@@ -6712,7 +6846,7 @@
 		)
 		(uuid "175eb1f6-ef86-57dd-a6df-064087e14452")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 55.88 121.92 0)
+			(at 86.36 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6723,7 +6857,7 @@
 	)
 	(global_label "3V3"
 		(shape passive)
-		(at 71.12 121.92 0)
+		(at 101.6 121.92 0)
 		(effects
 			(font
 				(size 1 1)
@@ -6732,7 +6866,7 @@
 		)
 		(uuid "f6fe1e20-ec44-57d8-8bbd-4895bfe56a3a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 71.12 121.92 0)
+			(at 101.6 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6743,7 +6877,7 @@
 	)
 	(global_label "RSSI_ADC"
 		(shape passive)
-		(at 63.5 127 270)
+		(at 93.98 127 270)
 		(effects
 			(font
 				(size 1 1)
@@ -6752,7 +6886,7 @@
 		)
 		(uuid "e21f4f13-306d-5e0e-9512-173945743be0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 63.5 127 0)
+			(at 93.98 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6763,7 +6897,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 99.06 124.46 0)
+		(at 127 124.46 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6771,7 +6905,7 @@
 		(dnp no)
 		(uuid "29abcd2e-12de-5786-9635-25a9ff1585f2")
 		(property "Reference" "R40"
-			(at 99.06 118.11 0)
+			(at 127 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6779,7 +6913,7 @@
 			)
 		)
 		(property "Value" "100"
-			(at 99.06 130.81 0)
+			(at 127 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6787,7 +6921,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 99.06 124.46 0)
+			(at 127 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6796,7 +6930,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 99.06 124.46 0)
+			(at 127 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6805,7 +6939,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 99.06 124.46 0)
+			(at 127 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6814,7 +6948,7 @@
 			)
 		)
 		(property "MPN" "RC0402FR-07100RL"
-			(at 99.06 124.46 0)
+			(at 127 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6823,7 +6957,7 @@
 			)
 		)
 		(property "Manufacturer" "Yageo"
-			(at 99.06 124.46 0)
+			(at 127 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6832,7 +6966,7 @@
 			)
 		)
 		(property "DigiKey" "311-100LRCT-ND"
-			(at 99.06 124.46 0)
+			(at 127 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6857,7 +6991,7 @@
 	)
 	(global_label "BEEPER"
 		(shape passive)
-		(at 99.06 120.65 90)
+		(at 127 120.65 90)
 		(effects
 			(font
 				(size 1 1)
@@ -6866,7 +7000,7 @@
 		)
 		(uuid "e800fa7d-1158-5f39-8fed-61a4be0ac82d")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 99.06 120.65 0)
+			(at 127 120.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6877,7 +7011,7 @@
 	)
 	(global_label "BUZ_G"
 		(shape passive)
-		(at 99.06 128.27 270)
+		(at 127 128.27 270)
 		(effects
 			(font
 				(size 1 1)
@@ -6886,7 +7020,7 @@
 		)
 		(uuid "f484e351-dbc9-5aae-b899-d2beebd9c5d6")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 99.06 128.27 0)
+			(at 127 128.27 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6897,7 +7031,7 @@
 	)
 	(symbol
 		(lib_id "Transistor_FET:2N7002")
-		(at 127 127 0)
+		(at 157.48 127 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6905,7 +7039,7 @@
 		(dnp no)
 		(uuid "2f2085f9-6ec5-547a-a95e-98ff1b4d758b")
 		(property "Reference" "Q1"
-			(at 127 119.38 0)
+			(at 157.48 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6913,7 +7047,7 @@
 			)
 		)
 		(property "Value" "PMV40UN2"
-			(at 127 134.62 0)
+			(at 157.48 134.62 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6921,7 +7055,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 127 127 0)
+			(at 157.48 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6930,7 +7064,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/PMV40UN2.pdf"
-			(at 127 127 0)
+			(at 157.48 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6939,7 +7073,7 @@
 			)
 		)
 		(property "Description" "buzzer low-side switch"
-			(at 127 127 0)
+			(at 157.48 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6948,7 +7082,7 @@
 			)
 		)
 		(property "MPN" "PMV40UN2R"
-			(at 127 127 0)
+			(at 157.48 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6957,7 +7091,7 @@
 			)
 		)
 		(property "Manufacturer" "Nexperia"
-			(at 127 127 0)
+			(at 157.48 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6966,7 +7100,7 @@
 			)
 		)
 		(property "DigiKey" "1727-1900-1-ND"
-			(at 127 127 0)
+			(at 157.48 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6994,7 +7128,7 @@
 	)
 	(global_label "BUZ_G"
 		(shape passive)
-		(at 121.92 127 180)
+		(at 152.4 127 180)
 		(effects
 			(font
 				(size 1 1)
@@ -7003,7 +7137,7 @@
 		)
 		(uuid "0de3b199-5bb5-5c24-9110-cb64301fb80e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 121.92 127 0)
+			(at 152.4 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7014,7 +7148,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 129.54 132.08 270)
+		(at 160.02 132.08 270)
 		(effects
 			(font
 				(size 1 1)
@@ -7023,7 +7157,7 @@
 		)
 		(uuid "e1a67765-8395-5df9-bfb7-f6b29bbe2575")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 129.54 132.08 0)
+			(at 160.02 132.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7034,7 +7168,7 @@
 	)
 	(global_label "BUZ_N"
 		(shape passive)
-		(at 129.54 121.92 90)
+		(at 160.02 121.92 90)
 		(effects
 			(font
 				(size 1 1)
@@ -7043,7 +7177,7 @@
 		)
 		(uuid "e43ba5bb-3e2b-530c-a723-2fc92d26d063")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 129.54 121.92 0)
+			(at 160.02 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7054,7 +7188,7 @@
 	)
 	(symbol
 		(lib_id "Device:D_Schottky")
-		(at 157.48 121.92 0)
+		(at 185.42 121.92 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7062,7 +7196,7 @@
 		(dnp no)
 		(uuid "217fe509-b56a-5ae0-95ad-21acabb3a027")
 		(property "Reference" "D9"
-			(at 157.48 119.38 0)
+			(at 185.42 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7070,7 +7204,7 @@
 			)
 		)
 		(property "Value" "PMEG4030ER"
-			(at 157.48 124.46 0)
+			(at 185.42 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7078,7 +7212,7 @@
 			)
 		)
 		(property "Footprint" "Diode_SMD:Nexperia_CFP3_SOD-123W"
-			(at 157.48 121.92 0)
+			(at 185.42 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7087,7 +7221,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/PMEG4030ER.pdf"
-			(at 157.48 121.92 0)
+			(at 185.42 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7096,7 +7230,7 @@
 			)
 		)
 		(property "Description" "buzzer flyback"
-			(at 157.48 121.92 0)
+			(at 185.42 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7105,7 +7239,7 @@
 			)
 		)
 		(property "MPN" "PMEG4030ER,115"
-			(at 157.48 121.92 0)
+			(at 185.42 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7114,7 +7248,7 @@
 			)
 		)
 		(property "Manufacturer" "Nexperia"
-			(at 157.48 121.92 0)
+			(at 185.42 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7123,7 +7257,7 @@
 			)
 		)
 		(property "DigiKey" "1727-5313-1-ND"
-			(at 157.48 121.92 0)
+			(at 185.42 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7148,7 +7282,7 @@
 	)
 	(global_label "5V"
 		(shape passive)
-		(at 153.67 121.92 180)
+		(at 181.61 121.92 180)
 		(effects
 			(font
 				(size 1 1)
@@ -7157,7 +7291,7 @@
 		)
 		(uuid "bd5c072d-aba6-5ce8-9f0f-14cf71c372f6")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 153.67 121.92 0)
+			(at 181.61 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7168,7 +7302,7 @@
 	)
 	(global_label "BUZ_N"
 		(shape passive)
-		(at 161.29 121.92 0)
+		(at 189.23 121.92 0)
 		(effects
 			(font
 				(size 1 1)
@@ -7177,7 +7311,7 @@
 		)
 		(uuid "89c63183-ad05-5d7a-9cb8-00ce4ee38ba7")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 161.29 121.92 0)
+			(at 189.23 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7188,15 +7322,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 180.34 121.92 0)
+		(at 210.82 121.92 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "24387a0e-4d83-5de1-a066-35031e237e10")
 		(property "Reference" "P13"
-			(at 180.34 119.38 0)
+			(at 210.82 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7204,7 +7338,7 @@
 			)
 		)
 		(property "Value" "5V"
-			(at 180.34 124.46 0)
+			(at 210.82 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7212,7 +7346,7 @@
 			)
 		)
 		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 180.34 121.92 0)
+			(at 210.82 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7221,7 +7355,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 180.34 121.92 0)
+			(at 210.82 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7230,7 +7364,7 @@
 			)
 		)
 		(property "Description" "buzzer +"
-			(at 180.34 121.92 0)
+			(at 210.82 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7239,7 +7373,7 @@
 			)
 		)
 		(property "MPN" "n/a (PCB pad)"
-			(at 180.34 121.92 0)
+			(at 210.82 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7248,7 +7382,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 180.34 121.92 0)
+			(at 210.82 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7257,7 +7391,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (PCB pad)"
-			(at 180.34 121.92 0)
+			(at 210.82 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7266,7 +7400,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 180.34 121.92 0)
+			(at 210.82 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7288,7 +7422,7 @@
 	)
 	(global_label "5V"
 		(shape passive)
-		(at 180.34 121.92 270)
+		(at 210.82 121.92 270)
 		(effects
 			(font
 				(size 1 1)
@@ -7297,7 +7431,7 @@
 		)
 		(uuid "cae3c446-404f-5a9d-8dbe-c4bf65403750")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 180.34 121.92 0)
+			(at 210.82 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7308,15 +7442,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 200.66 121.92 0)
+		(at 231.14 121.92 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "80edebeb-827e-537d-b928-d9d2319f385f")
 		(property "Reference" "P14"
-			(at 200.66 119.38 0)
+			(at 231.14 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7324,7 +7458,7 @@
 			)
 		)
 		(property "Value" "BUZ_N"
-			(at 200.66 124.46 0)
+			(at 231.14 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7332,7 +7466,7 @@
 			)
 		)
 		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 200.66 121.92 0)
+			(at 231.14 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7341,7 +7475,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 200.66 121.92 0)
+			(at 231.14 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7350,7 +7484,7 @@
 			)
 		)
 		(property "Description" "buzzer -"
-			(at 200.66 121.92 0)
+			(at 231.14 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7359,7 +7493,7 @@
 			)
 		)
 		(property "MPN" "n/a (PCB pad)"
-			(at 200.66 121.92 0)
+			(at 231.14 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7368,7 +7502,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 200.66 121.92 0)
+			(at 231.14 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7377,7 +7511,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (PCB pad)"
-			(at 200.66 121.92 0)
+			(at 231.14 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7386,7 +7520,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 200.66 121.92 0)
+			(at 231.14 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7408,7 +7542,7 @@
 	)
 	(global_label "BUZ_N"
 		(shape passive)
-		(at 200.66 121.92 270)
+		(at 231.14 121.92 270)
 		(effects
 			(font
 				(size 1 1)
@@ -7417,127 +7551,7 @@
 		)
 		(uuid "2f25bbaa-84c4-533a-8c0a-f5e774a8a850")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 200.66 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 226.06 121.92 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "06c8ba6f-cb04-5326-b3bc-774b8c210c91")
-		(property "Reference" "P15"
-			(at 226.06 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "UART5_TX"
-			(at 226.06 124.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 226.06 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 226.06 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "T5"
-			(at 226.06 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "n/a (PCB pad)"
-			(at 226.06 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "n/a"
-			(at 226.06 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "n/a (PCB pad)"
-			(at 226.06 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "InBOM" "no"
-			(at 226.06 121.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "01bd7f47-194c-5040-8996-0b85fa0d6329")
-		)
-		(instances
-			(project "F405FC"
-				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/f8e9c891-1f95-5efa-838e-66cdcd6f9d2d"
-					(reference "P15")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(global_label "UART5_TX"
-		(shape passive)
-		(at 226.06 121.92 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "37a703dd-a0b1-5e76-89c7-f6d84ab7c95e")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 226.06 121.92 0)
+			(at 231.14 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7551,11 +7565,11 @@
 		(at 256.54 121.92 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "d77554de-604f-5a94-bae0-a4850be1d14c")
-		(property "Reference" "P16"
+		(uuid "06c8ba6f-cb04-5326-b3bc-774b8c210c91")
+		(property "Reference" "P15"
 			(at 256.54 119.38 0)
 			(effects
 				(font
@@ -7563,7 +7577,7 @@
 				)
 			)
 		)
-		(property "Value" "UART5_RX"
+		(property "Value" "UART5_TX"
 			(at 256.54 124.46 0)
 			(effects
 				(font
@@ -7589,7 +7603,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "R5"
+		(property "Description" "T5"
 			(at 256.54 121.92 0)
 			(effects
 				(font
@@ -7635,18 +7649,18 @@
 			)
 		)
 		(pin "1"
-			(uuid "a25c162a-7e44-58d8-90f8-ac31453eb694")
+			(uuid "01bd7f47-194c-5040-8996-0b85fa0d6329")
 		)
 		(instances
 			(project "F405FC"
 				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/f8e9c891-1f95-5efa-838e-66cdcd6f9d2d"
-					(reference "P16")
+					(reference "P15")
 					(unit 1)
 				)
 			)
 		)
 	)
-	(global_label "UART5_RX"
+	(global_label "UART5_TX"
 		(shape passive)
 		(at 256.54 121.92 270)
 		(effects
@@ -7655,7 +7669,7 @@
 			)
 			(justify left)
 		)
-		(uuid "b822e393-dd8e-512f-a8a7-372ecbeee0b9")
+		(uuid "37a703dd-a0b1-5e76-89c7-f6d84ab7c95e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 256.54 121.92 0)
 			(effects
@@ -7671,11 +7685,11 @@
 		(at 27.94 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "3c79ab54-e795-51cb-a77f-56b8400d087b")
-		(property "Reference" "P17"
+		(uuid "d77554de-604f-5a94-bae0-a4850be1d14c")
+		(property "Reference" "P16"
 			(at 27.94 147.32 0)
 			(effects
 				(font
@@ -7683,7 +7697,7 @@
 				)
 			)
 		)
-		(property "Value" "UART6_TX"
+		(property "Value" "UART5_RX"
 			(at 27.94 152.4 0)
 			(effects
 				(font
@@ -7709,7 +7723,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "T6"
+		(property "Description" "R5"
 			(at 27.94 149.86 0)
 			(effects
 				(font
@@ -7755,18 +7769,18 @@
 			)
 		)
 		(pin "1"
-			(uuid "834f5343-9ee5-5414-8ae7-c0f70a9c25b2")
+			(uuid "a25c162a-7e44-58d8-90f8-ac31453eb694")
 		)
 		(instances
 			(project "F405FC"
 				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/f8e9c891-1f95-5efa-838e-66cdcd6f9d2d"
-					(reference "P17")
+					(reference "P16")
 					(unit 1)
 				)
 			)
 		)
 	)
-	(global_label "UART6_TX"
+	(global_label "UART5_RX"
 		(shape passive)
 		(at 27.94 149.86 270)
 		(effects
@@ -7775,7 +7789,7 @@
 			)
 			(justify left)
 		)
-		(uuid "91d5295d-181e-5022-9787-815d10c02aa6")
+		(uuid "b822e393-dd8e-512f-a8a7-372ecbeee0b9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 27.94 149.86 0)
 			(effects
@@ -7791,11 +7805,11 @@
 		(at 55.88 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "6f5e10bd-3957-5f5b-b379-f3c84edc352c")
-		(property "Reference" "P18"
+		(uuid "3c79ab54-e795-51cb-a77f-56b8400d087b")
+		(property "Reference" "P17"
 			(at 55.88 147.32 0)
 			(effects
 				(font
@@ -7803,7 +7817,7 @@
 				)
 			)
 		)
-		(property "Value" "UART6_RX"
+		(property "Value" "UART6_TX"
 			(at 55.88 152.4 0)
 			(effects
 				(font
@@ -7829,7 +7843,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "R6"
+		(property "Description" "T6"
 			(at 55.88 149.86 0)
 			(effects
 				(font
@@ -7867,6 +7881,126 @@
 		)
 		(property "InBOM" "no"
 			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "834f5343-9ee5-5414-8ae7-c0f70a9c25b2")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/f8e9c891-1f95-5efa-838e-66cdcd6f9d2d"
+					(reference "P17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(global_label "UART6_TX"
+		(shape passive)
+		(at 55.88 149.86 270)
+		(effects
+			(font
+				(size 1 1)
+			)
+			(justify left)
+		)
+		(uuid "91d5295d-181e-5022-9787-815d10c02aa6")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 86.36 149.86 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "6f5e10bd-3957-5f5b-b379-f3c84edc352c")
+		(property "Reference" "P18"
+			(at 86.36 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "UART6_RX"
+			(at 86.36 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
+			(at 86.36 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 86.36 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "R6"
+			(at 86.36 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "n/a (PCB pad)"
+			(at 86.36 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "n/a"
+			(at 86.36 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "n/a (PCB pad)"
+			(at 86.36 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "InBOM" "no"
+			(at 86.36 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7888,7 +8022,7 @@
 	)
 	(global_label "UART6_RX"
 		(shape passive)
-		(at 55.88 149.86 270)
+		(at 86.36 149.86 270)
 		(effects
 			(font
 				(size 1 1)
@@ -7897,7 +8031,7 @@
 		)
 		(uuid "c00a296f-e776-5aa1-af46-d9c82c4d3574")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 55.88 149.86 0)
+			(at 86.36 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7908,15 +8042,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 83.82 149.86 0)
+		(at 111.76 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "f5abd384-54fe-5d5d-85ce-e1356bc4fb92")
 		(property "Reference" "P19"
-			(at 83.82 147.32 0)
+			(at 111.76 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7924,7 +8058,7 @@
 			)
 		)
 		(property "Value" "MOTOR5"
-			(at 83.82 152.4 0)
+			(at 111.76 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7932,7 +8066,7 @@
 			)
 		)
 		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 83.82 149.86 0)
+			(at 111.76 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7941,7 +8075,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 83.82 149.86 0)
+			(at 111.76 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7950,7 +8084,7 @@
 			)
 		)
 		(property "Description" "S5"
-			(at 83.82 149.86 0)
+			(at 111.76 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7959,7 +8093,7 @@
 			)
 		)
 		(property "MPN" "n/a (PCB pad)"
-			(at 83.82 149.86 0)
+			(at 111.76 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7968,7 +8102,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 83.82 149.86 0)
+			(at 111.76 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7977,7 +8111,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (PCB pad)"
-			(at 83.82 149.86 0)
+			(at 111.76 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7986,7 +8120,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 83.82 149.86 0)
+			(at 111.76 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8008,7 +8142,7 @@
 	)
 	(global_label "MOTOR5"
 		(shape passive)
-		(at 83.82 149.86 270)
+		(at 111.76 149.86 270)
 		(effects
 			(font
 				(size 1 1)
@@ -8017,7 +8151,7 @@
 		)
 		(uuid "90cb3513-f578-597b-aa90-2d69a7edb124")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 83.82 149.86 0)
+			(at 111.76 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8028,15 +8162,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 109.22 149.86 0)
+		(at 137.16 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "4b7d1060-1fb8-515d-8c0b-2680953a035e")
 		(property "Reference" "P20"
-			(at 109.22 147.32 0)
+			(at 137.16 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8044,7 +8178,7 @@
 			)
 		)
 		(property "Value" "MOTOR6"
-			(at 109.22 152.4 0)
+			(at 137.16 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8052,7 +8186,7 @@
 			)
 		)
 		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 109.22 149.86 0)
+			(at 137.16 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8061,7 +8195,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 109.22 149.86 0)
+			(at 137.16 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8070,7 +8204,7 @@
 			)
 		)
 		(property "Description" "S6"
-			(at 109.22 149.86 0)
+			(at 137.16 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8079,7 +8213,7 @@
 			)
 		)
 		(property "MPN" "n/a (PCB pad)"
-			(at 109.22 149.86 0)
+			(at 137.16 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8088,7 +8222,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 109.22 149.86 0)
+			(at 137.16 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8097,7 +8231,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (PCB pad)"
-			(at 109.22 149.86 0)
+			(at 137.16 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8106,7 +8240,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 109.22 149.86 0)
+			(at 137.16 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8128,7 +8262,7 @@
 	)
 	(global_label "MOTOR6"
 		(shape passive)
-		(at 109.22 149.86 270)
+		(at 137.16 149.86 270)
 		(effects
 			(font
 				(size 1 1)
@@ -8137,7 +8271,7 @@
 		)
 		(uuid "f73f3a6f-1ed9-5221-8493-c3ffa54264d0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 109.22 149.86 0)
+			(at 137.16 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8148,15 +8282,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 134.62 149.86 0)
+		(at 162.56 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "9ca3159d-4692-5d86-874e-a35320627311")
 		(property "Reference" "P21"
-			(at 134.62 147.32 0)
+			(at 162.56 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8164,7 +8298,7 @@
 			)
 		)
 		(property "Value" "MOTOR7"
-			(at 134.62 152.4 0)
+			(at 162.56 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8172,7 +8306,7 @@
 			)
 		)
 		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 134.62 149.86 0)
+			(at 162.56 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8181,7 +8315,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 134.62 149.86 0)
+			(at 162.56 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8190,7 +8324,7 @@
 			)
 		)
 		(property "Description" "S7"
-			(at 134.62 149.86 0)
+			(at 162.56 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8199,7 +8333,7 @@
 			)
 		)
 		(property "MPN" "n/a (PCB pad)"
-			(at 134.62 149.86 0)
+			(at 162.56 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8208,7 +8342,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 134.62 149.86 0)
+			(at 162.56 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8217,7 +8351,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (PCB pad)"
-			(at 134.62 149.86 0)
+			(at 162.56 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8226,7 +8360,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 134.62 149.86 0)
+			(at 162.56 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8248,7 +8382,7 @@
 	)
 	(global_label "MOTOR7"
 		(shape passive)
-		(at 134.62 149.86 270)
+		(at 162.56 149.86 270)
 		(effects
 			(font
 				(size 1 1)
@@ -8257,7 +8391,7 @@
 		)
 		(uuid "36b89dc0-75d6-547d-a583-3c1e82e89060")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 134.62 149.86 0)
+			(at 162.56 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8268,15 +8402,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 157.48 149.86 0)
+		(at 187.96 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "1ab0ca00-1827-5f43-8027-00e5b446a1ce")
 		(property "Reference" "P22"
-			(at 157.48 147.32 0)
+			(at 187.96 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8284,7 +8418,7 @@
 			)
 		)
 		(property "Value" "MOTOR8"
-			(at 157.48 152.4 0)
+			(at 187.96 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8292,7 +8426,7 @@
 			)
 		)
 		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 157.48 149.86 0)
+			(at 187.96 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8301,7 +8435,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 157.48 149.86 0)
+			(at 187.96 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8310,7 +8444,7 @@
 			)
 		)
 		(property "Description" "S8"
-			(at 157.48 149.86 0)
+			(at 187.96 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8319,7 +8453,7 @@
 			)
 		)
 		(property "MPN" "n/a (PCB pad)"
-			(at 157.48 149.86 0)
+			(at 187.96 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8328,7 +8462,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 157.48 149.86 0)
+			(at 187.96 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8337,7 +8471,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (PCB pad)"
-			(at 157.48 149.86 0)
+			(at 187.96 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8346,7 +8480,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 157.48 149.86 0)
+			(at 187.96 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8368,7 +8502,7 @@
 	)
 	(global_label "MOTOR8"
 		(shape passive)
-		(at 157.48 149.86 270)
+		(at 187.96 149.86 270)
 		(effects
 			(font
 				(size 1 1)
@@ -8377,7 +8511,7 @@
 		)
 		(uuid "37135e6d-0584-5c89-8633-ab8e33e63785")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 157.48 149.86 0)
+			(at 187.96 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8388,15 +8522,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 185.42 149.86 0)
+		(at 213.36 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "277e866c-7926-58c6-bb58-de1f8a0edd88")
 		(property "Reference" "P23"
-			(at 185.42 147.32 0)
+			(at 213.36 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8404,7 +8538,7 @@
 			)
 		)
 		(property "Value" "RSSI_IN"
-			(at 185.42 152.4 0)
+			(at 213.36 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8412,7 +8546,7 @@
 			)
 		)
 		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 185.42 149.86 0)
+			(at 213.36 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8421,7 +8555,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 185.42 149.86 0)
+			(at 213.36 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8430,7 +8564,7 @@
 			)
 		)
 		(property "Description" "RSSI"
-			(at 185.42 149.86 0)
+			(at 213.36 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8439,7 +8573,7 @@
 			)
 		)
 		(property "MPN" "n/a (PCB pad)"
-			(at 185.42 149.86 0)
+			(at 213.36 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8448,7 +8582,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 185.42 149.86 0)
+			(at 213.36 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8457,7 +8591,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (PCB pad)"
-			(at 185.42 149.86 0)
+			(at 213.36 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8466,7 +8600,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 185.42 149.86 0)
+			(at 213.36 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8488,7 +8622,7 @@
 	)
 	(global_label "RSSI_IN"
 		(shape passive)
-		(at 185.42 149.86 270)
+		(at 213.36 149.86 270)
 		(effects
 			(font
 				(size 1 1)
@@ -8497,7 +8631,7 @@
 		)
 		(uuid "4b1a2c40-a376-517d-a358-c7730373cc08")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 185.42 149.86 0)
+			(at 213.36 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8508,15 +8642,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 208.28 149.86 0)
+		(at 236.22 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "3be7708b-8273-5c8f-a93c-c9abf842fcdf")
 		(property "Reference" "P24"
-			(at 208.28 147.32 0)
+			(at 236.22 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8524,7 +8658,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 208.28 152.4 0)
+			(at 236.22 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8532,7 +8666,7 @@
 			)
 		)
 		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 208.28 149.86 0)
+			(at 236.22 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8541,7 +8675,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 208.28 149.86 0)
+			(at 236.22 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8550,7 +8684,7 @@
 			)
 		)
 		(property "Description" "GND (spare UART/servo)"
-			(at 208.28 149.86 0)
+			(at 236.22 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8559,7 +8693,7 @@
 			)
 		)
 		(property "MPN" "n/a (PCB pad)"
-			(at 208.28 149.86 0)
+			(at 236.22 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8568,7 +8702,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 208.28 149.86 0)
+			(at 236.22 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8577,7 +8711,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (PCB pad)"
-			(at 208.28 149.86 0)
+			(at 236.22 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8586,7 +8720,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 208.28 149.86 0)
+			(at 236.22 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8608,7 +8742,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 208.28 149.86 270)
+		(at 236.22 149.86 270)
 		(effects
 			(font
 				(size 1 1)
@@ -8617,7 +8751,7 @@
 		)
 		(uuid "4dd5fd18-235a-584a-b0f1-767715b4e3d8")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 208.28 149.86 0)
+			(at 236.22 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8628,15 +8762,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 226.06 149.86 0)
+		(at 254 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "dc356e5c-808e-5bf4-9614-7b6c3a34e21f")
 		(property "Reference" "P25"
-			(at 226.06 147.32 0)
+			(at 254 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8644,7 +8778,7 @@
 			)
 		)
 		(property "Value" "5V"
-			(at 226.06 152.4 0)
+			(at 254 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8652,7 +8786,7 @@
 			)
 		)
 		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 226.06 149.86 0)
+			(at 254 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8661,7 +8795,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 226.06 149.86 0)
+			(at 254 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8670,7 +8804,7 @@
 			)
 		)
 		(property "Description" "5V (servo/spare)"
-			(at 226.06 149.86 0)
+			(at 254 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8679,7 +8813,7 @@
 			)
 		)
 		(property "MPN" "n/a (PCB pad)"
-			(at 226.06 149.86 0)
+			(at 254 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8688,7 +8822,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 226.06 149.86 0)
+			(at 254 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8697,7 +8831,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (PCB pad)"
-			(at 226.06 149.86 0)
+			(at 254 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8706,7 +8840,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 226.06 149.86 0)
+			(at 254 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8728,7 +8862,7 @@
 	)
 	(global_label "5V"
 		(shape passive)
-		(at 226.06 149.86 270)
+		(at 254 149.86 270)
 		(effects
 			(font
 				(size 1 1)
@@ -8737,7 +8871,7 @@
 		)
 		(uuid "21b2e2e1-a355-5704-b892-3ddf5299940c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 226.06 149.86 0)
+			(at 254 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8748,15 +8882,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 246.38 149.86 0)
+		(at 25.4 165.1 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "066a875d-de66-5e6c-9fd2-43ad79f16936")
 		(property "Reference" "TP1"
-			(at 246.38 147.32 0)
+			(at 25.4 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8764,7 +8898,7 @@
 			)
 		)
 		(property "Value" "SWDIO"
-			(at 246.38 152.4 0)
+			(at 25.4 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8772,7 +8906,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 246.38 149.86 0)
+			(at 25.4 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8781,7 +8915,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 246.38 149.86 0)
+			(at 25.4 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8790,7 +8924,7 @@
 			)
 		)
 		(property "Description" "SWD test pad"
-			(at 246.38 149.86 0)
+			(at 25.4 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8799,7 +8933,7 @@
 			)
 		)
 		(property "MPN" "n/a (test pad)"
-			(at 246.38 149.86 0)
+			(at 25.4 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8808,7 +8942,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 246.38 149.86 0)
+			(at 25.4 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8817,7 +8951,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (test pad)"
-			(at 246.38 149.86 0)
+			(at 25.4 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8826,7 +8960,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 246.38 149.86 0)
+			(at 25.4 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8848,7 +8982,7 @@
 	)
 	(global_label "SWDIO"
 		(shape passive)
-		(at 246.38 149.86 270)
+		(at 25.4 165.1 270)
 		(effects
 			(font
 				(size 1 1)
@@ -8857,7 +8991,7 @@
 		)
 		(uuid "3cc9134b-6b9b-5ca3-84d2-303d7f2bfe64")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 246.38 149.86 0)
+			(at 25.4 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8868,15 +9002,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 269.24 149.86 0)
+		(at 48.26 165.1 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "acae75ee-0eff-5ed4-8073-90ed2ecc3eea")
 		(property "Reference" "TP2"
-			(at 269.24 147.32 0)
+			(at 48.26 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8884,7 +9018,7 @@
 			)
 		)
 		(property "Value" "SWCLK"
-			(at 269.24 152.4 0)
+			(at 48.26 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8892,7 +9026,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 269.24 149.86 0)
+			(at 48.26 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8901,7 +9035,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 269.24 149.86 0)
+			(at 48.26 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8910,7 +9044,7 @@
 			)
 		)
 		(property "Description" "SWD test pad"
-			(at 269.24 149.86 0)
+			(at 48.26 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8919,7 +9053,7 @@
 			)
 		)
 		(property "MPN" "n/a (test pad)"
-			(at 269.24 149.86 0)
+			(at 48.26 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8928,7 +9062,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 269.24 149.86 0)
+			(at 48.26 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8937,7 +9071,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (test pad)"
-			(at 269.24 149.86 0)
+			(at 48.26 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8946,7 +9080,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 269.24 149.86 0)
+			(at 48.26 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8968,7 +9102,7 @@
 	)
 	(global_label "SWCLK"
 		(shape passive)
-		(at 269.24 149.86 270)
+		(at 48.26 165.1 270)
 		(effects
 			(font
 				(size 1 1)
@@ -8977,7 +9111,7 @@
 		)
 		(uuid "2729d76f-4f29-524f-a67c-badcb7acba8e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 269.24 149.86 0)
+			(at 48.26 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8988,15 +9122,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 22.86 165.1 0)
+		(at 68.58 165.1 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "f1b6abac-06a7-5b9c-a116-6226b0f07a16")
 		(property "Reference" "TP3"
-			(at 22.86 162.56 0)
+			(at 68.58 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9004,7 +9138,7 @@
 			)
 		)
 		(property "Value" "NRST"
-			(at 22.86 167.64 0)
+			(at 68.58 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9012,7 +9146,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 22.86 165.1 0)
+			(at 68.58 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9021,7 +9155,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 22.86 165.1 0)
+			(at 68.58 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9030,7 +9164,7 @@
 			)
 		)
 		(property "Description" "SWD test pad"
-			(at 22.86 165.1 0)
+			(at 68.58 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9039,7 +9173,7 @@
 			)
 		)
 		(property "MPN" "n/a (test pad)"
-			(at 22.86 165.1 0)
+			(at 68.58 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9048,7 +9182,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 22.86 165.1 0)
+			(at 68.58 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9057,7 +9191,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (test pad)"
-			(at 22.86 165.1 0)
+			(at 68.58 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9066,7 +9200,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 22.86 165.1 0)
+			(at 68.58 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9088,7 +9222,7 @@
 	)
 	(global_label "NRST"
 		(shape passive)
-		(at 22.86 165.1 270)
+		(at 68.58 165.1 270)
 		(effects
 			(font
 				(size 1 1)
@@ -9097,7 +9231,7 @@
 		)
 		(uuid "04d2f9da-5d5e-5412-acda-328d81ae34ac")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 22.86 165.1 0)
+			(at 68.58 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9108,15 +9242,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 43.18 165.1 0)
+		(at 88.9 165.1 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "33388599-a5ad-5f77-adf7-42c4c8cad6c6")
 		(property "Reference" "TP4"
-			(at 43.18 162.56 0)
+			(at 88.9 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9124,7 +9258,7 @@
 			)
 		)
 		(property "Value" "3V3"
-			(at 43.18 167.64 0)
+			(at 88.9 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9132,7 +9266,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 43.18 165.1 0)
+			(at 88.9 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9141,7 +9275,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 43.18 165.1 0)
+			(at 88.9 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9150,7 +9284,7 @@
 			)
 		)
 		(property "Description" "SWD test pad"
-			(at 43.18 165.1 0)
+			(at 88.9 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9159,7 +9293,7 @@
 			)
 		)
 		(property "MPN" "n/a (test pad)"
-			(at 43.18 165.1 0)
+			(at 88.9 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9168,7 +9302,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 43.18 165.1 0)
+			(at 88.9 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9177,7 +9311,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (test pad)"
-			(at 43.18 165.1 0)
+			(at 88.9 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9186,7 +9320,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 43.18 165.1 0)
+			(at 88.9 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9208,7 +9342,7 @@
 	)
 	(global_label "3V3"
 		(shape passive)
-		(at 43.18 165.1 270)
+		(at 88.9 165.1 270)
 		(effects
 			(font
 				(size 1 1)
@@ -9217,7 +9351,7 @@
 		)
 		(uuid "3f90a7e4-36ac-5fed-9466-ef91f0991327")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 43.18 165.1 0)
+			(at 88.9 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9228,15 +9362,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 63.5 165.1 0)
+		(at 109.22 165.1 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "2cffc5ef-b69a-5814-9ec3-fd183f999eeb")
 		(property "Reference" "TP5"
-			(at 63.5 162.56 0)
+			(at 109.22 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9244,7 +9378,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 63.5 167.64 0)
+			(at 109.22 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9252,7 +9386,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 63.5 165.1 0)
+			(at 109.22 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9261,7 +9395,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 63.5 165.1 0)
+			(at 109.22 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9270,7 +9404,7 @@
 			)
 		)
 		(property "Description" "SWD test pad"
-			(at 63.5 165.1 0)
+			(at 109.22 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9279,7 +9413,7 @@
 			)
 		)
 		(property "MPN" "n/a (test pad)"
-			(at 63.5 165.1 0)
+			(at 109.22 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9288,7 +9422,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 63.5 165.1 0)
+			(at 109.22 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9297,7 +9431,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (test pad)"
-			(at 63.5 165.1 0)
+			(at 109.22 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9306,7 +9440,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 63.5 165.1 0)
+			(at 109.22 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9328,7 +9462,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 63.5 165.1 270)
+		(at 109.22 165.1 270)
 		(effects
 			(font
 				(size 1 1)
@@ -9337,7 +9471,7 @@
 		)
 		(uuid "f67449f6-00b2-5b8f-8820-ea1a4bced376")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 63.5 165.1 0)
+			(at 109.22 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9348,15 +9482,15 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole")
-		(at 78.74 165.1 0)
+		(at 124.46 165.1 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "d0c8d082-4fd2-58a2-9161-d79f2410b63f")
 		(property "Reference" "H1"
-			(at 78.74 162.56 0)
+			(at 124.46 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9364,15 +9498,15 @@
 			)
 		)
 		(property "Value" "M3"
-			(at 78.74 167.64 0)
+			(at 124.46 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
-			(at 78.74 165.1 0)
+		(property "Footprint" "F405FC:MountingHole_3.2mm_M3_Grommet4.6mm"
+			(at 124.46 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9381,7 +9515,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 78.74 165.1 0)
+			(at 124.46 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9390,7 +9524,7 @@
 			)
 		)
 		(property "Description" "30.5 mm M3 mounting hole"
-			(at 78.74 165.1 0)
+			(at 124.46 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9399,7 +9533,7 @@
 			)
 		)
 		(property "MPN" "n/a (hole)"
-			(at 78.74 165.1 0)
+			(at 124.46 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9408,7 +9542,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 78.74 165.1 0)
+			(at 124.46 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9417,7 +9551,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (hole)"
-			(at 78.74 165.1 0)
+			(at 124.46 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9426,7 +9560,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 78.74 165.1 0)
+			(at 124.46 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9445,15 +9579,15 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole")
-		(at 91.44 165.1 0)
+		(at 137.16 165.1 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "d437b1d8-f67a-50f0-b662-db044803dfbc")
 		(property "Reference" "H2"
-			(at 91.44 162.56 0)
+			(at 137.16 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9461,15 +9595,15 @@
 			)
 		)
 		(property "Value" "M3"
-			(at 91.44 167.64 0)
+			(at 137.16 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
-			(at 91.44 165.1 0)
+		(property "Footprint" "F405FC:MountingHole_3.2mm_M3_Grommet4.6mm"
+			(at 137.16 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9478,7 +9612,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 91.44 165.1 0)
+			(at 137.16 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9487,7 +9621,7 @@
 			)
 		)
 		(property "Description" "30.5 mm M3 mounting hole"
-			(at 91.44 165.1 0)
+			(at 137.16 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9496,7 +9630,7 @@
 			)
 		)
 		(property "MPN" "n/a (hole)"
-			(at 91.44 165.1 0)
+			(at 137.16 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9505,7 +9639,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 91.44 165.1 0)
+			(at 137.16 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9514,7 +9648,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (hole)"
-			(at 91.44 165.1 0)
+			(at 137.16 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9523,7 +9657,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 91.44 165.1 0)
+			(at 137.16 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9542,15 +9676,15 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole")
-		(at 104.14 165.1 0)
+		(at 149.86 165.1 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "50cc1b60-a990-52d2-b186-6384fa290257")
 		(property "Reference" "H3"
-			(at 104.14 162.56 0)
+			(at 149.86 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9558,15 +9692,15 @@
 			)
 		)
 		(property "Value" "M3"
-			(at 104.14 167.64 0)
+			(at 149.86 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
-			(at 104.14 165.1 0)
+		(property "Footprint" "F405FC:MountingHole_3.2mm_M3_Grommet4.6mm"
+			(at 149.86 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9575,7 +9709,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 104.14 165.1 0)
+			(at 149.86 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9584,7 +9718,7 @@
 			)
 		)
 		(property "Description" "30.5 mm M3 mounting hole"
-			(at 104.14 165.1 0)
+			(at 149.86 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9593,7 +9727,7 @@
 			)
 		)
 		(property "MPN" "n/a (hole)"
-			(at 104.14 165.1 0)
+			(at 149.86 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9602,7 +9736,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 104.14 165.1 0)
+			(at 149.86 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9611,7 +9745,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (hole)"
-			(at 104.14 165.1 0)
+			(at 149.86 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9620,7 +9754,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 104.14 165.1 0)
+			(at 149.86 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9639,15 +9773,15 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole")
-		(at 116.84 165.1 0)
+		(at 165.1 165.1 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "72bd652f-cd39-52c4-974c-228302f28d1d")
 		(property "Reference" "H4"
-			(at 116.84 162.56 0)
+			(at 165.1 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9655,15 +9789,15 @@
 			)
 		)
 		(property "Value" "M3"
-			(at 116.84 167.64 0)
+			(at 165.1 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
-			(at 116.84 165.1 0)
+		(property "Footprint" "F405FC:MountingHole_3.2mm_M3_Grommet4.6mm"
+			(at 165.1 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9672,7 +9806,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 116.84 165.1 0)
+			(at 165.1 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9681,7 +9815,7 @@
 			)
 		)
 		(property "Description" "30.5 mm M3 mounting hole"
-			(at 116.84 165.1 0)
+			(at 165.1 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9690,7 +9824,7 @@
 			)
 		)
 		(property "MPN" "n/a (hole)"
-			(at 116.84 165.1 0)
+			(at 165.1 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9699,7 +9833,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 116.84 165.1 0)
+			(at 165.1 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9708,7 +9842,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (hole)"
-			(at 116.84 165.1 0)
+			(at 165.1 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9717,7 +9851,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 116.84 165.1 0)
+			(at 165.1 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)

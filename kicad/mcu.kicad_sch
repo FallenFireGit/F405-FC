@@ -4247,7 +4247,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
 			(at 109.22 35.56 0)
 			(effects
 				(font
@@ -4381,7 +4381,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
 			(at 127 35.56 0)
 			(effects
 				(font
@@ -4515,7 +4515,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
 			(at 147.32 35.56 0)
 			(effects
 				(font
@@ -4649,7 +4649,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
 			(at 165.1 35.56 0)
 			(effects
 				(font
@@ -4766,7 +4766,7 @@
 				)
 			)
 		)
-		(property "Value" "4.7uF X5R 10V"
+		(property "Value" "4.7uF X5R 16V"
 			(at 185.42 41.91 0)
 			(effects
 				(font
@@ -4783,7 +4783,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL10A475KO8NNNC.do"
 			(at 185.42 35.56 0)
 			(effects
 				(font
@@ -4917,7 +4917,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
 			(at 203.2 35.56 0)
 			(effects
 				(font
@@ -5185,7 +5185,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL10A105KA8NNNC.do"
 			(at 243.84 35.56 0)
 			(effects
 				(font
@@ -5319,7 +5319,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
 			(at 266.7 35.56 0)
 			(effects
 				(font
@@ -5453,7 +5453,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL10A225KO8NNNC.do"
 			(at 287.02 35.56 0)
 			(effects
 				(font
@@ -5587,7 +5587,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL10A225KO8NNNC.do"
 			(at 309.88 35.56 0)
 			(effects
 				(font
@@ -5721,7 +5721,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
 			(at 332.74 35.56 0)
 			(effects
 				(font
@@ -6417,7 +6417,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05C100JB5NNNC.do"
 			(at 83.82 149.86 0)
 			(effects
 				(font
@@ -6551,7 +6551,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05C100JB5NNNC.do"
 			(at 111.76 149.86 0)
 			(effects
 				(font

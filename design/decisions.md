@@ -18,8 +18,9 @@ digikey.com itself returns 403 from the build environment, so every stock figure
 - **Side benefit:** DMA1 S3 is freed, so **M7 (PB7, TIM4_CH2) now supports DShot**.
 - **Requirement deviation:** "video: analog OSD" is **not met**. Analog-video users get video without an OSD overlay.
 - **Camera switch kept:** the TS5A3159A (DigiKey 296-19265-1-ND, active) still lets an analog VTX choose between two analog cameras
-  (e.g. FPV cam and a tilted/rear cam) via PINIO2. It costs one SOT-23-6 and two resistors, and it makes the CAM1/CAM2/VTX-video pads
-  meaningful on an analog build. The switch is a pass-through (CAMx → VID_OUT). Without an OSD it could have been dropped; the lead
+  (e.g. FPV cam and a tilted/rear cam) via PINIO2. It costs one SOT-23-6, one 100k pulldown and a 100 nF cap, and it makes the
+  CAM1/CAM2/VTX-video pads meaningful on an analog build. The switch is a pass-through (CAM1_VID/CAM2_VID → VTX_VID). Its signal range is
+  0-3.3 V, so only DC-coupled cameras (sync tip ≥ 0 V) are supported; check with real cameras at bring-up (Gate 1 G1S-03). Without an OSD it could have been dropped; the lead
   kept it because it is cheap and preserves the camera-select requirement. Stock risk: DigiKey snapshot showed it out of stock.
 
 ## D-02 GPS powered from the buck-only 5 V rail (pin-map G0-03)
@@ -31,10 +32,10 @@ during USB-only DFU. The GPS 5 V pin is on **5V** (battery only), so it is dead 
 
 - Rev A's TPS54360B (non-synchronous) left the 5 V catch diode at an estimated 115-161 C junction at 2.5 A on 6S.
 - **LMR38020** (80 V op / 85 V abs max, synchronous, internal compensation) removes both catch diodes and both compensation networks.
-  Worst-case Tj is 104 C at the derated budget (`design/power.md` section 12).
+  The board-level thermal envelope is in `design/power.md` section 12.5 (D-12).
 - Its 2 A rating and valley current limit (1.8 A min) give a guaranteed 1.96-2.20 A (5 V) and 1.97-2.13 A (10 V).
 - **Requirement deviations:** 5 V / 2.5 A → **1.8 A continuous** (LED strip budget 0.8 A instead of 1.0 A); 10 V / 2 A → **1.5 A
-  continuous, ~2 A peak**. Typical HD VTXs draw 0.8-1.2 A at 10 V.
+  continuous** (≥ 1.78 A worst-case current-limit floor; 2 A peaks are not guaranteed). Typical HD VTXs draw 0.8-1.2 A at 10 V.
 - **Variant FS** (forced PWM + spread spectrum): DigiKey showed LMR38020FDDAR out of stock (20-week lead time) and listed
   **LMR38020FSDDAR** as a stocked parametric equivalent (1,401 pcs, Oct 2026 snapshot). FPWM keeps a fixed (dithered) frequency at light load.
 - Fallback if 2.5 A is ever mandatory: the rev A TPS54360B design (git d33a98e) with a bench-measured diode temperature.
@@ -64,9 +65,9 @@ and the 2S worst case draws ~2.9 A.
 |---|---|---|
 | VTX-off FET | Nexperia **NX7002AKR** (DigiKey 1727-1289-1-ND) | 2N7002-7-F had a 40-week lead time |
 | LED-strip buffer | TI **SN74LV1T125DBVR** (296-37172-1-ND), VCC = 5 V | SN74AHCT1G125DBVR out of stock; LV1T accepts 3.3 V logic at VCC 5 V (up-translation family). 0R bypass kept (DNP) |
-| USB ESD | ST **USBLC6-2SC6** (497-5235-1-ND); alternate TI TPD2E2U06DRLR (296-38361-1-ND) | stock snapshot was 0 for the ST part; Gate 2 picks the stocked one |
+| USB ESD | ST **USBLC6-2SC6** (497-5235-1-ND) | its VBUS clamp is the only VBUS surge protection, so the TI TPD2E2U06 (no VBUS pin) is **not** an acceptable alternate; Gate 2 must find a stocked USBLC6-2SC6 or a pin-compatible part with a VBUS clamp |
 | Blackbox flash | Winbond **W25N01GVZEIG** WSON-8 8 x 6 mm (W25N01GVZEIGCT-ND) | the SOIC-16 variant was not stocked |
-| HSE crystal | ECS **ECS-80-8-33-JEN-TR3** (8 MHz, 3225, CL 8 pF, ESR 400 Ω; DigiKey 15282973, ~23.7k stock snapshot; alternate ECS-80-8-33-JGN-TR3, 50-ECS-80-8-33-JGN-TR3CT-ND), 10 pF C0G load caps | 3225 8 MHz crystals have 300-500 Ohm ESR. gm_crit = 4·ESR·(2πf)²·(C0+CL)² ≈ 0.49 mA/V at 400 Ohm, C0 3 pF. **Gain margin depends on DS8626's HSE gm (recalled as 5 mA/V min → margin ≈ 10); DS8626 is not on file, so this is unverified** |
+| HSE crystal | ECS **ECS-80-8-33-JEN-TR3** (8 MHz, 3225, CL 8 pF, ESR 400 Ω; DigiKey 15282973, ~23.7k stock snapshot; alternate ECS-80-8-33-JGN-TR3, 50-ECS-80-8-33-JGN-TR3CT-ND), 10 pF C0G load caps | 3225 8 MHz crystals have 300-500 Ohm ESR. gm_crit = 4·ESR·(2πf)²·(C0+CL)² ≈ 0.49 mA/V at 400 Ohm, C0 3 pF. DS8626 Table 30 lists the HSE oscillator gm as **5 mA/V min** (seen via a third-party mirror of the datasheet, ic37.com; ST's PDF is not reachable from the build environment). Margin = 5 / 0.49 ≈ **10** (≥ 7 at C0 = 5 pF, ≥ 5.9 at ESR 500 Ω), above AN2867's minimum of 5 (Gate 1 G1M-01) |
 | Tact switch (BOOT) | C&K **PTS810 SJM 250 SMTR LFS** (CKN10502CT-ND) | 4.2 x 3.2 x 2.5 mm, top side |
 | LEDs | Lite-On LTST-C191 (0603): TBKT blue, KGKT green, KRKT red (power) | DigiKey 160-1647-1-ND / 160-1446-1-ND / 160-1447-1-ND |
 
@@ -95,8 +96,27 @@ the regulated 10 V node. Documented in `design/power.md` 3.4 and the bring-up gu
 
 The 36 x 36 mm board cannot shed the 3.3 W worst-case loss in still air. Full budgets assume in-flight airflow; the bench envelope is
 ≤ 1 W total dissipation. A fan-cooled full-load thermal test at bring-up is a pass/fail gate (`design/power.md` 12.5). STM32F405RGT7
-(105 C) is the documented drop-in alternative to the required -T6.
+(105 C) does **not** help, because the IMUs and baro are 85 C parts; the envelope (Ta ≤ 35 C full load, Ta 35-50 C ≤ 3 W, bench ≤ 1 W) is the control.
 
 ## D-13 Unused MCU pins pulled down (pin-map re-audit R-03)
 
 PC2, PC3, PB12, PB13 (ex-OSD SPI2) each get a 100k pulldown to GND so they are not floating CMOS inputs.
+
+## D-14 USB attach inrush exceeds USB 2.0 limit (Gate 1 G1P-01, power re-audit P0-05)
+
+Through D4 the host charges ≈ 30 uF / 110 uC (5V_SYS bank plus everything behind the two LDOs, which have no soft start), above USB 2.0's
+10 uF / 50 uC attach limit. Accepted: the same holds for practically every FPV FC and hosts current-limit their ports. A VBUS soft-start
+switch is the fix if a respin has room.
+
+## D-15 GPS / HD-VTX connector mix-up and GPS back-powering (Gate 1 G1S-02, G1S-08, G1M-02)
+
+J3 (HD VTX, pin 1 = 10 V) and J4 (GPS, pin 1 = 5 V) are both SM06B, as the requirements specify. They sit on different board edges (top /
+left) and get clear silkscreen ("VTX 10V" / "GPS 5V"); the user guide warns that a GPS plugged into J3 receives 10 V. On USB-only power the
+GPS is unpowered (G0-03) while the I2C pull-ups and UART3 TX are live, so a GPS module can load the shared I2C bus and the onboard baro/mag
+may not be detected; the guide says "connect the battery before USB, or reboot after connecting the battery". Series resistors on J4 were
+not added (requirement-compliant as is; board area).
+
+## D-16 HD VTX 10 V pin through a 0R link (power re-audit P1-03)
+
+R41 (0R, 0805) sits in series with J3 pin 1. 2S HD builds that power the VTX from the VBAT pads (D-11) must remove R41 so the stock
+harness cannot tie VBAT onto the regulated 10 V node.

@@ -28,7 +28,7 @@ PWR, MCU, SEN, VID, CON = (c.sheet(s) for s in ("Power", "MCU", "Sensors", "Vide
 # DigiKey PNs marked "verify" were not seen verbatim; Gate 2 confirms every line.
 # --------------------------------------------------------------------------------------------
 YAGEO_DS = "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-SAMSUNG_DS = "https://product.samsungsem.com/mlcc/"
+SAMSUNG_DS = "https://product.samsungsem.com/mlcc/{}.do"  # per-MPN product page (Gate 1 G1N-03)
 R0402, R0603 = "Resistor_SMD:R_0402_1005Metric", "Resistor_SMD:R_0603_1608Metric"
 C0402, C0603, C0805, C1206, C1210 = ("Capacitor_SMD:C_0402_1005Metric", "Capacitor_SMD:C_0603_1608Metric",
                                     "Capacitor_SMD:C_0805_2012Metric", "Capacitor_SMD:C_1206_3216Metric",
@@ -44,6 +44,7 @@ def yageo(val, code, size="0402"):
 CAT = {
     # resistors (Yageo RC, 1 %). DigiKey pattern 311-<value><L|H>RCT-ND (confirmed pattern, see parts_signal.md)
     "R0": ("0R", R0402, "RC0402JR-070RL", "Yageo", "311-0.0JRCT-ND", YAGEO_DS),
+    "R0_0805": ("0R 2A", "Resistor_SMD:R_0805_2012Metric", "RC0805JR-070RL", "Yageo", "311-0.0ARCT-ND", YAGEO_DS),
     "R100": yageo("100", "100R"),
     "R330": yageo("330", "330R"),
     "R1k": yageo("1.00K", "1K"),
@@ -65,7 +66,8 @@ CAT = {
                    "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM188R72A104KA35-01.pdf"),
     "C1u": ("1uF X5R 25V", C0603, "CL10A105KA8NNNC", "Samsung Electro-Mechanics", "1276-1102-1-ND (verify)", SAMSUNG_DS),
     "C2u2": ("2.2uF X5R 16V", C0603, "CL10A225KO8NNNC", "Samsung Electro-Mechanics", "1276-1183-1-ND (verify)", SAMSUNG_DS),
-    "C4u7": ("4.7uF X5R 10V", C0603, "CL10A475KO8NNNC", "Samsung Electro-Mechanics", "1276-1044-1-ND (verify)", SAMSUNG_DS),
+    "C2u2_X7R": ("2.2uF X7R 16V", C0603, "CL10B225KO8NNNC", "Samsung Electro-Mechanics", "1276-1184-1-ND (verify)", SAMSUNG_DS),
+    "C4u7": ("4.7uF X5R 16V", C0603, "CL10A475KO8NNNC", "Samsung Electro-Mechanics", "1276-1044-1-ND (verify)", SAMSUNG_DS),
     "C10u": ("10uF X5R 25V", C0805, "CL21A106KAYNNNE", "Samsung Electro-Mechanics", "1276-2891-1-ND (verify)", SAMSUNG_DS),
     "C22u": ("22uF X5R 25V", C1206, "CL31A226KAHNNNE", "Samsung Electro-Mechanics", "1276-3047-1-ND", SAMSUNG_DS),
     "C10u_50V": ("10uF X7R 50V", C1210, "CL32B106KBJNNNE", "Samsung Electro-Mechanics", "1276-3387-1-ND", SAMSUNG_DS),
@@ -74,6 +76,7 @@ CAT = {
 
 def fields(key):
     v, fp, mpn, mfr, dk, ds = CAT[key]
+    ds = ds.format(mpn) if "{}" in ds else ds
     return v, fp, {"MPN": mpn, "Manufacturer": mfr, "DigiKey": dk, "Datasheet": ds}
 
 
@@ -189,7 +192,7 @@ FP = {
     "PAD_MED": "F405FC:Pad_SMD_1.5x2.0mm",
     "PAD_SIG": "F405FC:Pad_SMD_1.2x1.6mm",
     "TP": "TestPoint:TestPoint_Pad_D1.0mm",
-    "HOLE": "MountingHole:MountingHole_3.2mm_M3",
+    "HOLE": "F405FC:MountingHole_3.2mm_M3_Grommet4.6mm",
 }
 
 TI = "https://www.ti.com/lit/ds/symlink/"
@@ -231,7 +234,7 @@ for rail, vout, rfbb_key, lval, lmpn, ldk, en_net in (
     R(PWR, rfbb_key, fb, "GND")
     for _ in range(3):
         C(PWR, "C22u", vout)
-    C(PWR, "C100n", vout)
+    C(PWR, "C100n_100V" if rail == "10V" else "C100n", vout)  # 10 V HF cap rated >= 50 V (Gate 1 G1P-06)
 
 # VTX power cut: Q2 pulls U2 EN low when VTX_PWR_EN is high (decisions D-04)
 part(PWR, "Q2", "Transistor_FET:2N7002", "NX7002AK", FP["SOT23"], {"G": "VTX_OFF_G", "S": "GND", "D": "EN_10V"},
@@ -250,15 +253,15 @@ C(PWR, "C4u7", "5V_SYS")  # limited so USB plug-in inrush stays bounded (power a
 part(PWR, "U4", SYM_LP38692, "LP38692MP-3.3", FP["SOT223_5"], {"IN": "5V_SYS", "EN": "5V_SYS", "NC": None, "OUT": "3V3", "GND": "GND"},
      "LP38692MP-3.3/NOPB", "Texas Instruments", "LP38692MP-3.3/NOPBCT-ND", TI + "lp38692.pdf", desc="3.3 V 1 A LDO")
 C(PWR, "C1u", "5V_SYS")
-C(PWR, "C10u", "3V3")
-C(PWR, "C100n", "3V3")
+C(PWR, "C2u2", "3V3")  # single local output cap: ESR within LP38692 5-500 mOhm window (Gate 1 G1P-02)
+nextref("C")  # C21 retired (was the LDO-local 100 nF); refdes kept stable for placement
 
 # 3V3_IMU low-noise LDO
 part(PWR, "U5", "Regulator_Linear:LP5907MFX-3.3", "LP5907MFX-3.3", FP["SOT23_5"],
      {"IN": "5V_SYS", "EN": "5V_SYS", "NC": None, "OUT": "3V3_IMU", "GND": "GND"},
      "LP5907MFX-3.3/NOPB", "Texas Instruments", "296-38557-1-ND", TI + "lp5907.pdf", desc="3.3 V low-noise LDO for IMUs")
 C(PWR, "C1u", "5V_SYS")
-C(PWR, "C2u2", "3V3_IMU")
+C(PWR, "C2u2_X7R", "3V3_IMU")
 
 # Power LED (red)
 R(PWR, "R1k", "3V3", "LED_PWR_A")
@@ -340,7 +343,7 @@ part(SEN, "U6", SYM_ICM, "ICM-42688-P", FP["ICM"],
      "ICM-42688-P", "TDK InvenSense", "1428-ICM-42688-PCT-ND",
      "https://invensense.tdk.com/wp-content/uploads/2020/04/ds-000347_icm-42688-p-datasheet.pdf", desc="IMU 1 (gyro_1)")
 C(SEN, "C100n", "3V3_IMU")
-C(SEN, "C2u2", "3V3_IMU")
+C(SEN, "C2u2_X7R", "3V3_IMU")  # ICM-42688-P BOM: X7R 2.2 uF
 C(SEN, "C10n", "3V3_IMU")
 part(SEN, "U7", SYM_BMI, "BMI270", FP["BMI"],
      {"VDD": "3V3_IMU", "VDDIO": "3V3_IMU", "CSB": "GYRO2_CS", "SCX": "SPI1_SCK", "SDX": "SPI1_MOSI", "SDO": "SPI1_MISO",
@@ -362,7 +365,7 @@ part(SEN, "U9", "Sensor_Magnetic:LIS2MDL", "IIS2MDC", FP["MAG"],
      desc="magnetometer, I2C 0x1E (LIS2MDL-compatible pinout)")
 C(SEN, "C220n", "MAG_C1")
 C(SEN, "C100n", "3V3")
-C(SEN, "C1u", "3V3")
+C(SEN, "C4u7", "3V3")  # IIS2MDC bulk (Gate 1 G1S-04)
 part(SEN, "U10", SYM_W25N, "W25N01GV", FP["W25N"],
      {"VCC": "3V3", "~{CS}": "FLASH_CS", "CLK": "SPI3_SCK", "DI": "SPI3_MOSI", "DO": "SPI3_MISO", "~{WP}": "FLASH_WP",
       "~{HOLD}": "FLASH_HOLD", "GND": "GND", "EP": "GND"},
@@ -393,7 +396,7 @@ part(VID, "U12", "74xGxx:74AHCT1G125", "SN74LV1T125", FP["SOT23_5"],
      {"1": "GND", "2": "LED_STRIP", "3": "GND", "4": "LED_DIN_BUF", "5": "5V"},
      "SN74LV1T125DBVR", "Texas Instruments", "296-37172-1-ND", TI + "sn74lv1t125.pdf", desc="WS2812 3.3->5 V buffer")
 C(VID, "C100n", "5V")
-R(VID, "R0", "LED_STRIP", "LED_DIN_BUF", dnp=True)  # bypass option (G0-10)
+R(VID, "R0", "LED_STRIP", "LED_DIN_BUF", dnp=True)  # bypass option (G0-10): fit ONLY with U12 removed
 R(VID, "R330", "LED_DIN_BUF", "LED_DIN")
 for ref, net, fp in (("P10", "LED_DIN", "PAD_SIG"), ("P11", "5V", "PAD_MED"), ("P12", "GND", "PAD_MED")):
     part(VID, ref, "Connector:TestPoint", net, FP[fp], {"1": net}, "n/a (PCB pad)", "n/a", "n/a (PCB pad)", "",
@@ -425,10 +428,12 @@ part(CON, "J2", "Connector_Generic_MountingPin:Conn_01x08_MountingPin", "ESC", F
      "SM08B-SRSS-TB(LF)(SN)", "JST", "455-1808-1-ND", "https://www.jst-mfg.com/product/pdf/eng/eSH.pdf",
      desc="ESC: VBAT GND CURR M1 M2 M3 M4 TLM")
 part(CON, "J3", "Connector_Generic_MountingPin:Conn_01x06_MountingPin", "HD VTX", FP["SH6"],
-     {"1": "10V", "2": "GND", "3": "UART1_TX", "4": "UART1_RX", "5": "GND", "6": "HD_R2", "MP": "GND"},
+     {"1": "VTX_PWR", "2": "GND", "3": "UART1_TX", "4": "UART1_RX", "5": "GND", "6": "HD_R2", "MP": "GND"},
      "SM06B-SRSS-TB(LF)(SN)", "JST", "455-1806-1-ND", "https://www.jst-mfg.com/product/pdf/eng/eSH.pdf",
      desc="HD VTX: 10V GND TX RX GND SBUS/R2")
 R(CON, "R0", "HD_R2", "UART5_RX", dnp=True)  # G0-05: DNP link, no inverter
+v, fp, f = fields("R0_0805")
+c.add(CON, "R41", "Device:R", v, fp, {"1": "10V", "2": "VTX_PWR"}, fields=f)  # remove on 2S HD builds (power re-audit P1-03)
 part(CON, "J4", "Connector_Generic_MountingPin:Conn_01x06_MountingPin", "GPS", FP["SH6"],
      {"1": "5V", "2": "GND", "3": "UART3_TX", "4": "UART3_RX", "5": "I2C1_SDA", "6": "I2C1_SCL", "MP": "GND"},
      "SM06B-SRSS-TB(LF)(SN)", "JST", "455-1806-1-ND", "https://www.jst-mfg.com/product/pdf/eng/eSH.pdf",
@@ -477,7 +482,7 @@ for i in range(1, 5):
 c.note(PWR, "Power: see design/power.md rev B. U1/U2 LMR38020FSDDAR 750 kHz. U2 EN pulled low by Q2 when VTX_PWR_EN is high (VTX off).")
 c.note(MCU, "MCU: pin map design/pinmap.md rev C. PC2/PC3/PB12/PB13 unused (OSD removed, D-01).")
 c.note(SEN, "Sensors: IMUs on 3V3_IMU (LP5907), SPI1. Baro 0x76 + mag 0x1E on I2C1. Flash on SPI3.")
-c.note(VID, "Video: analog camera switch only (no OSD chip, design/decisions.md D-01). LED strip buffer powered from 5V.")
+c.note(VID, "Video: analog camera switch only (no OSD chip, D-01); DC-coupled cameras only (signal must stay 0..3.3 V). LED buffer U12 from 5V; DNP bypass R32 only with U12 removed.")
 c.note(CON, "Connectors: JST-SH. ESC pin order VBAT GND CURR M1 M2 M3 M4 TLM. HD VTX pin 6 (R2) NC unless R DNP fitted.")
 
 
@@ -498,10 +503,10 @@ def enable_erc_rules(pro_path):
     import json
     with open(pro_path) as f:
         pro = json.load(f)
-    pro["erc"] = {"rule_severities": {"single_global_label": "error", "global_label_dangling": "error",
+    pro.setdefault("erc", {})["rule_severities"] = {"single_global_label": "error", "global_label_dangling": "error",
                                       "similar_labels": "warning", "unconnected_wire_endpoint": "warning",
                                       "lib_symbol_issues": "warning", "lib_symbol_mismatch": "warning",
-                                      "footprint_link_issues": "warning"}}
+                                      "footprint_link_issues": "warning"}
     with open(pro_path, "w") as f:
         json.dump(pro, f, indent=2)
 
@@ -524,7 +529,7 @@ def main():
     os.makedirs(LIB, exist_ok=True)
     schgen.write(c, OUT)
     schgen.write_project(c, OUT, netclasses=[
-        {"name": "Default", "clearance": 0.127, "track_width": 0.127, "via_diameter": 0.6, "via_drill": 0.3,
+        {"name": "Default", "clearance": 0.127, "track_width": 0.15, "via_diameter": 0.6, "via_drill": 0.3,
          "diff_pair_width": 0.2, "diff_pair_gap": 0.15, "microvia_diameter": 0.3, "microvia_drill": 0.1},
     ])
     enable_erc_rules(os.path.join(OUT, c.name + ".kicad_pro"))

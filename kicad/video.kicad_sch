@@ -1058,7 +1058,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
 			(at 71.12 35.56 0)
 			(effects
 				(font
@@ -1297,7 +1297,7 @@
 		(at 121.92 30.48 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "1c3af98c-49fc-50a0-851d-b22aa39693c3")
@@ -1417,7 +1417,7 @@
 		(at 152.4 30.48 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "53b9c598-89f0-5bc4-8b7c-33ae886fb93c")
@@ -1537,7 +1537,7 @@
 		(at 180.34 30.48 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "bb806213-422a-5a87-a1f1-9013432e0c5d")
@@ -1657,7 +1657,7 @@
 		(at 203.2 30.48 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "270006e5-25e6-5521-8567-89a240d9d2f8")
@@ -1777,7 +1777,7 @@
 		(at 220.98 30.48 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "585f6a0a-fe2c-5e48-bac9-cfc67dd6732e")
@@ -2129,7 +2129,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
 			(at 86.36 63.5 0)
 			(effects
 				(font
@@ -2502,7 +2502,7 @@
 		(at 177.8 58.42 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "511feca8-1503-5205-a590-fd2409dd477d")
@@ -2622,7 +2622,7 @@
 		(at 200.66 58.42 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "55fd0e5e-280d-5470-96e6-117ac8ac51a0")
@@ -2742,7 +2742,7 @@
 		(at 218.44 58.42 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "ceefee0a-6bef-5055-967b-e414f69b3cda")
@@ -2857,7 +2857,7 @@
 			)
 		)
 	)
-	(text "Video: analog camera switch only (no OSD chip, design/decisions.md D-01). LED strip buffer powered from 5V."
+	(text "Video: analog camera switch only (no OSD chip, D-01); DC-coupled cameras only (signal must stay 0..3.3 V). LED buffer U12 from 5V; DNP bypass R32 only with U12 removed."
 		(exclude_from_sim no)
 		(at 15.24 198 0)
 		(effects

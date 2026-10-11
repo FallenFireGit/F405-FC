@@ -258,7 +258,7 @@ def lmr_dda():
     # thermal pad: mask-defined opening + paste 2.71x3.4 on top of 2.95x4.9 metal
     fp.pad("9", 0, 0, 2.71, 3.4, layers=("F.Cu", "F.Mask", "F.Paste"))
     fp.pad("9", 0, 0, 2.95, 4.9, layers=("F.Cu",))
-    fp.pad("9", 0, 0, 2.95, 4.9, layers=("B.Cu",))
+    # (no opposite-side copy: this IC is mounted on the bottom of a dense board; the 8 vias reach the inner GND planes)
     for x in (-0.65, 0.65):
         for y in (-1.95, -0.65, 0.65, 1.95):
             fp.pad("9", x, y, 0.6, 0.6, shape="circle", kind="thru_hole", drill=0.3,
@@ -319,6 +319,24 @@ def all_footprints():
     return fps
 
 
+GROMMET_HOLE = """(footprint "MountingHole_3.2mm_M3_Grommet4.6mm"
+	(version 20260206)
+	(generator "f405fc_footprints")
+	(layer "F.Cu")
+	(descr "M3 mounting hole 3.2 mm NPTH for soft-mount grommets: 4.6 mm diameter keepout (requirements.md), no tracks/vias inside")
+	(tags "mountinghole M3 grommet")
+	(property "Reference" "REF**" (at 0 0 0) (layer "F.Fab") (effects (font (size 0.6 0.6) (thickness 0.1))))
+	(property "Value" "M3 grommet" (at 0 2.9 0) (layer "F.Fab") (hide yes) (effects (font (size 0.6 0.6) (thickness 0.1))))
+	(attr exclude_from_pos_files exclude_from_bom)
+	(fp_circle (center 0 0) (end 2.3 0) (stroke (width 0.05) (type solid)) (fill no) (layer "F.CrtYd"))
+	(fp_circle (center 0 0) (end 2.3 0) (stroke (width 0.05) (type solid)) (fill no) (layer "B.CrtYd"))
+	(fp_circle (center 0 0) (end 2.3 0) (stroke (width 0.1) (type solid)) (fill no) (layer "F.Fab"))
+	(pad "" np_thru_hole circle (at 0 0) (size 3.2 3.2) (drill 3.2) (layers "*.Cu" "*.Mask"))
+	(embedded_fonts no)
+)
+"""
+
+
 def main():
     out = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_OUT
     os.makedirs(out, exist_ok=True)
@@ -327,6 +345,8 @@ def main():
         with open(path, "w", newline="\n") as fh:
             fh.write(fp.text())
         print("wrote", path)
+    with open(os.path.join(out, "MountingHole_3.2mm_M3_Grommet4.6mm.kicad_mod"), "w", newline="\n") as fh:
+        fh.write(GROMMET_HOLE)
 
 
 if __name__ == "__main__":

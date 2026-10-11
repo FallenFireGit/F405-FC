@@ -53,6 +53,27 @@ def outline(board):
     arc((r, H - r), (r, H), 90); arc((r, r), (0, r), 90)
 
 
+def hole_keepouts(board):
+    """4.6 mm grommet keepout around each M3 hole: no tracks or vias (copper pour allowed), all layers."""
+    for z in list(board.Zones()):
+        if z.GetIsRuleArea() and z.GetZoneName().startswith("HOLE_KEEPOUT"):
+            board.Remove(z)
+    for i, (hx, hy) in enumerate(((2.75, 2.75), (33.25, 2.75), (2.75, 33.25), (33.25, 33.25))):
+        z = pcbnew.ZONE(board)
+        z.SetIsRuleArea(True)
+        z.SetZoneName(f"HOLE_KEEPOUT_{i + 1}")
+        z.SetDoNotAllowTracks(True); z.SetDoNotAllowVias(True); z.SetDoNotAllowZoneFills(False)
+        z.SetDoNotAllowPads(False); z.SetDoNotAllowFootprints(False)
+        ls = pcbnew.LSET(); [ls.AddLayer(l) for l in (pcbnew.F_Cu, pcbnew.In1_Cu, pcbnew.In2_Cu, pcbnew.B_Cu)]
+        z.SetLayerSet(ls)
+        o = z.Outline(); o.NewOutline()
+        import math
+        for k in range(24):
+            a = 2 * math.pi * k / 24
+            o.Append(mm(OX + hx + 2.3 * math.cos(a)), mm(OY + hy + 2.3 * math.sin(a)))
+        board.Add(z)
+
+
 def rules(board):
     ds = board.GetDesignSettings()
     board.SetCopperLayerCount(4)
@@ -71,6 +92,20 @@ def rules(board):
     board.SetLayerName(pcbnew.In2_Cu, "In2.PWR")
 
 
+def tidy_fields(board):
+    """Silk: keep only a small reference on the fab layer; hide every other field (MPN, DigiKey, ...)."""
+    for fp in board.GetFootprints():
+        flipped = fp.IsFlipped()
+        for f in fp.GetFields():
+            if f.IsReference():
+                f.SetLayer(pcbnew.B_Fab if flipped else pcbnew.F_Fab)
+                f.SetTextSize(pcbnew.VECTOR2I(mm(0.5), mm(0.5)))
+                f.SetTextThickness(mm(0.08))
+                f.SetVisible(True)
+            else:
+                f.SetVisible(False)
+
+
 def place(board, table):
     fps = {fp.GetReference(): fp for fp in board.GetFootprints()}
     missing = [r for r in fps if r not in table]
@@ -86,21 +121,37 @@ def place(board, table):
     return missing
 
 
-def main():
-    os.makedirs(os.path.dirname(PCB), exist_ok=True)
-    existing = pcbnew.LoadBoard(PCB) if os.path.exists(PCB) and "--fresh" not in sys.argv else None
-    board = pcbgen.build(circuit.c, PCB, local_libs={"F405FC": os.path.join(ROOT, "lib", "F405FC.pretty")},
-                         existing=existing)
-    board = pcbnew.LoadBoard(PCB)  # reload: design settings of a python-created BOARD are not wrapped
-    outline(board)
+def stage2():
+    """Outline, rules, placement on a freshly loaded board (separate process: see main)."""
+    board = pcbnew.LoadBoard(PCB)
     rules(board)
     import placement
     importlib.reload(placement)
     missing = place(board, placement.PLACE)
+    import legalize
+    moves = legalize.legalize(board, placement.FIXED, OX, OY, W, H, placement.PRIORITY)
+    for ref, mv in moves:
+        if mv is None or mv[0] > 1.5:
+            print("LEGALIZE", ref, "FAILED (no free spot)" if mv is None else f"moved {mv[0]} mm rot {mv[1]}")
+    tidy_fields(board)
+    hole_keepouts(board)
+    outline(board)  # last: creating PCB_SHAPEs breaks later SWIG wrapping of BOARD_DESIGN_SETTINGS (KiCad 10.0.6)
     if missing:
         print("UNPLACED:", " ".join(sorted(missing)))
     board.Save(PCB)
     print("saved", PCB, "footprints:", len(board.GetFootprints()))
+
+
+def main():
+    if "--stage2" in sys.argv:
+        return stage2()
+    os.makedirs(os.path.dirname(PCB), exist_ok=True)
+    existing = pcbnew.LoadBoard(PCB) if os.path.exists(PCB) and "--fresh" not in sys.argv else None
+    pcbgen.build(circuit.c, PCB, local_libs={"F405FC": os.path.join(ROOT, "lib", "F405FC.pretty")}, existing=existing)
+    # BOARD_DESIGN_SETTINGS comes back as an unwrapped SwigPyObject once a BOARD was created in this process,
+    # so the rest runs in a fresh interpreter.
+    import subprocess
+    subprocess.run([sys.executable, os.path.abspath(__file__), "--stage2"], check=True)
 
 
 if __name__ == "__main__":
