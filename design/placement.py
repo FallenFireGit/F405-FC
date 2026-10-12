@@ -59,8 +59,8 @@ put("R17", 18.6, 25.0, 90)        # BEEPER/BOOT1 pulldown (pin 28)
 put("R18", 14.6, 27.2, 90)        # GYRO1_CS pullup
 put("R19", 16.0, 9.9, 90)         # GYRO2_CS (pin 50)
 put("R20", 18.4, 9.9, 90)         # FLASH_CS (pin 58)
-put("R21", 9.5, 23.0, 0)          # PC2 pulldown
-put("R22", 9.5, 24.0, 0)          # PC3
+put("R21", 8.6, 14.9, 90, "B")          # PC2 pulldown
+put("R22", 8.6, 16.9, 90, "B")          # PC3
 put("R23", 23.9, 23.6, 0)         # PB12
 put("R24", 23.9, 22.6, 0)         # PB13
 put("R25", 13.6, 9.9, 90)         # I2C SCL pullup
@@ -121,7 +121,7 @@ put("C40", 14.2, 17.0, 90, "B")
 put("U7", 20.8, 17.0, 0, "B")
 put("C41", 20.0, 19.2, 0, "B")
 put("C42", 22.0, 17.0, 90, "B")
-put("U5", 18.1, 12.0, 0, "B")     # LP5907 for 3V3_IMU
+put("U5", 18.55, 10.4, 0, "B")     # LP5907 for 3V3_IMU
 put("C22", 21.0, 13.2, 90, "B")
 put("C23", 15.6, 13.2, 90, "B")
 
@@ -261,7 +261,7 @@ ANCHOR = {
     "C42": ("U7", 5, 0.0, -1.1, 0, "B"),
     # LDOs
     "C22": ("U5", 2, -1.9, 0.0, 90, "B"),
-    "C23": ("U5", 5, 1.5, -0.95, 90, "B"),
+    "C23": ("U5", 5, 0.0, 1.65, 0, "B"),       # below U5 (U4 is to the right)
     "C20": ("U4", 3, 0.0, 2.2, 0, "B"),
     "C19": ("U4", 1, 0.0, 2.2, 0, "B"),
     # MCU decoupling (top) — outside the LQFP courtyard (13.5 mm), closest to their pins
@@ -280,7 +280,7 @@ ANCHOR = {
     "C35": ("U3", 7, -0.9, -0.25, 0, "B"),
     "C24": ("U3", 8, -0.9, 0.25, 0, "B"),
     "C52": ("U3", 9, -0.9, 0.75, 0, "B"),
-    "C53": ("U3", 25, 0.0, 1.0, 90, "B"),
+    "C53": ("R39", 2, -1.0, 0.0, 90, "T"),   # RSSI RC filter cap next to its series resistor (frees MCU under-body via sites)
     # crystal load caps
     "C36": ("Y1", 1, 0.0, -1.4, 0, "T"),
     "C37": ("Y1", 3, 0.0, 1.45, 0, "T"),

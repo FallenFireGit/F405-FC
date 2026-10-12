@@ -8,8 +8,10 @@ kc 'python3 gen/build_pcb.py --fresh >/dev/null 2>&1
 python3 gen/critical.py
 FANOUT=mcu python3 gen/gndfan.py
 F405_ROUTES=route_all.json python3 gen/rapply.py
+python3 gen/gndfan.py
 python3 gen/route.py --stage zones
 python3 gen/route.py --stage pours
 python3 gen/route.py --stage minwidth
+python3 gen/route.py --stage fill
 python3 gen/route.py --stage fill
 python3 gen/drc_summary.py' 2>&1 | grep -v Debug

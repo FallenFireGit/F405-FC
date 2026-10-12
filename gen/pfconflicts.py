@@ -16,12 +16,12 @@ occ = {l: collections.defaultdict(set) for l in pf.RL}
 masks = {}
 for t in d["tracks"]:
     w, c = pf.cls(t["net"])
-    m = pf.seg_mask(t["a"], t["b"], t["w"] / 2 + c / 2)
+    m = pf.seg_mask(t["a"], t["b"], t["w"] / 2 + pf.occ_k(c))
     masks.setdefault((t["net"], t["layer"]), np.zeros((pf.N, pf.N), bool))
     masks[(t["net"], t["layer"])] |= m
 for v in d["vias"]:
     w, c = pf.cls(v["net"])
-    m = pf.seg_mask((v["x"], v["y"]), (v["x"], v["y"]), 0.3 + c / 2)
+    m = pf.seg_mask((v["x"], v["y"]), (v["x"], v["y"]), 0.3 + pf.occ_k(c))
     for l in pf.RL:
         masks.setdefault((v["net"], l), np.zeros((pf.N, pf.N), bool))
         masks[(v["net"], l)] |= m

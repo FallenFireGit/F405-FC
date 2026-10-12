@@ -29,8 +29,17 @@ from scipy import ndimage
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from mazeroute import CX, CY, EDGE, HOLES, N, RES, cls, poly_mask, seg_mask  # noqa: E402
 
-SAFE = 0.05      # grid safety to fixed copper: a pad/track edge can sit up to ~0.035 mm beyond its last rasterized cell centre
-OCC_X = 0.03     # extra occupancy margin per routed net (two nets: 0.06 mm) for the same rasterization error
+SAFE = 0.035     # grid safety to fixed copper: a pad/track edge can sit up to RES/sqrt(2) beyond its last rasterized cell centre
+HOLE_CLR = 0.19  # board rule min_hole_clearance
+OCC_X = 0.015    # routed-to-routed rasterization margin per net
+
+
+def occ_k(c):
+    """Occupancy half-clearance so that k1 + k2 >= max(c1, c2) for every class pair (0.127 / 0.15 / 0.2)."""
+    return (0.0635 if c <= 0.127 else c - 0.0635) + OCC_X
+
+
+OCC_X_NOTE = 0.0      # routed-to-routed: small rasterization overlaps are repaired geometrically after routing (gen/drcfix.py)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KDIR = os.path.dirname(os.environ.get("F405_PCB", os.path.join(ROOT, "kicad", "F405FC.kicad_pcb")).replace("/work/", ROOT + "/"))
@@ -117,6 +126,14 @@ class PF:
         self.routes = {}                                            # net -> list of records
         self.hard_cache = {}
 
+    def class_ids(self):
+        """clearance -> net ids having that clearance (pads without a net count as default)."""
+        groups = collections.defaultdict(list)
+        for name, i in self.nets.items():
+            groups[cls(name)[1] if name else 0.127].append(i)
+        groups[0.127].append(-1)
+        return groups
+
     def nid(self, net):
         if net not in self.nets:
             self.nets[net] = len(self.nets)
@@ -128,15 +145,26 @@ class PF:
         if n in self.hard_cache:
             return self.hard_cache[n]
         w, c = cls(self.names[n])
-        req, vreq = w / 2 + c + SAFE, 0.3 + c + SAFE
         hard, vhard = {}, np.zeros((N, N), bool)
+        # pairwise clearance = max(own class, other net's class); holes need the 0.19 mm hole clearance
+        hole_d = ndimage.distance_transform_edt(~self.hole) * RES
         for l in ALL:
-            ob = ((self.base[l] != 0) & (self.base[l] != n)) | self.hole
-            d = ndimage.distance_transform_edt(~ob) * RES
+            other = (self.base[l] != 0) & (self.base[l] != n)
+            hl = np.zeros((N, N), bool)
+            vl = hole_d < 0.3 + HOLE_CLR + SAFE
+            for co, ids in self.class_ids().items():
+                ob = other & np.isin(self.base[l], ids)
+                if not ob.any():
+                    continue
+                d = ndimage.distance_transform_edt(~ob) * RES
+                cc = max(c, co)
+                hl |= d < w / 2 + cc + SAFE
+                vl |= d < 0.3 + cc + SAFE
             if l in RL:
-                hard[l] = (d < req) | (self.edge_dist < w / 2 + 0.02) | self.ftrace[l]
-            vhard |= d < vreq
-        vhard |= (self.edge_dist < 0.32) | self.fvia
+                ft = ndimage.binary_dilation(self.ftrace[l], structure=disk(w / 2 + 0.03)) if self.ftrace[l].any() else self.ftrace[l]
+                hard[l] = hl | (hole_d < w / 2 + HOLE_CLR + SAFE) | (self.edge_dist < w / 2 + 0.02) | ft
+            vhard |= vl
+        vhard |= (self.edge_dist < 0.32) | ndimage.binary_dilation(self.fvia, structure=disk(0.33))   # whole via body outside keepouts
         self.hard_cache[n] = (hard, vhard)
         return hard, vhard
 
@@ -146,9 +174,9 @@ class PF:
         masks = {l: np.zeros((N, N), bool) for l in RL}
         for r in recs:
             if r["t"] == "t":
-                masks[r["l"]] |= seg_mask(r["a"], r["b"], r["w"] / 2 + c / 2 + OCC_X)
+                masks[r["l"]] |= seg_mask(r["a"], r["b"], r["w"] / 2 + occ_k(c))
             else:
-                m = seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + c / 2 + OCC_X)
+                m = seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + occ_k(c))
                 for l in RL:
                     masks[l] |= m
         for l in RL:
@@ -216,8 +244,8 @@ class PF:
         H, W = i1 - i0, j1 - j0
         # present congestion: other nets' occupancy within my half footprint (w/2 + c/2)
         cost, vcost, nearm = {}, np.zeros((H, W), np.float32), {}
-        hf = disk(w / 2 + c / 2 + OCC_X)
-        vf = disk(0.3 + c / 2 + OCC_X)
+        hf = disk(w / 2 + occ_k(c))
+        vf = disk(0.3 + occ_k(c))
         for l in RL:
             o = self.occ[l][sl] > 0
             near = ndimage.binary_dilation(o, structure=hf) if o.any() else o
@@ -380,6 +408,44 @@ class PF:
         return recs
 
 
+def gnd_pass(P):
+    """Tie every GND island that has no via/PTH to the In1 plane: shortest legal path from the island to a via site that is not
+    on the pad itself (no via-in-pad: hand assembly), avoiding all routed copper of other nets. Returns the number of islands left."""
+    n = P.nid("GND")
+    P.routes.setdefault(n, [])
+    left = 0
+    for m in P.islands(n, P.routes[n]):
+        vm = (P.vbase == n)
+        for r in P.routes[n]:
+            if r["t"] == "v":
+                vm |= seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3)
+        if any((m[l] & vm).any() for l in ALL):
+            continue
+        hard, vh = P.hard(n)
+        own = np.any([m[l] for l in RL], axis=0)
+        near_pad = ndimage.binary_dilation(own, structure=disk(0.45))
+        dst = {l: (~vh & ~near_pad) if l in RL else np.zeros((N, N), bool) for l in ALL}
+        src = {l: m[l] for l in ALL}
+        r = None
+        for win in (1.5, 3.0, 6.0):
+            r = P.astar(n, src, dst, 1e6, win)
+            if r is not None and P.last_conflicts == 0:
+                break
+            r = None
+        if r is None:
+            left += 1
+            continue
+        end = [q for q in r if q["t"] == "t"]
+        x, y = end[-1]["b"] if end else (None, None)
+        if x is None:
+            left += 1
+            continue
+        r.append({"t": "v", "x": x, "y": y})
+        P.routes[n] += r
+        P.occupy(n, r, +1)
+    return left
+
+
 def segs(run, w):
     if len(run) < 2:
         return []
@@ -430,10 +496,23 @@ def main():
         over = {l: P.occ[l] > 1 for l in RL}
         for l in RL:
             P.hist[l][over[l]] += 3.0
-        todo = [net for net in nets if any((over[r["l"]] & seg_mask(r["a"], r["b"], r["w"] / 2 + cls(net)[1] / 2)).any()
-                                           if r["t"] == "t" else any((over[l] & seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + cls(net)[1] / 2)).any() for l in RL)
+        todo = [net for net in nets if any((over[r["l"]] & seg_mask(r["a"], r["b"], r["w"] / 2 + occ_k(cls(net)[1]))).any()
+                                           if r["t"] == "t" else any((over[l] & seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + occ_k(cls(net)[1]))).any() for l in RL)
                                            for r in P.routes.get(nid[net], []))]
-        print("resume: nets in conflict", len(todo), flush=True)
+        # nets whose copper now violates a (re-computed) hard constraint, e.g. via bodies in the inductor keepouts
+        for net in nets:
+            n = nid[net]
+            hard_, vh_ = P.hard(n)
+            for r in P.routes.get(n, []):
+                if r["t"] == "t":
+                    m = seg_mask(r["a"], r["b"], 0.01)
+                    bad_ = (hard_[r["l"]] & m).any() if r["l"] in hard_ else False
+                else:
+                    bad_ = bool(vh_[min(N - 1, int(r["y"] / RES)), min(N - 1, int(r["x"] / RES))])
+                if bad_ and net not in todo:
+                    todo.append(net)
+                    break
+        print("resume: nets to reroute", len(todo), todo, flush=True)
     unroutable = set()
     for it in range(1, iters + 1):
         for net in todo:
@@ -462,12 +541,12 @@ def main():
             w, c = cls(net)
             for r in rs:
                 if r["t"] == "t":
-                    m = seg_mask(r["a"], r["b"], r["w"] / 2 + c / 2)
+                    m = seg_mask(r["a"], r["b"], r["w"] / 2 + occ_k(c))
                     if (over[r["l"]] & m).any():
                         bad.add(net)
                         break
                 else:
-                    m = seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + c / 2)
+                    m = seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + occ_k(c))
                     if any((over[l] & m).any() for l in RL):
                         bad.add(net)
                         break
@@ -479,6 +558,10 @@ def main():
             break
         todo = sorted(bad | unroutable, key=nets.index)
         pres *= 1.6
+    if os.environ.get("GND", "1") == "1":
+        left = gnd_pass(P)
+        save(P, OUT)
+        print(f"pathfinder: GND pass, {left} GND islands without a plane tie", flush=True)
     print(f"pathfinder: done in {time.time() - t0:.0f}s -> {OUT}")
 
 
