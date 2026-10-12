@@ -483,13 +483,13 @@ DigiKey PNs and evidence: `design/parts_signal.md`, `review/sourcing_research_no
 | C4, C12, C17 | 3 | 100 nF 100 V X7R (VIN HF ×2, 10 V out HF) | GRM188R72A104KA35D (Murata) | 0603 |
 | Cout | 6 | 22 uF 25 V X5R (3 per rail) | CL31A226KAHNNNE (Samsung) | 1206 |
 | Cboot, HF out | 4 | 100 nF 16 V X7R | CL05B104KO5NNNC (Samsung) | 0402 |
-| RT | 2 | 34.8 k 1 % | RC0402FR-0734K8L (Yageo) | 0402 |
+| RT | 2 | 34.8 k 1 % | ERJ-2RKF3482X (Panasonic; Yageo RC0402FR-0734K8L is not at DigiKey) | 0402 |
 | RFBT | 2 | 100 k 1 % | RC0402FR-07100KL (Yageo) | 0402 |
-| RFBB (5 V) | 1 | 24.3 k 1 % | RC0402FR-0724K3L (Yageo) | 0402 |
+| RFBB (5 V) | 1 | 24.3 k 1 % | ERJ-2RKF2432X (Panasonic; Yageo not at DigiKey) | 0402 |
 | RFBB (10 V) | 1 | 11.0 k 1 % | RC0402FR-0711KL (Yageo) | 0402 |
 | RENT | 2 | 301 k 1 % | RC0603FR-07301KL (Yageo) | 0603 (sees up to 42 V) |
 | RENB | 2 | 100 k 1 % | RC0402FR-07100KL (Yageo) | 0402 |
-| Q2 | 1 | VTX-off N-FET 60 V | NX7002AKR (Nexperia) | SOT-23 |
+| Q2 | 1 | VTX-off N-FET 60 V | NX7002AK,215 (Nexperia) | SOT-23 |
 | R41 | 1 | 0R link, J3 pin 1 (remove for 2S HD builds) | RC0805JR-070RL (Yageo) | 0805 |
 | R (Q2 gate) | 1 + 1 | 1 k series, 100 k pulldown | RC0402FR-071KL / -07100KL | 0402 |
 | U4 | 1 | LDO 3.3 V 1 A | LP38692MP-3.3/NOPB (TI) | SOT-223-5 |

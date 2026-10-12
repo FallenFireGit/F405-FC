@@ -3927,7 +3927,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
+		(property "Datasheet" "https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf"
 			(at 48.26 66.04 0)
 			(effects
 				(font
@@ -3945,7 +3945,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "RC0402FR-0734K8L"
+		(property "MPN" "ERJ-2RKF3482X"
 			(at 48.26 66.04 0)
 			(effects
 				(font
@@ -3954,7 +3954,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Yageo"
+		(property "Manufacturer" "Panasonic"
 			(at 48.26 66.04 0)
 			(effects
 				(font
@@ -3963,7 +3963,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "311-34.8KLRCT-ND"
+		(property "DigiKey" "unconfirmed (BOM Manager matches by MPN)"
 			(at 48.26 66.04 0)
 			(effects
 				(font
@@ -4463,7 +4463,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
+		(property "Datasheet" "https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf"
 			(at 142.24 66.04 0)
 			(effects
 				(font
@@ -4481,7 +4481,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "RC0402FR-0724K3L"
+		(property "MPN" "ERJ-2RKF2432X"
 			(at 142.24 66.04 0)
 			(effects
 				(font
@@ -4490,7 +4490,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Yageo"
+		(property "Manufacturer" "Panasonic"
 			(at 142.24 66.04 0)
 			(effects
 				(font
@@ -4499,7 +4499,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "311-24.3KLRCT-ND"
+		(property "DigiKey" "unconfirmed (BOM Manager matches by MPN)"
 			(at 142.24 66.04 0)
 			(effects
 				(font
@@ -6082,7 +6082,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
+		(property "Datasheet" "https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf"
 			(at 193.04 88.9 0)
 			(effects
 				(font
@@ -6100,7 +6100,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "RC0402FR-0734K8L"
+		(property "MPN" "ERJ-2RKF3482X"
 			(at 193.04 88.9 0)
 			(effects
 				(font
@@ -6109,7 +6109,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Yageo"
+		(property "Manufacturer" "Panasonic"
 			(at 193.04 88.9 0)
 			(effects
 				(font
@@ -6118,7 +6118,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "311-34.8KLRCT-ND"
+		(property "DigiKey" "unconfirmed (BOM Manager matches by MPN)"
 			(at 193.04 88.9 0)
 			(effects
 				(font
@@ -6386,7 +6386,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "732-74438357082CT-ND (verify)"
+		(property "DigiKey" "732-11205-1-ND"
 			(at 246.38 88.9 0)
 			(effects
 				(font
@@ -7306,7 +7306,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "NX7002AKR"
+		(property "MPN" "NX7002AK,215"
 			(at 134.62 121.92 0)
 			(effects
 				(font
@@ -7883,7 +7883,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1044-1-ND (verify)"
+		(property "DigiKey" "1276-1784-1-ND"
 			(at 261.62 119.38 0)
 			(effects
 				(font
@@ -8338,7 +8338,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1183-1-ND (verify)"
+		(property "DigiKey" "1276-1040-1-ND"
 			(at 93.98 147.32 0)
 			(effects
 				(font
@@ -8740,7 +8740,7 @@
 				)
 			)
 		)
-		(property "Value" "2.2uF X7R 16V"
+		(property "Value" "2.2uF X7R 10V"
 			(at 182.88 153.67 0)
 			(effects
 				(font
@@ -8757,7 +8757,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL10B225KO8NNNC.do"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL10B225KP8NNNC.do"
 			(at 182.88 147.32 0)
 			(effects
 				(font
@@ -8775,7 +8775,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL10B225KO8NNNC"
+		(property "MPN" "CL10B225KP8NNNC"
 			(at 182.88 147.32 0)
 			(effects
 				(font
@@ -8793,7 +8793,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1184-1-ND (verify)"
+		(property "DigiKey" "1276-1134-1-ND"
 			(at 182.88 147.32 0)
 			(effects
 				(font

@@ -4819,7 +4819,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1044-1-ND (verify)"
+		(property "DigiKey" "1276-1784-1-ND"
 			(at 185.42 35.56 0)
 			(effects
 				(font
@@ -5489,7 +5489,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1183-1-ND (verify)"
+		(property "DigiKey" "1276-1040-1-ND"
 			(at 287.02 35.56 0)
 			(effects
 				(font
@@ -5623,7 +5623,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1183-1-ND (verify)"
+		(property "DigiKey" "1276-1040-1-ND"
 			(at 309.88 35.56 0)
 			(effects
 				(font
@@ -6417,7 +6417,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05C8R2CB5NNNC.do"
+		(property "Datasheet" "https://content.kemet.com/datasheets/KEM_C1003_C0G_SMD.pdf"
 			(at 83.82 149.86 0)
 			(effects
 				(font
@@ -6435,7 +6435,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL05C8R2CB5NNNC"
+		(property "MPN" "C0402C829C5GACTU"
 			(at 83.82 149.86 0)
 			(effects
 				(font
@@ -6444,7 +6444,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
+		(property "Manufacturer" "KEMET"
 			(at 83.82 149.86 0)
 			(effects
 				(font
@@ -6453,7 +6453,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1650-1-ND (verify)"
+		(property "DigiKey" "399-C0402C829C5GACTUCT-ND"
 			(at 83.82 149.86 0)
 			(effects
 				(font
@@ -6551,7 +6551,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05C8R2CB5NNNC.do"
+		(property "Datasheet" "https://content.kemet.com/datasheets/KEM_C1003_C0G_SMD.pdf"
 			(at 111.76 149.86 0)
 			(effects
 				(font
@@ -6569,7 +6569,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL05C8R2CB5NNNC"
+		(property "MPN" "C0402C829C5GACTU"
 			(at 111.76 149.86 0)
 			(effects
 				(font
@@ -6578,7 +6578,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
+		(property "Manufacturer" "KEMET"
 			(at 111.76 149.86 0)
 			(effects
 				(font
@@ -6587,7 +6587,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1650-1-ND (verify)"
+		(property "DigiKey" "399-C0402C829C5GACTUCT-ND"
 			(at 111.76 149.86 0)
 			(effects
 				(font

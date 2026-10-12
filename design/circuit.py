@@ -53,21 +53,22 @@ CAT = {
     "R10k": yageo("10.0K", "10K"),
     "R10k_0603": yageo("10.0K", "10K", "0603"),
     "R11k": yageo("11.0K", "11K"),
-    "R24k3": yageo("24.3K", "24K3"),
-    "R34k8": yageo("34.8K", "34K8"),
+    "R24k3": ("24.3K", R0402, "ERJ-2RKF2432X", "Panasonic", "unconfirmed (BOM Manager matches by MPN)", "https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf"),  # G2S-03: Yageo value not at DigiKey; PN matched by MPN
+    "R34k8": ("34.8K", R0402, "ERJ-2RKF3482X", "Panasonic", "unconfirmed (BOM Manager matches by MPN)", "https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf"),  # G2S-03
     "R100k": yageo("100K", "100K"),
     "R301k_0603": yageo("301K", "301K", "0603"),
     # capacitors
-    "C8p2": ("8.2pF C0G 50V", C0402, "CL05C8R2CB5NNNC", "Samsung Electro-Mechanics", "1276-1650-1-ND (verify)", SAMSUNG_DS),
-    "C10n": ("10nF X7R 50V", C0402, "CL05B103KB5NNNC", "Samsung Electro-Mechanics", "1276-1015-1-ND (verify)", SAMSUNG_DS),
+    "C8p2": ("8.2pF C0G 50V", C0402, "C0402C829C5GACTU", "KEMET", "399-C0402C829C5GACTUCT-ND",
+             "https://content.kemet.com/datasheets/KEM_C1003_C0G_SMD.pdf"),  # Gate 2 G2S-01
+    "C10n": ("10nF X7R 50V", C0402, "CL05B103KB5NNNC", "Samsung Electro-Mechanics", "1276-1028-1-ND", SAMSUNG_DS),
     "C100n": ("100nF X7R 16V", C0402, "CL05B104KO5NNNC", "Samsung Electro-Mechanics", "1276-1001-1-ND", SAMSUNG_DS),
-    "C220n": ("220nF X5R 25V", C0402, "CL05A224KA5NNNC", "Samsung Electro-Mechanics", "1276-1255-1-ND (verify)", SAMSUNG_DS),
+    "C220n": ("220nF X5R 25V", C0402, "CL05A224KA5NNNC", "Samsung Electro-Mechanics", "1276-1455-1-ND", SAMSUNG_DS),
     "C100n_100V": ("100nF X7R 100V", C0603, "GRM188R72A104KA35D", "Murata", "490-3285-1-ND (verify)",
                    "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM188R72A104KA35-01.pdf"),
     "C1u": ("1uF X5R 25V", C0603, "CL10A105KA8NNNC", "Samsung Electro-Mechanics", "1276-1102-1-ND (verify)", SAMSUNG_DS),
-    "C2u2": ("2.2uF X5R 16V", C0603, "CL10A225KO8NNNC", "Samsung Electro-Mechanics", "1276-1183-1-ND (verify)", SAMSUNG_DS),
-    "C2u2_X7R": ("2.2uF X7R 16V", C0603, "CL10B225KO8NNNC", "Samsung Electro-Mechanics", "1276-1184-1-ND (verify)", SAMSUNG_DS),
-    "C4u7": ("4.7uF X5R 16V", C0603, "CL10A475KO8NNNC", "Samsung Electro-Mechanics", "1276-1044-1-ND (verify)", SAMSUNG_DS),
+    "C2u2": ("2.2uF X5R 16V", C0603, "CL10A225KO8NNNC", "Samsung Electro-Mechanics", "1276-1040-1-ND", SAMSUNG_DS),
+    "C2u2_X7R": ("2.2uF X7R 10V", C0603, "CL10B225KP8NNNC", "Samsung Electro-Mechanics", "1276-1134-1-ND", SAMSUNG_DS),  # G2S-02
+    "C4u7": ("4.7uF X5R 16V", C0603, "CL10A475KO8NNNC", "Samsung Electro-Mechanics", "1276-1784-1-ND", SAMSUNG_DS),
     "C10u": ("10uF X5R 25V", C0805, "CL21A106KAYNNNE", "Samsung Electro-Mechanics", "1276-2891-1-ND (verify)", SAMSUNG_DS),
     "C22u": ("22uF X5R 25V", C1206, "CL31A226KAHNNNE", "Samsung Electro-Mechanics", "1276-3047-1-ND", SAMSUNG_DS),
     "C10u_50V": ("10uF X7R 50V", C1210, "CL32B106KBJNNNE", "Samsung Electro-Mechanics", "1276-3387-1-ND", SAMSUNG_DS),
@@ -213,7 +214,7 @@ C(PWR, "C10u_50V", "VBAT")  # entry cap C1
 
 for rail, vout, rfbb_key, lval, lmpn, ldk, en_net in (
         ("5V", "5V", "R24k3", "6.8uH", "74438357068", "732-11204-1-ND", "EN_5V"),
-        ("10V", "10V", "R11k", "8.2uH", "74438357082", "732-74438357082CT-ND (verify)", "EN_10V")):
+        ("10V", "10V", "R11k", "8.2uH", "74438357082", "732-11205-1-ND", "EN_10V")):
     u = "U1" if rail == "5V" else "U2"
     l = "L1" if rail == "5V" else "L2"
     sw, bst, fb, rt = f"SW_{rail}", f"BST_{rail}", f"FB_{rail}", f"RT_{rail}"
@@ -238,7 +239,7 @@ for rail, vout, rfbb_key, lval, lmpn, ldk, en_net in (
 
 # VTX power cut: Q2 pulls U2 EN low when VTX_PWR_EN is high (decisions D-04)
 part(PWR, "Q2", "Transistor_FET:2N7002", "NX7002AK", FP["SOT23"], {"G": "VTX_OFF_G", "S": "GND", "D": "EN_10V"},
-     "NX7002AKR", "Nexperia", "1727-1289-1-ND", "https://assets.nexperia.com/documents/data-sheet/NX7002AK.pdf",
+     "NX7002AK,215", "Nexperia", "1727-1289-1-ND", "https://assets.nexperia.com/documents/data-sheet/NX7002AK.pdf",
      desc="VTX off: pulls 10 V buck EN low")
 R(PWR, "R1k", "VTX_PWR_EN", "VTX_OFF_G")
 R(PWR, "R100k", "VTX_OFF_G", "GND")
@@ -369,7 +370,7 @@ C(SEN, "C4u7", "3V3")  # IIS2MDC bulk (Gate 1 G1S-04)
 part(SEN, "U10", SYM_W25N, "W25N01GV", FP["W25N"],
      {"VCC": "3V3", "~{CS}": "FLASH_CS", "CLK": "SPI3_SCK", "DI": "SPI3_MOSI", "DO": "SPI3_MISO", "~{WP}": "FLASH_WP",
       "~{HOLD}": "FLASH_HOLD", "GND": "GND", "EP": "GND"},
-     "W25N01GVZEIG", "Winbond", "W25N01GVZEIGCT-ND",
+     "W25N01GVZEIG TR", "Winbond", "W25N01GVZEIGCT-ND",
      "https://www.winbond.com/resource-files/w25n01gv%20revl%20050918%20unsecured.pdf", desc="blackbox flash 1 Gbit")
 C(SEN, "C100n", "3V3")
 R(SEN, "R10k", "3V3", "FLASH_WP")

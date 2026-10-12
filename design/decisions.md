@@ -120,3 +120,20 @@ not added (requirement-compliant as is; board area).
 
 R41 (0R, 0805) sits in series with J3 pin 1. 2S HD builds that power the VTX from the VBAT pads (D-11) must remove R41 so the stock
 harness cannot tie VBAT onto the regulated 10 V node. J3's pin is a 1 A JST-SH contact: VTXs above 1 A use the 10V/GND pads (P2-05).
+
+## D-17 Gate 2 sourcing substitutions
+
+`review/gate-2-sourcing.md` found MPNs DigiKey does not sell; drop-in replacements with identical value, tolerance, dielectric and package:
+
+| Refs | Was | Now | DigiKey |
+|---|---|---|---|
+| C36, C37 (8.2 pF C0G 0402) | Samsung CL05C8R2CB5NNNC | KEMET C0402C829C5GACTU | 399-C0402C829C5GACTUCT-ND |
+| C23, C39 (2.2 uF X7R 0603) | Samsung CL10B225KO8NNNC (16 V) | Samsung CL10B225KP8NNNC (10 V; 3V3_IMU rail, 3x margin) | 1276-1134-1-ND |
+| R3, R8 (34.8 k 1 % 0402) | Yageo RC0402FR-0734K8L | Panasonic ERJ-2RKF3482X | PN not seen; BOM Manager matches by MPN |
+| R5 (24.3 k 1 % 0402) | Yageo RC0402FR-0724K3L | Panasonic ERJ-2RKF2432X | PN not seen; matched by MPN |
+| Q2 | "NX7002AKR" (not orderable) | NX7002AK,215 | 1727-1289-1-ND |
+| U10 | W25N01GVZEIG | W25N01GVZEIG TR (in-stock listing) | W25N01GVZEIGCT-ND |
+
+Stock-out MINORs kept with a documented alternate (no design change): PMEG4030ER,115 → Taiwan Semi SS34LWH (land pattern to be checked
+before substituting), PMV40UN2R → DMG3420U-7, STM32F405RGT6 → -RGT7, ICM-42688-P (D-10). Estimated parts cost for 2 boards + spares:
+**$167.56** (qty-1 snippet prices, 2026-10-11/12).

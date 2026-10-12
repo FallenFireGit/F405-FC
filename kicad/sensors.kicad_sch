@@ -2303,7 +2303,7 @@
 				)
 			)
 		)
-		(property "Value" "2.2uF X7R 16V"
+		(property "Value" "2.2uF X7R 10V"
 			(at 119.38 41.91 0)
 			(effects
 				(font
@@ -2320,7 +2320,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL10B225KO8NNNC.do"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL10B225KP8NNNC.do"
 			(at 119.38 35.56 0)
 			(effects
 				(font
@@ -2338,7 +2338,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL10B225KO8NNNC"
+		(property "MPN" "CL10B225KP8NNNC"
 			(at 119.38 35.56 0)
 			(effects
 				(font
@@ -2356,7 +2356,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1184-1-ND (verify)"
+		(property "DigiKey" "1276-1134-1-ND"
 			(at 119.38 35.56 0)
 			(effects
 				(font
@@ -2490,7 +2490,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1015-1-ND (verify)"
+		(property "DigiKey" "1276-1028-1-ND"
 			(at 147.32 35.56 0)
 			(effects
 				(font
@@ -4072,7 +4072,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1255-1-ND (verify)"
+		(property "DigiKey" "1276-1455-1-ND"
 			(at 170.18 71.12 0)
 			(effects
 				(font
@@ -4340,7 +4340,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1044-1-ND (verify)"
+		(property "DigiKey" "1276-1784-1-ND"
 			(at 210.82 71.12 0)
 			(effects
 				(font
@@ -4456,7 +4456,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "W25N01GVZEIG"
+		(property "MPN" "W25N01GVZEIG TR"
 			(at 251.46 71.12 0)
 			(effects
 				(font

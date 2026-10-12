@@ -6249,7 +6249,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1015-1-ND (verify)"
+		(property "DigiKey" "1276-1028-1-ND"
 			(at 215.9 91.44 0)
 			(effects
 				(font
@@ -6674,7 +6674,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1015-1-ND (verify)"
+		(property "DigiKey" "1276-1028-1-ND"
 			(at 55.88 124.46 0)
 			(effects
 				(font
