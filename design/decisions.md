@@ -67,7 +67,7 @@ and the 2S worst case draws ~2.9 A.
 | LED-strip buffer | TI **SN74LV1T125DBVR** (296-37172-1-ND), VCC = 5 V | SN74AHCT1G125DBVR out of stock; LV1T accepts 3.3 V logic at VCC 5 V (up-translation family). 0R bypass kept (DNP) |
 | USB ESD | ST **USBLC6-2SC6** (497-5235-1-ND) | its VBUS clamp is the only VBUS surge protection, so the TI TPD2E2U06 (no VBUS pin) is **not** an acceptable alternate; Gate 2 must find a stocked USBLC6-2SC6 or a pin-compatible part with a VBUS clamp |
 | Blackbox flash | Winbond **W25N01GVZEIG** WSON-8 8 x 6 mm (W25N01GVZEIGCT-ND) | the SOIC-16 variant was not stocked |
-| HSE crystal | ECS **ECS-80-8-33-JEN-TR3** (8 MHz, ECX-32 3225, CL 8 pF, ESR 400 Ω max per DigiKey listing 15282973, **C0 5 pF** per the ECS ECX-32 datasheet) with **8.2 pF C0G** load caps (effective CL 7.1-9.1 pF for 3-5 pF stray) | AN2867: gm_crit = 4·ESR·(2πf)²·(C0+CL)² = **0.59 mA/V best case (3 pF stray), 0.69 mA/V mid (4 pF), 0.80 mA/V worst case (5 pF)**. DS8626's HSE table is read two ways by the reviews (Gate 1 G1M-01, G1M2-01): as "gm = 5 mA/V min" (third-party mirror) → margin 6.2 ≥ 5; or, as in the sibling F427/F429 datasheet and per an ST forum answer, as "Gm_crit_max = 1 mA/V" → 0.80 < 1. **Both readings pass.** ST's own DS8626 PDF is not reachable from the build environment, so the exact row wording remains unverified; bring-up checks HSE start-up over 20 cold boots and at −10 °C if possible |
+| HSE crystal | ECS **ECS-80-8-33-JEN-TR3** (8 MHz, ECX-32 3225, CL 8 pF, ESR 400 Ω max per DigiKey listing 15282973, **C0 5 pF** per the ECS ECX-32 datasheet — caveat (Gate 2 G2F-06): DigiKey's series field for this MPN is blank and the "-33" code may denote a different ECS 3225 family, so C0 for this exact part is unverified; the margin only fails the 1 mA/V reading if C0 > 6.6 pF) with **8.2 pF C0G** load caps (effective CL 7.1-9.1 pF for 3-5 pF stray) | AN2867: gm_crit = 4·ESR·(2πf)²·(C0+CL)² = **0.59 mA/V best case (3 pF stray), 0.69 mA/V mid (4 pF), 0.80 mA/V worst case (5 pF)**. DS8626's HSE table is read two ways by the reviews (Gate 1 G1M-01, G1M2-01): as "gm = 5 mA/V min" (third-party mirror) → margin 6.2 ≥ 5; or, as in the sibling F427/F429 datasheet and per an ST forum answer, as "Gm_crit_max = 1 mA/V" → 0.80 < 1. **Both readings pass.** ST's own DS8626 PDF is not reachable from the build environment, so the exact row wording remains unverified; bring-up checks HSE start-up over 20 cold boots and at −10 °C if possible |
 | Tact switch (BOOT) | C&K **PTS810 SJM 250 SMTR LFS** (CKN10502CT-ND) | 4.2 x 3.2 x 2.5 mm, top side |
 | LEDs | Lite-On LTST-C191 (0603): TBKT blue, KGKT green, KRKT red (power) | DigiKey 160-1647-1-ND / 160-1446-1-ND / 160-1447-1-ND |
 
@@ -137,3 +137,14 @@ harness cannot tie VBAT onto the regulated 10 V node. J3's pin is a 1 A JST-SH c
 Stock-out MINORs kept with a documented alternate (no design change): PMEG4030ER,115 → Taiwan Semi SS34LWH (land pattern to be checked
 before substituting), PMV40UN2R → DMG3420U-7, STM32F405RGT6 → -RGT7, ICM-42688-P (D-10). Estimated parts cost for 2 boards + spares:
 **$167.56** (qty-1 snippet prices, 2026-10-11/12).
+
+## D-18 Gate 2 footprint findings
+
+- G2F-01 (IIS2MDC on stock LGA-12_2x2mm_P0.5mm): the footprint's pad layout (10-11-12-1 on one edge, 4-5-6-7 on the opposite edge,
+  2-3 and 8-9 on the sides, counter-clockwise from pin 1 in top view) matches the LIS2MDL pin-connection figure text, and KiCad's own
+  LIS2MDL symbol links to this footprint. The IIS2MDC is ST's pin-compatible industrial twin. Mirror orientation rests on ST's standard
+  top-view counter-clockwise LGA numbering; the ST PDF could not be downloaded. Residual risk listed in the summary.
+- G2F-02: USB-C moved so the PCB edge sits 2.60 mm from the rear shell slots per the GCT drawing.
+- G2F-03/04: LMR38020 paste split into three windows clear of the inner vias; pad and vias set to solid zone connection.
+- G2F-05/06/07 (WSON-8, crystal pads, PTS810 pad pairing) are stock KiCad footprints whose vendor drawings could not be downloaded:
+  bring-up check for SW1 = continuity test of BOOT0–3V3 before power-up (must be open when not pressed).

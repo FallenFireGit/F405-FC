@@ -247,8 +247,8 @@ def lmr_dda():
     fp = FP(name,
             "TI DDA0008B PowerPAD SOIC-8 (HSOIC-8) 3.9x4.9mm, P1.27mm, per TI example board "
             "layout (lmr38020.pdf p.37-39): 1.55x0.6 pads, thermal metal 2.95x4.9mm "
-            "solder-mask-defined, opening/paste 2.71x3.4mm, 8x 0.2mm vias on 1.3mm grid "
-            "(fill/plug vias under paste)",
+            "solder-mask-defined opening 2.71x3.4mm, paste in 3 windows clear of the vias (~45 %), "
+            "8x 0.3/0.6mm thermal vias on TI's 1.3mm grid, solid zone connection",
             "TI DDA0008B HSOIC PowerPAD SO-8 LMR38020 thermal vias")
     pw, ph, rx, p = 1.55, 0.6, 2.7, 1.27
     ys = [-1.5 * p, -0.5 * p, 0.5 * p, 1.5 * p]
@@ -256,13 +256,19 @@ def lmr_dda():
         fp.pad(str(1 + i), -rx, y, pw, ph, shape="roundrect", rratio=round(0.05 / ph, 4))
         fp.pad(str(8 - i), rx, y, pw, ph, shape="roundrect", rratio=round(0.05 / ph, 4))
     # thermal pad: mask-defined opening + paste 2.71x3.4 on top of 2.95x4.9 metal
-    fp.pad("9", 0, 0, 2.71, 3.4, layers=("F.Cu", "F.Mask", "F.Paste"))
-    fp.pad("9", 0, 0, 2.95, 4.9, layers=("F.Cu",))
+    solid = ("(zone_connect 2)",)  # solid to the GND pours: the vias are the only heat path (Gate 2 G2F-04)
+    fp.pad("9", 0, 0, 2.71, 3.4, layers=("F.Cu", "F.Mask"), extra=solid)
+    fp.pad("9", 0, 0, 2.95, 4.9, layers=("F.Cu",), extra=solid)
+    # paste in three windows clear of the four inner vias at (+-0.65, +-0.65), so solder does not wick through
+    # them (TI note 10; Gate 2 G2F-03): centre strip x +-0.25 and two outer strips x 1.0..1.355 => ~45 % coverage
+    fp.pad("", 0, 0, 0.5, 3.4, layers=("F.Paste",))
+    fp.pad("", -1.1775, 0, 0.355, 3.4, layers=("F.Paste",))
+    fp.pad("", 1.1775, 0, 0.355, 3.4, layers=("F.Paste",))
     # (no opposite-side copy: this IC is mounted on the bottom of a dense board; the 8 vias reach the inner GND planes)
     for x in (-0.65, 0.65):
         for y in (-1.95, -0.65, 0.65, 1.95):
             fp.pad("9", x, y, 0.6, 0.6, shape="circle", kind="thru_hole", drill=0.3,
-                   layers=("*.Cu",))
+                   layers=("*.Cu",), extra=solid)
     bw, bh = 3.9, 4.9
     bx, by = bw / 2, bh / 2
     fp.fab_body(bw, bh, 0.8, corner="tl")

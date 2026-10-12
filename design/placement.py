@@ -29,7 +29,7 @@ for ref, x, y in (("H1", 2.75, 2.75), ("H2", 33.25, 2.75), ("H3", 2.75, 33.25), 
 # ---------------------------------------------------------------- TOP: connectors on edges
 put("J3", C, 3.1, 180)          # HD VTX, mouth up
 put("J2", C, 36 - 3.1, 0)       # ESC, mouth down
-put("J1", 36 - 3.1, 14.5, 90)     # USB-C, mouth right
+put("J1", 36 - 3.675, 14.5, 90)   # GCT drawing: PCB edge 2.60 mm from the rear shell slots (Gate 2 G2F-02)     # USB-C, mouth right
 put("J4", 3.1, 11.0, 270)       # GPS, mouth left
 put("J5", 3.1, 25.0, 270)       # ELRS, mouth left
 
