@@ -202,10 +202,8 @@ put("P4", 34.2, 27.0, 0)
 # CURR / RSSI protection and buzzer driver, bottom side near the ESC
 put("R38", 9.4, 26.4, 90)
 put("C52", 11.0, 18.0, 90, "B")
-put("D7", 32.0, 7.25, 0, "B")
 put("R39", 14.0, 29.0, 90)
 put("C53", 11.0, 19.3, 90, "B")
-put("D8", 11.7, 21.0, 0, "B")
 put("R40", 14.0, 27.4, 90)
 put("Q1", 16.0, 27.0, 0)
 put("D9", 1.8, 27.85, 90)    # buzzer flyback (5V to BUZ_N); no room near Q1 once the MCU routing ring is kept clear
@@ -297,5 +295,5 @@ ANCHOR = {
 # Lower value = placed earlier by the legalizer (gets the spot closest to its seed).
 PRIORITY = {r: -10 for r in ("Y1", "C36", "C37", "C25", "C26", "C27", "C28", "C30", "C32", "C33", "C34", "C35", "FB1",
                              "C31", "C29")}
-PRIORITY.update({r: -9 for r in ("U13", "C24", "C52", "C53", "R38", "R39", "D7", "D8", "C48", "C46", "C45", "C43",
+PRIORITY.update({r: -9 for r in ("U13", "C24", "C52", "C53", "R38", "R39", "C48", "C46", "C45", "C43",
                                  "C49", "C50", "C18")})

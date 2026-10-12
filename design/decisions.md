@@ -213,3 +213,9 @@ Gate 3 (`review/gate-3-placement.md`) failed with 3 BLOCKER / 9 MAJOR. Changes:
 - **Routing-driven placement moves:** U5 (3V3_IMU LDO) and C23 moved from under the MCU top pin row, C53 (RSSI filter cap) moved next
   to its series resistor R39, R21/R22 (unused-pin pulldowns) moved to the bottom, fanout vias kept 0.8 mm outside the IMU courtyards.
   These free via sites under the MCU body for the SPI1/SPI3 pin escapes.
+
+## D-23 ADC clamp diodes D7/D8 removed (Gate 3 re-review G3R-09 option)
+
+The BAT54S clamps on CURR_ADC and RSSI_ADC occupied the last free routing space under the MCU corner. Each ADC input keeps its
+10 k series resistor and 10 nF filter cap. A fault source of 5 V then injects (5 - 3.3 - 0.3) / 10 k ≈ 0.14 mA into the STM32 pin clamp
+(limit 5 mA per pin, 25 mA total); even 12 V gives ≈ 0.85 mA. The external clamp was redundant with the series resistor.

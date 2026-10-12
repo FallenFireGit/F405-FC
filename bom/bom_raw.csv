@@ -12,7 +12,6 @@ Qty per board,Refs,Value,MPN,Manufacturer,DigiKey PN,Footprint,Datasheet
 1,C45,220nF X5R 25V,CL05A224KA5NNNC,Samsung Electro-Mechanics,1276-1455-1-ND,C_0402_1005Metric,https://product.samsungsem.com/mlcc/CL05A224KA5NNNC.do
 1,C1,10uF X7R 50V,CL32B106KBJNNNE,Samsung Electro-Mechanics,1276-3387-1-ND,C_1210_3225Metric,https://product.samsungsem.com/mlcc/CL32B106KBJNNNE.do
 3,D5 D4 D9,PMEG4030ER,"PMEG4030ER,115",Nexperia,1727-5313-1-ND,Nexperia_CFP3_SOD-123W,https://assets.nexperia.com/documents/data-sheet/PMEG4030ER.pdf
-2,D7 D8,BAT54S,BAT54S-7-F,Diodes Incorporated,BAT54S-FDICT-ND,SOT-23,https://www.diodes.com/assets/Datasheets/ds11005.pdf
 1,D12,Green,LTST-C191KGKT,Lite-On,160-1446-1-ND,LED_0603_1608Metric,https://optoelectronics.liteon.com/upload/download/DS22-2000-222/LTST-C191KGKT.pdf
 1,D10,Red,LTST-C191KRKT,Lite-On,160-1447-1-ND,LED_0603_1608Metric,https://optoelectronics.liteon.com/upload/download/DS22-2000-223/LTST-C191KRKT.pdf
 1,D11,Blue,LTST-C191TBKT,Lite-On,160-1647-1-ND,LED_0603_1608Metric,https://optoelectronics.liteon.com/upload/download/DS22-2000-213/LTST-C191TBKT.pdf

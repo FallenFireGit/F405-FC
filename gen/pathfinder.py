@@ -489,6 +489,9 @@ def main():
             P.routes.setdefault(P.nid(t["net"]), []).append({"t": "t", "l": t["layer"], "a": tuple(t["a"]), "b": tuple(t["b"]), "w": t["w"]})
         for v in prev["vias"]:
             P.routes.setdefault(P.nid(v["net"]), []).append({"t": "v", "x": v["x"], "y": v["y"]})
+        for net in os.environ.get("RESET_NETS", "").split(","):     # drop these nets' routes (e.g. after a part was removed)
+            if net and P.nets.get(net) in P.routes:
+                P.routes[P.nets[net]] = []
         for n, rs in P.routes.items():
             P.occupy(n, rs, +1)
         pres = float(os.environ.get("PRES", "50"))
@@ -511,6 +514,9 @@ def main():
                 if bad_ and net not in todo:
                     todo.append(net)
                     break
+        for net in os.environ.get("RESET_NETS", "").split(","):
+            if net and net in nets and net not in todo:
+                todo.append(net)
         print("resume: nets to reroute", len(todo), todo, flush=True)
     unroutable = set()
     for it in range(1, iters + 1):

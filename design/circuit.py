@@ -447,13 +447,11 @@ part(CON, "J5", "Connector_Generic_MountingPin:Conn_01x04_MountingPin", "ELRS", 
      "SM04B-SRSS-TB(LF)(SN)", "JST", "455-1804-1-ND", "https://www.jst-mfg.com/product/pdf/eng/eSH.pdf",
      desc="ELRS RX: 5V GND TX RX")
 
-# CURR / RSSI protection: 10k series + 10 nF + BAT54S (pinmap G0-09, power.md 10.2)
-for src, adc, dref in (("ESC_CURR", "CURR_ADC", "D7"), ("RSSI_IN", "RSSI_ADC", "D8")):
+# CURR / RSSI protection: 10k series + 10 nF (pinmap G0-09, power.md 10.2). The BAT54S clamps D7/D8 were removed in rev C
+# (D-23, Gate 3 G3R-09): with 10k in series the MCU's own clamp diodes see <= 0.2 mA from a 5 V source (limit 5 mA per pin).
+for src, adc in (("ESC_CURR", "CURR_ADC"), ("RSSI_IN", "RSSI_ADC")):
     R(CON, "R10k", src, adc)
     C(CON, "C10n", adc)
-    part(CON, dref, "Diode:BAT54S", "BAT54S", FP["SOT23"], {"A": "GND", "K": "3V3", "COM": adc},
-         "BAT54S-7-F", "Diodes Incorporated", "BAT54S-FDICT-ND", "https://www.diodes.com/assets/Datasheets/ds11005.pdf",
-         desc="ADC clamp")
 
 # Buzzer driver: PMV40UN2, gate 100R from PB2 node (10k BOOT1 pulldown on MCU sheet)
 R(CON, "R100", "BEEPER", "BUZ_G")
