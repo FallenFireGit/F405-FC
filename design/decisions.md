@@ -196,3 +196,20 @@ Gate 3 (`review/gate-3-placement.md`) failed with 3 BLOCKER / 9 MAJOR. Changes:
   (USB ESD) is fixed between J1 and the MCU with its flow-through axis perpendicular to D+/D− (G3R-07 accepted as MINOR: no other spot).
 - In1 stays a solid GND plane: the Specctra export restricts every net class to F/In2/B (`gen/route.py`). Making In1 a Specctra "power"
   layer instead (G3R-12 note) left GND pads unrouted, so that approach was dropped.
+
+## D-22 Routing method and routing-driven changes
+
+- **Router.** Freerouting 2.5.0 (the brief's tool) was run on every placement revision and plateaued at 56-93 unrouted connections
+  on this 36 x 36 mm, 4-layer, 161-part board. The production routing therefore comes from `gen/pathfinder.py`, a negotiated-
+  congestion (PathFinder) grid router written for this board, after the scripted critical routes (`gen/critical.py`) and the MCU
+  inward fanout (`gen/gndfan.py`, FANOUT=mcu). Reproduce with `bash gen/route_pipeline.sh`. Freerouting trial logs are not kept.
+- **Clearance model.** Pairwise clearance = max of the two net classes; holes keep the 0.19 mm hole clearance; a 0.035 mm grid
+  safety margin to fixed copper and a 0.015 mm margin between routed nets cover the 0.05 mm rasterization. KiCad DRC is the judge.
+- **Net classes.** Signal tracks 0.127 mm (the brief's minimum) to gain routing capacity; PWR_MID (VBAT/5V branches) 0.35 mm with
+  0.127 mm clearance; PWR_HI (10V, SW, VTX_PWR) 0.45 mm with 0.15 mm clearance (both ample for ≤ 25.2 V). Buck hot loops and the main
+  VBAT/5V copper are the scripted 0.8 mm tracks and the In2 VBAT zone.
+- **In1.** The GND plane is never routed by default. A final PathFinder pass may use short In1 hops (cost 6x) only where no other
+  layer has room; their count and length are reported in `review/summary.md` and checked at Gate 4.
+- **Routing-driven placement moves:** U5 (3V3_IMU LDO) and C23 moved from under the MCU top pin row, C53 (RSSI filter cap) moved next
+  to its series resistor R39, R21/R22 (unused-pin pulldowns) moved to the bottom, fanout vias kept 0.8 mm outside the IMU courtyards.
+  These free via sites under the MCU body for the SPI1/SPI3 pin escapes.
