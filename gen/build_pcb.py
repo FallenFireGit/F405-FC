@@ -124,6 +124,7 @@ def rules(board):
     nc.SetClearance(mm(0.127)); nc.SetTrackWidth(mm(0.15)); nc.SetViaDiameter(mm(0.6)); nc.SetViaDrill(mm(0.3))
     board.SetLayerName(pcbnew.In1_Cu, "In1.GND")
     board.SetLayerName(pcbnew.In2_Cu, "In2.PWR")
+    board.SetLayerType(pcbnew.In1_Cu, pcbnew.LT_POWER)  # solid GND plane: the autorouter must not route signals on it
 
 
 def tidy_fields(board):
