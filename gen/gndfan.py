@@ -32,6 +32,12 @@ def seg_dist(px, py, ax, ay, bx, by):
     return math.hypot(px - (ax + t * dx), py - (ay + t * dy))
 
 
+def crosses(a, b, c, d):
+    def cr(o, p, q):
+        return (p[0] - o[0]) * (q[1] - o[1]) - (p[1] - o[1]) * (q[0] - o[0])
+    return (cr(c, d, a) * cr(c, d, b) < 0) and (cr(a, b, c) * cr(a, b, d) < 0)
+
+
 def rect_dist(px, py, r):
     cx, cy = min(max(px, r[0]), r[2]), min(max(py, r[1]), r[3])
     return math.hypot(px - cx, py - cy)
@@ -100,8 +106,8 @@ def plan():
             if seg_rect_dist(a, b, r) < STUB_W / 2 + CLR:
                 return False
         for t0, t1, hw, net, lay in tracks:
-            if net != "GND" and lay == side and min(seg_dist(*t0, *a, *b), seg_dist(*t1, *a, *b),
-                                                      seg_dist(*a, *t0, *t1), seg_dist(*b, *t0, *t1)) < STUB_W / 2 + hw + CLR:
+            if net != "GND" and lay == side and (crosses(a, b, t0, t1) or min(seg_dist(*t0, *a, *b), seg_dist(*t1, *a, *b),
+                                                      seg_dist(*a, *t0, *t1), seg_dist(*b, *t0, *t1)) < STUB_W / 2 + hw + CLR):
                 return False
         return True
 
@@ -158,6 +164,14 @@ def plan_mcu(pads, vias, tracks, via_ok, stub_ok):
     pin field on In2/B instead of squeezing every escape between the top-side support parts."""
     import pcbnew
     skip = {"GND", "3V3", "3V3A", "VCAP1", "VCAP2", ""}
+    import pcbnew
+    board = pads[0][4].GetParent().GetBoard()
+    imu_keep = []      # keep fanout vias 0.8 mm outside the IMU courtyards so their own pads can still escape
+    for ref in ("U6", "U7"):
+        fp = board.FindFootprintByReference(ref)
+        bb = fp.GetCourtyard(pcbnew.B_CrtYd if fp.IsFlipped() else pcbnew.F_CrtYd).BBox()
+        imu_keep.append([pcbnew.ToMM(bb.GetLeft()) - OX - 0.8, pcbnew.ToMM(bb.GetTop()) - OY - 0.8,
+                         pcbnew.ToMM(bb.GetRight()) - OX + 0.8, pcbnew.ToMM(bb.GetBottom()) - OY + 0.8])
     u3 = [(r, net, lay, ref, p) for r, net, lay, ref, p in pads if ref == "U3"]
     cx, cy = 17.0, 17.5
     new_vias, new_stubs, done, missed = [], [], [], []
@@ -183,6 +197,8 @@ def plan_mcu(pads, vias, tracks, via_ok, stub_ok):
             for lat in (0.0, 0.25, -0.25, 0.5, -0.5):
                 x, y = end[0] + ux * d + uy * lat, end[1] + uy * d + ux * lat
                 knee = (end[0] + ux * (d - 0.3), end[1] + uy * (d - 0.3))
+                if any(rect_dist(x, y, k) < VIA_R for k in imu_keep):
+                    continue
                 if lat == 0.0:
                     ok = via_ok(x, y, p) and stub_ok((px, py), (x, y), "F", p)
                 else:

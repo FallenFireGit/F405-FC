@@ -105,6 +105,14 @@ class Router:
             corner = ((CX < 2) if cx == 2 else (CX > 34)) & ((CY < 2) if cy == 2 else (CY > 34))
             inside &= ~(corner & (np.hypot(CX - cx, CY - cy) > 2 - EDGE))
         self.edge_dist = ndimage.distance_transform_edt(inside) * RES
+        for z in g.get("planes", []):      # non-GND copper zones (VBAT on In2) are fixed copper of their net
+            if z["net"] in ("", "GND") or "polys" not in z:
+                continue
+            m = np.zeros((N, N), bool)
+            for poly in z["polys"]:
+                m |= poly_mask(poly)
+            for l in z["layers"]:
+                self.base[l][m & (self.base[l] == 0)] = self.nid(z["net"])
         for k in g["keepouts"]:
             m = np.zeros((N, N), bool)
             for poly in k["polys"]:

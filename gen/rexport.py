@@ -61,7 +61,7 @@ def main():
                              "polys": poly_pts(z.Outline())})
         else:
             planes.append({"name": z.GetZoneName(), "net": z.GetNetname(),
-                           "layers": [n for l, n in LAYERS.items() if z.IsOnLayer(l)]})
+                           "layers": [n for l, n in LAYERS.items() if z.IsOnLayer(l)], "polys": poly_pts(z.Outline())})
     drc = "/tmp/rexport_drc.json"
     subprocess.run(["kicad-cli", "pcb", "drc", "--severity-error", "--format", "json", "-o", drc, PCB],
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
