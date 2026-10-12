@@ -141,39 +141,92 @@ def tidy_fields(board):
                 f.SetVisible(False)
 
 
-LABELS = {"J1": "USB", "J2": "ESC", "J3": "FRONT  VTX 10V", "J4": "GPS 5V", "J5": "ELRS", "P1": "VBAT", "P2": "GND", "P3": "10V",
-          "P4": "GND", "P5": "C1", "P6": "C2", "P7": "VID", "P8": "5V", "P9": "G", "P10": "LED", "P11": "5V", "P12": "G",
+LABELS = {"J1": "USB", "J2": "ESC", "J3": "FRONT", "J4": "GPS 5V", "J5": "RX", "P1": "VBAT", "P2": "GND", "P3": "10V",
+          "P4": "GND", "P5": "C1", "P6": "C2", "P7": "VID", "P8": "5V", "P9": "G", "P10": "LED", "P11": "5V",
           "P13": "BZ+", "P14": "BZ-", "P15": "T5", "P16": "R5", "P17": "T6", "P18": "R6", "P19": "S5", "P20": "S6",
           "P21": "S7", "P22": "S8", "P23": "RSSI", "P24": "G", "P25": "5V", "TP1": "DIO", "TP2": "CLK", "TP3": "RST",
           "TP4": "3V3", "TP5": "G", "SW1": "BOOT"}
 
 
 def silk_labels(board):
-    """Function labels next to every user pad/connector (Gate 1 D-15: VTX vs GPS connectors clearly marked)."""
+    """Function labels next to every user pad/connector, placed by rule (Gate 3 G3-11):
+    - the label never touches copper (any pad on that side, 0.15 mm margin) or another label, and stays on the board;
+    - for solder pads and test points the label's nearest labelled pad is its own, by at least 0.6 mm."""
     if any(isinstance(d, pcbnew.PCB_TEXT) and d.GetLayer() in (pcbnew.F_SilkS, pcbnew.B_SilkS) for d in board.GetDrawings()):
         return  # labels already present (re-run build with --fresh to regenerate)
+    import math
+
+    def rmm(bb):
+        return [pcbnew.ToMM(bb.GetLeft()) - OX, pcbnew.ToMM(bb.GetTop()) - OY, pcbnew.ToMM(bb.GetRight()) - OX,
+                pcbnew.ToMM(bb.GetBottom()) - OY]
+
+    def hit(a, b, g):
+        return a[0] < b[2] + g and b[0] < a[2] + g and a[1] < b[3] + g and b[1] < a[3] + g
+    pads = {"T": [], "B": []}
+    centres = {"T": {}, "B": {}}
     for fp in board.GetFootprints():
-        lab = LABELS.get(fp.GetReference())
-        if not lab:
+        side = "B" if fp.IsFlipped() else "T"
+        for p in fp.Pads():
+            ls = p.GetLayerSet()
+            for sd, lay in (("T", pcbnew.F_Cu), ("B", pcbnew.B_Cu)):
+                if ls.Contains(lay):
+                    pads[sd].append(rmm(p.GetBoundingBox()))
+        if fp.GetReference() in LABELS:
+            r = rmm(fp.GetBoundingBox(False))
+            if fp.GetReference()[0] in "PT":       # solder pads / test points: measure from the copper, not the courtyard
+                pr = [rmm(p.GetBoundingBox()) for p in fp.Pads()]
+                r = [min(q[0] for q in pr), min(q[1] for q in pr), max(q[2] for q in pr), max(q[3] for q in pr)]
+            centres[side][fp.GetReference()] = ((r[0] + r[2]) / 2, (r[1] + r[3]) / 2, r)
+    placed = {"T": [], "B": []}
+    order = sorted(LABELS, key=lambda k: (not (k.startswith("P") or k.startswith("TP")), k))
+    for ref in order:
+        lab = LABELS[ref]
+        side = next((sd for sd in "TB" if ref in centres[sd]), None)
+        if side is None:
             continue
-        bb = fp.GetBoundingBox(False)
-        c = bb.GetCenter()
-        cx, cy = pcbnew.ToMM(c.x) - OX, pcbnew.ToMM(c.y) - OY
-        hw, hh = pcbnew.ToMM(bb.GetWidth()) / 2, pcbnew.ToMM(bb.GetHeight()) / 2
-        # put the label on the side facing the board centre, just outside the footprint
-        dx, dy = W / 2 - cx, H / 2 - cy
-        if abs(dx) > abs(dy):
-            tx, ty = cx + (hw + 0.9) * (1 if dx > 0 else -1), cy
-        else:
-            tx, ty = cx, cy + (hh + 0.5) * (1 if dy > 0 else -1)
+        cx, cy, r = centres[side][ref]
+        hw, hh = (r[2] - r[0]) / 2, (r[3] - r[1]) / 2
+        is_pad = ref.startswith("P") or ref.startswith("TP")
+        best = None
+        for size in (0.8,):
+            tw, th = 0.85 * size * len(lab) + 0.15, size + 0.1   # stroke-font ink extents (verified by DRC silk_over_copper = 0)
+            for gap in (0.2, 0.45, 0.8):
+                cands = [(cx + dx * (hw + tw / 2 + gap), cy + dy * (hh + th / 2 + gap))
+                         for dx, dy in ((0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (-1, 1), (1, -1), (-1, -1))]
+                if ref.startswith("J"):     # connectors: the label may sit on the connector body where there is no copper
+                    cands += [(cx, cy + k * 0.25) for k in range(-12, 13)]
+                for tx, ty in cands:
+                    rect = [tx - tw / 2, ty - th / 2, tx + tw / 2, ty + th / 2]
+                    if rect[0] < 0.4 or rect[1] < 0.4 or rect[2] > W - 0.4 or rect[3] > H - 0.4:
+                        continue
+                    if any(math.hypot(tx - hx, ty - hy) < 2.4 for hx, hy in ((2.75, 2.75), (33.25, 2.75), (2.75, 33.25), (33.25, 33.25))):
+                        continue
+                    if any(hit(rect, pr, 0.1) for pr in pads[side]) or any(hit(rect, q, 0.1) for q in placed[side]):
+                        continue
+                    own = math.hypot(tx - cx, ty - cy)
+                    gap_used = gap
+                    if is_pad:
+                        others = [math.hypot(tx - ox_, ty - oy_) for k, (ox_, oy_, _) in centres[side].items()
+                                  if k != ref and (k.startswith("P") or k.startswith("TP"))]
+                        if others and min(others) - own < 0.6:
+                            continue
+                    score = own + gap + (0.5 if size < 0.8 else 0)
+                    if best is None or score < best[0]:
+                        best = (score, tx, ty, size, rect)
+            if best:
+                break
+        if best is None:
+            print("LABEL RULE FAILED", ref, lab, "at", round(cx, 2), round(cy, 2), "half", round(hw, 2), round(hh, 2))
+            continue
+        _, tx, ty, size, rect = best
+        placed[side].append(rect)
         t = pcbnew.PCB_TEXT(board)
         t.SetText(lab)
         t.SetPosition(pt(tx, ty))
-        flipped = fp.IsFlipped()
-        t.SetLayer(pcbnew.B_SilkS if flipped else pcbnew.F_SilkS)
-        t.SetTextSize(pcbnew.VECTOR2I(mm(0.8), mm(0.8)))
-        t.SetTextThickness(mm(0.15))
-        if flipped:
+        t.SetLayer(pcbnew.B_SilkS if side == "B" else pcbnew.F_SilkS)
+        t.SetTextSize(pcbnew.VECTOR2I(mm(size), mm(size)))
+        t.SetTextThickness(mm(0.15 if size >= 0.8 else 0.12))
+        if side == "B":
             t.SetMirrored(True)
         board.Add(t)
 
@@ -240,7 +293,7 @@ def _stage(name):
             print("UNPLACED:", " ".join(sorted(missing)))
         import legalize
         moves = legalize.legalize(board, list(placement.FIXED), OX, OY, W, H, placement.PRIORITY,
-                                  tight=list(getattr(placement, "ANCHOR", {})))
+                                  tight=list(getattr(placement, "ANCHOR", {})), reserved=getattr(placement, "RESERVED", ()))
         for ref, mv in moves:
             if mv is None or mv[0] > 1.5:
                 print("LEGALIZE", ref, "FAILED (no free spot)" if mv is None else f"moved {mv[0]} mm rot {mv[1]}")

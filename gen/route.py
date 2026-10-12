@@ -23,6 +23,8 @@ FR = "/opt/fr/freerouting-2.5.0.jar"
 OX = OY = 100.0
 W = H = 36.0
 _KEEP = []
+VBAT_ZONE = [(0.5, 21.6), (8.8, 21.6), (8.8, 33.6), (17.0, 33.6), (17.0, 20.4), (18.3, 20.4), (18.3, 24.0), (19.0, 24.0),
+             (19.0, 35.5), (0.5, 35.5)]
 
 
 def stage(name, passes):
@@ -41,12 +43,32 @@ def stage(name, passes):
             return
         gnd = board.FindNet("GND")
         polys = []
+        vbat_ps = None
+        if name == "zones" and not any(z.GetZoneName() == "VBAT_In2" for z in board.Zones()):
+            # Gate 3 G3R-02: VBAT copper on In2 from the battery pads (P1 vias) to the U1 input caps and up to the U2 input vias
+            vbat_ps = pcbnew.SHAPE_POLY_SET()
+            vbat_ps.NewOutline()
+            for x, y in VBAT_ZONE:
+                vbat_ps.Append(mm(OX + x), mm(OY + y))
         for layer in layers:
             ps = pcbnew.SHAPE_POLY_SET()
             ps.NewOutline()
             for x, y in ((0.2, 0.2), (W - 0.2, 0.2), (W - 0.2, H - 0.2), (0.2, H - 0.2)):
                 ps.Append(mm(OX + x), mm(OY + y))
             polys.append((layer, ps))
+        if vbat_ps is not None:
+            z = pcbnew.ZONE(board)
+            z.SetLayer(pcbnew.In2_Cu)
+            z.SetNet(board.FindNet("VBAT"))
+            z.SetZoneName("VBAT_In2")
+            z.SetLocalClearance(mm(0.2))
+            z.SetMinThickness(mm(0.25))
+            z.SetPadConnection(pcbnew.ZONE_CONNECTION_FULL)
+            z.SetAssignedPriority(2)
+            z.SetOutline(vbat_ps)
+            vbat_ps.thisown = False
+            _KEEP.append(vbat_ps)
+            board.Add(z)
         for layer, ps in polys:
             z = pcbnew.ZONE(board)
             z.SetLayer(layer)

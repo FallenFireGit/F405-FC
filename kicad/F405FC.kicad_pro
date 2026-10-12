@@ -292,9 +292,9 @@
         "microvia_drill": 0.1,
         "name": "PWR",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": 2,
+        "priority": 3,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.3,
+        "track_width": 0.2,
         "tuning_profile": "",
         "via_diameter": 0.6,
         "via_drill": 0.3
@@ -315,6 +315,21 @@
         "via_drill": 0.3
       },
       {
+        "clearance": 0.15,
+        "diff_pair_gap": 0.15,
+        "diff_pair_width": 0.2,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "PWR_MID",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.35,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      },
+      {
         "clearance": 0.127,
         "diff_pair_gap": 0.15,
         "diff_pair_width": 0.2,
@@ -322,7 +337,7 @@
         "microvia_drill": 0.1,
         "name": "USB",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": 3,
+        "priority": 4,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.2,
         "tuning_profile": "",
@@ -338,14 +353,6 @@
     "netclass_patterns": [
       {
         "netclass": "PWR_HI",
-        "pattern": "VBAT"
-      },
-      {
-        "netclass": "PWR_HI",
-        "pattern": "5V"
-      },
-      {
-        "netclass": "PWR_HI",
         "pattern": "10V"
       },
       {
@@ -359,6 +366,14 @@
       {
         "netclass": "PWR_HI",
         "pattern": "VTX_PWR"
+      },
+      {
+        "netclass": "PWR_MID",
+        "pattern": "VBAT"
+      },
+      {
+        "netclass": "PWR_MID",
+        "pattern": "5V"
       },
       {
         "netclass": "PWR",

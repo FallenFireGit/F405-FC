@@ -1,7 +1,8 @@
 """Scripted critical routes (run after gen/build_pcb.py, before gen/route.py): kc 'python3 gen/critical.py'
 
 Buck hot loops, SW / BST nodes, local output copper, the VBAT trunk (battery pads -> U1 input -> In2 -> U2 input) and the
-battery-entry stitching vias. All items are locked so the Specctra export marks them protected and Freerouting routes around them.
+battery-entry stitching vias. VBAT from P1 to both buck inputs is the In2 copper zone made by gen/route.py
+(stage zones, Gate 3 G3R-02); these vias stitch it. All items are locked so the Specctra export marks them protected and Freerouting routes around them.
 Coordinates: board mm, origin = board top-left corner (pad centres from gen/padpos.py). Each item type is created in its own
 interpreter (KiCad 10.0.6 SWIG quirk, see build_pcb._stage). Re-running is a no-op once the tracks exist (rebuild with --fresh).
 """
@@ -19,7 +20,6 @@ TRACKS = [
     # ---- U1 (5 V) ----
     (B, 0.8, "VBAT", [(3.05, 24.97), (7.5, 24.97)]),                     # C2.1 - C4.1 - U1.VIN
     (B, 0.8, "VBAT", [(3.05, 22.89), (3.05, 24.97)]),                    # C3.1 - C2.1
-    (B, 0.8, "VBAT", [(6.2, 31.4), (4.6, 29.7), (0.9, 29.7), (0.9, 25.6), (1.6, 24.97), (3.05, 24.97)]),  # P1 -> U1 input
     (B, 0.8, "GND", [(3.05, 27.5), (9.2, 27.5)]),                         # C2.2 - C4.2 - U1.GND - EP
     (B, 0.8, "SW_5V", [(12.9, 27.5), (13.42, 28.4), (13.42, 30.85)]),     # U1.SW -> L1
     (B, 0.6, "SW_5V", [(12.9, 27.5), (14.6, 27.34)]),                     # U1.SW -> C5 (boot)
@@ -28,10 +28,8 @@ TRACKS = [
     (B, 0.8, "5V", [(15.78, 32.32), (18.23, 32.32)]),                     # L1 -> C6
     (B, 0.8, "5V", [(15.78, 32.32), (15.78, 33.3), (15.01, 34.45)]),      # L1 -> C7 (clear of the L1 body keepout)
     (B, 0.5, "5V", [(18.23, 32.32), (20.11, 31.33)]),                     # C6 -> C9
-    (B, 0.8, "VBAT", [(5.0, 24.97), (5.0, 23.85)]),                      # U1 input -> In2 trunk vias (clear of J5 on top)
+    (B, 0.8, "VBAT", [(5.0, 24.97), (5.0, 23.85)]), (B, 0.8, "VBAT", [(4.0, 24.97), (4.0, 23.95)]),                      # U1 input -> In2 trunk vias (clear of J5 on top)
     (B, 0.8, "VBAT", [(6.0, 24.97), (6.0, 23.7)]),
-    # ---- VBAT trunk on In2: U1 input -> U2 input ----
-    (IN2, 1.0, "VBAT", [(5.0, 23.85), (6.0, 23.7), (6.6, 22.1), (16.9, 22.1), (17.6, 21.7), (17.6, 20.9)]),
     # ---- U2 (10 V) ----
     (B, 0.8, "VBAT", [(17.6, 20.9), (17.6, 21.7), (18.4, 22.45), (19.67, 22.45)]),   # In2 trunk -> C11.1
     (B, 0.8, "VBAT", [(19.5, 22.45), (19.5, 24.24)]),                    # C11.1 - C10.1
@@ -43,7 +41,7 @@ TRACKS = [
     (B, 0.8, "10V", [(27.01, 32.28), (21.91, 32.28)]),                    # L2 -> C14 -> C16
     (B, 0.5, "10V", [(23.77, 32.28), (23.77, 33.99)]),                    # -> C17
     # ---- GND stubs from cap return pads to their stitching vias ----
-    (B, 0.5, "GND", [(2.4, 28.7), (2.4, 27.71)]), (B, 0.5, "GND", [(3.7, 28.7), (3.7, 27.71)]),
+    (B, 0.5, "GND", [(6.6, 28.2), (6.6, 27.5)]),
     (B, 0.5, "GND", [(5.55, 27.5), (5.9, 28.4)]),
     (B, 0.5, "GND", [(18.6, 28.2), (18.8, 27.19)]), (B, 0.5, "GND", [(19.9, 28.2), (19.9, 27.19)]),
     (B, 0.5, "GND", [(18.6, 28.2), (18.23, 29.38)]),
@@ -59,10 +57,10 @@ TRACKS = [
 ]
 # (net, x, y): 0.6/0.3 through vias
 VIAS = [
-    ("VBAT", 5.0, 23.85), ("VBAT", 6.0, 23.7), ("VBAT", 17.6, 21.7), ("VBAT", 17.6, 20.9),       # In2 trunk ends
+    ("VBAT", 5.0, 23.85), ("VBAT", 6.0, 23.7), ("VBAT", 4.0, 23.95),   # U1 input -> In2 VBAT zone (G3R-02) ("VBAT", 17.6, 21.7), ("VBAT", 17.6, 20.9),       # In2 trunk ends
     ("VBAT", 6.6, 32.6), ("VBAT", 7.6, 32.6), ("VBAT", 6.6, 33.8), ("VBAT", 7.6, 33.8),         # P1 (bottom) <-> D1/C1 (top)
     ("GND", 11.1, 32.6), ("GND", 11.1, 33.8),                                                   # P2 (bottom) <-> D1 anode (top)
-    ("GND", 2.4, 28.7), ("GND", 3.7, 28.7), ("GND", 5.9, 28.4),                                # U1 input-cap returns
+    ("GND", 5.9, 28.4), ("GND", 6.6, 28.2),                                # U1 input-cap returns
     ("GND", 18.6, 28.2), ("GND", 19.9, 28.2), ("GND", 21.3, 27.2),                             # U2 input-cap returns
     ("GND", 17.3, 24.6), ("GND", 19.1, 34.45), ("GND", 20.11, 29.6),    # 5 V output-cap returns
     ("GND", 23.16, 29.3), ("GND", 26.2, 34.0), ("GND", 33.9, 25.6),                             # 10 V output-cap returns

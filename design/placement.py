@@ -83,36 +83,35 @@ put("C47", 13.4, 5.0, 0)
 # top edge, either side of J3 (UART5 + S7 from the MCU top side)
 put("P15", 7.6, 2.4)              # T5
 put("P16", 9.8, 2.4)              # R5
-put("P21", 26.2, 2.4)             # S7
-put("P24", 28.4, 2.4)             # GND
-put("P25", 30.6, 5.4)             # 5V
+put("P21", 26.6, 2.4, 0)             # S7
+put("P24", 24.4, 2.4, 0)             # GND
+put("P25", 28.8, 2.4, 0)             # 5V
 put("R37", 25.4, 6.4, 0)          # DNP HD_R2 -> UART5_RX
 put("R41", 22.6, 6.6, 90)         # 0R in series with HD VTX 10 V pin (remove for 2S HD builds)
 # right edge below USB: UART6 + M5/M6 + LED strip
-put("P17", 34.4, 13.0, 90, "B")        # T6
-put("P18", 34.4, 15.2, 90, "B")        # R6
-put("P19", 34.4, 17.4, 90, "B")        # S5
-put("P20", 32.0, 13.0, 90, "B")        # S6
-put("P10", 31.6, 21.6, 90)        # LED DIN
-put("P11", 31.4, 24.4, 90)        # LED 5V
-put("P12", 31.4, 27.2, 90)        # LED GND
+put("P17", 34.1, 12.9, 0, "B")        # T6
+put("P18", 34.1, 15.5, 0, "B")        # R6
+put("P19", 31.9, 15.5, 0, "B")        # S5
+put("P20", 31.9, 12.9, 0, "B")        # S6
+put("P10", 26.0, 28.3, 0)        # LED DIN
+put("P11", 28.4, 28.3, 0)        # LED 5V
 # bottom edge either side of J2
-put("P22", 25.0, 26.5, 0)             # S8
-put("P23", 27.4, 26.5, 0)             # RSSI
-put("P13", 13.5, 26.5, 0)            # buzzer +
-put("P14", 13.5, 29.0, 0)            # buzzer -
+put("P22", 23.6, 28.3, 0)             # S8
+put("P23", 30.8, 28.3, 0)             # RSSI
+put("P13", 4.5, 27.2, 0)     # buzzer + (5V), paired with P14 and D9 in the top-left corner
+put("P14", 4.5, 29.65, 0)    # buzzer - (BUZ_N)
 # camera / VTX video cluster, left edge between GPS and ELRS
-put("P5", 1.6, 14.6, 90, "B")          # CAM1
-put("P6", 1.6, 16.8, 90, "B")          # CAM2
-put("P7", 1.6, 19.0, 90, "B")          # VTX video
-put("P8", 4.0, 14.6, 90, "B")          # cam 5V
-put("P9", 4.0, 21.2, 90, "B")          # cam GND
+put("P5", 1.6, 13.2, 90, "B")          # CAM1
+put("P6", 1.6, 15.3, 90, "B")          # CAM2
+put("P7", 1.6, 17.4, 90, "B")          # VTX video
+put("P8", 1.6, 9.0, 90, "B")          # cam 5V
+put("P9", 1.6, 11.1, 90, "B")          # cam GND
 # SWD test pads on top, right of the MCU
-put("TP1", 14.4, 6.4, 0, "B")            # SWDIO
-put("TP2", 16.6, 6.4, 0, "B")            # SWCLK
-put("TP3", 14.4, 8.6, 0, "B")             # NRST
-put("TP4", 16.6, 8.6, 0, "B")            # 3V3
-put("TP5", 14.4, 10.8, 0, "B")            # GND
+put("TP1", 14.0, 4.4, 0, "B")            # SWDIO
+put("TP2", 16.4, 4.4, 0, "B")            # SWCLK
+put("TP3", 18.8, 4.4, 0, "B")             # NRST
+put("TP4", 14.0, 7.2, 0, "B")            # 3V3
+put("TP5", 16.4, 7.2, 0, "B")            # GND
 
 # ---------------------------------------------------------------- BOTTOM: IMUs at the centroid
 put("U6", 15.4, 17.0, 0, "B")
@@ -138,7 +137,7 @@ put("C21", 29.0, 9.6, 90, "B")
 put("C18", 21.6, 6.0, 90, "B")    # 5V_SYS bulk
 put("D5", 21.2, 9.2, 0, "B")      # 5V -> 5V_SYS
 put("D4", 30.0, 5.6, 0)    # VBUS -> 5V_SYS
-put("U13", 26.4, 14.9, 90)   # USB ESD, under the USB connector
+put("U13", 25.6, 17.8, 90)   # USB ESD between J1 and the MCU (fixed: the MCU routing ring leaves no other spot)
 put("C51", 30.0, 8.0, 0)
 put("R36", 28.2, 8.0, 90)
 put("R34", 29.4, 6.2, 0)
@@ -209,11 +208,16 @@ put("C53", 11.0, 19.3, 90, "B")
 put("D8", 11.7, 21.0, 0, "B")
 put("R40", 14.0, 27.4, 90)
 put("Q1", 16.0, 27.0, 0)
-put("D9", 17.0, 29.6, 0)
+put("D9", 1.8, 27.85, 90)    # buzzer flyback (5V to BUZ_N); no room near Q1 once the MCU routing ring is kept clear
 
 
 # Footprints the legalizer must not move (gen/legalize.py); everything else is nudged to the nearest legal spot.
-FIXED = ["H1", "H2", "H3", "H4", "J1", "J2", "J3", "J4", "J5", "U3", "U1", "U2", "L1", "L2", "U4", "U10",
+# Silk label areas kept free of movable parts (Gate 3 G3-11): (side, (x0, y0, x1, y1))
+RESERVED = [("B", (2.6, 8.0, 4.6, 18.4)),      # video/camera pad column labels
+            ("B", (12.8, 2.3, 20.2, 3.5)),     # SWD test-point row labels (above)
+            ("B", (13.2, 8.1, 17.6, 9.3))]     # 3V3 / GND test-point labels (below)
+
+FIXED = ["U13", "D9", "P13", "P14", "P22", "P23", "P10", "P11", "P24", "P21", "P25", "P5", "P6", "P7", "P8", "P9", "P20", "P17", "P19", "P18", "TP1", "TP2", "TP3", "TP4", "TP5", "H1", "H2", "H3", "H4", "J1", "J2", "J3", "J4", "J5", "U3", "U1", "U2", "L1", "L2", "U4", "U10",
          "P1", "P2", "P3", "P4", "D1", "C1", "U6", "U7", "U5", "Y1", "U8", "U9", "U11", "U12"]
 
 # Pin-anchored parts (Gate 3 G3-02/03/05/08/09): ref -> (anchor ref, anchor pad, dx, dy, rotation, side).
@@ -261,16 +265,16 @@ ANCHOR = {
     "C20": ("U4", 3, 0.0, 2.2, 0, "B"),
     "C19": ("U4", 1, 0.0, 2.2, 0, "B"),
     # MCU decoupling (top) — outside the LQFP courtyard (13.5 mm), closest to their pins
-    "C25": ("U3", 64, 0.0, -2.05, 90, "T"),
-    "C26": ("U3", 48, 2.05, -0.5, 0, "T"),
-    "C34": ("U3", 47, 2.65, 0.5, 0, "T"),
-    "C27": ("U3", 19, 0.0, 2.05, 90, "T"),
-    "C29": ("U3", 32, 1.9, 2.6, 90, "T"),
-    "C33": ("U3", 31, -0.5, 2.05, 270, "T"),
-    "C28": ("U3", 32, 0.5, 2.05, 90, "T"),
-    "C32": ("U3", 13, -2.05, 0.0, 0, "T"),
-    "C31": ("U3", 13, -2.05, 2.0, 90, "T"),
-    "FB1": ("U3", 13, -3.9, 0.9, 90, "T"),
+    "C25": ("U3", 64, 0.0, -2.75, 90, "T"),
+    "C26": ("U3", 48, 1.7, -2.4, 90, "T"),    # at the MCU top-right corner: keeps the right pin row free for routing (G3R-10)
+    "C34": ("U3", 47, 3.05, -3.6, 90, "T"),
+    "C27": ("U3", 19, 0.0, 2.75, 90, "T"),
+    "C29": ("U3", 32, 1.9, 3.3, 90, "T"),
+    "C33": ("U3", 31, -0.5, 2.75, 270, "T"),
+    "C28": ("U3", 32, 0.5, 2.75, 90, "T"),
+    "C32": ("U3", 13, -2.75, 0.0, 0, "T"),
+    "C31": ("U3", 13, -2.75, 2.0, 90, "T"),
+    "FB1": ("U3", 13, -4.6, 0.9, 90, "T"),
     # under the MCU's left edge (bottom): VBAT pin, NRST and ADC filter caps right below their pins
     "C30": ("U3", 1, -0.9, 0.0, 0, "B"),
     "C35": ("U3", 7, -0.9, -0.25, 0, "B"),

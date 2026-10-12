@@ -14,6 +14,8 @@ import pcbnew
 EDGE = 0.25          # courtyard to board-edge margin
 GAP = 0.05           # extra courtyard-to-courtyard gap
 HOLE_KEEP_R = 2.3 + 0.2   # 4.6 mm grommet keepout diameter + margin
+RING = 0.8
+PTH_GAP = {"U1": 0.6, "U2": 0.6}   # Gate 3 G3R-01: top parts >= 0.6 mm from the buck thermal-via fields
 HOLES = [(2.75, 2.75), (33.25, 2.75), (2.75, 33.25), (33.25, 33.25)]
 
 
@@ -50,7 +52,7 @@ def _ok_board(b, w, h):
     return True
 
 
-def legalize(board, fixed, ox, oy, w, h, priority=None, max_r=9.0, tight=None, tight_r=1.5):
+def legalize(board, fixed, ox, oy, w, h, priority=None, max_r=9.0, tight=None, tight_r=1.5, reserved=()):
     tight = set(tight or ())
     fps = {fp.GetReference(): fp for fp in board.GetFootprints()}
     placed = {"T": [], "B": []}
@@ -64,6 +66,13 @@ def legalize(board, fixed, ox, oy, w, h, priority=None, max_r=9.0, tight=None, t
             placed[s].append((ref, _bbox(fp, ox, oy)))
         for pb in _pth(fp, ox, oy):
             pth["T" if s == "B" else "B"].append((ref, pb))
+    # Gate 3 G3R-10: keep a 1.2 mm routing ring clear around the MCU pad field for every top-side part that is not anchored
+    mcu_ring = None
+    if "U3" in fps:
+        u = _bbox(fps["U3"], ox, oy)
+        mcu_ring = [u[0] - RING, u[1] - RING, u[2] + RING, u[3] + RING]
+    for side, rect in reserved:          # silk label areas next to the user-pad grids (Gate 3 G3-11)
+        placed[side].append(("reserved", list(rect)))
     movable = [r for r in fps if r not in fixed]
     order = priority or {}
     movable.sort(key=lambda r: (-100 if r in tight else order.get(r, 0), -((lambda b: (b[2] - b[0]) * (b[3] - b[1]))(_bbox(fps[r], ox, oy))), r))
@@ -94,7 +103,9 @@ def legalize(board, fixed, ox, oy, w, h, priority=None, max_r=9.0, tight=None, t
                           continue
                       if any(_hit(b, o) for _, o in placed[s]):
                           continue
-                      if any(_hit(b, o, 0.15) for _, o in pth[s]):
+                      if any(_hit(b, o, PTH_GAP.get(pr, 0.15)) for pr, o in pth[s]):
+                          continue
+                      if mcu_ring and s == "T" and ref not in tight and _hit(b, mcu_ring, 0.0):
                           continue
                       cost = r + (0.3 if rot != rot0 else 0)
                       if best is None or cost < best[0]:

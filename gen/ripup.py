@@ -32,6 +32,7 @@ GEOM = os.path.join(KDIR, "route_geom.json")
 OUT = os.path.join(KDIR, "route_all.json")
 LCOST = {"F": 1.0, "In1": float(os.environ.get("IN1_COST", "1e9")), "In2": 1.2, "B": 1.0}   # In1 = GND plane
 VIA_COST = 30.0
+HIST_STEP = float(os.environ.get("HIST_STEP", "0.5"))   # per-conflict history increment (cost per grid step)
 LI = {l: k for k, l in enumerate(LAYERS)}
 MOVES = [(-1, 0, 1.0), (1, 0, 1.0), (0, -1, 1.0), (0, 1, 1.0), (-1, -1, 1.414), (-1, 1, 1.414), (1, -1, 1.414), (1, 1, 1.414)]
 
@@ -66,6 +67,8 @@ class Router:
         self.fvia = np.zeros((N, N), bool)
         self.rec = collections.defaultdict(list)     # net -> routed records
         self.hist = collections.Counter()
+        self.hcell = {l: np.zeros((N, N), np.float32) for l in LAYERS}   # PathFinder history cost per cell
+        self.heat = collections.Counter()   # rip locations (1 mm bins) for congestion diagnosis
         self.pres = 1.0          # present-congestion multiplier, grows with iterations (PathFinder style)
         self.pads = g["pads"]
         for p in g["pads"]:
@@ -215,6 +218,7 @@ class Router:
                 vhard |= dr < vreq
                 pen[l] = np.zeros((H, W))
         vhard |= (self.edge_dist[sl] < 0.3 + 0.02) | self.fvia[sl]
+        hc = {l: self.hcell[l][sl] for l in LAYERS}
         goal = np.zeros((4, H, W), bool)
         if dst_mask is not None:
             for l in LAYERS:
@@ -250,7 +254,7 @@ class Router:
                 if not goal[k, ni, nj]:
                     if hard[l][ni, nj] and not (ins and srcm[k, ni, nj]):
                         continue
-                ng = gc + cst * LCOST[l] + pen[l][ni, nj]
+                ng = gc + cst * (LCOST[l] + hc[l][ni, nj]) + pen[l][ni, nj]
                 if ng < g[k, ni, nj]:
                     g[k, ni, nj] = ng
                     prev[(k, ni, nj)] = (k, i, j)
@@ -264,7 +268,7 @@ class Router:
                         continue
                     if hard[l2][i, j] and not goal[k2, i, j]:
                         continue
-                    ng = gc + VIA_COST + vpen[i, j]
+                    ng = gc + VIA_COST + vpen[i, j] + 4 * (hc[l][i, j] + hc[l2][i, j])
                     if ng < g[k2, i, j]:
                         g[k2, i, j] = ng
                         prev[(k2, i, j)] = (k, i, j)
@@ -314,6 +318,12 @@ class Router:
                         break
                 if hit:
                     ripped.add(m)
+                    qx = (q["a"][0] + q["b"][0]) / 2 if q["t"] == "t" else q["x"]
+                    qy = (q["a"][1] + q["b"][1]) / 2 if q["t"] == "t" else q["y"]
+                    self.heat[(int(qx), int(qy))] += 1
+                    hm = seg_mask(q["a"], q["b"], q["w"] / 2 + 0.3) if q["t"] == "t" else seg_mask((qx, qy), (qx, qy), 0.6)
+                    for hl in ([q["l"]] if q["t"] == "t" else LAYERS):
+                        self.hcell[hl][hm] += HIST_STEP
                 else:
                     keep.append(r)
             if len(keep) != len(self.rec[m]):
@@ -344,6 +354,12 @@ def main():
     g = json.load(open(GEOM))
     R = Router(g)
     nets = sorted({p["net"] for p in g["pads"] if p["net"] and not p["net"].startswith("unconnected-")})
+    if os.environ.get("ROUTE_GND", "0") != "1":
+        nets.remove("GND")          # GND: In1 plane + F/B/In2 pours; leftovers are fixed after the final fill
+    span = collections.defaultdict(list)
+    for p in g["pads"]:
+        span[p["net"]].append((p["x"], p["y"]))
+    nets.sort(key=lambda n: (max(x for x, y in span[n]) - min(x for x, y in span[n]) + max(y for x, y in span[n]) - min(y for x, y in span[n])))
     queue = collections.deque(nets)
     queued = set(nets)
     iters, failed = 0, collections.Counter()
@@ -374,7 +390,7 @@ def main():
         iters += 1
         R.pres = min(1e4, 1.25 ** (iters / 100.0))
         if iters % 250 == 0:
-            print(f"--- iter {iters}: queue {len(queue)}", flush=True)
+            print(f"--- iter {iters}: queue {len(queue)}; rip hotspots {R.heat.most_common(12)}", flush=True)
         if not res:
             failed[net] += 1
             print(f"[{iters}] FAIL {net}", flush=True)

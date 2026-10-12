@@ -179,3 +179,20 @@ Gate 3 (`review/gate-3-placement.md`) failed with 3 BLOCKER / 9 MAJOR. Changes:
 - **G2R-07 MINOR (LMR38020 paste 45 %, 8 vias):** kept; with hand assembly the paste is applied by stencil and the three windows avoid
   wicking into the open vias. Bring-up thermal test (power.md §12.5) is the check.
 - **G2R-08 INFO:** no tracks or vias under the L1/L2 bodies on B.Cu (rule areas added before routing).
+
+## D-21 Gate 3 re-review fixes and routing-capacity rework (`review/gate-3-placement-rereview.md`)
+
+- **G3-11 (labels):** user pads are fixed on regular grids (top: S8/LED/5V/RSSI row, T5/R5, G/S7/5V; bottom: one 5V/G/C1/C2/VID column,
+  a UART6/S5/S6 2x2 block, two SWD/power test-point rows). `gen/build_pcb.py` places every label by rule: no silk on copper, inside the
+  board, and for pads/test points the label's nearest labelled pad is its own by >= 0.6 mm. Label areas are reserved in the legalizer.
+  The LED-strip GND pad P12 was removed: the LED strip shares P4 (GND, next to P3 10V).
+- **G3R-01 (top parts near thermal vias):** the U1/U2 thermal-via pads have no F/B mask openings (verified: pad layer set has no mask
+  layers), so the top annulus is tented; top-side parts are additionally kept >= 0.6 mm from the via fields by the legalizer.
+- **G3R-02 (VBAT copper):** VBAT from the battery pads to both buck inputs is an In2 copper zone (priority above the GND pour), stitched
+  by 4 vias at P1, 3 at the U1 input caps and 2 at the U2 input caps; the 0.8 mm edge trace and the 1.0 mm In2 trunk are gone.
+- **G3R-10 (MCU escape):** a 0.8 mm keep-clear ring around the MCU pad field for non-anchored top parts; MCU decaps moved from 2.05 to
+  2.75 mm from their pins (VCAP2/3V3 caps C34/C26 to the MCU top-right corner, VCAP2 ~4 mm), and 25 MCU signal pins are fanned inward to
+  vias under the package (`FANOUT=mcu gen/gndfan.py`). D9 (buzzer flyback) moved next to the buzzer pads in the top-left corner; U13
+  (USB ESD) is fixed between J1 and the MCU with its flow-through axis perpendicular to D+/D− (G3R-07 accepted as MINOR: no other spot).
+- In1 stays a solid GND plane: the Specctra export restricts every net class to F/In2/B (`gen/route.py`). Making In1 a Specctra "power"
+  layer instead (G3R-12 note) left GND pads unrouted, so that approach was dropped.

@@ -402,7 +402,7 @@ part(VID, "U12", "74xGxx:74AHCT1G125", "SN74LV1T125", FP["SOT23_5"],
 C(VID, "C100n", "5V")
 R(VID, "R0", "LED_STRIP", "LED_DIN_BUF", dnp=True)  # bypass option (G0-10): fit ONLY with U12 removed
 R(VID, "R330", "LED_DIN_BUF", "LED_DIN")
-for ref, net, fp in (("P10", "LED_DIN", "PAD_SIG"), ("P11", "5V", "PAD_MED"), ("P12", "GND", "PAD_MED")):
+for ref, net, fp in (("P10", "LED_DIN", "PAD_SIG"), ("P11", "5V", "PAD_MED")):  # LED GND shares P4 (Gate 3 G3-11, D-21)
     part(VID, ref, "Connector:TestPoint", net, FP[fp], {"1": net}, "n/a (PCB pad)", "n/a", "n/a (PCB pad)", "",
          desc="LED strip pad")
     c.parts[-1].fields["InBOM"] = "no"
@@ -510,9 +510,10 @@ def net_settings():
              "priority": 0}
         d.update(k)
         return d
-    classes = [nc("Default", 0.15), nc("PWR_HI", 0.45, 0.2, priority=1), nc("PWR", 0.3, priority=2),  # buck hot loops: gen/critical.py
-               nc("USB", 0.2, diff_pair_width=0.2, diff_pair_gap=0.15, priority=3)]
-    patterns = ([("PWR_HI", n) for n in ("VBAT", "5V", "10V", "SW_5V", "SW_10V", "VTX_PWR")] +
+    classes = [nc("Default", 0.15), nc("PWR_HI", 0.45, 0.2, priority=1), nc("PWR_MID", 0.35, 0.15, priority=2),
+               nc("PWR", 0.2, priority=3),  # buck hot loops + main VBAT/5V copper: gen/critical.py
+               nc("USB", 0.2, diff_pair_width=0.2, diff_pair_gap=0.15, priority=4)]
+    patterns = ([("PWR_HI", n) for n in ("10V", "SW_5V", "SW_10V", "VTX_PWR")] + [("PWR_MID", n) for n in ("VBAT", "5V")] +
                 [("PWR", n) for n in ("5V_SYS", "3V3", "3V3_IMU", "3V3A", "VBUS", "BUZ_N", "BST_5V", "BST_10V",
                                        "VCAP1", "VCAP2")] +
                 [("USB", n) for n in ("USB_DP", "USB_DM")])
