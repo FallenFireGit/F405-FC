@@ -7,7 +7,7 @@ Qty per board,Refs,Value,MPN,Manufacturer,DigiKey PN,Footprint,Datasheet
 3,C20 C33 C34,2.2uF X5R 16V,CL10A225KO8NNNC,Samsung Electro-Mechanics,1276-1183-1-ND (verify),C_0603_1608Metric,https://product.samsungsem.com/mlcc/CL10A225KO8NNNC.do
 3,C18 C29 C47,4.7uF X5R 16V,CL10A475KO8NNNC,Samsung Electro-Mechanics,1276-1044-1-ND (verify),C_0603_1608Metric,https://product.samsungsem.com/mlcc/CL10A475KO8NNNC.do
 3,C4 C12 C17,100nF X7R 100V,GRM188R72A104KA35D,Murata,490-3285-1-ND (verify),C_0603_1608Metric,https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM188R72A104KA35-01.pdf
-2,C36 C37,10pF C0G 50V,CL05C100JB5NNNC,Samsung Electro-Mechanics,1276-1621-1-ND (verify),C_0402_1005Metric,https://product.samsungsem.com/mlcc/CL05C100JB5NNNC.do
+2,C36 C37,8.2pF C0G 50V,CL05C8R2CB5NNNC,Samsung Electro-Mechanics,1276-1650-1-ND (verify),C_0402_1005Metric,https://product.samsungsem.com/mlcc/CL05C8R2CB5NNNC.do
 2,C23 C39,2.2uF X7R 16V,CL10B225KO8NNNC,Samsung Electro-Mechanics,1276-1184-1-ND (verify),C_0603_1608Metric,https://product.samsungsem.com/mlcc/CL10B225KO8NNNC.do
 1,C45,220nF X5R 25V,CL05A224KA5NNNC,Samsung Electro-Mechanics,1276-1255-1-ND (verify),C_0402_1005Metric,https://product.samsungsem.com/mlcc/CL05A224KA5NNNC.do
 3,D5 D4 D9,PMEG4030ER,"PMEG4030ER,115",Nexperia,1727-5313-1-ND,Nexperia_CFP3_SOD-123W,https://assets.nexperia.com/documents/data-sheet/PMEG4030ER.pdf

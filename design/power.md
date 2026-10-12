@@ -100,7 +100,7 @@ the indicator; this is normal for FPV FCs because polarity is set by the ESC har
 | Ref | Value | MPN | Placement |
 |---|---|---|---|
 | C1 | 10 uF 50 V X7R 1210 | Samsung CL32B106KBJNNNE | Board entry, next to D1 |
-| C2+C2b / C3+C3b | 2 x 10 uF 50 V X7R 1210 per IC | CL32B106KBJNNNE | U1 / U2 VIN-GND, inside the hot loop (audit P0-06: two per IC so each meets 4.7 uF effective locally) |
+| C2+C3 (U1) / C10+C11 (U2) | 2 x 10 uF 50 V X7R 1210 per IC | CL32B106KBJNNNE | U1 / U2 VIN-GND, inside the hot loop (audit P0-06: two per IC so each meets 4.7 uF effective locally) |
 | C4 / C5 | 100 nF 100 V X7R 0603 | Murata GRM188R72A104KA35D | U1 / U2 VIN pin, closest (datasheet 9.2.2.6: 100-220 nF HF bypass) |
 
 - LMR38020 needs at least **4.7 uF effective** on VIN (9.2.2.6). A 10 uF/50 V 1210 keeps about 4.5 uF at 25 V, so each IC gets **two**
@@ -175,7 +175,7 @@ Same IC, RT (34.8 k), UVLO network (301 k / 100 k), boot cap, input caps and PG 
 
 ### 3.2 Output capacitors
 **3 x 22 uF 25 V X5R 1206** (CL31A226KAHNNNE), about 3 x 9 uF = 27 uF effective at 10 V. Datasheet Table 9-1 (12 V out): 1 x 22 uF
-(400 kHz) or 2 x 10 uF (1 MHz). 27 uF is 1.2-2.7x those. Plus 100 nF 0402 HF.
+(400 kHz) or 2 x 10 uF (1 MHz). 27 uF is 1.2-2.7x those. Plus a 100 nF **100 V 0603** HF cap (C17; Gate 1 G1P-06).
 
 ### 3.3 Feedback
 RFBT 100 kOhm, RFBB **11.0 kOhm** → **10.09 V** (9.76-10.43 V).
@@ -271,10 +271,14 @@ The analog OSD (AT7456E) was removed in rev C (`design/decisions.md` D-01); its 
 **Components:**
 - EN tied to IN. VEN(on) must be at least 1.8 V at VIN = 4 V and 3 V at VIN = 6 V; tying to VIN satisfies this.
 - CIN = 1 uF 25 V X5R 0603 within 1 cm (section 8.2.2.2.1), plus the 4.7 uF 5V_SYS bulk.
-- COUT = **one 2.2 uF X5R 0603** (Samsung CL10A225KO8NNNC) at the OUT pin, and no other capacitor within ~10 mm. Datasheet 8.2.2.2: the
-  output capacitor's ESR must be 5-500 mOhm; a 1-2.2 uF ceramic is typically 10-40 mOhm. A 10 uF 0805 (≈ 3-5 mOhm) at the pin would sit below
-  the window (Gate 1 G1P-02). The MCU/sensor decoupling (≈ 8 uF total) is distributed ≥ 10 mm away behind trace inductance; the residual
-  stability risk is checked at bring-up with a 10-150 mA load step on 3V3 (no ringing > 2 cycles).
+- COUT = **one 2.2 uF X5R 0603** (C20, Samsung CL10A225KO8NNNC) at the OUT pin. Datasheet 8.2.2.2: the output capacitor's ESR must be
+  5-500 mOhm; a 1-2.2 uF ceramic is typically 10-40 mOhm, so the local cap itself is compliant, and the large 10 uF 0805 was removed.
+  **Open risk (power re-audit P2-03):** at the regulator's loop bandwidth (< 100 kHz) trace inductance is negligible, so the loop also sees
+  the rest of the 3V3 bank (≈ 12.6 uF incl. C29/C47 4.7 uF and the 100 nF decaps; C26 is 2.7 mm from U4), whose parallel ESR is below
+  5 mOhm. TI also states (8.2.2.2) the LP38692 is "designed to work with very small ceramic capacitors" and is stable with no load; whether
+  the distributed bank causes ringing is unproven. **Control:** bring-up load step 10 → 150 mA on 3V3 with a scope at U4 OUT: pass if
+  ringing settles within 2 cycles and overshoot < 100 mV. **Fallback if it fails:** replace C29 and C47 (4.7 uF) with 1 uF parts and/or
+  fit a 0.5-1 Ohm 0603 resistor in series with C29 (cut-and-bodge on rev C; a footprint in the next revision).
 
 ---
 
@@ -284,7 +288,7 @@ The analog OSD (AT7456E) was removed in rev C (`design/decisions.md` D-01); its 
 - Fed from 5V_SYS (4.75 V max, within the 5.5 V limit). Its PSRR attenuates the buck ripple, which reaches 5V_SYS already filtered through D5.
 - Load: ICM-42688-P (about 0.9 mA, 6-axis LN mode) + BMI270 (about 1 mA). Budget **10 mA**.
 - P = (4.756 - 3.3) x 0.01 = 15 mW, so Tj rise is about 3 °C.
-- Capacitors: CIN = 1 uF 25 V X5R 0603, COUT = **2.2 uF 16 V X7R 0603** (about 1.8 uF effective at 3.3 V; the allowed effective range is 0.7-10 uF, section 5.4). Each IMU keeps its own 100 nF local decoupling, which sums well under 10 uF.
+- Capacitors: CIN = 1 uF 25 V X5R 0603, COUT = **2.2 uF 16 V X7R 0603** (about 1.8 uF effective at 3.3 V; the allowed effective range is 0.7-10 uF, datasheet section 5.6). Each IMU keeps its own 100 nF local decoupling, which sums well under 10 uF.
 - EN tied to IN.
 - TI now points to TPS7A20 as the "more updated portfolio device". The LP5907 is still in production, so this is not an obsolescence flag.
 
@@ -438,15 +442,20 @@ so the envelope is restricted:
 **Operating envelope (also in the bring-up/user guide):**
 - **Flight, Ta ≤ 35 C:** full design budget (5 V 1.8 A, 10 V 1.5 A): T_board ≤ 74 C at the upper estimate.
 - **Flight, Ta 35-50 C:** P_board ≤ 3.0 W, i.e. LED strip ≤ 0.4 A (or VTX ≤ 1.2 A): T_board ≤ 80 C.
-- **Bench / still air:** P_board ≤ 1 W: **VTX off or in pit mode (PINIO USER1), LED strip off**, cameras allowed. An HD VTX at normal power on
-  the bench needs a fan (standard practice for HD VTXs anyway).
+- **Bench / still air:** **VTX off or in pit mode (PINIO USER1), LED strip off.** With RX + GPS + MCU + sensors only, P_board ≈ 0.9 W (typical);
+  with two cameras added at budget current it rises to ≈ 1.4 W (power re-audit P2-01), board 61-79 C at 25 C ambient (upper estimate) and
+  85 C at ≈ 31 C ambient. So: **bench work above ~25 C ambient, or with cameras powered for long sessions, needs a fan.** An HD VTX at
+  normal power on the bench always needs a fan (standard practice for HD VTXs anyway).
 - The STM32F405RGT7 (105 C ambient) would not raise the envelope, because the IMUs and baro are 85 C parts; it is therefore **not** offered
   as a thermal fix (re-audit P1-01d).
 
-**Pass/fail thermal gate at bring-up (ambient-referenced, re-audit P1-01c):** fan at ~3 m/s, ambient Ta measured; run 10 min at
-(a) 2S 7.4 V and (b) 6S 25.2 V, each with 5 V at 1.8 A and 10 V at 1.5 A (on 2S the 10 V rail is in dropout). Pass if, for both runs,
-**(MCU case − Ta) ≤ 30 K** and **(U1/U2 case − Ta) ≤ 50 K**. That guarantees MCU ≤ 80 C and U1 ≤ 100 C at Ta = 50 C. If either fails,
-lower the LED-strip budget until it passes and update this section.
+**Pass/fail thermal gate at bring-up (ambient-referenced, two-point, power re-audit P1-01c/P2-02):** fan at ~3 m/s, ambient Ta measured,
+10 min per run, at (a) 2S 7.4 V and (b) 6S 25.2 V (on 2S the 10 V rail is in dropout):
+- **Point 1, full budget** (5 V 1.8 A, 10 V 1.5 A, i.e. the Ta ≤ 35 C envelope): pass if **(MCU case − Ta) ≤ 45 K** and **(U1/U2 case − Ta)
+  ≤ 65 K** → MCU ≤ 80 C, U1 ≤ 100 C at Ta = 35 C.
+- **Point 2, hot-day budget** (≤ 3.0 W: LED strip 0.4 A, rest as point 1, i.e. the Ta 35-50 C envelope): pass if **(MCU case − Ta) ≤ 30 K**
+  and **(U1/U2 case − Ta) ≤ 50 K** → MCU ≤ 80 C, U1 ≤ 100 C at Ta = 50 C.
+If a point fails, lower that envelope's LED-strip budget until it passes and update this section.
 
 ### 12.4 Battery-side current
 
@@ -471,7 +480,7 @@ DigiKey PNs and evidence: `design/parts_signal.md`, `review/sourcing_research_no
 | L1 | 1 | 6.8 uH 3 A 74 mOhm | 74438357068 (Würth WE-MAPI) | 4030 |
 | L2 | 1 | 8.2 uH 2.8 A 86 mOhm | 74438357082 (Würth WE-MAPI) | 4030 |
 | C (VBAT entry + 2 per IC) | 5 | 10 uF 50 V X7R | CL32B106KBJNNNE (Samsung) | 1210 |
-| C4, C12 | 2 | 100 nF 100 V X7R | GRM188R72A104KA35D (Murata) | 0603 |
+| C4, C12, C17 | 3 | 100 nF 100 V X7R (VIN HF ×2, 10 V out HF) | GRM188R72A104KA35D (Murata) | 0603 |
 | Cout | 6 | 22 uF 25 V X5R (3 per rail) | CL31A226KAHNNNE (Samsung) | 1206 |
 | Cboot, HF out | 4 | 100 nF 16 V X7R | CL05B104KO5NNNC (Samsung) | 0402 |
 | RT | 2 | 34.8 k 1 % | RC0402FR-0734K8L (Yageo) | 0402 |
@@ -481,6 +490,7 @@ DigiKey PNs and evidence: `design/parts_signal.md`, `review/sourcing_research_no
 | RENT | 2 | 301 k 1 % | RC0603FR-07301KL (Yageo) | 0603 (sees up to 42 V) |
 | RENB | 2 | 100 k 1 % | RC0402FR-07100KL (Yageo) | 0402 |
 | Q2 | 1 | VTX-off N-FET 60 V | NX7002AKR (Nexperia) | SOT-23 |
+| R41 | 1 | 0R link, J3 pin 1 (remove for 2S HD builds) | RC0805JR-070RL (Yageo) | 0805 |
 | R (Q2 gate) | 1 + 1 | 1 k series, 100 k pulldown | RC0402FR-071KL / -07100KL | 0402 |
 | U4 | 1 | LDO 3.3 V 1 A | LP38692MP-3.3/NOPB (TI) | SOT-223-5 |
 | U5 | 1 | LDO 3.3 V low-noise | LP5907MFX-3.3/NOPB (TI) | SOT-23-5 |
@@ -508,3 +518,10 @@ DigiKey PNs and evidence: `design/parts_signal.md`, `review/sourcing_research_no
 - **R9 (low): WE-MAPI Isat(10 %)** 3.5 A / 3.35 A (snippets) is below the 3.8 A max HS current limit; soft saturation makes this acceptable (section 2.2). Verify against the Würth PDF at Gate 2.
 - **R10 (medium): 10 V rail on 2S / low 3S** cannot reach 10 V (section 3.4, D-11). HD VTXs needing ≥ 7.4 V brown out on 2S.
 - **R11 (medium): thermal in still air** (section 12.5). Bench running at full load without airflow is not allowed; the bring-up thermal test is a pass/fail gate.
+- **R12 (medium, single fault): U1 high-side FET short** (Gate 1 G1P-07) puts VBAT (up to 25.2 V) on 5V and, through D5, on 5V_SYS: the
+  LP38692 (10 V operating / 12 V abs max), LP5907 (6 V abs max), SN74LV1T125, cameras, GPS, RX and LED strip would be destroyed. There is
+  no crowbar/OVP on 5V. Accepted for rev C (same as most FPV FCs); a 6.2 V TVS + fuse or an OVP switch on 5V is a respin option.
+- **R13 (low): JST-SH pin current** (power re-audit P2-05): J3 pin 1 (10 V via R41) is a JST-SH contact rated 1 A. HD VTXs drawing > 1 A
+  (or analog VTXs at high power) must use the 10V/GND pads, not the connector. R41 (0805 0R jumper, Yageo rating 2 A — datasheet not on
+  file) dissipates < 0.1 W at 1.5 A.
+- **R14 (low): LP38692 output network stability** (section 7, P2-03): bring-up load-step test with a documented fallback.

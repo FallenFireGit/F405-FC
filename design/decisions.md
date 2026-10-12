@@ -33,7 +33,7 @@ during USB-only DFU. The GPS 5 V pin is on **5V** (battery only), so it is dead 
 - Rev A's TPS54360B (non-synchronous) left the 5 V catch diode at an estimated 115-161 C junction at 2.5 A on 6S.
 - **LMR38020** (80 V op / 85 V abs max, synchronous, internal compensation) removes both catch diodes and both compensation networks.
   The board-level thermal envelope is in `design/power.md` section 12.5 (D-12).
-- Its 2 A rating and valley current limit (1.8 A min) give a guaranteed 1.96-2.20 A (5 V) and 1.97-2.13 A (10 V).
+- Its 2 A rating and valley current limit (1.8 A min) give 1.96-2.20 A (5 V) and 1.97-2.13 A (10 V) at nominal L/f, and ≥ 1.87 A / ≥ 1.78 A worst case with tolerances.
 - **Requirement deviations:** 5 V / 2.5 A → **1.8 A continuous** (LED strip budget 0.8 A instead of 1.0 A); 10 V / 2 A → **1.5 A
   continuous** (≥ 1.78 A worst-case current-limit floor; 2 A peaks are not guaranteed). Typical HD VTXs draw 0.8-1.2 A at 10 V.
 - **Variant FS** (forced PWM + spread spectrum): DigiKey showed LMR38020FDDAR out of stock (20-week lead time) and listed
@@ -94,7 +94,7 @@ the regulated 10 V node. Documented in `design/power.md` 3.4 and the bring-up gu
 
 ## D-12 Thermal operating envelope (power audit P0-01)
 
-The 36 x 36 mm board cannot shed the 3.3 W worst-case loss in still air. Full budgets assume in-flight airflow; the bench envelope is
+The 36 x 36 mm board cannot shed the ≈ 3.9 W worst-case board dissipation (incl. 3V3 loads) in still air. Full budgets assume in-flight airflow; the bench envelope is
 ≤ 1 W total dissipation. A fan-cooled full-load thermal test at bring-up is a pass/fail gate (`design/power.md` 12.5). STM32F405RGT7
 (105 C) does **not** help, because the IMUs and baro are 85 C parts; the envelope (Ta ≤ 35 C full load, Ta 35-50 C ≤ 3 W, bench ≤ 1 W) is the control.
 
@@ -119,4 +119,4 @@ not added (requirement-compliant as is; board area).
 ## D-16 HD VTX 10 V pin through a 0R link (power re-audit P1-03)
 
 R41 (0R, 0805) sits in series with J3 pin 1. 2S HD builds that power the VTX from the VBAT pads (D-11) must remove R41 so the stock
-harness cannot tie VBAT onto the regulated 10 V node.
+harness cannot tie VBAT onto the regulated 10 V node. J3's pin is a 1 A JST-SH contact: VTXs above 1 A use the 10V/GND pads (P2-05).
