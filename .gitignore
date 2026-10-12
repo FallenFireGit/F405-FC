@@ -14,3 +14,5 @@ __pycache__/
 kicad/trial/
 kicad/*.dsn
 kicad/*.ses
+kicad/route_geom.json
+kicad/route_add.json
