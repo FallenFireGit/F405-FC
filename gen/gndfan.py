@@ -15,6 +15,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PCB = os.environ.get("F405_PCB", os.path.join(ROOT, "kicad", "F405FC.kicad_pcb"))
 PLAN = os.path.join("/tmp", "gndfan_plan.json")
+MODE = os.environ.get("FANOUT", "gnd")   # "gnd" (default) or "mcu" (U3 inward fanout)
 OX = OY = 100.0
 W = H = 36.0
 VIA_R = 0.3
@@ -80,15 +81,15 @@ def plan():
         for r, net, lay, ref, p in pads:
             if p is own:
                 continue
-            if rect_dist(x, y, r) < VIA_R + (0.05 if net == "GND" else CLR):
+            if rect_dist(x, y, r) < VIA_R + (0.05 if net == "GND" and MODE == "gnd" else CLR):
                 return False
         for vx, vy, vr, net in vias:
-            if math.hypot(x - vx, y - vy) < VIA_R + vr + (0.25 if net == "GND" else CLR + 0.1):
+            if math.hypot(x - vx, y - vy) < VIA_R + vr + (0.25 if net == "GND" and MODE == "gnd" else CLR + 0.1):
                 return False
         for a, b, hw, net, lay in tracks:
             if lay == "I" and net == "GND":
                 continue
-            if seg_dist(x, y, *a, *b) < VIA_R + hw + (0.05 if net == "GND" else CLR):
+            if seg_dist(x, y, *a, *b) < VIA_R + hw + (0.05 if net == "GND" and MODE == "gnd" else CLR):
                 return False
         return True
 
@@ -105,6 +106,8 @@ def plan():
         return True
 
     new_vias, new_stubs, missed = [], [], []
+    if MODE == "mcu":
+        return plan_mcu(pads, vias, tracks, via_ok, stub_ok)
     for r, net, lay, ref, p in pads:
         if net != "GND" or ref in SKIP_REFS or p.GetAttribute() != pcbnew.PAD_ATTRIB_SMD or ref.startswith("H"):
             continue
@@ -149,6 +152,60 @@ def plan():
     print(f"gndfan: {len(new_vias)} vias planned; no spot for: {' '.join(missed) or 'none'}")
 
 
+def plan_mcu(pads, vias, tracks, via_ok, stub_ok):
+    """U3 (LQFP-64) inward fanout: signal pins whose net has no other top-side pad within 4 mm get a stub toward the package
+    centre and a via under the body (rows 0.45 mm and 1.25 mm inside the pad ends, alternating), so the router can leave the
+    pin field on In2/B instead of squeezing every escape between the top-side support parts."""
+    import pcbnew
+    skip = {"GND", "3V3", "3V3A", "VCAP1", "VCAP2", ""}
+    u3 = [(r, net, lay, ref, p) for r, net, lay, ref, p in pads if ref == "U3"]
+    cx, cy = 17.0, 17.5
+    new_vias, new_stubs, done, missed = [], [], [], []
+    for r, net, lay, ref, p in sorted(u3, key=lambda t: int(t[4].GetNumber())):
+        if net in skip or net.startswith("unconnected-"):
+            continue
+        px, py = (r[0] + r[2]) / 2, (r[1] + r[3]) / 2
+        near = [q for q in pads if q[1] == net and q[3] != "U3" and "F" in q[2]
+                and math.hypot((q[0][0] + q[0][2]) / 2 - px, (q[0][1] + q[0][3]) / 2 - py) < 4.0]
+        if near:
+            continue
+        horiz = (r[2] - r[0]) > (r[3] - r[1])          # pad long axis along x: left/right side
+        if horiz:
+            ux, uy = (1.0 if px < cx else -1.0), 0.0
+            end = (r[2] if px < cx else r[0], py)
+        else:
+            ux, uy = 0.0, (1.0 if py < cy else -1.0)
+            end = (px, r[3] if py < cy else r[1])
+        num = int(p.GetNumber())
+        rows = (0.45, 1.25) if num % 2 else (1.25, 0.45)
+        best = None
+        for d in rows + (2.05, 2.85, 3.65):
+            for lat in (0.0, 0.25, -0.25, 0.5, -0.5):
+                x, y = end[0] + ux * d + uy * lat, end[1] + uy * d + ux * lat
+                knee = (end[0] + ux * (d - 0.3), end[1] + uy * (d - 0.3))
+                if lat == 0.0:
+                    ok = via_ok(x, y, p) and stub_ok((px, py), (x, y), "F", p)
+                else:
+                    ok = via_ok(x, y, p) and stub_ok((px, py), knee, "F", p) and stub_ok(knee, (x, y), "F", p)
+                if ok:
+                    best = (x, y, None if lat == 0.0 else knee)
+                    break
+            if best:
+                break
+        if best is None:
+            missed.append(f"U3.{num}({net})")
+            continue
+        x, y, knee = best
+        pts = [(px, py)] + ([knee] if knee else []) + [(x, y)]
+        vias.append((x, y, VIA_R, net))
+        new_vias.append((x, y, net))
+        for a0, b0 in zip(pts, pts[1:]):
+            tracks.append((a0, b0, 0.127 / 2, net, "F"))
+            new_stubs.append(("F", a0[0], a0[1], b0[0], b0[1], net))
+    json.dump({"vias": new_vias, "stubs": new_stubs}, open(PLAN, "w"))
+    print(f"mcufan: {len(new_vias)} pins fanned in; no spot: {' '.join(missed) or 'none'}")
+
+
 def apply(kind):
     import pcbnew
     board = pcbnew.LoadBoard(PCB)
@@ -158,16 +215,18 @@ def apply(kind):
     def pt(x, y):
         return pcbnew.VECTOR2I(pcbnew.FromMM(OX + x), pcbnew.FromMM(OY + y))
     if kind == "stubs":
-        for side, ax, ay, bx, by in d["stubs"]:
+        for st in d["stubs"]:
+            side, ax, ay, bx, by = st[:5]
+            net = board.FindNet(st[5]) if len(st) > 5 else gnd
             t = pcbnew.PCB_TRACK(board)
-            t.SetStart(pt(ax, ay)); t.SetEnd(pt(bx, by)); t.SetWidth(pcbnew.FromMM(STUB_W))
-            t.SetLayer(pcbnew.F_Cu if side == "F" else pcbnew.B_Cu); t.SetNet(gnd); t.SetLocked(True)
+            t.SetStart(pt(ax, ay)); t.SetEnd(pt(bx, by)); t.SetWidth(pcbnew.FromMM(STUB_W if len(st) == 5 else 0.127))
+            t.SetLayer(pcbnew.F_Cu if side == "F" else pcbnew.B_Cu); t.SetNet(net); t.SetLocked(True)
             board.Add(t)
     else:
-        for x, y in d["vias"]:
+        for vv in d["vias"]:
             v = pcbnew.PCB_VIA(board)
-            v.SetPosition(pt(x, y)); v.SetWidth(pcbnew.FromMM(0.6)); v.SetDrill(pcbnew.FromMM(0.3))
-            v.SetNet(gnd); v.SetLocked(True)
+            v.SetPosition(pt(vv[0], vv[1])); v.SetWidth(pcbnew.FromMM(0.6)); v.SetDrill(pcbnew.FromMM(0.3))
+            v.SetNet(board.FindNet(vv[2]) if len(vv) > 2 else gnd); v.SetLocked(True)
             board.Add(v)
     board.Save(PCB)
     print("gndfan", kind, "added")

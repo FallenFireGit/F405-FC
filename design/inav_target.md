@@ -38,13 +38,13 @@ Timer DMA encodings are from INAV `timer_def_stm32f4xx.h` (`datasheets/inav_src/
 #define SPI1_MOSI_PIN           PA7
 
 #define USE_IMU_ICM42605        // INAV's ICM42605 driver also handles ICM-42688-P
-#define IMU_ICM42605_ALIGN      CW0_DEG      // placeholder until PCB orientation is fixed
+#define IMU_ICM42605_ALIGN      CW270_DEG_FLIP  // provisional (G3-13): bottom side, front = J3 edge; bench-verify
 #define ICM42605_SPI_BUS        BUS_SPI1
 #define ICM42605_CS_PIN         PA4
 #define ICM42605_EXTI_PIN       PC4
 
 #define USE_IMU_BMI270
-#define IMU_BMI270_ALIGN        CW0_DEG      // placeholder
+#define IMU_BMI270_ALIGN        CW0_DEG_FLIP    // provisional (G3-13); bench-verify
 #define BMI270_SPI_BUS          BUS_SPI1
 #define BMI270_CS_PIN           PA15
 #define BMI270_EXTI_PIN         PC14

@@ -77,6 +77,14 @@ def stage(name, passes):
         print("ses", ok)
         filler = pcbnew.ZONE_FILLER(board)
         filler.Fill(board.Zones())
+    elif name == "minwidth":
+        # Freerouting necks traces down to 0.75 x width at pins (0.1124 mm for 0.15 mm): restore the 0.127 mm fab minimum
+        n = 0
+        for t in board.GetTracks():
+            if t.GetClass() == "PCB_TRACK" and t.GetWidth() < mm(0.127):
+                t.SetWidth(mm(0.127))
+                n += 1
+        print("widened", n)
     elif name == "fill":
         filler = pcbnew.ZONE_FILLER(board)
         filler.Fill(board.Zones())
@@ -96,6 +104,7 @@ def main():
     subprocess.run([JAVA, "-Djava.awt.headless=true", "-jar", FR, "-de", DSN, "-do", SES, "-mp", passes, "-mt", "3"],
                    check=True)
     subprocess.run([py, os.path.abspath(__file__), "--stage", "ses"], check=True)
+    subprocess.run([py, os.path.abspath(__file__), "--stage", "minwidth"], check=True)
     subprocess.run([py, os.path.abspath(__file__), "--stage", "pours"], check=True)
     subprocess.run([py, os.path.abspath(__file__), "--stage", "fill"], check=True)
 

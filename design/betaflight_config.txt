@@ -143,13 +143,14 @@ set system_hse_mhz = 8
 # Gyros: both on SPI1, separate CS + EXTI
 set gyro_1_bustype = SPI
 set gyro_1_spibus = 1
-set gyro_1_sensor_align = CW0
+set gyro_1_sensor_align = CW270FLIP
 set gyro_2_bustype = SPI
 set gyro_2_spibus = 1
-set gyro_2_sensor_align = CW0
+set gyro_2_sensor_align = CW0FLIP
 set gyro_to_use = FIRST
 # gyro_1 = ICM-42688-P (CS A04 / EXTI C04), gyro_2 = BMI270 (CS A15 / EXTI C14)
-# Sensor align values are placeholders until PCB placement/rotation is fixed.
+# Alignment (PROVISIONAL, Gate 3 G3-13): both IMUs on the bottom side, rot 0; board front = J3 (VTX) edge, marked "FRONT" on silk.
+# Derived from datasheet axis figures, not yet bench-verified: confirm with the tilt test in docs/assembly_and_bringup.md §4.
 
 # Barometer BMP390 (BF BMP388 driver) on I2C1, SDO strapped to GND -> 0x76
 set baro_bustype = I2C
@@ -298,8 +299,8 @@ set osd_displayport_device = MSP
 # #define SYSTEM_HSE_MHZ              8
 # #define GYRO_1_SPI_INSTANCE         SPI1
 # #define GYRO_2_SPI_INSTANCE         SPI1
-# #define GYRO_1_ALIGN                CW0_DEG
-# #define GYRO_2_ALIGN                CW0_DEG
+# #define GYRO_1_ALIGN                CW270_DEG_FLIP   (provisional)
+# #define GYRO_2_ALIGN                CW0_DEG_FLIP     (provisional)
 # #define FLASH_SPI_INSTANCE          SPI3
 # #define BARO_I2C_INSTANCE           I2CDEV_1
 # #define MAG_I2C_INSTANCE            I2CDEV_1
