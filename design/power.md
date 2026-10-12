@@ -3,8 +3,8 @@
 Source of truth for requirements: `design/requirements.md`. Datasheets are in `datasheets/` (file name in brackets).
 Rev B (2026-10-11) replaces both TPS54360B non-synchronous bucks with the synchronous TI **LMR38020FSDDAR**, removes the
 TPS22810 load switch (VTX power is now cut by disabling the 10 V buck), and adds VBAT/GND and 10V/GND solder pads.
-Rev A is in git history (commit d33a98e). **Rev C (Gate 3, D-19):** 2.0 mm WE-MAPI 4020 5.6 uH inductors and 2.0 mm 1210
-input caps for the 2.5 mm bottom-height limit; 10 V budget 1.3 A. Section 12 loss/thermal tables still use the rev B 1.5 A / 4030 figures
+Rev A is in git history (commit d33a98e). **Rev C (Gate 3, D-19):** 2.1 mm max WE-MAPI 4020 5.6 uH inductors and 2.0 mm 1210
+input caps (TDK 4.7 uF 100 V, G2R-01) for the 2.5 mm bottom-height limit; 10 V budget 1.3 A. Section 12 loss/thermal tables still use the rev B 1.5 A / 4030 figures
 (conservative: the 10 V load is lower; inductor DCR loss is within 10 mW). All rev B numbers come from `gen/power_calc_lmr.py` (run `python3 -I gen/power_calc_lmr.py`).
 Decisions and requirement deviations are logged in `design/decisions.md`.
 
@@ -34,7 +34,7 @@ Decisions and requirement deviations are logged in `design/decisions.md`.
 - **Cost of the change:** the 2 A device rating. The datasheet guarantees output current through the valley limit (Eq. 7:
   IOUTmax = ILS + dIL/2, ILS = 1.8 A min / 2.3 typ). With nominal inductance and frequency that is 1.96-2.20 A across 2S-6S (5 V) and
   1.97-2.13 A (10 V). Including −20 % inductance, −20 % RT/oscillator spread and the −8 % spread-spectrum dip (audit P0-03), the
-  floor was **≥ 1.87 A (5 V)** and **≥ 1.78 A (10 V)** with the rev B 4030 inductors. **Rev C (Gate 3, D-19)** moved to 2.0 mm WE-MAPI 4020
+  floor was **≥ 1.87 A (5 V)** and **≥ 1.78 A (10 V)** with the rev B 4030 inductors. **Rev C (Gate 3, D-19)** moved to 2.1 mm max WE-MAPI 4020
   5.6 uH parts on both rails for the 2.5 mm bottom-height limit; the larger ripple lowers the high-side peak-limit floor (IHS min 2.6 A − dIL,max/2)
   to **≥ 1.78 A (5 V)** and **≥ 1.38 A (10 V)** at 25.2 V, so the 10 V rail is now derated to **1.3 A continuous**. So the requirement "5 V / 2.5 A" is **derated to 1.8 A continuous** (section 12.1;
   the 1.71 A budget (section 12.1) leaves ≥ 0.16 A to the worst-case limit, so the LED-strip cap in firmware is mandatory, not advisory) and
@@ -103,15 +103,17 @@ the indicator; this is normal for FPV FCs because polarity is set by the ESC har
 
 | Ref | Value | MPN | Placement |
 |---|---|---|---|
-| C1 | 10 uF 50 V X7R 1210 | Murata GRM32DR71H106KA01L (2.0 mm, rev C) | Board entry, next to D1 |
-| C2+C3 (U1) / C10+C11 (U2) | 2 x 10 uF 50 V X7R 1210 per IC | GRM32DR71H106KA01L (rev C) | U1 / U2 VIN-GND, inside the hot loop (audit P0-06: two per IC so each meets 4.7 uF effective locally) |
+| C1 | 10 uF 50 V X7R 1210 | Samsung CL32B106KBJNNNE (top side, 2.7 mm max is within 3.5 mm) | Board entry, next to D1 |
+| C2+C3 (U1) / C10+C11 (U2) | 2 x 4.7 uF 100 V X7S 1210 per IC (2.0 mm, rev C) | TDK C3225X7S2A475K200AB | U1 / U2 VIN-GND, inside the hot loop (audit P0-06: two per IC so each meets 4.7 uF effective locally) |
 | C4 / C5 | 100 nF 100 V X7R 0603 | Murata GRM188R72A104KA35D | U1 / U2 VIN pin, closest (datasheet 9.2.2.6: 100-220 nF HF bypass) |
 
 - LMR38020 needs at least **4.7 uF effective** on VIN (9.2.2.6). A 10 uF/50 V 1210 keeps about 4.5 uF at 25 V, so each IC gets **two**
   (≈ 9 uF effective locally), plus the shared entry cap C1. Murata GRM32ER71H106KA12L was replaced by Samsung CL32B106KBJNNNE
   (DigiKey 1276-3387-1-ND) because one DigiKey listing showed the Murata part as discontinued. **Rev C (D-19):** the Samsung part is
-  2.7 mm max, over the 2.5 mm bottom limit, so all five are now Murata **GRM32DR71H106KA01L** (1210, 2.0 mm thickness code D). Its
-  DC-bias derating at 25 V is not confirmed from the Murata curve (assume ≈ 3.5 uF effective each, ≈ 7 uF per IC, still ≥ 4.7 uF).
+  2.7 mm max, over the 2.5 mm bottom limit, so the four bottom-side caps are now TDK **C3225X7S2A475K200AB** (4.7 uF 100 V X7S, 2.0 ± 0.2 mm). The Murata GRM32DR71H106KA01L
+  first chosen could not be found at any distributor (Gate 2 re-check G2R-01). A 100 V part keeps more of its value at 25 V; the TDK DC-bias
+  curve was not read (assume ≈ 3.5 uF effective each, ≈ 7 uF per IC, ≥ 4.7 uF required). C1 (top side) keeps CL32B106KBJNNNE.
+  **Bring-up check:** measure VIN ripple at the U1/U2 VIN pins at full load on 6S (target < 250 mV p-p).
 - RMS ripple current ≈ IOUT/2 (Eq. 12): 0.9 A (5 V) and 0.75 A (10 V). A 1210 X7R handles 2-3 A at a few mOhm ESR.
 - **External bulk:** a low-ESR electrolytic of 470-1000 uF, 35 V min (50 V preferred for 6S) across the ESC battery pads. It damps the
   battery-lead/ceramic LC on hot-plug and absorbs regen energy; the TVS is the backstop.
@@ -132,11 +134,12 @@ parametric equivalent (1,401 pcs, $4.55, Oct 2026 web snapshot; re-check at orde
   maximum duty cycle the rail regulates down to VIN ≈ **6.25-6.4 V** at 1.8 A (audit P0-04); below that it tracks
   VOUT ≈ 0.97·VIN − IOUT·(RDS,HS,hot + DCR). A 2S pack under load (6.0 V) gives about 4.76-4.87 V at 1.8 A (power re-audit P0-04). `gen/power_calc_lmr.py` models 100 % duty and therefore overstates dropout outputs; the 97 % figures in this document are authoritative.
 
-### 2.2 Inductor: Würth WE-MAPI 4020 74438356056 (5.6 uH, 4.0 x 4.0 x 2.1 mm max) — rev C (D-19)
+### 2.2 Inductor: Würth WE-MAPI 4020 74438356056 (5.6 uH, 4.1 x 4.1 x 2.1 mm max) — rev C (D-19)
 - Rev B used the 4030 74438357068 (6.8 uH, 3.1 mm). Gate 3 (G3-01) found it breaks the **2.5 mm bottom-side limit**; the bucks sit on the
-  bottom, so both rails now use the 2.0 mm WE-MAPI 4020 74438356056. 5.6 uH is the largest 4020 value found in distributor listings.
-- Distributor figures (RS listing, not yet the Würth PDF): 5.6 uH ±20 %, 2.8 A Idc, **RDC max 81 mOhm**, AEC-Q200. The Isat(10 %) of
-  2.65 A used here comes from the Gate 3 rework notes and must be confirmed by the Gate 2 re-check against the Würth datasheet.
+  bottom, so both rails now use the 2.1 mm max WE-MAPI 4020 74438356056. 5.6 uH is the largest 4020 value found in distributor listings.
+- Würth figures (from distributor/search snippets quoting the datasheet; the PDF itself could not be downloaded): 5.6 uH ±20 %,
+  **RDC 68 mOhm typ / 81 mOhm max**, Isat(10 %) **2.65 A typ**, Isat(30 %) 5.5 A typ, IR 2.8 A (catalog) / 3.85 A (datasheet), AEC-Q200.
+  DigiKey PN not confirmed (G2R-02); alternate Würth WE-MAIA 78438356056 (DigiKey 732-11317-1-ND, same size and ratings).
 - Eq. 11 sub-harmonic floor: LMIN = 0.25 x 5.1 / 750k = **1.70 uH**; 5.6 uH is 3.3x above.
 - Ripple (nominal L/f): 0.38 A (7.4 V), 0.72 A (12.6 V), **0.97 A (25.2 V)** = K 0.54 of the 1.8 A budget (above TI's 20-40 % window; accepted:
   the LMR38020 is internally compensated for this range and the output ripple stays ≈ 6 mV with 42 uF effective).
@@ -487,7 +490,8 @@ DigiKey PNs and evidence: `design/parts_signal.md`, `review/sourcing_research_no
 | D1 | 1 | TVS 26 V uni 600 W | SMBJ26A (Littelfuse) | SMB |
 | U1, U2 | 2 | 80 V 2 A sync buck, FPWM + SS | LMR38020FSDDAR (TI) | HSOIC-8 PowerPAD |
 | L1, L2 | 2 | 5.6 uH 2.8 A 81 mOhm (rev C) | 74438356056 (Würth WE-MAPI) | 4020 |
-| C (VBAT entry + 2 per IC) | 5 | 10 uF 50 V X7R | GRM32DR71H106KA01L (Murata, rev C) | 1210 (2.0 mm) |
+| C1 (VBAT entry) | 1 | 10 uF 50 V X7R | CL32B106KBJNNNE (Samsung) | 1210 |
+| C2 C3 C10 C11 (2 per IC) | 4 | 4.7 uF 100 V X7S | C3225X7S2A475K200AB (TDK, rev C) | 1210 (2.0 mm) |
 | C4, C12, C17 | 3 | 100 nF 100 V X7R (VIN HF ×2, 10 V out HF) | GRM188R72A104KA35D (Murata) | 0603 |
 | Cout | 6 | 22 uF 25 V X5R (3 per rail) | CL31A226KAHNNNE (Samsung) | 1206 |
 | Cboot, HF out | 4 | 100 nF 16 V X7R | CL05B104KO5NNNC (Samsung) | 0402 |
@@ -523,7 +527,7 @@ DigiKey PNs and evidence: `design/parts_signal.md`, `review/sourcing_research_no
   the failed FET. Accepted as a double fault (a shorted FET first); it is not a first-power-up risk.
 - **R8 (low): switching-edge losses** use a 10 ns estimate (TI publishes no rise/fall time). Confirm the 5 V rail's case temperature
   on the bench at 1.8 A on 2S and 6S (bring-up guide).
-- **R9 (low): WE-MAPI Isat(10 %)** 3.5 A / 3.35 A (snippets) is below the 3.8 A max HS current limit; soft saturation makes this acceptable (section 2.2). Verify against the Würth PDF at Gate 2.
+- **R9 (low): WE-MAPI 4020 Isat(10 %)** 2.65 A **typical** (Würth figures via snippets, Gate 2 re-check), Isat(30 %) 5.5 A, is below the 2.6-3.8 A HS current limit; soft saturation and the valley limit + hiccup make this acceptable (section 2.2). The worst normal-load peak is 2.28 A (5 V, 1.8 A, 25.2 V).
 - **R10 (medium): 10 V rail on 2S / low 3S** cannot reach 10 V (section 3.4, D-11). HD VTXs needing ≥ 7.4 V brown out on 2S.
 - **R11 (medium): thermal in still air** (section 12.5). Bench running at full load without airflow is not allowed; the bring-up thermal test is a pass/fail gate.
 - **R12 (medium, single fault): U1 high-side FET short** (Gate 1 G1P-07) puts VBAT (up to 25.2 V) on 5V and, through D5, on 5V_SYS: the

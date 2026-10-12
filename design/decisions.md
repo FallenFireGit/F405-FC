@@ -166,3 +166,16 @@ Gate 3 (`review/gate-3-placement.md`) failed with 3 BLOCKER / 9 MAJOR. Changes:
 - **Battery pads** P1/P2 moved to the bottom edge (they sat over U1's PowerPAD vias on the top); C1 stays on top next to D1.
 - **ADC clamps:** D8 (RSSI) sits near the MCU on the bottom; D7 (CURR_ADC) had no free spot there and moved to the bottom-right corner
   (32.0, 7.25). The ADC nets are slow; trace length is not critical.
+
+## D-20 Gate 2 re-check (`review/gate-2-recheck.md`)
+
+- **G2R-01 BLOCKER:** GRM32DR71H106KA01L was not found at any distributor. Bottom-side input caps C2/C3/C10/C11 are now TDK
+  **C3225X7S2A475K200AB** (4.7 uF 100 V X7S 1210, 2.0 mm; DigiKey 445-6042-1-ND to verify at order time). C1 (top side) returns to
+  Samsung CL32B106KBJNNNE (1276-3387-1-ND). Per-IC effective input capacitance ≈ 7 uF at 25 V (estimate; curve not read).
+- **G2R-02 MAJOR:** no DigiKey PN seen for 74438356056. Kept (Würth figures confirmed: 81 mOhm max, Isat(10 %) 2.65 A typ, 2.1 mm max);
+  alternate WE-MAIA **78438356056** (732-11317-1-ND). Confirm in DigiKey BOM Manager before ordering.
+- **G2R-03 MAJOR:** `bom/F405FC_digikey_bom.csv` and `bom/digikey_bom_costed.csv` regenerated from circuit.py; ERJ-2RKF PNs filled
+  (P34.8KLCT-ND / P24.3KLCT-ND), U10 → 256-W25N01GVZEIGTRCT-ND (G2R-05), KEMET price corrected. Estimated total **$175.73**.
+- **G2R-07 MINOR (LMR38020 paste 45 %, 8 vias):** kept; with hand assembly the paste is applied by stencil and the three windows avoid
+  wicking into the open vias. Bring-up thermal test (power.md §12.5) is the check.
+- **G2R-08 INFO:** no tracks or vias under the L1/L2 bodies on B.Cu (rule areas added before routing).

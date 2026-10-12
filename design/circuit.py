@@ -53,8 +53,8 @@ CAT = {
     "R10k": yageo("10.0K", "10K"),
     "R10k_0603": yageo("10.0K", "10K", "0603"),
     "R11k": yageo("11.0K", "11K"),
-    "R24k3": ("24.3K", R0402, "ERJ-2RKF2432X", "Panasonic", "unconfirmed (BOM Manager matches by MPN)", "https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf"),  # G2S-03: Yageo value not at DigiKey; PN matched by MPN
-    "R34k8": ("34.8K", R0402, "ERJ-2RKF3482X", "Panasonic", "unconfirmed (BOM Manager matches by MPN)", "https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf"),  # G2S-03
+    "R24k3": ("24.3K", R0402, "ERJ-2RKF2432X", "Panasonic", "P24.3KLCT-ND", "https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf"),  # G2S-03: Yageo value not at DigiKey; PN matched by MPN
+    "R34k8": ("34.8K", R0402, "ERJ-2RKF3482X", "Panasonic", "P34.8KLCT-ND", "https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf"),  # G2S-03
     "R100k": yageo("100K", "100K"),
     "R301k_0603": yageo("301K", "301K", "0603"),
     # capacitors
@@ -71,8 +71,9 @@ CAT = {
     "C4u7": ("4.7uF X5R 16V", C0603, "CL10A475KO8NNNC", "Samsung Electro-Mechanics", "1276-1784-1-ND", SAMSUNG_DS),
     "C10u": ("10uF X5R 25V", C0805, "CL21A106KAYNNNE", "Samsung Electro-Mechanics", "1276-2891-1-ND (verify)", SAMSUNG_DS),
     "C22u": ("22uF X5R 25V", C1206, "CL31A226KAHNNNE", "Samsung Electro-Mechanics", "1276-3047-1-ND", SAMSUNG_DS),
-    "C10u_50V": ("10uF X7R 50V 2.0mm", C1210, "GRM32DR71H106KA01L", "Murata", "490-GRM32DR71H106KA01LCT-ND (verify)",
-                 "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM32DR71H106KA01-01.pdf"),  # 2.0 mm max: bottom-side height limit (Gate 3 G3-04)
+    "C10u_50V": ("10uF X7R 50V", C1210, "CL32B106KBJNNNE", "Samsung Electro-Mechanics", "1276-3387-1-ND", SAMSUNG_DS),  # C1 (top side, 2.7 mm max OK)
+    "C4u7_100V": ("4.7uF X7S 100V 2.0mm", C1210, "C3225X7S2A475K200AB", "TDK", "445-6042-1-ND (verify: K200AB cut tape)",
+                  "https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/catalog/mlcc_commercial_midvoltage_en.pdf"),  # G2R-01: bottom-side U1/U2 input caps, 2.0 mm nominal
 }
 
 
@@ -214,8 +215,8 @@ part(PWR, "D1", "Device:D_Zener", "SMBJ26A", FP["SMB"], {"K": "VBAT", "A": "GND"
 C(PWR, "C10u_50V", "VBAT")  # entry cap C1
 
 for rail, vout, rfbb_key, lval, lmpn, ldk, en_net in (
-        ("5V", "5V", "R24k3", "5.6uH", "74438356056", "unconfirmed (BOM Manager matches by MPN)", "EN_5V"),
-        ("10V", "10V", "R11k", "5.6uH", "74438356056", "unconfirmed (BOM Manager matches by MPN)", "EN_10V")):
+        ("5V", "5V", "R24k3", "5.6uH", "74438356056", "not confirmed; alt 78438356056 = 732-11317-1-ND", "EN_5V"),
+        ("10V", "10V", "R11k", "5.6uH", "74438356056", "not confirmed; alt 78438356056 = 732-11317-1-ND", "EN_10V")):
     # WE-MAPI 4020 (2.1 mm max): the bottom side is limited to 2.5 mm (Gate 3 G3-01); one part type for both rails
     u = "U1" if rail == "5V" else "U2"
     l = "L1" if rail == "5V" else "L2"
@@ -224,8 +225,8 @@ for rail, vout, rfbb_key, lval, lmpn, ldk, en_net in (
          {"VIN": "VBAT", "EN": en_net, "RT/SYNC": rt, "PG": None, "BOOT": bst, "SW": sw, "FB": fb, "GND": "GND", "EP": "GND"},
          "LMR38020FSDDAR", "Texas Instruments", "296-LMR38020FSDDARCT-ND (verify)", TI + "lmr38020.pdf",
          desc=f"{rail} buck, 750 kHz FPWM+SS")
-    C(PWR, "C10u_50V", "VBAT")
-    C(PWR, "C10u_50V", "VBAT")  # two per IC: >= 4.7 uF effective at 25 V (power audit P0-06)
+    C(PWR, "C4u7_100V", "VBAT")
+    C(PWR, "C4u7_100V", "VBAT")  # two per IC: >= 4.7 uF effective at 25 V (power audit P0-06; G2R-01 100 V part, ~3.5 uF each at 25 V)
     C(PWR, "C100n_100V", "VBAT")
     R(PWR, "R301k_0603", "VBAT", en_net)
     R(PWR, "R100k", en_net, "GND")
@@ -372,7 +373,7 @@ C(SEN, "C4u7", "3V3")  # IIS2MDC bulk (Gate 1 G1S-04)
 part(SEN, "U10", SYM_W25N, "W25N01GV", FP["W25N"],
      {"VCC": "3V3", "~{CS}": "FLASH_CS", "CLK": "SPI3_SCK", "DI": "SPI3_MOSI", "DO": "SPI3_MISO", "~{WP}": "FLASH_WP",
       "~{HOLD}": "FLASH_HOLD", "GND": "GND", "EP": "GND"},
-     "W25N01GVZEIG TR", "Winbond", "W25N01GVZEIGCT-ND",
+     "W25N01GVZEIG TR", "Winbond", "256-W25N01GVZEIGTRCT-ND",
      "https://www.winbond.com/resource-files/w25n01gv%20revl%20050918%20unsecured.pdf", desc="blackbox flash 1 Gbit")
 C(SEN, "C100n", "3V3")
 R(SEN, "R10k", "3V3", "FLASH_WP")

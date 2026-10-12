@@ -2827,7 +2827,7 @@
 				)
 			)
 		)
-		(property "Value" "10uF X7R 50V 2.0mm"
+		(property "Value" "10uF X7R 50V"
 			(at 129.54 41.91 0)
 			(effects
 				(font
@@ -2844,7 +2844,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM32DR71H106KA01-01.pdf"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL32B106KBJNNNE.do"
 			(at 129.54 35.56 0)
 			(effects
 				(font
@@ -2862,7 +2862,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "GRM32DR71H106KA01L"
+		(property "MPN" "CL32B106KBJNNNE"
 			(at 129.54 35.56 0)
 			(effects
 				(font
@@ -2871,7 +2871,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Murata"
+		(property "Manufacturer" "Samsung Electro-Mechanics"
 			(at 129.54 35.56 0)
 			(effects
 				(font
@@ -2880,7 +2880,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "490-GRM32DR71H106KA01LCT-ND (verify)"
+		(property "DigiKey" "1276-3387-1-ND"
 			(at 129.54 35.56 0)
 			(effects
 				(font
@@ -3240,7 +3240,7 @@
 				)
 			)
 		)
-		(property "Value" "10uF X7R 50V 2.0mm"
+		(property "Value" "4.7uF X7S 100V 2.0mm"
 			(at 203.2 41.91 0)
 			(effects
 				(font
@@ -3257,7 +3257,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM32DR71H106KA01-01.pdf"
+		(property "Datasheet" "https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/catalog/mlcc_commercial_midvoltage_en.pdf"
 			(at 203.2 35.56 0)
 			(effects
 				(font
@@ -3275,7 +3275,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "GRM32DR71H106KA01L"
+		(property "MPN" "C3225X7S2A475K200AB"
 			(at 203.2 35.56 0)
 			(effects
 				(font
@@ -3284,7 +3284,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Murata"
+		(property "Manufacturer" "TDK"
 			(at 203.2 35.56 0)
 			(effects
 				(font
@@ -3293,7 +3293,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "490-GRM32DR71H106KA01LCT-ND (verify)"
+		(property "DigiKey" "445-6042-1-ND (verify: K200AB cut tape)"
 			(at 203.2 35.56 0)
 			(effects
 				(font
@@ -3374,7 +3374,7 @@
 				)
 			)
 		)
-		(property "Value" "10uF X7R 50V 2.0mm"
+		(property "Value" "4.7uF X7S 100V 2.0mm"
 			(at 226.06 41.91 0)
 			(effects
 				(font
@@ -3391,7 +3391,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM32DR71H106KA01-01.pdf"
+		(property "Datasheet" "https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/catalog/mlcc_commercial_midvoltage_en.pdf"
 			(at 226.06 35.56 0)
 			(effects
 				(font
@@ -3409,7 +3409,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "GRM32DR71H106KA01L"
+		(property "MPN" "C3225X7S2A475K200AB"
 			(at 226.06 35.56 0)
 			(effects
 				(font
@@ -3418,7 +3418,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Murata"
+		(property "Manufacturer" "TDK"
 			(at 226.06 35.56 0)
 			(effects
 				(font
@@ -3427,7 +3427,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "490-GRM32DR71H106KA01LCT-ND (verify)"
+		(property "DigiKey" "445-6042-1-ND (verify: K200AB cut tape)"
 			(at 226.06 35.56 0)
 			(effects
 				(font
@@ -3963,7 +3963,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "unconfirmed (BOM Manager matches by MPN)"
+		(property "DigiKey" "P34.8KLCT-ND"
 			(at 48.26 66.04 0)
 			(effects
 				(font
@@ -4231,7 +4231,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "unconfirmed (BOM Manager matches by MPN)"
+		(property "DigiKey" "not confirmed; alt 78438356056 = 732-11317-1-ND"
 			(at 96.52 66.04 0)
 			(effects
 				(font
@@ -4499,7 +4499,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "unconfirmed (BOM Manager matches by MPN)"
+		(property "DigiKey" "P24.3KLCT-ND"
 			(at 142.24 66.04 0)
 			(effects
 				(font
@@ -5395,7 +5395,7 @@
 				)
 			)
 		)
-		(property "Value" "10uF X7R 50V 2.0mm"
+		(property "Value" "4.7uF X7S 100V 2.0mm"
 			(at 78.74 95.25 0)
 			(effects
 				(font
@@ -5412,7 +5412,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM32DR71H106KA01-01.pdf"
+		(property "Datasheet" "https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/catalog/mlcc_commercial_midvoltage_en.pdf"
 			(at 78.74 88.9 0)
 			(effects
 				(font
@@ -5430,7 +5430,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "GRM32DR71H106KA01L"
+		(property "MPN" "C3225X7S2A475K200AB"
 			(at 78.74 88.9 0)
 			(effects
 				(font
@@ -5439,7 +5439,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Murata"
+		(property "Manufacturer" "TDK"
 			(at 78.74 88.9 0)
 			(effects
 				(font
@@ -5448,7 +5448,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "490-GRM32DR71H106KA01LCT-ND (verify)"
+		(property "DigiKey" "445-6042-1-ND (verify: K200AB cut tape)"
 			(at 78.74 88.9 0)
 			(effects
 				(font
@@ -5529,7 +5529,7 @@
 				)
 			)
 		)
-		(property "Value" "10uF X7R 50V 2.0mm"
+		(property "Value" "4.7uF X7S 100V 2.0mm"
 			(at 99.06 95.25 0)
 			(effects
 				(font
@@ -5546,7 +5546,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM32DR71H106KA01-01.pdf"
+		(property "Datasheet" "https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/catalog/mlcc_commercial_midvoltage_en.pdf"
 			(at 99.06 88.9 0)
 			(effects
 				(font
@@ -5564,7 +5564,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "GRM32DR71H106KA01L"
+		(property "MPN" "C3225X7S2A475K200AB"
 			(at 99.06 88.9 0)
 			(effects
 				(font
@@ -5573,7 +5573,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Murata"
+		(property "Manufacturer" "TDK"
 			(at 99.06 88.9 0)
 			(effects
 				(font
@@ -5582,7 +5582,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "490-GRM32DR71H106KA01LCT-ND (verify)"
+		(property "DigiKey" "445-6042-1-ND (verify: K200AB cut tape)"
 			(at 99.06 88.9 0)
 			(effects
 				(font
@@ -6118,7 +6118,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "unconfirmed (BOM Manager matches by MPN)"
+		(property "DigiKey" "P34.8KLCT-ND"
 			(at 193.04 88.9 0)
 			(effects
 				(font
@@ -6386,7 +6386,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "unconfirmed (BOM Manager matches by MPN)"
+		(property "DigiKey" "not confirmed; alt 78438356056 = 732-11317-1-ND"
 			(at 246.38 88.9 0)
 			(effects
 				(font

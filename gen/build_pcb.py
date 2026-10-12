@@ -71,7 +71,32 @@ def hole_keepouts(board):
             a = 2 * math.pi * k / 24
             ps.Append(mm(OX + hx + 2.3 * math.cos(a)), mm(OY + hy + 2.3 * math.sin(a)))
         polys.append(ps)
+    lkeep = []   # G2R-08: Würth forbids tracks/vias under the WE-MAPI body: B.Cu rule area between the pads of L1/L2
+    for fp in board.GetFootprints():
+        if fp.GetReference() in ("L1", "L2"):
+            c = fp.GetPosition()
+            vert = round(fp.GetOrientationDegrees()) % 180 == 90
+            hx, hy = (1.9, 0.6) if vert else (0.6, 1.9)
+            ps = pcbnew.SHAPE_POLY_SET()
+            ps.NewOutline()
+            for sx, sy in ((-1, -1), (1, -1), (1, 1), (-1, 1)):
+                ps.Append(c.x + mm(sx * hx), c.y + mm(sy * hy))
+            polys.append(ps)
+            lkeep.append((fp.GetReference(), fp.GetLayer()))
+    nhole = len(polys) - len(lkeep)
     for i, ps in enumerate(polys):
+        if i >= nhole:
+            ref, layer = lkeep[i - nhole]
+            z = pcbnew.ZONE(board)
+            z.SetIsRuleArea(True)
+            z.SetZoneName(f"IND_KEEPOUT_{ref}")
+            z.SetDoNotAllowTracks(True); z.SetDoNotAllowVias(True); z.SetDoNotAllowZoneFills(False)
+            z.SetDoNotAllowPads(False); z.SetDoNotAllowFootprints(False)
+            z.SetLayer(layer)
+            z.SetOutline(ps)
+            ps.thisown = False
+            board.Add(z)
+            continue
         z = pcbnew.ZONE(board)
         z.SetIsRuleArea(True)
         z.SetZoneName(f"HOLE_KEEPOUT_{i + 1}")
