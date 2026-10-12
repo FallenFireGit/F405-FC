@@ -29,9 +29,9 @@ from scipy import ndimage
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from mazeroute import CX, CY, EDGE, HOLES, N, RES, cls, poly_mask, seg_mask  # noqa: E402
 
-SAFE = 0.035     # grid safety to fixed copper: a pad/track edge can sit up to RES/sqrt(2) beyond its last rasterized cell centre
+SAFE = 0.7 * RES  # grid safety to fixed copper: an edge can sit up to RES/sqrt(2) beyond its last rasterized cell centre
 HOLE_CLR = 0.19  # board rule min_hole_clearance
-OCC_X = 0.015    # routed-to-routed rasterization margin per net
+OCC_X = 0.3 * RES  # routed-to-routed rasterization margin per net
 
 
 def occ_k(c):
@@ -39,7 +39,6 @@ def occ_k(c):
     return (0.0635 if c <= 0.127 else c - 0.0635) + OCC_X
 
 
-OCC_X_NOTE = 0.0      # routed-to-routed: small rasterization overlaps are repaired geometrically after routing (gen/drcfix.py)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KDIR = os.path.dirname(os.environ.get("F405_PCB", os.path.join(ROOT, "kicad", "F405FC.kicad_pcb")).replace("/work/", ROOT + "/"))
@@ -281,7 +280,7 @@ class PF:
                 end = (kk, i, j)
                 break
             exp += 1
-            if exp > 1_500_000:
+            if exp > int(1_500_000 * (0.05 / RES) ** 2):
                 break
             l = RL[kk]
             ins = srcm[kk, i, j]

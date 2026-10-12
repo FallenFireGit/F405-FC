@@ -73,6 +73,25 @@ def legalize(board, fixed, ox, oy, w, h, priority=None, max_r=9.0, tight=None, t
         mcu_ring = [u[0] - RING, u[1] - RING, u[2] + RING, u[3] + RING]
     for side, rect in reserved:          # silk label areas next to the user-pad grids (Gate 3 G3-11)
         placed[side].append(("reserved", list(rect)))
+    # scripted critical copper (gen/critical.py) is added after placement: keep the non-anchored parts off it
+    # (anchored parts sit on it by design: the critical tracks end on their pads)
+    crit = {"T": [], "B": []}
+    try:
+        import critical
+        for net, x, y in critical.VIAS:            # through vias block both sides
+            for sd in "TB":
+                crit[sd].append([x - 0.3, y - 0.3, x + 0.3, y + 0.3])
+        for layer, wdt, net, pts in critical.TRACKS:
+            sd = {"F.Cu": "T", "B.Cu": "B"}.get(layer)
+            if sd is None:
+                continue
+            for (ax, ay), (bx, by) in zip(pts, pts[1:]):
+                n = max(1, int(math.hypot(bx - ax, by - ay) / 0.3))
+                for k in range(n + 1):
+                    x, y = ax + (bx - ax) * k / n, ay + (by - ay) * k / n
+                    crit[sd].append([x - wdt / 2, y - wdt / 2, x + wdt / 2, y + wdt / 2])
+    except ImportError:
+        pass
     movable = [r for r in fps if r not in fixed]
     order = priority or {}
     movable.sort(key=lambda r: (-100 if r in tight else order.get(r, 0), -((lambda b: (b[2] - b[0]) * (b[3] - b[1]))(_bbox(fps[r], ox, oy))), r))
@@ -107,6 +126,10 @@ def legalize(board, fixed, ox, oy, w, h, priority=None, max_r=9.0, tight=None, t
                           continue
                       if mcu_ring and s == "T" and ref not in tight and _hit(b, mcu_ring, 0.0):
                           continue
+                      if ref not in tight:
+                          core = [b[0] + 0.35, b[1] + 0.35, b[2] - 0.35, b[3] - 0.35]   # ~pad area: vias may sit under a body
+                          if any(_hit(core, o, 0.15) for o in crit[s]):
+                              continue
                       cost = r + (0.3 if rot != rot0 else 0)
                       if best is None or cost < best[0]:
                           best = (cost, dx, dy, rot % 360, b)
