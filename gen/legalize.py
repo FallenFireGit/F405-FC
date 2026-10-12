@@ -74,29 +74,32 @@ def legalize(board, fixed, ox, oy, w, h, priority=None, max_r=9.0, tight=None, t
         pos0 = fp.GetPosition()
         rot0 = fp.GetOrientationDegrees()
         best = None
-        for rot in ((rot0,) if ref in tight else (rot0, rot0 + 90)):
-            fp.SetOrientationDegrees(rot % 360)
-            b0 = _bbox(fp, ox, oy)
-            step = 0.1
-            for ring in range(0, int((tight_r if ref in tight else max_r) / step) + 1):
-                r = ring * step
-                if best is not None and r >= best[0]:
-                    break
-                n = max(1, int(2 * math.pi * r / step)) if r else 1
-                for k in range(n):
-                    a = 2 * math.pi * k / n
-                    dx, dy = round(r * math.cos(a), 2), round(r * math.sin(a), 2)
-                    b = [b0[0] + dx, b0[1] + dy, b0[2] + dx, b0[3] + dy]
-                    if not _ok_board(b, w, h):
-                        continue
-                    if any(_hit(b, o) for _, o in placed[s]):
-                        continue
-                    if any(_hit(b, o, 0.15) for _, o in pth[s]):
-                        continue
-                    cost = r + (0.3 if rot != rot0 else 0)
-                    if best is None or cost < best[0]:
-                        best = (cost, dx, dy, rot % 360, b)
-                    break
+        for attempt in ((True, False) if ref in tight else (False,)):
+          if best is not None:
+              break
+          for rot in ((rot0,) if attempt else (rot0, rot0 + 90)):
+              fp.SetOrientationDegrees(rot % 360)
+              b0 = _bbox(fp, ox, oy)
+              step = 0.1
+              for ring in range(0, int((tight_r if attempt else max_r) / step) + 1):
+                  r = ring * step
+                  if best is not None and r >= best[0]:
+                      break
+                  n = max(1, int(2 * math.pi * r / step)) if r else 1
+                  for k in range(n):
+                      a = 2 * math.pi * k / n
+                      dx, dy = round(r * math.cos(a), 2), round(r * math.sin(a), 2)
+                      b = [b0[0] + dx, b0[1] + dy, b0[2] + dx, b0[3] + dy]
+                      if not _ok_board(b, w, h):
+                          continue
+                      if any(_hit(b, o) for _, o in placed[s]):
+                          continue
+                      if any(_hit(b, o, 0.15) for _, o in pth[s]):
+                          continue
+                      cost = r + (0.3 if rot != rot0 else 0)
+                      if best is None or cost < best[0]:
+                          best = (cost, dx, dy, rot % 360, b)
+                      break
         if best is None:
             fp.SetOrientationDegrees(rot0)
             moves.append((ref, None))

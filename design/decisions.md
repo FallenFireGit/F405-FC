@@ -148,3 +148,21 @@ before substituting), PMV40UN2R → DMG3420U-7, STM32F405RGT6 → -RGT7, ICM-426
 - G2F-03/04: LMR38020 paste split into three windows clear of the inner vias; pad and vias set to solid zone connection.
 - G2F-05/06/07 (WSON-8, crystal pads, PTS810 pad pairing) are stock KiCad footprints whose vendor drawings could not be downloaded:
   bring-up check for SW1 = continuity test of BOOT0–3V3 before power-up (must be open when not pressed).
+
+## D-19 Gate 3 rework (placement rev C)
+
+Gate 3 (`review/gate-3-placement.md`) failed with 3 BLOCKER / 9 MAJOR. Changes:
+
+- **Bottom height (G3-01):** L1/L2 4030 (3.1 mm) → Würth WE-MAPI 4020 **74438356056** 5.6 uH (2.1 mm max) on both rails; 1210 input
+  caps CL32B106KBJNNNE (2.7 mm max) → Murata **GRM32DR71H106KA01L** (2.0 mm). Putting the inductors on top was rejected: the bucks'
+  PowerPAD via fields block top-side parts over the ICs, and the SW node would need vias.
+- **Consequence (requirement deviation, extends D-03):** the HS peak-limit floor with −20 % L, −20 % RT and −8 % spread spectrum falls to
+  1.78 A (5 V) and **1.38 A (10 V)** at 6S. The 10 V continuous budget is now **1.3 A** (typical HD VTX 0.8-1.2 A); the 5 V margin over the
+  1.71 A planned load is 0.07 A, so the LED-strip firmware cap stays mandatory. `gen/power_calc_lmr.py` and `design/power.md` §0/2.2/3.1/12.1 updated.
+- **Hot loops (G3-02/03):** every buck, LDO, MCU, IMU and crystal support part is now placed relative to its IC pad (`ANCHOR` in
+  `design/placement.py`), legalized with a 1.5 mm search radius first, and checked by `gen/placecheck.py` (pad-to-pad limits, exits non-zero).
+  Limits of 2.1 mm for BST/HF-input caps and 6.5-7.5 mm for the third 10 V output cap and the U2 EN network are the courtyard-limited
+  minimum on this board (the EN node is a DC divider; the third output cap is bulk).
+- **Battery pads** P1/P2 moved to the bottom edge (they sat over U1's PowerPAD vias on the top); C1 stays on top next to D1.
+- **ADC clamps:** D8 (RSSI) sits near the MCU on the bottom; D7 (CURR_ADC) had no free spot there and moved to the bottom-right corner
+  (32.0, 7.25). The ADC nets are slow; trace length is not critical.

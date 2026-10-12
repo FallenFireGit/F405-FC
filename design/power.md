@@ -3,7 +3,9 @@
 Source of truth for requirements: `design/requirements.md`. Datasheets are in `datasheets/` (file name in brackets).
 Rev B (2026-10-11) replaces both TPS54360B non-synchronous bucks with the synchronous TI **LMR38020FSDDAR**, removes the
 TPS22810 load switch (VTX power is now cut by disabling the 10 V buck), and adds VBAT/GND and 10V/GND solder pads.
-Rev A is in git history (commit d33a98e). All rev B numbers come from `gen/power_calc_lmr.py` (run `python3 -I gen/power_calc_lmr.py`).
+Rev A is in git history (commit d33a98e). **Rev C (Gate 3, D-19):** 2.0 mm WE-MAPI 4020 5.6 uH inductors and 2.0 mm 1210
+input caps for the 2.5 mm bottom-height limit; 10 V budget 1.3 A. Section 12 loss/thermal tables still use the rev B 1.5 A / 4030 figures
+(conservative: the 10 V load is lower; inductor DCR loss is within 10 mW). All rev B numbers come from `gen/power_calc_lmr.py` (run `python3 -I gen/power_calc_lmr.py`).
 Decisions and requirement deviations are logged in `design/decisions.md`.
 
 ---
@@ -13,8 +15,8 @@ Decisions and requirement deviations are logged in `design/decisions.md`.
 | Block | Part | Key numbers |
 |---|---|---|
 | VBAT TVS | Littelfuse **SMBJ26A** (SMB) | VWM 26 V, VBR 28.9-31.9 V, VC 42.1 V @ 14.3 A |
-| 5 V buck (U1) | TI **LMR38020FSDDAR** (HSOIC-8 PowerPAD), 750 kHz, FPWM + spread spectrum | 5.115 V, **1.8 A continuous design budget** (≥ 1.87 A worst-case current-limit floor incl. L/f tolerances), L = 6.8 uH |
-| 10 V buck (U2) | TI **LMR38020FSDDAR** (same IC) | 10.09 V, **1.5 A continuous** (≥ 1.78 A worst-case floor), L = 8.2 uH; EN also = VTX power switch |
+| 5 V buck (U1) | TI **LMR38020FSDDAR** (HSOIC-8 PowerPAD), 750 kHz, FPWM + spread spectrum | 5.115 V, **1.8 A continuous design budget** (≥ 1.78 A worst-case current-limit floor at 6S incl. L/f tolerances, 1.71 A planned load), L = 5.6 uH (rev C, D-19) |
+| 10 V buck (U2) | TI **LMR38020FSDDAR** (same IC) | 10.09 V, **1.3 A continuous** (≥ 1.38 A worst-case floor at 6S), L = 5.6 uH (rev C, D-19); EN also = VTX power switch |
 | VTX pit switch | U2 EN pulled low by **Q2 NX7002AK** (SOT-23) from PINIO1 (PC15) | GPIO high = VTX **off**; default (reset/DFU/boot) = VTX **on** |
 | 3.3 V main | TI **LP38692MP-3.3/NOPB** LDO (SOT-223-5) | 1 A rated, 250 mA budget, from 5V_SYS |
 | 3.3 V IMU | TI **LP5907MFX-3.3/NOPB** LDO (SOT-23-5) | 82 dB PSRR @1 kHz, 10 mA budget |
@@ -32,9 +34,11 @@ Decisions and requirement deviations are logged in `design/decisions.md`.
 - **Cost of the change:** the 2 A device rating. The datasheet guarantees output current through the valley limit (Eq. 7:
   IOUTmax = ILS + dIL/2, ILS = 1.8 A min / 2.3 typ). With nominal inductance and frequency that is 1.96-2.20 A across 2S-6S (5 V) and
   1.97-2.13 A (10 V). Including −20 % inductance, −20 % RT/oscillator spread and the −8 % spread-spectrum dip (audit P0-03), the
-  floor is **≥ 1.87 A (5 V)** and **≥ 1.78 A (10 V)**. So the requirement "5 V / 2.5 A" is **derated to 1.8 A continuous** (section 12.1;
+  floor was **≥ 1.87 A (5 V)** and **≥ 1.78 A (10 V)** with the rev B 4030 inductors. **Rev C (Gate 3, D-19)** moved to 2.0 mm WE-MAPI 4020
+  5.6 uH parts on both rails for the 2.5 mm bottom-height limit; the larger ripple lowers the high-side peak-limit floor (IHS min 2.6 A − dIL,max/2)
+  to **≥ 1.78 A (5 V)** and **≥ 1.38 A (10 V)** at 25.2 V, so the 10 V rail is now derated to **1.3 A continuous**. So the requirement "5 V / 2.5 A" is **derated to 1.8 A continuous** (section 12.1;
   the 1.71 A budget (section 12.1) leaves ≥ 0.16 A to the worst-case limit, so the LED-strip cap in firmware is mandatory, not advisory) and
-  "10 V / 2 A" to **1.5 A continuous** (peaks to ~1.8 A guaranteed, ~2.3 A typical). The lead accepted these deviations (`design/decisions.md` D-03).
+  "10 V / 2 A" to **1.3 A continuous** (rev C; peaks to ~1.38 A guaranteed at 6S, ~1.9 A typical). The lead accepted these deviations (`design/decisions.md` D-03).
 - **Thermals (section 12.5):** the per-IC Tj figures of section 12.2 are large-board values; on this 36 x 36 mm board the board-level
   model of section 12.5 governs, and full budgets are only allowed with in-flight airflow (D-12). In still air the board is limited to ≤ 1 W.
   150 C max / 163 C TSD. Rev A's diode reached 161 C.
@@ -99,13 +103,15 @@ the indicator; this is normal for FPV FCs because polarity is set by the ESC har
 
 | Ref | Value | MPN | Placement |
 |---|---|---|---|
-| C1 | 10 uF 50 V X7R 1210 | Samsung CL32B106KBJNNNE | Board entry, next to D1 |
-| C2+C3 (U1) / C10+C11 (U2) | 2 x 10 uF 50 V X7R 1210 per IC | CL32B106KBJNNNE | U1 / U2 VIN-GND, inside the hot loop (audit P0-06: two per IC so each meets 4.7 uF effective locally) |
+| C1 | 10 uF 50 V X7R 1210 | Murata GRM32DR71H106KA01L (2.0 mm, rev C) | Board entry, next to D1 |
+| C2+C3 (U1) / C10+C11 (U2) | 2 x 10 uF 50 V X7R 1210 per IC | GRM32DR71H106KA01L (rev C) | U1 / U2 VIN-GND, inside the hot loop (audit P0-06: two per IC so each meets 4.7 uF effective locally) |
 | C4 / C5 | 100 nF 100 V X7R 0603 | Murata GRM188R72A104KA35D | U1 / U2 VIN pin, closest (datasheet 9.2.2.6: 100-220 nF HF bypass) |
 
 - LMR38020 needs at least **4.7 uF effective** on VIN (9.2.2.6). A 10 uF/50 V 1210 keeps about 4.5 uF at 25 V, so each IC gets **two**
   (≈ 9 uF effective locally), plus the shared entry cap C1. Murata GRM32ER71H106KA12L was replaced by Samsung CL32B106KBJNNNE
-  (DigiKey 1276-3387-1-ND) because one DigiKey listing showed the Murata part as discontinued.
+  (DigiKey 1276-3387-1-ND) because one DigiKey listing showed the Murata part as discontinued. **Rev C (D-19):** the Samsung part is
+  2.7 mm max, over the 2.5 mm bottom limit, so all five are now Murata **GRM32DR71H106KA01L** (1210, 2.0 mm thickness code D). Its
+  DC-bias derating at 25 V is not confirmed from the Murata curve (assume ≈ 3.5 uF effective each, ≈ 7 uF per IC, still ≥ 4.7 uF).
 - RMS ripple current ≈ IOUT/2 (Eq. 12): 0.9 A (5 V) and 0.75 A (10 V). A 1210 X7R handles 2-3 A at a few mOhm ESR.
 - **External bulk:** a low-ESR electrolytic of 470-1000 uF, 35 V min (50 V preferred for 6S) across the ESC battery pads. It damps the
   battery-lead/ceramic LC on hot-plug and absorbs regen energy; the TVS is the backstop.
@@ -126,16 +132,19 @@ parametric equivalent (1,401 pcs, $4.55, Oct 2026 web snapshot; re-check at orde
   maximum duty cycle the rail regulates down to VIN ≈ **6.25-6.4 V** at 1.8 A (audit P0-04); below that it tracks
   VOUT ≈ 0.97·VIN − IOUT·(RDS,HS,hot + DCR). A 2S pack under load (6.0 V) gives about 4.76-4.87 V at 1.8 A (power re-audit P0-04). `gen/power_calc_lmr.py` models 100 % duty and therefore overstates dropout outputs; the 97 % figures in this document are authoritative.
 
-### 2.2 Inductor: Würth WE-MAPI 74438357068 (6.8 uH, 4030: 4.1 x 4.1 x 3.1 mm max)
-- Eq. 11 sub-harmonic floor: LMIN = 0.25 x 5.1 / 750k = **1.70 uH**. 6.8 uH is 4x above.
-- Ripple (Eq. 10 rearranged): 0.31 A (7.4 V), 0.60 A (12.6 V), **0.80 A (25.2 V)** = K 0.44 of the 1.8 A budget, 0.40 of the 2 A rating.
-  That is at the top of TI's 20-40 % window, chosen to keep the valley-limit current (Eq. 7) above 1.96 A nominal (≥ 1.87 A with tolerances, section 0).
-- Peak at 2.0 A/25.2 V: 2.40 A. WE-MAPI 74438357068 (DigiKey 732-11204-1-ND): rated 3.0 A, DCR max 74 mOhm. Search-snippet figures
-  from the Würth datasheet (audit P0-07): **Isat(10 %) 3.5 A**, Isat(30 %) about 5.5 A. The worst full-load peak (2.4 A) is well below
-  Isat(10 %). The HS current limit (3.8 A max) is **above** Isat(10 %) but below Isat(30 %); the iron-alloy core saturates softly, and the
-  valley limit + hiccup (8.3.8) end a short circuit. Acceptable; Gate 2 confirms from the Würth PDF.
+### 2.2 Inductor: Würth WE-MAPI 4020 74438356056 (5.6 uH, 4.0 x 4.0 x 2.1 mm max) — rev C (D-19)
+- Rev B used the 4030 74438357068 (6.8 uH, 3.1 mm). Gate 3 (G3-01) found it breaks the **2.5 mm bottom-side limit**; the bucks sit on the
+  bottom, so both rails now use the 2.0 mm WE-MAPI 4020 74438356056. 5.6 uH is the largest 4020 value found in distributor listings.
+- Distributor figures (RS listing, not yet the Würth PDF): 5.6 uH ±20 %, 2.8 A Idc, **RDC max 81 mOhm**, AEC-Q200. The Isat(10 %) of
+  2.65 A used here comes from the Gate 3 rework notes and must be confirmed by the Gate 2 re-check against the Würth datasheet.
+- Eq. 11 sub-harmonic floor: LMIN = 0.25 x 5.1 / 750k = **1.70 uH**; 5.6 uH is 3.3x above.
+- Ripple (nominal L/f): 0.38 A (7.4 V), 0.72 A (12.6 V), **0.97 A (25.2 V)** = K 0.54 of the 1.8 A budget (above TI's 20-40 % window; accepted:
+  the LMR38020 is internally compensated for this range and the output ripple stays ≈ 6 mV with 42 uF effective).
+- Peak at 1.8 A/25.2 V: 2.28 A; at 2.0 A: 2.48 A, below Isat(10 %) 2.65 A (to be confirmed). The HS current limit (2.6-3.8 A) is above
+  Isat(10 %): the alloy core saturates softly and the valley limit + hiccup (8.3.8) end a short circuit.
+- Worst-case current-limit floor (−20 % L, −20 % RT/oscillator, −8 % spread spectrum, IHS min 2.6 A): **1.78 A at 25.2 V** (HS-limited),
+  1.95 A at 8.4 V. The 1.71 A planned load (section 12.1) keeps 0.07 A margin at 6S; the firmware LED-strip cap is mandatory.
 - Coilcraft XGL5030 (rev A choice) is not obtainable at DigiKey ("no longer available at DigiKey"), so it is excluded.
-- Height 3.1 mm max (top-side limit 3.5 mm).
 
 ### 2.3 Output capacitors
 - Datasheet Table 9-1 (5 V, 1 MHz, 24 V in): 2 x 22 uF nominal / 2 x 15 uF minimum rated. At 750 kHz we use **3 x 22 uF 25 V X5R 1206
@@ -166,12 +175,12 @@ Left floating (8.3.5: "If this function is not needed, the PG pin must be left f
 
 Same IC, RT (34.8 k), UVLO network (301 k / 100 k), boot cap, input caps and PG treatment as U1.
 
-### 3.1 Inductor: Würth WE-MAPI 74438357082 (8.2 uH, 4030)
-- LMIN (Eq. 11) = 0.25 x 10.09 / 750k = 3.36 uH.
-- Ripple: 0.66 A (16.8 V), 0.98 A (25.2 V), 1.25 A (42.1 V clamp). Peak at 1.5 A/25.2 V = 1.99 A, below the 2.8 A rating
-  (8.2 uH, rated 2.8 A, 86 mOhm, 4030, AEC-Q200; Isat(10 %) ≈ 3.35 A per the Würth figures quoted in the audit). Same soft-saturation
-  argument as L1. DigiKey PN not yet seen: Gate 2 to confirm.
-- Valley-limited output (Eq. 7, ILS min, nominal L/f): 2.13 A (16.8 V), 2.11 A (25.2 V); ≥ 1.78 A with tolerances.
+### 3.1 Inductor: Würth WE-MAPI 4020 74438356056 (5.6 uH, 2.1 mm max) — rev C (D-19)
+- Same part as L1 (rev B: 74438357082 8.2 uH 4030, 3.1 mm, over the bottom height limit).
+- LMIN (Eq. 11) = 0.25 x 10.09 / 750k = 3.36 uH; 5.6 uH is 1.7x above.
+- Ripple (nominal): 0.96 A (16.8 V), **1.44 A (25.2 V)**. Peak at 1.3 A/25.2 V = 2.02 A, below Isat(10 %) 2.65 A (to be confirmed).
+- **Worst-case current-limit floor at 25.2 V: 1.38 A** (IHS min 2.6 A − dIL,max 2.45 A / 2); 1.79 A at 16.8 V. Nominal: 1.88 A at 25.2 V.
+  Hence the 10 V continuous budget drops from 1.5 A to **1.3 A** (D-19). DJI O3 (≈ 0.9 A) and Walksnail/HDZero (0.8-1 A) fit.
 
 ### 3.2 Output capacitors
 **3 x 22 uF 25 V X5R 1206** (CL31A226KAHNNNE), about 3 x 9 uF = 27 uF effective at 10 V. Datasheet Table 9-1 (12 V out): 1 x 22 uF
@@ -376,8 +385,8 @@ Why:
 | 3V3 (LP38692) | MCU 120, flash 35, baro+mag 1, LEDs 6, misc 5 | 170 mA | 1 A | ≥ 5x |
 | 3V3_IMU (LP5907) | 2 IMUs | 10 mA | 250 mA | 25x |
 | 5V_SYS (via D5 / D4) | 3V3 + IMU + RX 150 mA | 0.33-0.41 A | D 3 A | USB budget 0.5 A OK |
-| 5V (U1) | 5V_SYS 0.33 + LED strip **0.80** + 2 cams 0.40 + GPS 0.10 + buzzer 0.08 | **1.71 A** | ≥ 1.87 A worst case (Eq. 7 + tolerances) | 0.16 A |
-| 10V (U2) to VTX | HD VTX (O3 about 0.9 A, Walksnail/HDZero about 0.8-1 A) / analog | **1.5 A cont.** | ≥ 1.78 A worst case | 0.28 A |
+| 5V (U1) | 5V_SYS 0.33 + LED strip **0.80** + 2 cams 0.40 + GPS 0.10 + buzzer 0.08 | **1.71 A** | ≥ 1.78 A worst case at 6S (rev C) | 0.07 A |
+| 10V (U2) to VTX | HD VTX (O3 about 0.9 A, Walksnail/HDZero about 0.8-1 A) / analog | **1.3 A cont.** (rev C) | ≥ 1.38 A worst case at 6S | 0.08 A |
 
 LED strip: 0.8 A ≈ 13 WS2812 at full white; set `ledstrip_brightness` ≤ 50 % for longer strips. This replaces rev A's 1.0 A.
 
@@ -477,9 +486,8 @@ DigiKey PNs and evidence: `design/parts_signal.md`, `review/sourcing_research_no
 |---|---|---|---|---|
 | D1 | 1 | TVS 26 V uni 600 W | SMBJ26A (Littelfuse) | SMB |
 | U1, U2 | 2 | 80 V 2 A sync buck, FPWM + SS | LMR38020FSDDAR (TI) | HSOIC-8 PowerPAD |
-| L1 | 1 | 6.8 uH 3 A 74 mOhm | 74438357068 (Würth WE-MAPI) | 4030 |
-| L2 | 1 | 8.2 uH 2.8 A 86 mOhm | 74438357082 (Würth WE-MAPI) | 4030 |
-| C (VBAT entry + 2 per IC) | 5 | 10 uF 50 V X7R | CL32B106KBJNNNE (Samsung) | 1210 |
+| L1, L2 | 2 | 5.6 uH 2.8 A 81 mOhm (rev C) | 74438356056 (Würth WE-MAPI) | 4020 |
+| C (VBAT entry + 2 per IC) | 5 | 10 uF 50 V X7R | GRM32DR71H106KA01L (Murata, rev C) | 1210 (2.0 mm) |
 | C4, C12, C17 | 3 | 100 nF 100 V X7R (VIN HF ×2, 10 V out HF) | GRM188R72A104KA35D (Murata) | 0603 |
 | Cout | 6 | 22 uF 25 V X5R (3 per rail) | CL31A226KAHNNNE (Samsung) | 1206 |
 | Cboot, HF out | 4 | 100 nF 16 V X7R | CL05B104KO5NNNC (Samsung) | 0402 |
@@ -508,7 +516,7 @@ DigiKey PNs and evidence: `design/parts_signal.md`, `review/sourcing_research_no
 - **R3 (closed): AT7456E sourcing.** Analog OSD removed (`design/decisions.md` D-01).
 - **R4 (low): ceramic DC-bias derating.** Effective capacitance figures are estimates. Every requirement keeps ≥ 1.5x margin.
 - **R5 (low): LP38692 θJA from a column-scrambled text extraction.** Re-read Table 6.4 from the PDF.
-- **R6 (medium): requirement deviation** 5 V 2.5 A → 1.8 A continuous, 10 V 2 A → 1.5 A continuous (D-03). The LED strip budget is the
+- **R6 (medium): requirement deviation** 5 V 2.5 A → 1.8 A continuous, 10 V 2 A → 1.5 A continuous (D-03), and 1.3 A since rev C (D-19). The LED strip budget is the
   item that absorbs it.
 - **R7 (low, double fault): U2 high-side short** puts VBAT on the 10 V net (audit P0-08). The VTX sees VBAT, and the 25 V-rated 10 V
   output capacitors see up to 25.2 V (42 V during TVS-clamped transients) and may crack or fail short, which would then load VBAT through
