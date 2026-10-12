@@ -167,6 +167,21 @@ def place(board, table):
     return missing
 
 
+def anchor(board, anchors):
+    """Place parts relative to a pad of another part: ref -> (anchor_ref, anchor_pad, dx, dy, rot, side).
+    Anchored parts are then treated as FIXED by the legalizer (Gate 3 G3-02/03: hot-loop parts must not drift)."""
+    fps = {fp.GetReference(): fp for fp in board.GetFootprints()}
+    for ref, (aref, apad, dx, dy, rot, side) in anchors.items():
+        a = fps[aref]
+        pad = [p for p in a.Pads() if p.GetNumber() == str(apad)][0]
+        q = pad.GetPosition()
+        fp = fps[ref]
+        if fp.IsFlipped() != (side == "B"):
+            fp.Flip(fp.GetPosition(), pcbnew.FLIP_DIRECTION_LEFT_RIGHT)
+        fp.SetOrientationDegrees(rot)
+        fp.SetPosition(pcbnew.VECTOR2I(q.x + mm(dx), q.y + mm(dy)))
+
+
 def _stage(name):
     """One board mutation per interpreter: KiCad 10.0.6's SWIG wrappers stop resolving types (BOARD_DESIGN_SETTINGS,
     SHAPE_POLY_SET, ...) once python has created a board item of another type in the same process."""
@@ -176,10 +191,13 @@ def _stage(name):
         import placement
         importlib.reload(placement)
         missing = place(board, placement.PLACE)
+        anchor(board, getattr(placement, "ANCHOR", {}))
+        missing = [r for r in missing if r not in getattr(placement, "ANCHOR", {})]
         if missing:
             print("UNPLACED:", " ".join(sorted(missing)))
         import legalize
-        moves = legalize.legalize(board, placement.FIXED, OX, OY, W, H, placement.PRIORITY)
+        moves = legalize.legalize(board, list(placement.FIXED), OX, OY, W, H, placement.PRIORITY,
+                                  tight=list(getattr(placement, "ANCHOR", {})))
         for ref, mv in moves:
             if mv is None or mv[0] > 1.5:
                 print("LEGALIZE", ref, "FAILED (no free spot)" if mv is None else f"moved {mv[0]} mm rot {mv[1]}")

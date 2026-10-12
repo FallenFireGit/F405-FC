@@ -50,7 +50,8 @@ def _ok_board(b, w, h):
     return True
 
 
-def legalize(board, fixed, ox, oy, w, h, priority=None, max_r=9.0):
+def legalize(board, fixed, ox, oy, w, h, priority=None, max_r=9.0, tight=None, tight_r=1.5):
+    tight = set(tight or ())
     fps = {fp.GetReference(): fp for fp in board.GetFootprints()}
     placed = {"T": [], "B": []}
     pth = {"T": [], "B": []}       # PTH obstacles that block the given side
@@ -65,7 +66,7 @@ def legalize(board, fixed, ox, oy, w, h, priority=None, max_r=9.0):
             pth["T" if s == "B" else "B"].append((ref, pb))
     movable = [r for r in fps if r not in fixed]
     order = priority or {}
-    movable.sort(key=lambda r: (order.get(r, 0), -((lambda b: (b[2] - b[0]) * (b[3] - b[1]))(_bbox(fps[r], ox, oy))), r))
+    movable.sort(key=lambda r: (-100 if r in tight else order.get(r, 0), -((lambda b: (b[2] - b[0]) * (b[3] - b[1]))(_bbox(fps[r], ox, oy))), r))
     moves = []
     for ref in movable:
         fp = fps[ref]
@@ -73,11 +74,11 @@ def legalize(board, fixed, ox, oy, w, h, priority=None, max_r=9.0):
         pos0 = fp.GetPosition()
         rot0 = fp.GetOrientationDegrees()
         best = None
-        for rot in (rot0, rot0 + 90):
+        for rot in ((rot0,) if ref in tight else (rot0, rot0 + 90)):
             fp.SetOrientationDegrees(rot % 360)
             b0 = _bbox(fp, ox, oy)
             step = 0.1
-            for ring in range(0, int(max_r / step) + 1):
+            for ring in range(0, int((tight_r if ref in tight else max_r) / step) + 1):
                 r = ring * step
                 if best is not None and r >= best[0]:
                     break

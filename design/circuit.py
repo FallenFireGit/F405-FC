@@ -71,7 +71,8 @@ CAT = {
     "C4u7": ("4.7uF X5R 16V", C0603, "CL10A475KO8NNNC", "Samsung Electro-Mechanics", "1276-1784-1-ND", SAMSUNG_DS),
     "C10u": ("10uF X5R 25V", C0805, "CL21A106KAYNNNE", "Samsung Electro-Mechanics", "1276-2891-1-ND (verify)", SAMSUNG_DS),
     "C22u": ("22uF X5R 25V", C1206, "CL31A226KAHNNNE", "Samsung Electro-Mechanics", "1276-3047-1-ND", SAMSUNG_DS),
-    "C10u_50V": ("10uF X7R 50V", C1210, "CL32B106KBJNNNE", "Samsung Electro-Mechanics", "1276-3387-1-ND", SAMSUNG_DS),
+    "C10u_50V": ("10uF X7R 50V 2.0mm", C1210, "GRM32DR71H106KA01L", "Murata", "490-GRM32DR71H106KA01LCT-ND (verify)",
+                 "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM32DR71H106KA01-01.pdf"),  # 2.0 mm max: bottom-side height limit (Gate 3 G3-04)
 }
 
 
@@ -182,7 +183,7 @@ FP = {
     "SH8": "Connector_JST:JST_SH_SM08B-SRSS-TB_1x08-1MP_P1.00mm_Horizontal",
     "SH6": "Connector_JST:JST_SH_SM06B-SRSS-TB_1x06-1MP_P1.00mm_Horizontal",
     "SH4": "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal",
-    "L4030": "Inductor_SMD:L_Wuerth_MAPI-4030",
+    "L4030": "Inductor_SMD:L_Wuerth_MAPI-4020",
     "SMB": "Diode_SMD:D_SMB",
     "SOD123W": "Diode_SMD:Nexperia_CFP3_SOD-123W",
     "LED0603": "LED_SMD:LED_0603_1608Metric",
@@ -213,8 +214,9 @@ part(PWR, "D1", "Device:D_Zener", "SMBJ26A", FP["SMB"], {"K": "VBAT", "A": "GND"
 C(PWR, "C10u_50V", "VBAT")  # entry cap C1
 
 for rail, vout, rfbb_key, lval, lmpn, ldk, en_net in (
-        ("5V", "5V", "R24k3", "6.8uH", "74438357068", "732-11204-1-ND", "EN_5V"),
-        ("10V", "10V", "R11k", "8.2uH", "74438357082", "732-11205-1-ND", "EN_10V")):
+        ("5V", "5V", "R24k3", "5.6uH", "74438356056", "unconfirmed (BOM Manager matches by MPN)", "EN_5V"),
+        ("10V", "10V", "R11k", "5.6uH", "74438356056", "unconfirmed (BOM Manager matches by MPN)", "EN_10V")):
+    # WE-MAPI 4020 (2.1 mm max): the bottom side is limited to 2.5 mm (Gate 3 G3-01); one part type for both rails
     u = "U1" if rail == "5V" else "U2"
     l = "L1" if rail == "5V" else "L2"
     sw, bst, fb, rt = f"SW_{rail}", f"BST_{rail}", f"FB_{rail}", f"RT_{rail}"
@@ -230,7 +232,7 @@ for rail, vout, rfbb_key, lval, lmpn, ldk, en_net in (
     R(PWR, "R34k8", rt, "GND")
     C(PWR, "C100n", bst, sw)
     part(PWR, l, "Device:L", lval, FP["L4030"], {"1": sw, "2": vout}, lmpn, "Würth Elektronik", ldk,
-         "https://www.we-online.com/components/products/datasheet/" + lmpn + ".pdf", desc="WE-MAPI 4030 power inductor")
+         "https://www.we-online.com/components/products/datasheet/" + lmpn + ".pdf", desc="WE-MAPI 4020 power inductor")
     R(PWR, "R100k", vout, fb)
     R(PWR, rfbb_key, fb, "GND")
     for _ in range(3):

@@ -2827,7 +2827,7 @@
 				)
 			)
 		)
-		(property "Value" "10uF X7R 50V"
+		(property "Value" "10uF X7R 50V 2.0mm"
 			(at 129.54 41.91 0)
 			(effects
 				(font
@@ -2844,7 +2844,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL32B106KBJNNNE.do"
+		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM32DR71H106KA01-01.pdf"
 			(at 129.54 35.56 0)
 			(effects
 				(font
@@ -2862,7 +2862,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL32B106KBJNNNE"
+		(property "MPN" "GRM32DR71H106KA01L"
 			(at 129.54 35.56 0)
 			(effects
 				(font
@@ -2871,7 +2871,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
+		(property "Manufacturer" "Murata"
 			(at 129.54 35.56 0)
 			(effects
 				(font
@@ -2880,7 +2880,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-3387-1-ND"
+		(property "DigiKey" "490-GRM32DR71H106KA01LCT-ND (verify)"
 			(at 129.54 35.56 0)
 			(effects
 				(font
@@ -3240,7 +3240,7 @@
 				)
 			)
 		)
-		(property "Value" "10uF X7R 50V"
+		(property "Value" "10uF X7R 50V 2.0mm"
 			(at 203.2 41.91 0)
 			(effects
 				(font
@@ -3257,7 +3257,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL32B106KBJNNNE.do"
+		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM32DR71H106KA01-01.pdf"
 			(at 203.2 35.56 0)
 			(effects
 				(font
@@ -3275,7 +3275,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL32B106KBJNNNE"
+		(property "MPN" "GRM32DR71H106KA01L"
 			(at 203.2 35.56 0)
 			(effects
 				(font
@@ -3284,7 +3284,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
+		(property "Manufacturer" "Murata"
 			(at 203.2 35.56 0)
 			(effects
 				(font
@@ -3293,7 +3293,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-3387-1-ND"
+		(property "DigiKey" "490-GRM32DR71H106KA01LCT-ND (verify)"
 			(at 203.2 35.56 0)
 			(effects
 				(font
@@ -3374,7 +3374,7 @@
 				)
 			)
 		)
-		(property "Value" "10uF X7R 50V"
+		(property "Value" "10uF X7R 50V 2.0mm"
 			(at 226.06 41.91 0)
 			(effects
 				(font
@@ -3391,7 +3391,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL32B106KBJNNNE.do"
+		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM32DR71H106KA01-01.pdf"
 			(at 226.06 35.56 0)
 			(effects
 				(font
@@ -3409,7 +3409,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL32B106KBJNNNE"
+		(property "MPN" "GRM32DR71H106KA01L"
 			(at 226.06 35.56 0)
 			(effects
 				(font
@@ -3418,7 +3418,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
+		(property "Manufacturer" "Murata"
 			(at 226.06 35.56 0)
 			(effects
 				(font
@@ -3427,7 +3427,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-3387-1-ND"
+		(property "DigiKey" "490-GRM32DR71H106KA01LCT-ND (verify)"
 			(at 226.06 35.56 0)
 			(effects
 				(font
@@ -4178,7 +4178,7 @@
 				)
 			)
 		)
-		(property "Value" "6.8uH"
+		(property "Value" "5.6uH"
 			(at 96.52 72.39 0)
 			(effects
 				(font
@@ -4186,7 +4186,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_Wuerth_MAPI-4030"
+		(property "Footprint" "Inductor_SMD:L_Wuerth_MAPI-4020"
 			(at 96.52 66.04 0)
 			(effects
 				(font
@@ -4195,7 +4195,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/74438357068.pdf"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/74438356056.pdf"
 			(at 96.52 66.04 0)
 			(effects
 				(font
@@ -4204,7 +4204,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "WE-MAPI 4030 power inductor"
+		(property "Description" "WE-MAPI 4020 power inductor"
 			(at 96.52 66.04 0)
 			(effects
 				(font
@@ -4213,7 +4213,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "74438357068"
+		(property "MPN" "74438356056"
 			(at 96.52 66.04 0)
 			(effects
 				(font
@@ -4231,7 +4231,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "732-11204-1-ND"
+		(property "DigiKey" "unconfirmed (BOM Manager matches by MPN)"
 			(at 96.52 66.04 0)
 			(effects
 				(font
@@ -5395,7 +5395,7 @@
 				)
 			)
 		)
-		(property "Value" "10uF X7R 50V"
+		(property "Value" "10uF X7R 50V 2.0mm"
 			(at 78.74 95.25 0)
 			(effects
 				(font
@@ -5412,7 +5412,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL32B106KBJNNNE.do"
+		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM32DR71H106KA01-01.pdf"
 			(at 78.74 88.9 0)
 			(effects
 				(font
@@ -5430,7 +5430,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL32B106KBJNNNE"
+		(property "MPN" "GRM32DR71H106KA01L"
 			(at 78.74 88.9 0)
 			(effects
 				(font
@@ -5439,7 +5439,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
+		(property "Manufacturer" "Murata"
 			(at 78.74 88.9 0)
 			(effects
 				(font
@@ -5448,7 +5448,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-3387-1-ND"
+		(property "DigiKey" "490-GRM32DR71H106KA01LCT-ND (verify)"
 			(at 78.74 88.9 0)
 			(effects
 				(font
@@ -5529,7 +5529,7 @@
 				)
 			)
 		)
-		(property "Value" "10uF X7R 50V"
+		(property "Value" "10uF X7R 50V 2.0mm"
 			(at 99.06 95.25 0)
 			(effects
 				(font
@@ -5546,7 +5546,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL32B106KBJNNNE.do"
+		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM32DR71H106KA01-01.pdf"
 			(at 99.06 88.9 0)
 			(effects
 				(font
@@ -5564,7 +5564,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL32B106KBJNNNE"
+		(property "MPN" "GRM32DR71H106KA01L"
 			(at 99.06 88.9 0)
 			(effects
 				(font
@@ -5573,7 +5573,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
+		(property "Manufacturer" "Murata"
 			(at 99.06 88.9 0)
 			(effects
 				(font
@@ -5582,7 +5582,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-3387-1-ND"
+		(property "DigiKey" "490-GRM32DR71H106KA01LCT-ND (verify)"
 			(at 99.06 88.9 0)
 			(effects
 				(font
@@ -6333,7 +6333,7 @@
 				)
 			)
 		)
-		(property "Value" "8.2uH"
+		(property "Value" "5.6uH"
 			(at 246.38 95.25 0)
 			(effects
 				(font
@@ -6341,7 +6341,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_Wuerth_MAPI-4030"
+		(property "Footprint" "Inductor_SMD:L_Wuerth_MAPI-4020"
 			(at 246.38 88.9 0)
 			(effects
 				(font
@@ -6350,7 +6350,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/74438357082.pdf"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/74438356056.pdf"
 			(at 246.38 88.9 0)
 			(effects
 				(font
@@ -6359,7 +6359,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "WE-MAPI 4030 power inductor"
+		(property "Description" "WE-MAPI 4020 power inductor"
 			(at 246.38 88.9 0)
 			(effects
 				(font
@@ -6368,7 +6368,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "74438357082"
+		(property "MPN" "74438356056"
 			(at 246.38 88.9 0)
 			(effects
 				(font
@@ -6386,7 +6386,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "732-11205-1-ND"
+		(property "DigiKey" "unconfirmed (BOM Manager matches by MPN)"
 			(at 246.38 88.9 0)
 			(effects
 				(font
