@@ -6400,7 +6400,7 @@
 				)
 			)
 		)
-		(property "Value" "10pF C0G 50V"
+		(property "Value" "8.2pF C0G 50V"
 			(at 83.82 156.21 0)
 			(effects
 				(font
@@ -6417,7 +6417,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05C100JB5NNNC.do"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05C8R2CB5NNNC.do"
 			(at 83.82 149.86 0)
 			(effects
 				(font
@@ -6435,7 +6435,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL05C100JB5NNNC"
+		(property "MPN" "CL05C8R2CB5NNNC"
 			(at 83.82 149.86 0)
 			(effects
 				(font
@@ -6453,7 +6453,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1621-1-ND (verify)"
+		(property "DigiKey" "1276-1650-1-ND (verify)"
 			(at 83.82 149.86 0)
 			(effects
 				(font
@@ -6534,7 +6534,7 @@
 				)
 			)
 		)
-		(property "Value" "10pF C0G 50V"
+		(property "Value" "8.2pF C0G 50V"
 			(at 111.76 156.21 0)
 			(effects
 				(font
@@ -6551,7 +6551,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05C100JB5NNNC.do"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05C8R2CB5NNNC.do"
 			(at 111.76 149.86 0)
 			(effects
 				(font
@@ -6569,7 +6569,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL05C100JB5NNNC"
+		(property "MPN" "CL05C8R2CB5NNNC"
 			(at 111.76 149.86 0)
 			(effects
 				(font
@@ -6587,7 +6587,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "1276-1621-1-ND (verify)"
+		(property "DigiKey" "1276-1650-1-ND (verify)"
 			(at 111.76 149.86 0)
 			(effects
 				(font

@@ -58,7 +58,7 @@ CAT = {
     "R100k": yageo("100K", "100K"),
     "R301k_0603": yageo("301K", "301K", "0603"),
     # capacitors
-    "C10p": ("10pF C0G 50V", C0402, "CL05C100JB5NNNC", "Samsung Electro-Mechanics", "1276-1621-1-ND (verify)", SAMSUNG_DS),
+    "C8p2": ("8.2pF C0G 50V", C0402, "CL05C8R2CB5NNNC", "Samsung Electro-Mechanics", "1276-1650-1-ND (verify)", SAMSUNG_DS),
     "C10n": ("10nF X7R 50V", C0402, "CL05B103KB5NNNC", "Samsung Electro-Mechanics", "1276-1015-1-ND (verify)", SAMSUNG_DS),
     "C100n": ("100nF X7R 16V", C0402, "CL05B104KO5NNNC", "Samsung Electro-Mechanics", "1276-1001-1-ND", SAMSUNG_DS),
     "C220n": ("220nF X5R 25V", C0402, "CL05A224KA5NNNC", "Samsung Electro-Mechanics", "1276-1255-1-ND (verify)", SAMSUNG_DS),
@@ -316,8 +316,8 @@ R(MCU, "R10k", "BEEPER", "GND")  # PB2 = BOOT1 strap + beeper FET gate pulldown
 part(MCU, "Y1", "Device:Crystal_GND24", "8MHz", FP["XTAL"], {"1": "HSE_IN", "3": "HSE_OUT", "2": "GND", "4": "GND"},
      "ECS-80-8-33-JEN-TR3", "ECS Inc.", "50-ECS-80-8-33-JEN-TR3CT-ND (verify)",
      "https://ecsxtal.com/store/pdf/ECX-32.pdf", desc="8 MHz HSE crystal, CL 8 pF")
-C(MCU, "C10p", "HSE_IN")
-C(MCU, "C10p", "HSE_OUT")
+C(MCU, "C8p2", "HSE_IN")   # 8.2 pF: CL 8 pF crystal with 3-5 pF stray (Gate 1 G1M2-01/03)
+C(MCU, "C8p2", "HSE_OUT")
 for cs in ("GYRO1_CS", "GYRO2_CS", "FLASH_CS"):
     R(MCU, "R10k", "3V3", cs)
 for n in ("UNUSED_PC2", "UNUSED_PC3", "UNUSED_PB12", "UNUSED_PB13"):
@@ -498,6 +498,23 @@ def write_symbol_lib(path):
         f.write(dump(lib) + "\n")
 
 
+def net_settings():
+    """Net classes + patterns (single definition, also re-applied by gen/build_pcb.py after pcbnew saves)."""
+    def nc(name, w, clr=0.127, **k):
+        d = {"name": name, "clearance": clr, "track_width": w, "via_diameter": 0.6, "via_drill": 0.3,
+             "diff_pair_width": 0.2, "diff_pair_gap": 0.15, "microvia_diameter": 0.3, "microvia_drill": 0.1,
+             "priority": 0}
+        d.update(k)
+        return d
+    classes = [nc("Default", 0.15), nc("PWR_HI", 0.6, 0.2, priority=1), nc("PWR", 0.35, priority=2),
+               nc("USB", 0.2, diff_pair_width=0.2, diff_pair_gap=0.15, priority=3)]
+    patterns = ([("PWR_HI", n) for n in ("VBAT", "5V", "10V", "SW_5V", "SW_10V", "VTX_PWR")] +
+                [("PWR", n) for n in ("5V_SYS", "3V3", "3V3_IMU", "3V3A", "VBUS", "BUZ_N", "BST_5V", "BST_10V",
+                                       "VCAP1", "VCAP2")] +
+                [("USB", n) for n in ("USB_DP", "USB_DM")])
+    return classes, patterns
+
+
 def enable_erc_rules(pro_path):
     """Turn on the ERC checks the brief requires (single global label = error)."""
     import json
@@ -528,10 +545,7 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     os.makedirs(LIB, exist_ok=True)
     schgen.write(c, OUT)
-    schgen.write_project(c, OUT, netclasses=[
-        {"name": "Default", "clearance": 0.127, "track_width": 0.15, "via_diameter": 0.6, "via_drill": 0.3,
-         "diff_pair_width": 0.2, "diff_pair_gap": 0.15, "microvia_diameter": 0.3, "microvia_drill": 0.1},
-    ])
+    schgen.write_project(c, OUT, *net_settings())
     enable_erc_rules(os.path.join(OUT, c.name + ".kicad_pro"))
     write_symbol_lib(os.path.join(LIB, "F405FC.kicad_sym"))
     write_lib_tables(OUT)

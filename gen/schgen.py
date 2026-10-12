@@ -230,7 +230,7 @@ def _symbol_instance(c, p, pl, ox, oy, root_uuid, sheet_uuid):
                                [S("path"), f"/{root_uuid}/{sheet_uuid}", [S("reference"), p.ref], [S("unit"), p.unit]]]]])
 
 
-def write_project(c, outdir, netclasses=None):
+def write_project(c, outdir, netclasses=None, patterns=None):
     """Create or update the .kicad_pro. Existing content (board design settings written by pcbnew, ERC settings)
     is merged, never discarded (Gate 1 G1N-01)."""
     path = os.path.join(outdir, c.name + ".kicad_pro")
@@ -244,6 +244,9 @@ def write_project(c, outdir, netclasses=None):
     if netclasses is not None:
         ns = pro.setdefault("net_settings", {"meta": {"version": 4}})
         ns["classes"] = netclasses
+    if patterns is not None:
+        pro.setdefault("net_settings", {"meta": {"version": 4}})["netclass_patterns"] = [
+            {"netclass": k, "pattern": v} for k, v in patterns]
     pro["sheets"] = [[uid(c.name, "root"), "Root"]] + [[uid(c.name, "sheet", s), s] for s, _ in c.sheets]
     with open(path, "w") as f:
         json.dump(pro, f, indent=2)

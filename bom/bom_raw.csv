@@ -1,0 +1,54 @@
+Qty per board,Refs,Value,MPN,Manufacturer,DigiKey PN,Footprint,Datasheet
+20,C5 C9 C13 C24 C25 C26 C27 C28 C30 C32 C35 C38 C41 C42 C43 C44 C46 C48 C49 C50,100nF X7R 16V,CL05B104KO5NNNC,Samsung Electro-Mechanics,1276-1001-1-ND,C_0402_1005Metric,https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do
+6,C6 C7 C8 C14 C15 C16,22uF X5R 25V,CL31A226KAHNNNE,Samsung Electro-Mechanics,1276-3047-1-ND,C_1206_3216Metric,https://product.samsungsem.com/mlcc/CL31A226KAHNNNE.do
+5,C1 C2 C3 C10 C11,10uF X7R 50V,CL32B106KBJNNNE,Samsung Electro-Mechanics,1276-3387-1-ND,C_1210_3225Metric,https://product.samsungsem.com/mlcc/CL32B106KBJNNNE.do
+4,C19 C22 C31 C51,1uF X5R 25V,CL10A105KA8NNNC,Samsung Electro-Mechanics,1276-1102-1-ND (verify),C_0603_1608Metric,https://product.samsungsem.com/mlcc/CL10A105KA8NNNC.do
+3,C40 C52 C53,10nF X7R 50V,CL05B103KB5NNNC,Samsung Electro-Mechanics,1276-1015-1-ND (verify),C_0402_1005Metric,https://product.samsungsem.com/mlcc/CL05B103KB5NNNC.do
+3,C20 C33 C34,2.2uF X5R 16V,CL10A225KO8NNNC,Samsung Electro-Mechanics,1276-1183-1-ND (verify),C_0603_1608Metric,https://product.samsungsem.com/mlcc/CL10A225KO8NNNC.do
+3,C18 C29 C47,4.7uF X5R 16V,CL10A475KO8NNNC,Samsung Electro-Mechanics,1276-1044-1-ND (verify),C_0603_1608Metric,https://product.samsungsem.com/mlcc/CL10A475KO8NNNC.do
+3,C4 C12 C17,100nF X7R 100V,GRM188R72A104KA35D,Murata,490-3285-1-ND (verify),C_0603_1608Metric,https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM188R72A104KA35-01.pdf
+2,C36 C37,10pF C0G 50V,CL05C100JB5NNNC,Samsung Electro-Mechanics,1276-1621-1-ND (verify),C_0402_1005Metric,https://product.samsungsem.com/mlcc/CL05C100JB5NNNC.do
+2,C23 C39,2.2uF X7R 16V,CL10B225KO8NNNC,Samsung Electro-Mechanics,1276-1184-1-ND (verify),C_0603_1608Metric,https://product.samsungsem.com/mlcc/CL10B225KO8NNNC.do
+1,C45,220nF X5R 25V,CL05A224KA5NNNC,Samsung Electro-Mechanics,1276-1255-1-ND (verify),C_0402_1005Metric,https://product.samsungsem.com/mlcc/CL05A224KA5NNNC.do
+3,D5 D4 D9,PMEG4030ER,"PMEG4030ER,115",Nexperia,1727-5313-1-ND,Nexperia_CFP3_SOD-123W,https://assets.nexperia.com/documents/data-sheet/PMEG4030ER.pdf
+2,D7 D8,BAT54S,BAT54S-7-F,Diodes Incorporated,BAT54S-FDICT-ND,SOT-23,https://www.diodes.com/assets/Datasheets/ds11005.pdf
+1,D12,Green,LTST-C191KGKT,Lite-On,160-1446-1-ND,LED_0603_1608Metric,https://optoelectronics.liteon.com/upload/download/DS22-2000-222/LTST-C191KGKT.pdf
+1,D10,Red,LTST-C191KRKT,Lite-On,160-1447-1-ND,LED_0603_1608Metric,https://optoelectronics.liteon.com/upload/download/DS22-2000-223/LTST-C191KRKT.pdf
+1,D11,Blue,LTST-C191TBKT,Lite-On,160-1647-1-ND,LED_0603_1608Metric,https://optoelectronics.liteon.com/upload/download/DS22-2000-213/LTST-C191TBKT.pdf
+1,D1,SMBJ26A,SMBJ26A,Littelfuse,SMBJ26ALFCT-ND,D_SMB,https://www.littelfuse.com/assetdocs/tvs-diodes-smbj-series-datasheet
+1,FB1,600R@100MHz,BLM18KG601SN1D,Murata,490-5258-1-ND,L_0603_1608Metric,https://www.murata.com/en-us/products/productdata/8796740616222/ENFA0003.pdf
+2,J3 J4,HD VTX,SM06B-SRSS-TB(LF)(SN),JST,455-1806-1-ND,JST_SH_SM06B-SRSS-TB_1x06-1MP_P1.00mm_Horizontal,https://www.jst-mfg.com/product/pdf/eng/eSH.pdf
+1,J5,ELRS,SM04B-SRSS-TB(LF)(SN),JST,455-1804-1-ND,JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal,https://www.jst-mfg.com/product/pdf/eng/eSH.pdf
+1,J2,ESC,SM08B-SRSS-TB(LF)(SN),JST,455-1808-1-ND,JST_SH_SM08B-SRSS-TB_1x08-1MP_P1.00mm_Horizontal,https://www.jst-mfg.com/product/pdf/eng/eSH.pdf
+1,J1,USB4105-GF-A,USB4105-GF-A,GCT,2073-USB4105-GF-ACT-ND,USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal,https://gct.co/files/drawings/usb4105.pdf
+1,L1,6.8uH,74438357068,Würth Elektronik,732-11204-1-ND,L_Wuerth_MAPI-4030,https://www.we-online.com/components/products/datasheet/74438357068.pdf
+1,L2,8.2uH,74438357082,Würth Elektronik,732-74438357082CT-ND (verify),L_Wuerth_MAPI-4030,https://www.we-online.com/components/products/datasheet/74438357082.pdf
+1,Q2,NX7002AK,NX7002AKR,Nexperia,1727-1289-1-ND,SOT-23,https://assets.nexperia.com/documents/data-sheet/NX7002AK.pdf
+1,Q1,PMV40UN2,PMV40UN2R,Nexperia,1727-1900-1-ND,SOT-23,https://assets.nexperia.com/documents/data-sheet/PMV40UN2.pdf
+11,R2 R4 R7 R9 R12 R21 R22 R23 R24 R31 R36,100K,RC0402FR-07100KL,Yageo,311-100KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+9,R16 R17 R18 R19 R20 R29 R30 R38 R39,10.0K,RC0402FR-0710KL,Yageo,311-10.0KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+4,R11 R13 R15 R28,1.00K,RC0402FR-071KL,Yageo,311-1.00KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+2,R25 R26,2.20K,RC0402FR-072K2L,Yageo,311-2.20KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+2,R27 R33,330,RC0402FR-07330RL,Yageo,311-330LRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+2,R3 R8,34.8K,RC0402FR-0734K8L,Yageo,311-34.8KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+2,R34 R35,5.10K,RC0402FR-075K1L,Yageo,311-5.10KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+2,R1 R6,301K,RC0603FR-07301KL,Yageo,311-301KHRCT-ND,R_0603_1608Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+1,R40,100,RC0402FR-07100RL,Yageo,311-100LRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+1,R10,11.0K,RC0402FR-0711KL,Yageo,311-11.0KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+1,R5,24.3K,RC0402FR-0724K3L,Yageo,311-24.3KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+1,R14,10.0K,RC0603FR-0710KL,Yageo,311-10.0KHRCT-ND,R_0603_1608Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+1,R41,0R 2A,RC0805JR-070RL,Yageo,311-0.0ARCT-ND,R_0805_2012Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+1,SW1,BOOT,PTS810 SJM 250 SMTR LFS,C&K,CKN10502CT-ND,SW_SPST_PTS810,https://www.ckswitches.com/media/1476/pts810.pdf
+2,U1 U2,LMR38020FSDDAR,LMR38020FSDDAR,Texas Instruments,296-LMR38020FSDDARCT-ND (verify),TI_HSOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.71x3.4mm_DDA,https://www.ti.com/lit/ds/symlink/lmr38020.pdf
+1,U7,BMI270,BMI270,Bosch Sensortec,828-1091-1-ND,Bosch_LGA-14_3x2.5mm_P0.5mm_BMI270,https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi270-ds000.pdf
+1,U8,BMP390,BMP390,Bosch Sensortec,828-BMP390CT-ND,Bosch_LGA-10_2x2mm_P0.5mm_BMP390,https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp390-ds002.pdf
+1,U6,ICM-42688-P,ICM-42688-P,TDK InvenSense,1428-ICM-42688-PCT-ND,LGA-14_3x2.5mm_P0.5mm_LayoutBorder3x4y,https://invensense.tdk.com/wp-content/uploads/2020/04/ds-000347_icm-42688-p-datasheet.pdf
+1,U9,IIS2MDC,IIS2MDCTR,STMicroelectronics,497-17728-1-ND,LGA-12_2x2mm_P0.5mm,https://www.st.com/resource/en/datasheet/iis2mdc.pdf
+1,U4,LP38692MP-3.3,LP38692MP-3.3/NOPB,Texas Instruments,LP38692MP-3.3/NOPBCT-ND,SOT-223-5,https://www.ti.com/lit/ds/symlink/lp38692.pdf
+1,U5,LP5907MFX-3.3,LP5907MFX-3.3/NOPB,Texas Instruments,296-38557-1-ND,SOT-23-5,https://www.ti.com/lit/ds/symlink/lp5907.pdf
+1,U12,SN74LV1T125,SN74LV1T125DBVR,Texas Instruments,296-37172-1-ND,SOT-23-5,https://www.ti.com/lit/ds/symlink/sn74lv1t125.pdf
+1,U3,STM32F405RGT6,STM32F405RGT6,STMicroelectronics,497-11767-ND,LQFP-64_10x10mm_P0.5mm,https://www.st.com/resource/en/datasheet/stm32f405rg.pdf
+1,U11,TS5A3159A,TS5A3159ADBVR,Texas Instruments,296-19265-1-ND,SOT-23-6,https://www.ti.com/lit/ds/symlink/ts5a3159a.pdf
+1,U13,USBLC6-2SC6,USBLC6-2SC6,STMicroelectronics,497-5235-1-ND,SOT-23-6,https://www.st.com/resource/en/datasheet/usblc6-2.pdf
+1,U10,W25N01GV,W25N01GVZEIG,Winbond,W25N01GVZEIGCT-ND,WSON-8-1EP_8x6mm_P1.27mm_EP3.4x4.3mm,https://www.winbond.com/resource-files/w25n01gv%20revl%20050918%20unsecured.pdf
+1,Y1,8MHz,ECS-80-8-33-JEN-TR3,ECS Inc.,50-ECS-80-8-33-JEN-TR3CT-ND (verify),Crystal_SMD_3225-4Pin_3.2x2.5mm,https://ecsxtal.com/store/pdf/ECX-32.pdf

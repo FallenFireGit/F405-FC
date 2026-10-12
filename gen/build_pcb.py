@@ -32,9 +32,8 @@ def pt(x, y):
 
 
 def outline(board):
-    for d in list(board.GetDrawings()):
-        if d.GetLayer() == pcbnew.Edge_Cuts:
-            board.Remove(d)
+    if any(d.GetLayer() == pcbnew.Edge_Cuts for d in board.GetDrawings()):
+        return
     r = CORNER_R
 
     def seg(a, b):
@@ -53,24 +52,34 @@ def outline(board):
     arc((r, H - r), (r, H), 90); arc((r, r), (0, r), 90)
 
 
+_KEEP_ALIVE = []
+
+
 def hole_keepouts(board):
     """4.6 mm grommet keepout around each M3 hole: no tracks or vias (copper pour allowed), all layers."""
-    for z in list(board.Zones()):
-        if z.GetIsRuleArea() and z.GetZoneName().startswith("HOLE_KEEPOUT"):
-            board.Remove(z)
-    for i, (hx, hy) in enumerate(((2.75, 2.75), (33.25, 2.75), (2.75, 33.25), (33.25, 33.25))):
+    import math
+    if any(z.GetIsRuleArea() and z.GetZoneName().startswith("HOLE_KEEPOUT") for z in board.Zones()):
+        return  # already present (board.Remove + python GC of the zone segfaults in 10.0.6, so never remove)
+    ls = pcbnew.LSET()
+    for l in (pcbnew.F_Cu, pcbnew.In1_Cu, pcbnew.In2_Cu, pcbnew.B_Cu):
+        ls.AddLayer(l)
+    polys = _KEEP_ALIVE  # ZONE.SetOutline takes ownership of the pointer: python must never free these
+    for hx, hy in ((2.75, 2.75), (33.25, 2.75), (2.75, 33.25), (33.25, 33.25)):
+        ps = pcbnew.SHAPE_POLY_SET()   # build geometry before any ZONE exists in this process (SWIG quirk)
+        ps.NewOutline()
+        for k in range(24):
+            a = 2 * math.pi * k / 24
+            ps.Append(mm(OX + hx + 2.3 * math.cos(a)), mm(OY + hy + 2.3 * math.sin(a)))
+        polys.append(ps)
+    for i, ps in enumerate(polys):
         z = pcbnew.ZONE(board)
         z.SetIsRuleArea(True)
         z.SetZoneName(f"HOLE_KEEPOUT_{i + 1}")
         z.SetDoNotAllowTracks(True); z.SetDoNotAllowVias(True); z.SetDoNotAllowZoneFills(False)
         z.SetDoNotAllowPads(False); z.SetDoNotAllowFootprints(False)
-        ls = pcbnew.LSET(); [ls.AddLayer(l) for l in (pcbnew.F_Cu, pcbnew.In1_Cu, pcbnew.In2_Cu, pcbnew.B_Cu)]
         z.SetLayerSet(ls)
-        o = z.Outline(); o.NewOutline()
-        import math
-        for k in range(24):
-            a = 2 * math.pi * k / 24
-            o.Append(mm(OX + hx + 2.3 * math.cos(a)), mm(OY + hy + 2.3 * math.sin(a)))
+        z.SetOutline(ps)
+        ps.thisown = False
         board.Add(z)
 
 
@@ -85,7 +94,7 @@ def rules(board):
     ds.m_ViasMinAnnularWidth = mm(0.15)
     ds.m_HoleToHoleMin = mm(0.25)
     ds.m_CopperEdgeClearance = mm(0.3)
-    ds.m_HoleClearance = mm(0.2)
+    ds.m_HoleClearance = mm(0.19)  # GCT USB4105 land pattern has 0.194 mm pad-to-NPTH spacing
     nc = ds.m_NetSettings.GetDefaultNetclass()
     nc.SetClearance(mm(0.127)); nc.SetTrackWidth(mm(0.15)); nc.SetViaDiameter(mm(0.6)); nc.SetViaDrill(mm(0.3))
     board.SetLayerName(pcbnew.In1_Cu, "In1.GND")
@@ -106,6 +115,43 @@ def tidy_fields(board):
                 f.SetVisible(False)
 
 
+LABELS = {"J1": "USB", "J2": "ESC", "J3": "VTX 10V", "J4": "GPS 5V", "J5": "ELRS", "P1": "VBAT", "P2": "GND", "P3": "10V",
+          "P4": "GND", "P5": "C1", "P6": "C2", "P7": "VID", "P8": "5V", "P9": "G", "P10": "LED", "P11": "5V", "P12": "G",
+          "P13": "BZ+", "P14": "BZ-", "P15": "T5", "P16": "R5", "P17": "T6", "P18": "R6", "P19": "S5", "P20": "S6",
+          "P21": "S7", "P22": "S8", "P23": "RSSI", "P24": "G", "P25": "5V", "TP1": "DIO", "TP2": "CLK", "TP3": "RST",
+          "TP4": "3V3", "TP5": "G", "SW1": "BOOT"}
+
+
+def silk_labels(board):
+    """Function labels next to every user pad/connector (Gate 1 D-15: VTX vs GPS connectors clearly marked)."""
+    if any(isinstance(d, pcbnew.PCB_TEXT) and d.GetLayer() in (pcbnew.F_SilkS, pcbnew.B_SilkS) for d in board.GetDrawings()):
+        return  # labels already present (re-run build with --fresh to regenerate)
+    for fp in board.GetFootprints():
+        lab = LABELS.get(fp.GetReference())
+        if not lab:
+            continue
+        bb = fp.GetBoundingBox(False)
+        c = bb.GetCenter()
+        cx, cy = pcbnew.ToMM(c.x) - OX, pcbnew.ToMM(c.y) - OY
+        hw, hh = pcbnew.ToMM(bb.GetWidth()) / 2, pcbnew.ToMM(bb.GetHeight()) / 2
+        # put the label on the side facing the board centre, just outside the footprint
+        dx, dy = W / 2 - cx, H / 2 - cy
+        if abs(dx) > abs(dy):
+            tx, ty = cx + (hw + 0.9) * (1 if dx > 0 else -1), cy
+        else:
+            tx, ty = cx, cy + (hh + 0.5) * (1 if dy > 0 else -1)
+        t = pcbnew.PCB_TEXT(board)
+        t.SetText(lab)
+        t.SetPosition(pt(tx, ty))
+        flipped = fp.IsFlipped()
+        t.SetLayer(pcbnew.B_SilkS if flipped else pcbnew.F_SilkS)
+        t.SetTextSize(pcbnew.VECTOR2I(mm(0.8), mm(0.8)))
+        t.SetTextThickness(mm(0.15))
+        if flipped:
+            t.SetMirrored(True)
+        board.Add(t)
+
+
 def place(board, table):
     fps = {fp.GetReference(): fp for fp in board.GetFootprints()}
     missing = [r for r in fps if r not in table]
@@ -121,37 +167,47 @@ def place(board, table):
     return missing
 
 
-def stage2():
-    """Outline, rules, placement on a freshly loaded board (separate process: see main)."""
+def _stage(name):
+    """One board mutation per interpreter: KiCad 10.0.6's SWIG wrappers stop resolving types (BOARD_DESIGN_SETTINGS,
+    SHAPE_POLY_SET, ...) once python has created a board item of another type in the same process."""
     board = pcbnew.LoadBoard(PCB)
-    rules(board)
-    import placement
-    importlib.reload(placement)
-    missing = place(board, placement.PLACE)
-    import legalize
-    moves = legalize.legalize(board, placement.FIXED, OX, OY, W, H, placement.PRIORITY)
-    for ref, mv in moves:
-        if mv is None or mv[0] > 1.5:
-            print("LEGALIZE", ref, "FAILED (no free spot)" if mv is None else f"moved {mv[0]} mm rot {mv[1]}")
-    tidy_fields(board)
-    hole_keepouts(board)
-    outline(board)  # last: creating PCB_SHAPEs breaks later SWIG wrapping of BOARD_DESIGN_SETTINGS (KiCad 10.0.6)
-    if missing:
-        print("UNPLACED:", " ".join(sorted(missing)))
+    if name == "place":
+        rules(board)
+        import placement
+        importlib.reload(placement)
+        missing = place(board, placement.PLACE)
+        if missing:
+            print("UNPLACED:", " ".join(sorted(missing)))
+        import legalize
+        moves = legalize.legalize(board, placement.FIXED, OX, OY, W, H, placement.PRIORITY)
+        for ref, mv in moves:
+            if mv is None or mv[0] > 1.5:
+                print("LEGALIZE", ref, "FAILED (no free spot)" if mv is None else f"moved {mv[0]} mm rot {mv[1]}")
+        tidy_fields(board)
+    elif name == "keepouts":
+        hole_keepouts(board)
+    elif name == "labels":
+        silk_labels(board)
+    elif name == "outline":
+        outline(board)
     board.Save(PCB)
-    print("saved", PCB, "footprints:", len(board.GetFootprints()))
+    print("stage", name, "ok; footprints:", len(board.GetFootprints()))
+
+
+STAGES = ("place", "keepouts", "labels", "outline")
 
 
 def main():
-    if "--stage2" in sys.argv:
-        return stage2()
+    if "--stage" in sys.argv:
+        return _stage(sys.argv[sys.argv.index("--stage") + 1])
     os.makedirs(os.path.dirname(PCB), exist_ok=True)
     existing = pcbnew.LoadBoard(PCB) if os.path.exists(PCB) and "--fresh" not in sys.argv else None
     pcbgen.build(circuit.c, PCB, local_libs={"F405FC": os.path.join(ROOT, "lib", "F405FC.pretty")}, existing=existing)
-    # BOARD_DESIGN_SETTINGS comes back as an unwrapped SwigPyObject once a BOARD was created in this process,
-    # so the rest runs in a fresh interpreter.
+    import schgen
+    schgen.write_project(circuit.c, os.path.dirname(PCB), *circuit.net_settings())  # pcbnew's save dropped them
     import subprocess
-    subprocess.run([sys.executable, os.path.abspath(__file__), "--stage2"], check=True)
+    for st in STAGES:
+        subprocess.run([sys.executable, os.path.abspath(__file__), "--stage", st], check=True)
 
 
 if __name__ == "__main__":
