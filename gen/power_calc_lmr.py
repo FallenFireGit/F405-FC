@@ -60,3 +60,19 @@ for vin in (25.2, 42.1):
 print(f"EN divider current at 25.2 V: {25.2/(rt+rb)*1e6:.0f} uA")
 # VTX-off FET pulls EN low: NX7002AK Rds(on) <= 3.3 ohm-ish at VGS 3.3 V -> EN
 print(f"EN with VTX-off FET on (R~5 ohm) at 42.1 V: {42.1/rt*5*1e3:.2f} mV (VEN-L min 0.95 V)")
+
+
+def floors(name, vo, L, vins, iout):
+    """Worst-case output-current floor (Gate 3 G3R-08): -20 % L, RT/oscillator -20 %, spread spectrum -8 % (lowest fsw = 0.736 x),
+    valley limit ILS_MIN + dIL_min/2 and high-side peak limit IHS_MIN - dIL_max/2; the lower one governs."""
+    print(f"\n== {name} worst-case current-limit floor (budget {iout} A)")
+    for vin in vins:
+        D = vo / vin
+        dmax = (vin - vo) * D / (L * 0.8 * FSW * 0.8 * 0.92)
+        dmin = (vin - vo) * D / (L * 1.2 * FSW * 1.2 * 1.08)
+        fl = min(ILS_MIN + dmin / 2, IHS_MIN - dmax / 2)
+        print(f"  Vin={vin:5.1f}: dIL max {dmax:.2f} A -> floor {fl:.2f} A ({'OK' if fl >= iout else 'BELOW BUDGET'})")
+
+
+floors("5V1 rev C", 5.115, 5.6e-6, [8.4, 12.6, 16.8, 25.2], 1.71)
+floors("10V rev C", 10.09, 5.6e-6, [16.8, 25.2], 1.3)

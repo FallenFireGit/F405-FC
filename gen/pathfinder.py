@@ -27,15 +27,19 @@ import numpy as np
 from scipy import ndimage
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from mazeroute import CX, CY, EDGE, HOLES, N, RES, SAFE, cls, poly_mask, seg_mask  # noqa: E402
+from mazeroute import CX, CY, EDGE, HOLES, N, RES, cls, poly_mask, seg_mask  # noqa: E402
+
+SAFE = 0.05      # grid safety to fixed copper: a pad/track edge can sit up to ~0.035 mm beyond its last rasterized cell centre
+OCC_X = 0.03     # extra occupancy margin per routed net (two nets: 0.06 mm) for the same rasterization error
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KDIR = os.path.dirname(os.environ.get("F405_PCB", os.path.join(ROOT, "kicad", "F405FC.kicad_pcb")).replace("/work/", ROOT + "/"))
 GEOM = os.path.join(KDIR, "route_geom.json")
 OUT = os.path.join(KDIR, "route_all.json")
-RL = ["F", "In2", "B"]                       # routing layers
+IN1 = os.environ.get("IN1", "0") == "1"      # last-resort hops on the In1 GND plane (high cost; the pour carves around them)
+RL = ["F", "In1", "In2", "B"] if IN1 else ["F", "In2", "B"]   # routing layers
 ALL = ["F", "In1", "In2", "B"]
-LCOST = {"F": 1.0, "In2": 1.15, "B": 1.0}
+LCOST = {"F": 1.0, "In1": float(os.environ.get("IN1_COST", "10")), "In2": 1.15, "B": 1.0}
 VIA_COST = 25.0
 MOVES = [(-1, 0, 1.0), (1, 0, 1.0), (0, -1, 1.0), (0, 1, 1.0), (-1, -1, 1.414), (-1, 1, 1.414), (1, -1, 1.414), (1, 1, 1.414)]
 DISK = {}
@@ -142,9 +146,9 @@ class PF:
         masks = {l: np.zeros((N, N), bool) for l in RL}
         for r in recs:
             if r["t"] == "t":
-                masks[r["l"]] |= seg_mask(r["a"], r["b"], r["w"] / 2 + c / 2)
+                masks[r["l"]] |= seg_mask(r["a"], r["b"], r["w"] / 2 + c / 2 + OCC_X)
             else:
-                m = seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + c / 2)
+                m = seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + c / 2 + OCC_X)
                 for l in RL:
                     masks[l] |= m
         for l in RL:
@@ -211,14 +215,15 @@ class PF:
         sl = (slice(i0, i1), slice(j0, j1))
         H, W = i1 - i0, j1 - j0
         # present congestion: other nets' occupancy within my half footprint (w/2 + c/2)
-        cost, vcost = {}, np.zeros((H, W), np.float32)
-        hf = disk(w / 2 + c / 2)
-        vf = disk(0.3 + c / 2)
+        cost, vcost, nearm = {}, np.zeros((H, W), np.float32), {}
+        hf = disk(w / 2 + c / 2 + OCC_X)
+        vf = disk(0.3 + c / 2 + OCC_X)
         for l in RL:
             o = self.occ[l][sl] > 0
             near = ndimage.binary_dilation(o, structure=hf) if o.any() else o
             vnear = ndimage.binary_dilation(o, structure=vf) if o.any() else o
             cost[l] = (LCOST[l] + self.hist[l][sl]) * (1.0 + pres * near)
+            nearm[l] = near
             vcost += (self.hist[l][sl] + pres * vnear * 3.0)
         hd = {l: hard[l][sl] for l in RL}
         vh = vhard[sl]
@@ -231,7 +236,7 @@ class PF:
         if not len(gpts):
             return None
         gi, gj = gpts[:, 0].mean(), gpts[:, 1].mean()
-        g = np.full((3, H, W), np.inf, np.float32)
+        g = np.full((len(RL), H, W), np.inf)            # float64: heap keys are python floats (float32 rounding dropped nodes)
         prev = {}
         pq = []
         for kk, i, j in np.argwhere(srcm):
@@ -265,7 +270,7 @@ class PF:
                     prev[(kk, ni, nj)] = (kk, i, j)
                     heapq.heappush(pq, (ng + 0.95 * math.hypot(ni - gi, nj - gj), ng, kk, ni, nj))
             if not vh[i, j]:
-                for k2 in range(3):
+                for k2 in range(len(RL)):
                     if k2 == kk:
                         continue
                     if hd[RL[k2]][i, j] and not goal[k2, i, j]:
@@ -277,20 +282,53 @@ class PF:
                         heapq.heappush(pq, (ng + 0.95 * math.hypot(i - gi, j - gj), ng, k2, i, j))
         if end is None:
             return None
+        self.last_cost = float(g[end])
         path = [end]
         while path[-1] in prev:
             path.append(prev[path[-1]])
         path.reverse()
-        pts = [(RL[kk], (j + j0 + 0.5) * RES, (i + i0 + 0.5) * RES) for kk, i, j in path]
-        recs, run = [], [pts[0]]
-        for p in pts[1:]:
-            if p[0] != run[-1][0]:
-                recs += segs(run, w)
-                recs.append({"t": "v", "x": p[1], "y": p[2]})
-                run = [p]
+        self.last_conflicts = sum(1 for kk, i, j in path if nearm[RL[kk]][i, j])
+        # split into same-layer runs, string-pull each run (straight segments where the line stays legal), emit records
+        runs, cur = [], [path[0]]
+        for p in path[1:]:
+            if p[0] != cur[-1][0]:
+                runs.append(cur)
+                cur = [p]
             else:
-                run.append(p)
-        recs += segs(run, w)
+                cur.append(p)
+        runs.append(cur)
+        recs = []
+        for ri, run in enumerate(runs):
+            kk = run[0][0]
+            l = RL[kk]
+            onpath = {(i, j) for _, i, j in run}
+            ok = (~hd[l] & ~nearm[l]) | srcm[kk] | goal[kk]
+
+            def clear(a, b):
+                (ia, ja), (ib, jb) = a, b
+                k = max(abs(ib - ia), abs(jb - ja)) * 2
+                for t in range(k + 1):
+                    ii = ia + (ib - ia) * t / max(k, 1)
+                    jj = ja + (jb - ja) * t / max(k, 1)
+                    for ci, cj in {(int(math.floor(ii)), int(math.floor(jj))), (int(math.ceil(ii)), int(math.ceil(jj)))}:
+                        if not (ok[ci, cj] or (ci, cj) in onpath):
+                            return False
+                return True
+            cells = [(i, j) for _, i, j in run]
+            pulled = [cells[0]]
+            a = 0
+            while a < len(cells) - 1:
+                b2 = len(cells) - 1
+                while b2 > a + 1 and not clear(cells[a], cells[b2]):
+                    b2 -= 1
+                pulled.append(cells[b2])
+                a = b2
+            for (ia, ja), (ib, jb) in zip(pulled, pulled[1:]):
+                recs.append({"t": "t", "l": l, "a": ((ja + j0 + 0.5) * RES, (ia + i0 + 0.5) * RES),
+                             "b": ((jb + j0 + 0.5) * RES, (ib + i0 + 0.5) * RES), "w": w})
+            if ri + 1 < len(runs):
+                _, vi, vj = runs[ri + 1][0]
+                recs.append({"t": "v", "x": (vj + j0 + 0.5) * RES, "y": (vi + i0 + 0.5) * RES})
         return recs
 
     def route_net(self, n, pres):
@@ -307,12 +345,16 @@ class PF:
             rest.sort(key=lambda m: np.hypot(*(np.argwhere(np.any([m[l] for l in ALL], axis=0)).mean(0) - tc)))
             dst = rest[0]
             # In1 copper (PTH/via drills) counts on every routing layer at that spot
-            src = {l: tree[l] | (tree["In1"] if l in RL else False) for l in ALL}
-            dsm = {l: dst[l] | (dst["In1"] if l in RL else False) for l in ALL}
-            r = None
+            src = {l: tree[l] | (tree["In1"] if l in RL and not IN1 else False) for l in ALL}
+            dsm = {l: dst[l] | (dst["In1"] if l in RL and not IN1 else False) for l in ALL}
+            r, best = None, None
             for win in (4.0, 12.0, 40.0):
-                r = self.astar(n, src, dsm, pres, win)
-                if r is not None:
+                q = self.astar(n, src, dsm, pres, win)
+                if q is None:
+                    continue
+                if best is None or self.last_cost < best:
+                    r, best = q, self.last_cost
+                if self.last_conflicts == 0:      # no present congestion on this path: wider windows cannot do better
                     break
             if r is None:
                 return None
@@ -376,6 +418,22 @@ def main():
     nid = {n: P.nid(n) for n in nets}
     pres, hist_inc = 0.5, 0.3
     todo = list(nets)
+    if os.environ.get("RESUME") == "1" and os.path.exists(OUT):
+        prev = json.load(open(OUT))
+        for t in prev["tracks"]:
+            P.routes.setdefault(P.nid(t["net"]), []).append({"t": "t", "l": t["layer"], "a": tuple(t["a"]), "b": tuple(t["b"]), "w": t["w"]})
+        for v in prev["vias"]:
+            P.routes.setdefault(P.nid(v["net"]), []).append({"t": "v", "x": v["x"], "y": v["y"]})
+        for n, rs in P.routes.items():
+            P.occupy(n, rs, +1)
+        pres = float(os.environ.get("PRES", "50"))
+        over = {l: P.occ[l] > 1 for l in RL}
+        for l in RL:
+            P.hist[l][over[l]] += 3.0
+        todo = [net for net in nets if any((over[r["l"]] & seg_mask(r["a"], r["b"], r["w"] / 2 + cls(net)[1] / 2)).any()
+                                           if r["t"] == "t" else any((over[l] & seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + cls(net)[1] / 2)).any() for l in RL)
+                                           for r in P.routes.get(nid[net], []))]
+        print("resume: nets in conflict", len(todo), flush=True)
     unroutable = set()
     for it in range(1, iters + 1):
         for net in todo:

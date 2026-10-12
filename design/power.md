@@ -235,12 +235,13 @@ The ESC JST-SH VBAT pin is rated 1 A (JST SH, AWG 28). Rev B adds:
 
 | Pads | Size | Net | Purpose |
 |---|---|---|---|
-| VBAT, GND | 2.5 x 4.0 mm SMD each, top side, at the board edge next to the ESC connector | VBAT / GND | Primary power entry, solder 20-22 AWG. JST VBAT pin stays in parallel |
-| 10V, GND | 2.0 x 3.0 mm SMD each | 10V / GND | Analog VTX (> 1 A) or HD VTX by wire |
-| 5V, GND (LED strip) | 1.5 x 2.0 mm | 5V / GND | WS2812 strip power |
+| VBAT, GND (P1, P2) | 2.5 x 4.0 mm SMD each, **bottom side** (rev C, D-19), at the bottom edge; D1 (TVS) and C1 straddle them on the top | VBAT / GND | Primary power entry, solder 20-22 AWG. JST VBAT pin stays in parallel |
+| 10V, GND (P3, P4) | 2.0 x 3.0 mm SMD each, top, right edge | 10V / GND | Analog VTX (> 1 A) or HD VTX by wire |
+| 5V (P11) + GND (P4) | 1.5 x 2.0 mm | 5V / GND | WS2812 strip power; the LED strip shares P4 for GND (rev C, D-21) |
 
 Current check: 6S worst-case board input is about 1.06 A (section 12.4), 2S worst case about 2.95 A. A 2.5 x 4 mm pad with 20 AWG carries
-that easily. Copper from the pads to D1/C1 uses ≥ 1.5 mm traces or pours on L1 + L3.
+that easily. Rev C: P1 is stitched by 4 vias to D1/C1 on the top and to a VBAT copper zone on In2 (8 mm wide from P1 to the U1 input
+caps, 2 mm wide to the U2 input caps, `gen/route.py`, Gate 3 G3R-02), plus the 0.8 mm B.Cu hot-loop copper at each buck.
 
 ---
 
