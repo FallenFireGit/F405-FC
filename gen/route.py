@@ -64,7 +64,13 @@ def stage(name, passes):
             board.Add(z)
     elif name == "dsn":
         ok = pcbnew.ExportSpecctraDSN(board, DSN)
-        print("dsn", ok)
+        # In1 is the solid GND plane: no net class may route traces on it (GND reaches it through gen/gndfan.py vias)
+        txt = open(DSN).read()
+        sig = "(use_layer F.Cu In2.PWR B.Cu)"
+        n = txt.count("(circuit\n")
+        txt = txt.replace("(circuit\n", "(circuit\n        " + sig + "\n")
+        open(DSN, "w").write(txt)
+        print("dsn", ok, "classes restricted:", n)
         return
     elif name == "ses":
         ok = pcbnew.ImportSpecctraSES(board, SES)

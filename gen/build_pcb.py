@@ -122,9 +122,9 @@ def rules(board):
     ds.m_HoleClearance = mm(0.19)  # GCT USB4105 land pattern has 0.194 mm pad-to-NPTH spacing
     nc = ds.m_NetSettings.GetDefaultNetclass()
     nc.SetClearance(mm(0.127)); nc.SetTrackWidth(mm(0.15)); nc.SetViaDiameter(mm(0.6)); nc.SetViaDrill(mm(0.3))
+    ds.SetAuxOrigin(pt(0, H))  # drill/place origin = board bottom-left corner (Gerber, drill and CPL share it)
     board.SetLayerName(pcbnew.In1_Cu, "In1.GND")
     board.SetLayerName(pcbnew.In2_Cu, "In2.PWR")
-    board.SetLayerType(pcbnew.In1_Cu, pcbnew.LT_POWER)  # solid GND plane: the autorouter must not route signals on it
 
 
 def tidy_fields(board):
@@ -208,6 +208,23 @@ def anchor(board, anchors):
         fp.SetPosition(pcbnew.VECTOR2I(q.x + mm(dx), q.y + mm(dy)))
 
 
+RULES = {  # JLC04161H-7628 capability with margin (brief: 0.127/0.127 trace/space, 0.3/0.6 vias)
+    "min_track_width": 0.127, "min_clearance": 0.127, "min_copper_edge_clearance": 0.3, "min_via_diameter": 0.6,
+    "min_through_hole_diameter": 0.3, "min_via_annular_width": 0.15, "min_hole_to_hole": 0.25,
+    "min_hole_clearance": 0.19,  # GCT USB4105 land pattern has 0.194 mm pad-to-NPTH spacing
+}
+
+
+def write_rules(pro_path):
+    """pcbnew's python Save does not write the .kicad_pro, so the DRC minimums live here (kicad-cli DRC reads the project)."""
+    import json
+    with open(pro_path) as f:
+        pro = json.load(f)
+    pro.setdefault("board", {}).setdefault("design_settings", {}).setdefault("rules", {}).update(RULES)
+    with open(pro_path, "w") as f:
+        json.dump(pro, f, indent=2)
+
+
 def _stage(name):
     """One board mutation per interpreter: KiCad 10.0.6's SWIG wrappers stop resolving types (BOARD_DESIGN_SETTINGS,
     SHAPE_POLY_SET, ...) once python has created a board item of another type in the same process."""
@@ -249,6 +266,7 @@ def main():
     pcbgen.build(circuit.c, PCB, local_libs={"F405FC": os.path.join(ROOT, "lib", "F405FC.pretty")}, existing=existing)
     import schgen
     schgen.write_project(circuit.c, os.path.dirname(PCB), *circuit.net_settings())  # pcbnew's save dropped them
+    write_rules(PCB.replace(".kicad_pcb", ".kicad_pro"))
     import subprocess
     for st in STAGES:
         subprocess.run([sys.executable, os.path.abspath(__file__), "--stage", st], check=True)
