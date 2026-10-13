@@ -69,6 +69,7 @@ def main():
                 return
             if best is None or ov < best[0]:
                 best = (ov, sorted(b for b in bad if b != "GND"), order)
+                pf.save(P, pf.OUT.replace("route_all.json", "route_best.json"))   # best partial result (with overlaps)
             for net, r in recs.items():
                 n = P.nid(net)
                 P.occupy(n, r, -1)
@@ -76,6 +77,8 @@ def main():
         # widen: rip the signal nets the best order still collided with; if those are already in the set, rip the nets that
         # pass within 1.5 mm of the collision instead (they hold the space the colliding nets need)
         extra = [b for b in best[1] if b not in nets]
+        if os.environ.get("WIDEN", "1") != "1":
+            break
         if not extra:
             for order in [best[2]]:
                 for net in order:
