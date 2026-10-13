@@ -73,7 +73,7 @@ Rev C: 47 of 51 I/O pins are used. PC2, PC3, PB12, PB13 (ex-SPI2/OSD) have only 
 | 6 | PH1-OSC_OUT | HSE_OUT | - | RCC_OSC_OUT | - | Crystal within ~5 mm, GND guard, no traces under it |
 | 7 | NRST | NRST | - | Reset | - | 100 nF to GND. SWD pad |
 | 8 | PC0 | VBAT_ADC | analog | ADC123_IN10 | ADC1 → DMA2 S4 | 10k/1k divider (36 V gives 3.27 V), 100 nF at the pin. `vbat_scale = 110` |
-| 9 | PC1 | CURR_ADC | analog | ADC123_IN11 | (ADC1) | ESC connector CURR. **Mandatory** 10k series + 10 nF + BAT54S clamp to 3V3/GND: comes from off-board and ADC pins are not 5 V tolerant in analog mode (G0-09) |
+| 9 | PC1 | CURR_ADC | analog | ADC123_IN11 | (ADC1) | ESC connector CURR. 10k series + 10 nF (BAT54S clamp removed in D-23: the 10k limits fault current into the pin clamp to < 1 mA) |
 | 10 | PC2 | UNUSED_PC2 (was SPI2_MISO) | - | - | - | **Unused** (rev C, OSD removed). **100k pulldown to GND** so the floating-input reset state is defined (re-audit R-03) |
 | 11 | PC3 | UNUSED_PC3 (was SPI2_MOSI) | - | - | - | **Unused** (rev C), 100k pulldown |
 | 12 | VSSA | GND | - | Analog ground | - | Solid GND plane |
@@ -89,7 +89,7 @@ Rev C: 47 of 51 I/O pins are used. PC2, PC3, PB12, PB13 (ex-SPI2/OSD) have only 
 | 22 | PA6 | SPI1_MISO | AF5 | SPI1 | SPI1 RX → DMA2 S0 | |
 | 23 | PA7 | SPI1_MOSI | AF5 | SPI1 | SPI1 TX → DMA2 S3 | |
 | 24 | PC4 | GYRO1_INT | GPIO in / EXTI4 | EXTI line 4 | - | ICM-42688-P INT1 |
-| 25 | PC5 | RSSI_ADC | analog | ADC12_IN15 | (ADC1) | **Mandatory** 10k series + 10 nF + BAT54S clamp (G0-09) |
+| 25 | PC5 | RSSI_ADC | analog | ADC12_IN15 | (ADC1) | 10k series + 10 nF (clamp removed, D-23) |
 | 26 | PB0 | MOTOR1 | AF2 | TIM3_CH3 | DMA1 S7 Ch5 | ESC connector M1 |
 | 27 | PB1 | MOTOR2 | AF2 | TIM3_CH4 | DMA1 S2 Ch5 | ESC connector M2 |
 | 28 | PB2 (BOOT1) | BEEPER | GPIO out PP | BF `BEEPER` | - | N-MOSFET gate (PMV40UN2, `power.md` section 11) for the 5 V buzzer, active-high. **10k pulldown to GND (BOOT1 strap, also the gate pulldown).** Any series gate resistor (≤100 Ω) goes between the pin node and the gate, never between the pulldown and the pin. `beeper_inversion = ON` |
@@ -284,12 +284,12 @@ Deviation from the original architect brief: the brief asked for "all 6 UARTs TX
 * **Default-state pulldowns:** 100k on CAM_SEL (PC13) and 100k on the Q2 **gate side** of the 1k series resistor (matches `power.md` section 4; PC15 still reads low through the 1k).
 * **I2C1:** 2.2k pull-ups to 3V3 on SCL/SDA.
 * **Flash:** /WP and /HOLD to 3V3 via 10k.
-* **ADC inputs from off-board (CURR, RSSI):** series 10k + 10 nF + BAT54S clamp. **Mandatory.**
+* **ADC inputs from off-board (CURR, RSSI):** series 10k + 10 nF. The BAT54S clamps of G0-09 were removed in D-23 (series resistor limits the injected current).
 * **LED strip:** SN74LV1T125 powered from 5 V, DNP 0 Ω bypass, then 330 Ω series.
 * **HD-VTX connector pin 6 (SBUS/R2):** not connected by default. DNP 0R to UART5_RX (PD2). No inverter.
 * **GPS 5 V:** from the buck-only 5 V rail (not the USB OR-ed rail), so the GPS is off during USB-only DFU and can't disturb the ROM bootloader on USART3 (G0-03).
 * **Test firmware:** never enable LSE/RTC (PC14/PC15 are GPIO).
-* **ROM DFU:** enter DFU on **USB power only**. With a battery connected the VTX is on by default and drives PA10 (USART1_RX, a bootloader port), which can capture the ROM bootloader (re-audit R-08). BF's `bl` command (software DFU) is unaffected.
+* **ROM DFU:** enter DFU on **USB power only**. With a battery connected the VTX is on by default and drives PA10 (USART1_RX, a bootloader port), which can capture the ROM bootloader (re-audit R-08). BF's `bl` command enters the same ROM bootloader, so it needs USB power only as well (Gate 6 m-2).
 
 ## 8. Open questions
 

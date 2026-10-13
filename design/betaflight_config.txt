@@ -6,8 +6,11 @@
 # (Gate 0 audit fixes: beeper->PB2, CAM_SEL->PC13, ESC TLM->UART4 RX PA1,
 #  M7 PB7 / M8 PA0 PWM-servo only, VBUS detect removed, UART5 full spare).
 #
-# Apply on a stock STM32F405 build with CLI 'defaults nosave' then paste, or
-# use the config.h appendix at the bottom for a 4.5 cloud/custom build.
+# Apply on a STM32F405 build with CLI 'defaults nosave' then paste. With a Configurator cloud build, tick the drivers
+# explicitly: ICM42688P, BMI270, BMP388 (covers BMP390), the IIS2MDC/LIS2MDL mag driver and W25N01G flash; they are not
+# all in a default build. The config.h appendix at the bottom is a sketch for a custom build: its macro names were not all
+# found in the Betaflight sources on disk (Gate 6 m-6) and it has not been compiled.
+# baro_hardware / mag_hardware stay AUTO: the exact Betaflight enum names for BMP390 / IIS2MDC were not verified (Gate 6 m-7).
 
 board_name F405FC
 manufacturer_id CUST
@@ -299,8 +302,8 @@ set osd_displayport_device = MSP
 # #define SYSTEM_HSE_MHZ              8
 # #define GYRO_1_SPI_INSTANCE         SPI1
 # #define GYRO_2_SPI_INSTANCE         SPI1
-# #define GYRO_1_ALIGN                CW270_DEG_FLIP   (provisional)
-# #define GYRO_2_ALIGN                CW0_DEG_FLIP     (provisional)
+# #define GYRO_1_ALIGN                CW270_DEG_FLIP   // provisional: bench-verify
+# #define GYRO_2_ALIGN                CW0_DEG_FLIP     // provisional: bench-verify
 # #define FLASH_SPI_INSTANCE          SPI3
 # #define BARO_I2C_INSTANCE           I2CDEV_1
 # #define MAG_I2C_INSTANCE            I2CDEV_1

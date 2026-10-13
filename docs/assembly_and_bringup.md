@@ -82,13 +82,16 @@ all MCU decoupling (C24-C35, C52, C53), FB1, U13 (USB ESD), J1 (USB-C), SW1 (BOO
 
 1. Before power: SW1 open = BOOT0 low (measure BOOT0 to 3V3: open circuit unless the button is pressed).
 2. Bench 8.4 V, limit 200 mA. Expect ≈ 40-80 mA more than Stage A. 3V3 stays at 3.3 V.
-3. DFU: hold BOOT, plug USB. The PC must enumerate "STM32 BOOTLOADER" (0483:DF11). Flash Betaflight (STM32F405 target), then apply
+3. DFU (USB power only, pinmap R-08): **switch the bench supply off**, hold BOOT, then plug USB (BOOT0 is sampled only at reset;
+   alternatively hold BOOT and short TP3 NRST to TP5 GND briefly). The PC must enumerate "STM32 BOOTLOADER" (0483:DF11). Flash Betaflight (STM32F405 target), then apply
    `design/betaflight_config.txt` in the CLI (paste, `save`). Alternative: SWD via TP1 SWDIO, TP2 SWCLK, TP3 NRST, TP5 GND, TP4 3V3 sense.
-4. USB-only DFU note: on USB power the 5 V rail is off, so GPS/LEDs/cameras stay dark. This is intended.
+4. USB-only DFU note: on USB power the 5 V rail is off, so GPS/LEDs/cameras stay dark. This is intended. The Betaflight `bl`
+   command enters the same ROM bootloader, so use it on USB power only too: with a battery the VTX/GPS UARTs can capture it.
 
 ## 4. Stage C: sensors and remaining parts
 
-Fit U6 (ICM-42688-P) and U7 (BMI270) (LGA: hot air, paste or pre-tinned pads, no iron), U8 (BMP390), U9 (IIS2MDC), U11 (video switch),
+Fit U6 (ICM-42688-P) and U7 (BMI270) (LGA, bottom side: local hot air with a small nozzle, Kapton tape over the neighbouring
+bottom-side parts, paste or pre-tinned pads, no iron), U8 (BMP390), U9 (IIS2MDC), U11 (video switch),
 U12 (buffer), D9, Q1 and the remaining passives, connectors J2-J5.
 
 In the Betaflight CLI:
@@ -97,6 +100,11 @@ In the Betaflight CLI:
 - Gyro alignment: the values in the config are **provisional** (U6 CW270FLIP, U7 CW0FLIP from the placement review). Verify on the
   bench with the Betaflight Setup tab 3D model: tilt the board nose-down and roll right; correct `gyro_1_sensor_align` /
   `gyro_2_sensor_align` until both match. Record the final values in the config file.
+- Cold-boot check: power-cycle (unplug USB) at least five times; `status` must list both gyros every time. Both IMUs share SPI1
+  and start in I2C mode, and Betaflight remembers the gyros it found: if gyro 2 is ever missing, run `defaults`, re-paste the config
+  and `save`, then repeat the check.
+- Magnetometer: `align_mag` is not derived (IIS2MDC datasheet not on file). Calibrate and check the heading in the Setup tab;
+  set `align_mag` on the bench if the heading moves the wrong way.
 - VBAT and current ADC inputs have 10k + 10 nF RC filters but no diode clamps (D-23): do not drive the CURR pad above 3.3 V.
 - Baro (`status` lists BMP390 on I2C) and magnetometer (IIS2MDC) detected.
 - PINIO1 (VTX power) and PINIO2 (camera switch): toggle with the mode switch and confirm 10V and the camera source change.
@@ -106,5 +114,8 @@ In the Betaflight CLI:
 - Solder the battery leads to the **P1 (VBAT) / P2 (GND)** bottom pads, or check the ESC harness current rating (JST-SH pins are 1 A).
 - Fit a low-ESR electrolytic of 470-1000 uF, ≥ 35 V across the ESC battery pads.
 - 10 V rail: 1.3 A continuous (DJI O3 / Walksnail / HDZero OK). On 2S, HD VTXs must be powered from VBAT and R41 removed (D-11).
+- **J3 (front, silk "VTX 10V") carries 10 V** for the VTX: never plug a GPS or other 5 V device into it (D-15). GPS goes to J4.
+- Connect the battery before USB, or reboot after plugging the battery: on USB alone the 5 V/10 V peripherals are unpowered and
+  are not detected (D-15).
 - LED strip wiring: DIN to P10, 5 V to P11, GND to P4 (the 10 V VTX GND pad, shared; D-21).
 - LED strip: limit to 0.8 A (≈ 13 WS2812 at full white) or set `ledstrip_brightness` ≤ 50 %.

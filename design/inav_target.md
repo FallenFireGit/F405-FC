@@ -112,7 +112,7 @@ Timer DMA encodings are from INAV `timer_def_stm32f4xx.h` (`datasheets/inav_src/
 #define ADC_INSTANCE            ADC1
 #define ADC1_DMA_STREAM         DMA2_Stream4
 #define ADC_CHANNEL_1_PIN       PC0    // VBAT, 10k/1k
-#define ADC_CHANNEL_2_PIN       PC1    // CURR (10k + 10 nF + BAT54S)
+#define ADC_CHANNEL_2_PIN       PC1    // CURR (10k + 10 nF; clamp removed, D-23)
 #define ADC_CHANNEL_3_PIN       PC5    // RSSI
 #define VBAT_ADC_CHANNEL        ADC_CHN_1
 #define CURRENT_METER_ADC_CHANNEL ADC_CHN_2

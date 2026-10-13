@@ -141,7 +141,7 @@ def tidy_fields(board):
                 f.SetVisible(False)
 
 
-LABELS = {"J1": "USB", "J2": "ESC", "J3": "FRONT", "J4": "GPS 5V", "J5": "RX", "P1": "VBAT", "P2": "GND", "P3": "10V",
+LABELS = {"J1": "USB", "J2": "ESC", "J3": "VTX 10V", "J4": "GPS 5V", "J5": "RX", "P1": "VBAT", "P2": "GND", "P3": "10V",
           "P4": "GND", "P5": "C1", "P6": "C2", "P7": "VID", "P8": "5V", "P9": "G", "P10": "LED", "P11": "5V",
           "P13": "BZ+", "P14": "BZ-", "P15": "T5", "P16": "R5", "P17": "T6", "P18": "R6", "P19": "S5", "P20": "S6",
           "P21": "S7", "P22": "S8", "P23": "RSSI", "P24": "G", "P25": "5V", "TP1": "DIO", "TP2": "CLK", "TP3": "RST",
