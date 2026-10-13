@@ -232,7 +232,7 @@ class PF:
         return out
 
     # ---- A* ----
-    def astar(self, n, src, dst, pres, window):
+    def astar(self, n, src, dst, pres, window, allow_via=True):
         w, c = cls(self.names[n])
         hard, vhard = self.hard(n)
         pts = np.argwhere(np.any([src[l] | dst[l] for l in ALL], axis=0))
@@ -296,7 +296,7 @@ class PF:
                     g[kk, ni, nj] = ng
                     prev[(kk, ni, nj)] = (kk, i, j)
                     heapq.heappush(pq, (ng + 0.95 * math.hypot(ni - gi, nj - gj), ng, kk, ni, nj))
-            if not vh[i, j]:
+            if allow_via and not vh[i, j]:
                 for k2 in range(len(RL)):
                     if k2 == kk:
                         continue
@@ -315,6 +315,7 @@ class PF:
             path.append(prev[path[-1]])
         path.reverse()
         self.last_conflicts = sum(1 for kk, i, j in path if nearm[RL[kk]][i, j])
+        self.last_end = ((path[-1][2] + j0 + 0.5) * RES, (path[-1][1] + i0 + 0.5) * RES)
         # split into same-layer runs, string-pull each run (straight segments where the line stays legal), emit records
         runs, cur = [], [path[0]]
         for p in path[1:]:
@@ -423,22 +424,27 @@ def gnd_pass(P):
         hard, vh = P.hard(n)
         own = np.any([m[l] for l in RL], axis=0)
         near_pad = ndimage.binary_dilation(own, structure=disk(0.45))
-        dst = {l: (~vh & ~near_pad) if l in RL else np.zeros((N, N), bool) for l in ALL}
+        # the via itself must clear every routed copper of other nets on every layer
+        others = np.zeros((N, N), bool)
+        for l in RL:
+            others |= P.occ[l] > 0
+        mine = np.zeros((N, N), bool)
+        for l, mm_ in P.occupy(n, P.routes[n], 0).items():
+            mine |= mm_
+        others &= ~mine
+        via_block = ndimage.binary_dilation(others, structure=disk(0.3 + occ_k(cls("GND")[1])))
+        dst = {l: (~vh & ~near_pad & ~via_block) if l in RL else np.zeros((N, N), bool) for l in ALL}
         src = {l: m[l] for l in ALL}
         r = None
         for win in (1.5, 3.0, 6.0):
-            r = P.astar(n, src, dst, 1e6, win)
+            r = P.astar(n, src, dst, 1e6, win, allow_via=False)     # stay on the pad's layer; one checked via at the end
             if r is not None and P.last_conflicts == 0:
                 break
             r = None
         if r is None:
             left += 1
             continue
-        end = [q for q in r if q["t"] == "t"]
-        x, y = end[-1]["b"] if end else (None, None)
-        if x is None:
-            left += 1
-            continue
+        x, y = P.last_end
         r.append({"t": "v", "x": x, "y": y})
         P.routes[n] += r
         P.occupy(n, r, +1)

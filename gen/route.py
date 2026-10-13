@@ -78,7 +78,7 @@ def stage(name, passes):
             z.SetMinThickness(mm(0.2))
             z.SetThermalReliefGap(mm(0.25))
             z.SetThermalReliefSpokeWidth(mm(0.3))
-            z.SetPadConnection(pcbnew.ZONE_CONNECTION_THERMAL)
+            z.SetPadConnection(pcbnew.ZONE_CONNECTION_THT_THERMAL)   # SMD pads solid (no starved spokes), THT pads thermal
             z.SetAssignedPriority(0)
             z.SetOutline(ps)
             ps.thisown = False
