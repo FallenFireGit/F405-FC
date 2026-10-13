@@ -409,45 +409,63 @@ class PF:
 
 
 def gnd_pass(P):
-    """Tie every GND island that has no via/PTH to the In1 plane: shortest legal path from the island to a via site that is not
-    on the pad itself (no via-in-pad: hand assembly), avoiding all routed copper of other nets. Returns the number of islands left."""
+    """Tie every GND island that has no via/PTH to the In1 plane: shortest legal path on the island's own layer either to GND
+    copper that is already tied (no new via), or to a via site that is not on a GND pad (no via-in-pad: hand assembly; vias are
+    tented) and clears all routed copper of other nets on every layer. Returns the number of islands left."""
     n = P.nid("GND")
     P.routes.setdefault(n, [])
     left = 0
-    for m in P.islands(n, P.routes[n]):
+    for _round in range(3):          # islands tied in one round become targets for the next
+        isl = P.islands(n, P.routes[n])
         vm = (P.vbase == n)
         for r in P.routes[n]:
             if r["t"] == "v":
                 vm |= seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3)
-        if any((m[l] & vm).any() for l in ALL):
-            continue
-        hard, vh = P.hard(n)
-        own = np.any([m[l] for l in RL], axis=0)
-        near_pad = ndimage.binary_dilation(own, structure=disk(0.45))
-        # the via itself must clear every routed copper of other nets on every layer
-        others = np.zeros((N, N), bool)
-        for l in RL:
-            others |= P.occ[l] > 0
-        mine = np.zeros((N, N), bool)
-        for l, mm_ in P.occupy(n, P.routes[n], 0).items():
-            mine |= mm_
-        others &= ~mine
-        via_block = ndimage.binary_dilation(others, structure=disk(0.3 + occ_k(cls("GND")[1])))
-        dst = {l: (~vh & ~near_pad & ~via_block) if l in RL else np.zeros((N, N), bool) for l in ALL}
-        src = {l: m[l] for l in ALL}
-        r = None
-        for win in (1.5, 3.0, 6.0):
-            r = P.astar(n, src, dst, 1e6, win, allow_via=False)     # stay on the pad's layer; one checked via at the end
-            if r is not None and P.last_conflicts == 0:
-                break
+        tied = {l: np.zeros((N, N), bool) for l in ALL}
+        loose = []
+        for m in isl:
+            if any((m[l] & vm).any() for l in ALL):
+                for l in ALL:
+                    tied[l] |= m[l]
+            else:
+                loose.append(m)
+        if not loose:
+            break
+        left = 0
+        for m in loose:
+            hard, vh = P.hard(n)
+            own = np.any([m[l] for l in RL], axis=0)
+            gpads = np.any([(P.base[l] == n) for l in ("F", "B")], axis=0)
+            near_pad = ndimage.binary_dilation(own | gpads, structure=disk(0.35))
+            others = np.zeros((N, N), bool)
+            for l in RL:
+                others |= P.occ[l] > 0
+            mine = np.zeros((N, N), bool)
+            for l, mm_ in P.occupy(n, P.routes[n], 0).items():
+                mine |= mm_
+            others &= ~mine
+            via_block = ndimage.binary_dilation(others, structure=disk(0.3 + occ_k(cls("GND")[1])))
+            site = ~vh & ~near_pad & ~via_block
+            dst = {l: (site | (tied[l] & ~m[l])) if l in RL and l != "In1" else np.zeros((N, N), bool) for l in ALL}
+            src = {l: m[l] for l in ALL}
             r = None
-        if r is None:
-            left += 1
-            continue
-        x, y = P.last_end
-        r.append({"t": "v", "x": x, "y": y})
-        P.routes[n] += r
-        P.occupy(n, r, +1)
+            for win in (1.5, 3.0, 6.0):
+                r = P.astar(n, src, dst, 1e6, win, allow_via=False)     # stay on the island's layer
+                if r is not None and P.last_conflicts == 0:
+                    break
+                r = None
+            if r is None:
+                left += 1
+                continue
+            x, y = P.last_end
+            i, j = min(N - 1, int(y / RES)), min(N - 1, int(x / RES))
+            lay = r[-1]["l"] if r and r[-1]["t"] == "t" else None
+            if not (lay and tied[lay][i, j]):
+                r.append({"t": "v", "x": x, "y": y})
+            P.routes[n] += r
+            P.occupy(n, r, +1)
+            for l in ALL:
+                tied[l] |= m[l]
     return left
 
 

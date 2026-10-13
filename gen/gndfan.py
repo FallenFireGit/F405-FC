@@ -109,6 +109,9 @@ def plan():
             if net != "GND" and lay == side and (crosses(a, b, t0, t1) or min(seg_dist(*t0, *a, *b), seg_dist(*t1, *a, *b),
                                                       seg_dist(*a, *t0, *t1), seg_dist(*b, *t0, *t1)) < STUB_W / 2 + hw + CLR):
                 return False
+        for vx, vy, vr, net in vias:          # through vias of other nets are on every layer
+            if MODE == "gnd" and net != "GND" and seg_dist(vx, vy, *a, *b) < STUB_W / 2 + vr + CLR:
+                return False
         return True
 
     new_vias, new_stubs, missed = [], [], []

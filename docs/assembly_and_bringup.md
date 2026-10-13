@@ -39,6 +39,11 @@ Notes for U1/U2 (TI HSOIC-8 PowerPAD): the exposed pad needs solder. Print paste
 `fab/F405FC_stencil.zip`) or tin the pad lightly, then reflow with the hot plate or hot air from the bottom. Check pin 1 orientation
 against the silk dot. The inductors are polarity-free but heavy: reflow them with the bucks so the second-side reflow does not move them.
 
+Side order: the bottom side carries the bucks, inductors and most power parts, so reflow it first on the hot plate. The top side
+(MCU, IMUs, connectors) is then done with hot air or the iron while the board rests on standoffs, never back on the hot plate,
+so the bottom-side inductors and 1210 caps do not reflow and drop. Keep hot air away from the bottom side once it is populated.
+Part heights against vendor drawings were not verified (see review/summary.md); check them with calipers before closing a stack.
+
 ### 2.1 First power-up (current limited)
 
 1. Supply 8.4 V, current limit **100 mA**, to P1 (+) / P2 (−). Watch the current while switching on.
@@ -84,7 +89,7 @@ all MCU decoupling (C24-C35, C52, C53), FB1, U13 (USB ESD), J1 (USB-C), SW1 (BOO
 ## 4. Stage C: sensors and remaining parts
 
 Fit U6 (ICM-42688-P) and U7 (BMI270) (LGA: hot air, paste or pre-tinned pads, no iron), U8 (BMP390), U9 (IIS2MDC), U11 (video switch),
-U12 (buffer), D7/D8 (ADC clamps), D9, Q1 and the remaining passives, connectors J2-J5.
+U12 (buffer), D9, Q1 and the remaining passives, connectors J2-J5.
 
 In the Betaflight CLI:
 - `status`: gyro and accelerometer detected, CPU load normal, no I2C errors.
@@ -92,6 +97,7 @@ In the Betaflight CLI:
 - Gyro alignment: the values in the config are **provisional** (U6 CW270FLIP, U7 CW0FLIP from the placement review). Verify on the
   bench with the Betaflight Setup tab 3D model: tilt the board nose-down and roll right; correct `gyro_1_sensor_align` /
   `gyro_2_sensor_align` until both match. Record the final values in the config file.
+- VBAT and current ADC inputs have 10k + 10 nF RC filters but no diode clamps (D-23): do not drive the CURR pad above 3.3 V.
 - Baro (`status` lists BMP390 on I2C) and magnetometer (IIS2MDC) detected.
 - PINIO1 (VTX power) and PINIO2 (camera switch): toggle with the mode switch and confirm 10V and the camera source change.
 
@@ -100,4 +106,5 @@ In the Betaflight CLI:
 - Solder the battery leads to the **P1 (VBAT) / P2 (GND)** bottom pads, or check the ESC harness current rating (JST-SH pins are 1 A).
 - Fit a low-ESR electrolytic of 470-1000 uF, ≥ 35 V across the ESC battery pads.
 - 10 V rail: 1.3 A continuous (DJI O3 / Walksnail / HDZero OK). On 2S, HD VTXs must be powered from VBAT and R41 removed (D-11).
+- LED strip wiring: DIN to P10, 5 V to P11, GND to P4 (the 10 V VTX GND pad, shared; D-21).
 - LED strip: limit to 0.8 A (≈ 13 WS2812 at full white) or set `ledstrip_brightness` ≤ 50 %.

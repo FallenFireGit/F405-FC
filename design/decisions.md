@@ -203,13 +203,20 @@ Gate 3 (`review/gate-3-placement.md`) failed with 3 BLOCKER / 9 MAJOR. Changes:
   on this 36 x 36 mm, 4-layer, 161-part board. The production routing therefore comes from `gen/pathfinder.py`, a negotiated-
   congestion (PathFinder) grid router written for this board, after the scripted critical routes (`gen/critical.py`) and the MCU
   inward fanout (`gen/gndfan.py`, FANOUT=mcu). Reproduce with `bash gen/route_pipeline.sh`. Freerouting trial logs are not kept.
-- **Clearance model.** Pairwise clearance = max of the two net classes; holes keep the 0.19 mm hole clearance; a 0.035 mm grid
-  safety margin to fixed copper and a 0.015 mm margin between routed nets cover the 0.05 mm rasterization. KiCad DRC is the judge.
+- **Clearance model.** Pairwise clearance = max of the two net classes; holes keep the 0.19 mm hole clearance. The final run uses a
+  0.025 mm grid (ROUTE_RES) with a 0.7-cell safety margin to fixed copper and a 0.3-cell margin between routed nets to cover
+  rasterization. KiCad DRC is the judge.
 - **Net classes.** Signal tracks 0.127 mm (the brief's minimum) to gain routing capacity; PWR_MID (VBAT/5V branches) 0.35 mm with
   0.127 mm clearance; PWR_HI (10V, SW, VTX_PWR) 0.45 mm with 0.15 mm clearance (both ample for ≤ 25.2 V). Buck hot loops and the main
   VBAT/5V copper are the scripted 0.8 mm tracks and the In2 VBAT zone.
-- **In1.** The GND plane is never routed by default. A final PathFinder pass may use short In1 hops (cost 6x) only where no other
-  layer has room; their count and length are reported in `review/summary.md` and checked at Gate 4.
+- **In1.** The GND plane is not routed in the main passes. The resume pass that reached zero overuse needed In1 hops at cost 2x
+  (6x and 10x did not converge): the In1 copper is listed in `review/summary.md` and checked at Gate 4 (return paths of signals that
+  cross the cuts).
+- **GND ties.** Every GND pad island gets a tie to In1: a short stub plus a tented via (`gen/gndfan.py`, router GND pass in
+  `gen/pathfinder.py`). Pours on F/In2/B use 0.15 mm clearance, 0.13 mm minimum width, solid SMD pad connections (thermal reliefs
+  only on THT pads) and island removal; vias may sit next to a GND pad because vias are tented on both sides.
+- **Cleanup.** `gen/prune.py` deletes MCU fanout vias the router did not use (and their stubs) and one via of any GND via pair that
+  breaks the 0.25 mm hole-to-hole rule, then the zones are refilled and DRC is re-run.
 - **Routing-driven placement moves:** U5 (3V3_IMU LDO) and C23 moved from under the MCU top pin row, C53 (RSSI filter cap) moved next
   to its series resistor R39, R21/R22 (unused-pin pulldowns) moved to the bottom, fanout vias kept 0.8 mm outside the IMU courtyards.
   These free via sites under the MCU body for the SPI1/SPI3 pin escapes.

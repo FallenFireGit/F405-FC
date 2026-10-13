@@ -4,11 +4,16 @@ Board: `kicad/F405FC.kicad_pcb` at HEAD `c747eaa` (the board file is unmodified 
 uncommitted one-line change, see G3R-12). Reviewer: a fresh Gate 3 re-reviewer, 2026-10-12. Review only: nothing in design/, gen/, kicad/,
 lib/ or bom/ was changed. Scratch scripts lived in `/tmp/g3r` inside the `kc` chroot.
 
-**Verdict: FAIL.** 0 BLOCKER, 3 MAJOR (G3-11 still open, G3R-01, G3R-02), plus MINOR and INFO items. The power-stage rework (D-19) closes all three previous
+**Verdict: FAIL.** 0 BLOCKER, 4 MAJOR (G3-11 still open, G3R-01, G3R-02, G3R-10), plus MINOR and INFO items. The power-stage rework (D-19) closes all three previous
 BLOCKERs and nine of the eleven MAJOR/MINOR placement items, and I measured that myself. What blocks a pass is narrower:
 silkscreen labels that still point at the wrong pads (camera 5 V and the 10 V VTX pad), top-side 0402 pads 0.36 mm from the open buck thermal
-vias, and a locked VBAT critical route that breaks power.md §5. All three are small, local fixes. If they are fixed and checked by measurement, the next
+vias, a locked VBAT critical route that breaks power.md §5, and routability that is not demonstrated (a trial Freerouting run stalled at
+72 unrouted). The first three are small, local fixes. If they are fixed and checked by measurement, the next
 pass can be PASS WITH CONDITIONS (the conditions are listed at the end).
+
+> **Scope note (added 2026-10-13):** everything here measures the board at `c747eaa`. While the trial route was running, the
+> repository moved on (commits `f088aee` … `6216e29`: D-21 to D-23, labels and pad grids, VBAT In2 zone, U13 move, D7 removed, routing). None of those
+> later changes were re-measured in this review. A Gate 3 close-out has to re-check the MAJORs against the current HEAD.
 
 ## Method (what I actually did)
 
@@ -79,7 +84,7 @@ pass can be PASS WITH CONDITIONS (the conditions are listed at the end).
 | G3-16 | MINOR | **CLOSED** | Y1 rotated −90°. The pads face their pins and the traces do not cross. This is a geometric check; nothing is routed yet. |
 | G3-17 | MINOR | **CLOSED** | J1 at x = 32.32. |
 | G3-18 | MINOR | **OPEN** | 60 silk DRC items (34 silk_over_copper and 26 silk_overlap; previously 72). Examples: `LED` (24.33,21.10) on U3 pads 33/34 and R24; `5V` (28.88,21.11) on R33/C50; `RSSI` on D9 pad 2; `CLK` on D5 pad 2; `S5` on the J1 NPTH. |
-| G3-19 | INFO | Superseded | Routability was trial-tested this time (G3R-02 / G3R-10). |
+| G3-19 | INFO | Superseded | Routability was trial-tested this time (G3R-10 and the Trial route section). |
 
 ### G3-11 (still OPEN, MAJOR): pad labels sit on the wrong or neighbouring pads
 
@@ -185,16 +190,16 @@ trace length is what matters: it passes the USB, LED and buck areas.
 Fix: put D7 next to C52 on the bottom (a SOT-23 needs about 3.2 x 3.0 mm; candidates are the left of U11 or under J5 after the G3-11 pad regrid). Or use
 a BAT54S in SOT-323. Or drop D7 and rely on R38 (10 k) plus the MCU clamp diodes, as D8/RSSI does.
 
-### G3R-10 MINOR: MCU escape room: right-side wall and almost no outer via sites
+### G3R-10 MAJOR: MCU escape room: right-side wall and almost no outer via sites
 Evidence (`pack.py`):
 - **Via room.** In the band 0-2.5 mm outside the LQFP pad ring there are only **5** free via sites, all on the left at (9.8,12.7)/(10.6,12.7), and **0** on the top, right and bottom
   sides. Under the LQFP body there are 32 free sites, outside every bottom courtyard. All bottom-going nets therefore escape inward.
 - **Right row.** C26, C34, U13, R24 and R23 form a wall 1.0 mm from the right-row pad tips (pad tips x = 23.41, U13 pin 6 pad x = 24.41).
   Pins 33-48 (UART6, MOTOR5/6, LED_STRIP, UART1, USB, SWDIO) have one trace channel along the row plus the inner vias.
 
-The trial route (below) is the measure of whether this is acceptable.
-Fix if the trial route leaves this area unrouted: move U13 per G3R-07 and move C34/C26 to the bottom (pins 47/48 through vias), which opens a channel of
-≥ 2 mm in front of pins 33-46.
+The trial route (below) stalled at 72 unrouted after 12 passes, so this cannot be accepted on trust.
+Fix: move U13 per G3R-07 and move C34/C26 to the bottom (pins 47/48 through vias), which opens a channel of
+≥ 2 mm in front of pins 33-46. Then re-run the trial route (or do a scripted MCU fan-out first) until it reaches 0 unrouted before Gate 3 is closed.
 
 ### G3R-11 MINOR: DRC errors in footprints at the edge
 Evidence: copper_edge_clearance ×8: the JST MP pads of J2/J3/J4/J5 have centres 1.22 mm from the edge (for example J2 MP (16.20,34.78)), against the
@@ -215,17 +220,22 @@ Fix: move the four JST connectors 0.2 mm inboard, or add a documented rule excep
 
 ## Trial route
 
-TRIAL_ROUTE_RESULT
+I ran Freerouting 2.5.0 through `gen/route.py 20` on a copy of the board, with the locked critical routes in place and In1 as the GND plane. The fanout stage
+escaped 370 of 474 SMD pins (78.1 %). Autorouting then started with **126 unrouted** items. After 12 passes (13:05, killed by my 25-minute `timeout`) it
+had **72 unrouted and 30 violations**, and passes 7-12 had stalled at 72-84 unrouted. No .ses was produced, so I cannot list which nets failed.
+A stalled Freerouting run does not prove the board is unroutable, because a hand fan-out can do better. It does mean routability is **not demonstrated**, and it agrees
+with the via-room count in G3R-10. The trial files lived only in `/tmp/g3r/trial` (deleted afterwards).
 
 ## Verdict
 
 **FAIL.** BLOCKER: none. MAJOR: **G3-11** (labels on the wrong pads), **G3R-01** (top 0402 pads 0.36 mm from the open thermal vias), and
-**G3R-02** (locked VBAT route 0.8 / 1.0 mm vs the ≥ 1.5 mm rule in power.md §5, 19 mm edge detour).
+**G3R-02** (locked VBAT route 0.8 / 1.0 mm vs the ≥ 1.5 mm rule in power.md §5, 19 mm edge detour), and **G3R-10** (no via room outside
+the LQFP; the trial route stalled at 72 unrouted).
 
 The power-stage placement itself (hot loops, BST, FB/RT, SW, output caps, IMU distance, decoupling, crystal, USB, holes, heights) is now
 sound. I measured all of that rather than taking it from placecheck.
 
-Conditions for a PASS WITH CONDITIONS on the next pass, after the three MAJORs are fixed:
+Conditions for a PASS WITH CONDITIONS on the next pass, after the four MAJORs are fixed:
 1. Fix or explicitly accept the MINORs G3R-03 to G3R-07 (power and USB) and G3-13 (forward arrow plus consistent align values).
 2. A full trial route to 0 unrouted, with the 10 V path to R41/J3 on the right half (G3-10).
 3. power.md §5 and §12 brought in line with rev C, and the floors computed in the script (G3R-08).

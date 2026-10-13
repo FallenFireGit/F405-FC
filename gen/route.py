@@ -74,12 +74,13 @@ def stage(name, passes):
             z.SetLayer(layer)
             z.SetNet(gnd)
             z.SetZoneName("GND_" + board.GetLayerName(layer).replace(".", "_"))
-            z.SetLocalClearance(mm(0.2))
-            z.SetMinThickness(mm(0.2))
+            z.SetLocalClearance(mm(0.15))      # >= largest class clearance (PWR_HI 0.15); lets the pour reach boxed-in GND pads
+            z.SetMinThickness(mm(0.13))
             z.SetThermalReliefGap(mm(0.25))
             z.SetThermalReliefSpokeWidth(mm(0.3))
             z.SetPadConnection(pcbnew.ZONE_CONNECTION_THT_THERMAL)   # SMD pads solid (no starved spokes), THT pads thermal
             z.SetAssignedPriority(0)
+            z.SetIslandRemovalMode(pcbnew.ISLAND_REMOVAL_MODE_ALWAYS)   # unconnected copper islands are dropped
             z.SetOutline(ps)
             ps.thisown = False
             _KEEP.append(ps)
