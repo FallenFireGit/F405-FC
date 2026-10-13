@@ -1,4 +1,4 @@
-# F405-FC power architecture (Gate 0 design, rev B)
+# F405-FC power architecture (Gate 0 design, rev B; rev C changes from Gate 3 and later)
 
 Source of truth for requirements: `design/requirements.md`. Datasheets are in `datasheets/` (file name in brackets).
 Rev B (2026-10-11) replaces both TPS54360B non-synchronous bucks with the synchronous TI **LMR38020FSDDAR**, removes the
@@ -241,7 +241,10 @@ The ESC JST-SH VBAT pin is rated 1 A (JST SH, AWG 28). Rev B adds:
 
 Current check: 6S worst-case board input is about 1.06 A (section 12.4), 2S worst case about 2.95 A. A 2.5 x 4 mm pad with 20 AWG carries
 that easily. Rev C: P1 is stitched by 4 vias to D1/C1 on the top and to a VBAT copper zone on In2 (8 mm wide from P1 to the U1 input
-caps, 2 mm wide to the U2 input caps, `gen/route.py`, Gate 3 G3R-02), plus the 0.8 mm B.Cu hot-loop copper at each buck.
+caps, a 1.6 mm drawn riser (about 1.5 mm filled) to three vias on the U2 input track C10-C12-U2 VIN, `gen/route.py` and
+`gen/critical.py`, Gate 3 G3R-02 and Gate 6 G6S-01 review), plus the 0.8 mm B.Cu hot-loop copper at each buck. Routed power branches
+(VBAT, 5V, 10V, VTX_PWR) stay on the 1 oz outer layers (Gate 6 G6S-04: 0.45 mm on 0.5 oz In2 would rise ~60-80 °C at 1 A per
+IPC-2221). The M3 hole keepouts exclude all copper including pours (G6S-03). The BAT54S ADC clamps of section 10 were removed (D-23).
 
 ---
 

@@ -17,7 +17,7 @@ current-limited bench supply.**
 
 ## 1. Bare-board checks (before any part)
 
-Measure resistance to GND (TP5 or P2) with the DMM. All must read open (> 1 MΩ) on a bare board:
+Measure resistance to GND (P2) with the DMM. All must read open (> 1 MΩ) on a bare board:
 VBAT (P1), 5V (P8 / P11), 10V (P3), 5V_SYS (J5 pin 1), 3V3 (TP4), VBUS (USB-C), SW nodes (L1/L2 pad 1 lands).
 Any short here is a fab defect: do not populate.
 
@@ -31,8 +31,6 @@ Fit, bottom side first (all are bottom-side parts unless noted):
 | 5 V buck | U1, L1, C2, C3, C4, C5, C6, C7, C8, C9, R1, R2, R3, R4, R5 |
 | 10 V buck | U2, L2, C10, C11, C12, C13, C14, C15, C16, C17, R6, R7, R8, R9, R10 |
 | VTX switch | Q2, and the 1k / 100k gate resistors on VTX_PWR_EN / VTX_OFF_G |
-| 5V_SYS OR | D4 (**top**), D5 |
-| LDOs | U4 (3V3) + its caps, U5 (3V3_IMU) + its caps |
 | VTX feed | R41 (0R 0805; leave it **out** on 2S HD builds, D-11/D-16) |
 
 Notes for U1/U2 (TI HSOIC-8 PowerPAD): the exposed pad needs solder. Print paste through the stencil (three windows per pad,
@@ -44,9 +42,18 @@ Side order: the bottom side carries the bucks, inductors and most power parts, s
 so the bottom-side inductors and 1210 caps do not reflow and drop. Keep hot air away from the bottom side once it is populated.
 Part heights against vendor drawings were not verified (see review/summary.md); check them with calipers before closing a stack.
 
+Stage A is fitted in two steps (Gate 6 G6S-02): **A1** = the table above (bucks and VTX switch only); the 5V_SYS OR diodes
+D4/D5 and the LDOs U4 (3V3) and U5 (3V3_IMU) with their caps are fitted only after the 5 V and 10 V rails have been verified
+(step 2.1.9). A wrong or open feedback resistor would otherwise drive the 5 V rail towards VIN and destroy U5 (6 V abs max) and U4.
+
 ### 2.1 First power-up (current limited)
 
-1. Supply 8.4 V, current limit **100 mA**, to P1 (+) / P2 (−). Watch the current while switching on.
+0. Before power, with the DMM: R4 (100k) and R5 (24.3k) in place and reading those values in circuit (5 V feedback), R9 (100k) /
+   R10 (11.0k) for the 10 V feedback, U1/U2 pin 1 orientation, no solder bridge on U1/U2 pins 3/4/5.
+   **Stop criteria for every step below:** supply in current limit, any rail outside its window, or anything warm: switch off and
+   find the cause before going on.
+1. Supply **6.5 V** first (5V regulates, 10V is in dropout), current limit **100 mA**, to P1 (+) / P2 (−). 5V must read
+   4.96-5.28 V before the input goes any higher. Then go to 8.4 V, same limit. Watch the current while switching on.
 2. Expected: the supply stays out of current limit (FPWM no-load draw of both bucks is a few tens of mA; record the value).
    If it hits the limit, switch off and look for a short or a reversed part.
 3. Rails (DMM):
@@ -55,16 +62,21 @@ Part heights against vendor drawings were not verified (see review/summary.md); 
 |---|---|---|---|
 | 5V | P8 / P11 | 4.96-5.28 V (5.115 V nominal) | FB 100k / 24.3k |
 | 10V | P3 | **in dropout at 8.4 V** (≈ 7.2-8.1 V at no load) | Regulates above ≈ 11.5 V input |
-| 5V_SYS | J5 pin 1 | ≈ 4.7-4.9 V | 5V through D5 |
-| 3V3 | TP4 | 3.25-3.35 V | LP38692 |
-| 3V3_IMU | U5 output cap | 3.25-3.35 V | LP5907 |
 
 4. Raise to 16.8 V (4S), limit 150 mA: 10V must read 9.76-10.43 V; all other rails unchanged.
 5. Raise to 25.2 V (6S), limit 150 mA: rails unchanged. Do not exceed 25.2 V (the TVS starts conducting at 28.9 V).
 6. UVLO: lower the input slowly from 8 V. Both bucks switch off between 3.8 V and 4.9 V and restart between 4.4 V and 5.6 V.
 7. VTX power switch: with 16.8 V in, apply 3.3 V through a 1 kΩ resistor to the VTX_PWR_EN node (or, after Stage B, toggle PINIO1):
    10V must drop to 0 V. Remove it: 10V returns within about 5 ms (soft start).
-8. USB only (battery disconnected): plug USB-C into a current-limited USB port or a USB power meter. 5V_SYS ≈ 4.6-4.7 V (via D4),
+9. Switch off, fit D4, D5, U4 (+ caps) and U5 (+ caps), then repeat steps 1-3 at 8.4 V and also check:
+
+| Rail | Where | Expected | Notes |
+|---|---|---|---|
+| 5V_SYS | J5 pin 1 | ≈ 4.7-4.9 V | 5V through D5 |
+| 3V3 | TP4 | 3.25-3.35 V | LP38692 |
+| 3V3_IMU | U5 output cap | 3.25-3.35 V | LP5907 |
+
+10. USB only (battery disconnected): plug USB-C into a current-limited USB port or a USB power meter. 5V_SYS ≈ 4.6-4.7 V (via D4),
    3V3 present, **5V and 10V must stay at 0 V** (GPS/LED/camera rails are battery-only by design).
 
 ### 2.2 Loaded checks (fan running)
@@ -78,13 +90,13 @@ Part heights against vendor drawings were not verified (see review/summary.md); 
 ## 3. Stage B: MCU and USB
 
 Fit U3 (STM32F405RGT6, LQFP-64, **top**: drag-solder with flux, then inspect every pin under magnification; check pin 1), Y1 + C36/C37,
-all MCU decoupling (C24-C35, C52, C53), FB1, U13 (USB ESD), J1 (USB-C), SW1 (BOOT), U10 (flash), LEDs D10-D12 + resistors, TP1-TP5.
+all MCU decoupling (C24-C35, C52, C53), R14/R15 (VBAT divider), R16 (BOOT0 pull-down), FB1, U13 (USB ESD), J1 (USB-C), SW1 (BOOT), U10 (flash), LEDs D10-D12 + resistors, TP1-TP5.
 
 1. Before power: SW1 open = BOOT0 low (measure BOOT0 to 3V3: open circuit unless the button is pressed).
 2. Bench 8.4 V, limit 200 mA. Expect ≈ 40-80 mA more than Stage A. 3V3 stays at 3.3 V.
 3. DFU (USB power only, pinmap R-08): **switch the bench supply off**, hold BOOT, then plug USB (BOOT0 is sampled only at reset;
-   alternatively hold BOOT and short TP3 NRST to TP5 GND briefly). The PC must enumerate "STM32 BOOTLOADER" (0483:DF11). Flash Betaflight (STM32F405 target), then apply
-   `design/betaflight_config.txt` in the CLI (paste, `save`). Alternative: SWD via TP1 SWDIO, TP2 SWCLK, TP3 NRST, TP5 GND, TP4 3V3 sense.
+   alternatively hold BOOT and short TP3 NRST to P2 GND briefly). The PC must enumerate "STM32 BOOTLOADER" (0483:DF11). Flash Betaflight (STM32F405 target), then apply
+   `design/betaflight_config.txt` in the CLI (paste, `save`). Alternative: SWD via TP1 SWDIO, TP2 SWCLK, TP3 NRST, TP5 GND (check TP5 to P2 continuity first), TP4 3V3 sense.
 4. USB-only DFU note: on USB power the 5 V rail is off, so GPS/LEDs/cameras stay dark. This is intended. The Betaflight `bl`
    command enters the same ROM bootloader, so use it on USB power only too: with a battery the VTX/GPS UARTs can capture it.
 
@@ -117,5 +129,6 @@ In the Betaflight CLI:
 - **J3 (front, silk "VTX 10V") carries 10 V** for the VTX: never plug a GPS or other 5 V device into it (D-15). GPS goes to J4.
 - Connect the battery before USB, or reboot after plugging the battery: on USB alone the 5 V/10 V peripherals are unpowered and
   are not detected (D-15).
-- LED strip wiring: DIN to P10, 5 V to P11, GND to P4 (the 10 V VTX GND pad, shared; D-21).
+- LED strip wiring: DIN to P10, 5 V to P11, GND to P4 (the 10 V VTX GND pad, shared; D-21). P4 sits next to the 10 V pad P3:
+  solder the LED GND wire first and check P3-P4 for bridges before power.
 - LED strip: limit to 0.8 A (≈ 13 WS2812 at full white) or set `ledstrip_brightness` ≤ 50 %.
