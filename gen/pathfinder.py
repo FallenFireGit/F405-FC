@@ -309,7 +309,7 @@ class PF:
                     fin = gc + VIA_COST + float(vcost[i, j])
                     heapq.heappush(pq, (fin, fin, -kk - 1, i, j))
             exp += 1
-            if exp > int(1_500_000 * (0.05 / RES) ** 2):
+            if exp > int(1_500_000 * float(os.environ.get("EXP_MULT", "1")) * (0.05 / RES) ** 2):
                 break
             l = RL[kk]
             ins = srcm[kk, i, j]
