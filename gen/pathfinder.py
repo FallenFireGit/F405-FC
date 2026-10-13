@@ -600,6 +600,15 @@ def main():
     nid = {n: P.nid(n) for n in nets}
     pres, hist_inc = 0.5, 0.3
     todo = list(nets)
+    if os.environ.get("GND_FIXED") and os.environ.get("RESUME") != "1":
+        # GND copper (plane ties) from an earlier run, placed first: every signal net is then routed around it
+        prev = json.load(open(os.environ["GND_FIXED"]))
+        n = P.nid("GND")
+        P.routes[n] = [{"t": "t", "l": t["layer"], "a": tuple(t["a"]), "b": tuple(t["b"]), "w": t["w"]}
+                       for t in prev["tracks"] if t["net"] == "GND"]
+        P.routes[n] += [{"t": "v", "x": v["x"], "y": v["y"]} for v in prev["vias"] if v["net"] == "GND"]
+        P.occupy(n, P.routes[n], +1)
+        print(f"GND_FIXED: {len(P.routes[n])} GND records placed first", flush=True)
     if os.environ.get("RESUME") == "1" and os.path.exists(OUT):
         prev = json.load(open(OUT))
         for t in prev["tracks"]:
