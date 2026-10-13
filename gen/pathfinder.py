@@ -408,6 +408,17 @@ class PF:
         return recs
 
 
+def gnd_needed(m):
+    """With GND_NEED (kicad/gnd_need.json from gen/gndneed.py) only islands holding a listed pad need a tie: the pours on
+    F/In2/B already join the others to a stitched area."""
+    path = os.environ.get("GND_NEED")
+    if not path:
+        return True
+    if not hasattr(gnd_needed, "pts"):
+        gnd_needed.pts = json.load(open(path))
+    return any(m[l][min(N - 1, int(y / RES)), min(N - 1, int(x / RES))] for x, y, l in gnd_needed.pts if l in m)
+
+
 def gnd_pass(P):
     """Tie every GND island that has no via/PTH to the In1 plane: shortest legal path on the island's own layer either to GND
     copper that is already tied (no new via), or to a via site that is not on a GND pad (no via-in-pad: hand assembly; vias are
@@ -427,7 +438,7 @@ def gnd_pass(P):
             if any((m[l] & vm).any() for l in ALL):
                 for l in ALL:
                     tied[l] |= m[l]
-            else:
+            elif gnd_needed(m):
                 loose.append(m)
         if not loose:
             break
@@ -489,7 +500,7 @@ def gnd_force(P):
             vm |= seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3)
     made = 0
     for m in isl:
-        if any((m[l] & vm).any() for l in ALL):
+        if any((m[l] & vm).any() for l in ALL) or not gnd_needed(m):
             continue
         dst = {l: site0.copy() if l in ("F", "B", "In2") else np.zeros((N, N), bool) for l in ALL}
         src = {l: m[l] for l in ALL}
