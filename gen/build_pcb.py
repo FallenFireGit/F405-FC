@@ -56,7 +56,8 @@ _KEEP_ALIVE = []
 
 
 def hole_keepouts(board):
-    """4.6 mm grommet keepout around each M3 hole: no tracks or vias (copper pour allowed), all layers."""
+    """4.6 mm grommet keepout around each M3 hole: no tracks, vias or copper pour on any layer (Gate 6 G6S-03: a metal screw or
+    standoff must not reach the VBAT / GND pours)."""
     import math
     if any(z.GetIsRuleArea() and z.GetZoneName().startswith("HOLE_KEEPOUT") for z in board.Zones()):
         return  # already present (board.Remove + python GC of the zone segfaults in 10.0.6, so never remove)
@@ -90,7 +91,7 @@ def hole_keepouts(board):
             z = pcbnew.ZONE(board)
             z.SetIsRuleArea(True)
             z.SetZoneName(f"IND_KEEPOUT_{ref}")
-            z.SetDoNotAllowTracks(True); z.SetDoNotAllowVias(True); z.SetDoNotAllowZoneFills(False)
+            z.SetDoNotAllowTracks(True); z.SetDoNotAllowVias(True); z.SetDoNotAllowZoneFills(True)
             z.SetDoNotAllowPads(False); z.SetDoNotAllowFootprints(False)
             z.SetLayer(layer)
             z.SetOutline(ps)
@@ -100,7 +101,7 @@ def hole_keepouts(board):
         z = pcbnew.ZONE(board)
         z.SetIsRuleArea(True)
         z.SetZoneName(f"HOLE_KEEPOUT_{i + 1}")
-        z.SetDoNotAllowTracks(True); z.SetDoNotAllowVias(True); z.SetDoNotAllowZoneFills(False)
+        z.SetDoNotAllowTracks(True); z.SetDoNotAllowVias(True); z.SetDoNotAllowZoneFills(True)
         z.SetDoNotAllowPads(False); z.SetDoNotAllowFootprints(False)
         z.SetLayerSet(ls)
         z.SetOutline(ps)

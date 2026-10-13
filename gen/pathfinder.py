@@ -81,6 +81,16 @@ class PF:
                 self.hole |= seg_mask((p["x"], p["y"]), (p["x"], p["y"]), p["hole"])
                 if nid > 0:
                     self.vbase[m] = nid
+        self.smd = {l: np.zeros((N, N), np.int32) for l in ("F", "B")}   # SMD pad net ids (no via inside an own pad)
+        for p in g["pads"]:
+            if p["hole"] or not p["net"]:
+                continue
+            m = np.zeros((N, N), bool)
+            for poly in p["polys"]:
+                m |= poly_mask(poly)
+            for l in p["layers"]:
+                if l in self.smd:
+                    self.smd[l][m] = self.nid(p["net"])
         self.fixed_routes = []
         for t in g["tracks"]:
             if t["layer"] in ALL and t["locked"]:
@@ -165,6 +175,15 @@ class PF:
                 hard[l] = hl | (hole_d < w / 2 + HOLE_CLR + SAFE) | (self.edge_dist < w / 2 + 0.02) | ft
             vhard |= vl
         vhard |= (self.edge_dist < 0.32) | ndimage.binary_dilation(self.fvia, structure=disk(0.33))   # whole via body outside keepouts
+        # no via inside (or overlapping) an own SMD pad: hand assembly, solder wicking (Gate 6 minor)
+        ownpad = (self.smd["F"] == n) | (self.smd["B"] == n)
+        if ownpad.any():
+            vhard |= ndimage.binary_dilation(ownpad, structure=disk(0.3 + 0.02))
+        # power nets (>= 0.35 mm classes: VBAT, 5V, 10V, VTX_PWR, SW) only on the 1 oz outer layers (Gate 6 G6S-04)
+        if w >= 0.35 and os.environ.get("PWR_OUTER", "1") == "1":
+            for l in RL:
+                if l not in ("F", "B"):
+                    hard[l] = np.ones((N, N), bool)
         self.hard_cache[n] = (hard, vhard)
         return hard, vhard
 
@@ -598,7 +617,8 @@ def main():
     nets = [n for n in span if n and n != "GND" and not n.startswith("unconnected-")]
     nets.sort(key=lambda n: (max(x for x, y in span[n]) - min(x for x, y in span[n]) + max(y for x, y in span[n]) - min(y for x, y in span[n])))
     nid = {n: P.nid(n) for n in nets}
-    pres, hist_inc = 0.5, 0.3
+    pres, hist_inc = 0.5, float(os.environ.get("HIST_INC", "0.3"))
+    pres_grow, pres_max = float(os.environ.get("PRES_GROW", "1.6")), float(os.environ.get("PRES_MAX", "1e9"))
     todo = list(nets)
     if os.environ.get("GND_FIXED") and os.environ.get("RESUME") != "1":
         # GND copper (plane ties) from an earlier run, placed first: every signal net is then routed around it
@@ -707,7 +727,7 @@ def main():
                 print("pathfinder: converged")
                 break
             todo = sorted(bad | unroutable, key=nets.index)
-            pres *= 1.6
+            pres = min(pres * pres_grow, pres_max)
         return pres, n_over, unroutable
 
     pres, n_over, unroutable = negotiate(todo, pres, iters)
@@ -727,7 +747,7 @@ def main():
                 any((over[l] & seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + occ_k(cls(net)[1]))).any() for l in RL)
                 for r in P.routes.get(nid[net], []))]
             print(f"GND force round {rnd + 1}: {forced} ties forced, nets to renegotiate {len(todo)} {todo}", flush=True)
-            pres, n_over, unroutable = negotiate(todo, max(pres, 500.0), int(os.environ.get("GND_FORCE_PASSES", "12")))
+            pres, n_over, unroutable = negotiate(todo, float(os.environ.get("GND_PRES", "500")), int(os.environ.get("GND_FORCE_PASSES", "12")))
             left = gnd_pass(P)
             save(P, OUT)
             print(f"pathfinder: GND pass after round {rnd + 1}: {left} islands without a tie, overuse {n_over}, "
