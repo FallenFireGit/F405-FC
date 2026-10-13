@@ -61,7 +61,7 @@ Firmware targets: Betaflight 4.5 (`design/betaflight_config.txt`, board_name `F4
 ## 2. Full LQFP-64 pin table
 
 AF numbers are from the ST GPIO database (DS8626 Table 9). "DMA" is the stream/channel Betaflight uses with this config.
-Rev C: 47 of 51 I/O pins are used. PC2, PC3, PB12, PB13 (ex-SPI2/OSD) have only a 100k pulldown each (no pads).
+Rev C: 47 of 51 I/O pins are used. PC2, PC3, PB12, PB13 (ex-SPI2/OSD) are not connected (pulldowns removed in D-24).
 
 | Pin | Name | Net / function | AF | Peripheral / timer ch | DMA (BF) | Notes |
 |---|---|---|---|---|---|---|
@@ -74,8 +74,8 @@ Rev C: 47 of 51 I/O pins are used. PC2, PC3, PB12, PB13 (ex-SPI2/OSD) have only 
 | 7 | NRST | NRST | - | Reset | - | 100 nF to GND. SWD pad |
 | 8 | PC0 | VBAT_ADC | analog | ADC123_IN10 | ADC1 → DMA2 S4 | 10k/1k divider (36 V gives 3.27 V), 100 nF at the pin. `vbat_scale = 110` |
 | 9 | PC1 | CURR_ADC | analog | ADC123_IN11 | (ADC1) | ESC connector CURR. 10k series + 10 nF (BAT54S clamp removed in D-23: the 10k limits fault current into the pin clamp to < 1 mA) |
-| 10 | PC2 | UNUSED_PC2 (was SPI2_MISO) | - | - | - | **Unused** (rev C, OSD removed). **100k pulldown to GND** so the floating-input reset state is defined (re-audit R-03) |
-| 11 | PC3 | UNUSED_PC3 (was SPI2_MOSI) | - | - | - | **Unused** (rev C), 100k pulldown |
+| 10 | PC2 | UNUSED_PC2 (was SPI2_MISO) | - | - | - | **Unused** (rev C, OSD removed). no connection (100k pulldown of R-03 removed in D-24) |
+| 11 | PC3 | NC (was SPI2_MOSI) | - | - | - | **Unused**, no connection (D-24) |
 | 12 | VSSA | GND | - | Analog ground | - | Solid GND plane |
 | 13 | VDDA | 3V3A | - | Analog supply / internal VREF+ | - | Ferrite bead from 3V3, 1 µF + 100 nF. **No VREF+ pin on LQFP-64** |
 | 14 | PA0-WKUP | MOTOR8 (extra pad S8) | AF2 | TIM5_CH1 | **none** | **PWM/servo only.** TIM5_CH1 → DMA1 S2 Ch6 collides with M2. TIM5 is used by nothing else. (Was UART4_TX, so UART4 is RX-only. Can be given back with `resource MOTOR 8 NONE` + `resource SERIAL_TX 4 A00`) |
@@ -97,8 +97,8 @@ Rev C: 47 of 51 I/O pins are used. PC2, PC3, PB12, PB13 (ex-SPI2/OSD) have only 
 | 30 | PB11 | MOTOR4 | AF1 | TIM2_CH4 | DMA1 S6 Ch3 (dmaopt 1) | ESC connector M4. opt 0 (S7) would collide with M1 |
 | 31 | VCAP_1 | VCAP1 | - | Core regulator | - | 2.2 µF low-ESR (ESR < 2 Ω) to GND |
 | 32 | VDD | 3V3 | - | | - | 100 nF |
-| 33 | PB12 | UNUSED_PB12 (was OSD_CS) | - | - | - | **Unused** (rev C), 100k pulldown |
-| 34 | PB13 | UNUSED_PB13 (was SPI2_SCK) | - | - | - | **Unused** (rev C), 100k pulldown |
+| 33 | PB12 | NC (was OSD_CS) | - | - | - | **Unused**, no connection (D-24) |
+| 34 | PB13 | NC (was SPI2_SCK) | - | - | - | **Unused**, no connection (D-24) |
 | 35 | PB14 | STATUS_LED_BLUE (LED0) | GPIO out | BF `LED 1` | - | 3V3 → R → LED → pin (low = on) |
 | 36 | PB15 | STATUS_LED_GREEN (LED1) | GPIO out | BF `LED 2` | - | Same as LED0 |
 | 37 | PC6 | UART6_TX | AF8 | USART6 | - | Spare UART (full) |

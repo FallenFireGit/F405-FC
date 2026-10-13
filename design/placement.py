@@ -59,10 +59,6 @@ put("R17", 18.6, 25.0, 90)        # BEEPER/BOOT1 pulldown (pin 28)
 put("R18", 14.6, 27.2, 90)        # GYRO1_CS pullup
 put("R19", 16.0, 9.9, 90)         # GYRO2_CS (pin 50)
 put("R20", 18.4, 9.9, 90)         # FLASH_CS (pin 58)
-put("R21", 8.6, 14.9, 90, "B")          # PC2 pulldown
-put("R22", 8.6, 16.9, 90, "B")          # PC3
-put("R23", 23.9, 23.6, 0)         # PB12
-put("R24", 23.9, 22.6, 0)         # PB13
 put("R25", 13.6, 9.9, 90)         # I2C SCL pullup
 put("R26", 14.8, 9.9, 90)         # I2C SDA pullup
 # status LEDs (PB14/PB15, right side lower)

@@ -98,7 +98,7 @@ The 36 x 36 mm board cannot shed the ≈ 3.9 W worst-case board dissipation (inc
 ≤ 1 W total dissipation. A fan-cooled full-load thermal test at bring-up is a pass/fail gate (`design/power.md` 12.5). STM32F405RGT7
 (105 C) does **not** help, because the IMUs and baro are 85 C parts; the envelope (Ta ≤ 35 C full load, Ta 35-50 C ≤ 3 W, bench ≤ 1 W) is the control.
 
-## D-13 Unused MCU pins pulled down (pin-map re-audit R-03)
+## D-13 Unused MCU pins pulled down (pin-map re-audit R-03) — superseded by D-24
 
 PC2, PC3, PB12, PB13 (ex-OSD SPI2) each get a 100k pulldown to GND so they are not floating CMOS inputs.
 
@@ -226,3 +226,11 @@ Gate 3 (`review/gate-3-placement.md`) failed with 3 BLOCKER / 9 MAJOR. Changes:
 The BAT54S clamps on CURR_ADC and RSSI_ADC occupied the last free routing space under the MCU corner. Each ADC input keeps its
 10 k series resistor and 10 nF filter cap. A fault source of 5 V then injects (5 - 3.3 - 0.3) / 10 k ≈ 0.14 mA into the STM32 pin clamp
 (limit 5 mA per pin, 25 mA total); even 12 V gives ≈ 0.85 mA. The external clamp was redundant with the series resistor.
+
+## D-24 Unused-pin pulldowns removed (routing, Gate 6 G6S-01)
+
+R21-R24 (100k pulldowns on PC2, PC3, PB12, PB13, D-13) are removed and the four pins are no-connects. Their traces and GND pads
+sat in the most congested area under the MCU, and every extra GND pad there needs its own plane tie. An unconnected STM32 pin is a
+floating input only between reset and firmware start (Schmitt-trigger input, leakage-level current; RM0090 GPIO reset state);
+the firmware may set them to analog mode. The refs R21-R24 stay unused so later refs do not shift. BOM: 4 x 100k fewer
+(estimate $173.28).

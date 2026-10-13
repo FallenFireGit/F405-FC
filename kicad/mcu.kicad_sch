@@ -3133,45 +3133,13 @@
 			)
 		)
 	)
-	(global_label "UNUSED_PC2"
-		(shape passive)
-		(at 35.56 66.04 180)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify right)
-		)
-		(uuid "56195d99-774a-5e34-ac3a-9da04d5411bb")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 35.56 66.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
+	(no_connect
+		(at 35.56 66.04)
+		(uuid "1e3ae353-a504-5ff8-baf4-73ef592590e5")
 	)
-	(global_label "UNUSED_PC3"
-		(shape passive)
-		(at 35.56 68.58 180)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify right)
-		)
-		(uuid "66f6e4ad-3155-5f50-85f9-31e8355799b9")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 35.56 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
+	(no_connect
+		(at 35.56 68.58)
+		(uuid "0d566f9a-2a10-5ded-b308-1c01ee1dd3c0")
 	)
 	(global_label "GND"
 		(shape passive)
@@ -3593,45 +3561,13 @@
 			)
 		)
 	)
-	(global_label "UNUSED_PB12"
-		(shape passive)
-		(at 76.2 111.76 0)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "c0660991-7fca-51da-8e85-87937710bc69")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 76.2 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
+	(no_connect
+		(at 76.2 111.76)
+		(uuid "e086cbd5-6947-523f-9634-41680ad9caa8")
 	)
-	(global_label "UNUSED_PB13"
-		(shape passive)
-		(at 76.2 114.3 0)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "55b716bd-0c66-5f36-b377-1c87bb2db555")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 76.2 114.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
+	(no_connect
+		(at 76.2 114.3)
+		(uuid "c129414b-d6bd-5d07-9c30-3efd2c117423")
 	)
 	(global_label "STATUS_LED_BLUE"
 		(shape passive)
@@ -7055,543 +6991,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 228.6 149.86 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "70759371-316e-5e0e-a963-2f344d83ab07")
-		(property "Reference" "R21"
-			(at 228.6 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100K"
-			(at 228.6 156.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 228.6 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 228.6 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 228.6 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "RC0402FR-07100KL"
-			(at 228.6 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Yageo"
-			(at 228.6 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "311-100KLRCT-ND"
-			(at 228.6 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "88ab374e-0120-5ce0-a78e-ef4186eecfea")
-		)
-		(pin "2"
-			(uuid "d4d85af2-52e3-54bd-92f6-6208e109b49c")
-		)
-		(instances
-			(project "F405FC"
-				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/d9dd2f91-3141-5a18-a766-de1f3392fe7d"
-					(reference "R21")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(global_label "UNUSED_PC2"
-		(shape passive)
-		(at 228.6 146.05 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "3c8066f1-43c3-5d3d-93c5-31e7b2870a40")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 228.6 146.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 228.6 153.67 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "129b897e-a414-53b2-93df-d30a87185d99")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 228.6 153.67 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 261.62 149.86 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "af52d4ec-340d-5d08-a906-c2475151979e")
-		(property "Reference" "R22"
-			(at 261.62 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100K"
-			(at 261.62 156.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 261.62 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 261.62 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 261.62 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "RC0402FR-07100KL"
-			(at 261.62 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Yageo"
-			(at 261.62 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "311-100KLRCT-ND"
-			(at 261.62 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "63d8b718-90d5-59d4-9341-2d5d50e2349b")
-		)
-		(pin "2"
-			(uuid "9b1d1173-6e3b-59ee-81e9-1b6c51ebbba0")
-		)
-		(instances
-			(project "F405FC"
-				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/d9dd2f91-3141-5a18-a766-de1f3392fe7d"
-					(reference "R22")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(global_label "UNUSED_PC3"
-		(shape passive)
-		(at 261.62 146.05 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "39daec3a-d516-539b-9e58-56e50fedbbaf")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 261.62 146.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 261.62 153.67 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "e2d9356d-9626-5d2d-9217-a4292cada006")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 261.62 153.67 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 294.64 149.86 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "6877a6ea-5cef-579f-9ed2-770568ff7e94")
-		(property "Reference" "R23"
-			(at 294.64 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100K"
-			(at 294.64 156.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 294.64 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 294.64 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 294.64 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "RC0402FR-07100KL"
-			(at 294.64 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Yageo"
-			(at 294.64 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "311-100KLRCT-ND"
-			(at 294.64 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "057ef267-4860-5734-b97c-6aad4682bd9e")
-		)
-		(pin "2"
-			(uuid "4987a341-c09e-51d6-9c54-b345e64d8860")
-		)
-		(instances
-			(project "F405FC"
-				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/d9dd2f91-3141-5a18-a766-de1f3392fe7d"
-					(reference "R23")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(global_label "UNUSED_PB12"
-		(shape passive)
-		(at 294.64 146.05 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "b983e8f4-3cd4-5df0-8a14-a276ada9f56e")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 294.64 146.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 294.64 153.67 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "025756d2-8403-5862-9b02-9d9f460345d7")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 294.64 153.67 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 330.2 149.86 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "d6d9c482-325c-5ee0-bb49-e4bb343385de")
-		(property "Reference" "R24"
-			(at 330.2 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100K"
-			(at 330.2 156.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 330.2 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 330.2 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 330.2 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "RC0402FR-07100KL"
-			(at 330.2 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Yageo"
-			(at 330.2 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "311-100KLRCT-ND"
-			(at 330.2 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "488ed0f2-eae6-5550-bc99-07c551b590df")
-		)
-		(pin "2"
-			(uuid "614a6e34-a2dd-5b1d-825e-8c3cde4a81ec")
-		)
-		(instances
-			(project "F405FC"
-				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/d9dd2f91-3141-5a18-a766-de1f3392fe7d"
-					(reference "R24")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(global_label "UNUSED_PB13"
-		(shape passive)
-		(at 330.2 146.05 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "cfc8dc1c-fbe2-525a-b6be-851fdd575cba")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 330.2 146.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 330.2 153.67 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "8272ff47-05d6-52be-b297-296b53205c34")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 330.2 153.67 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 363.22 149.86 0)
+		(at 226.06 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7599,7 +6999,7 @@
 		(dnp no)
 		(uuid "4328c4cc-97ac-5749-86bc-0696d67e2bda")
 		(property "Reference" "R25"
-			(at 363.22 143.51 0)
+			(at 226.06 143.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7607,7 +7007,7 @@
 			)
 		)
 		(property "Value" "2.20K"
-			(at 363.22 156.21 0)
+			(at 226.06 156.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7615,7 +7015,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 363.22 149.86 0)
+			(at 226.06 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7624,7 +7024,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 363.22 149.86 0)
+			(at 226.06 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7633,7 +7033,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 363.22 149.86 0)
+			(at 226.06 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7642,7 +7042,7 @@
 			)
 		)
 		(property "MPN" "RC0402FR-072K2L"
-			(at 363.22 149.86 0)
+			(at 226.06 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7651,7 +7051,7 @@
 			)
 		)
 		(property "Manufacturer" "Yageo"
-			(at 363.22 149.86 0)
+			(at 226.06 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7660,7 +7060,7 @@
 			)
 		)
 		(property "DigiKey" "311-2.20KLRCT-ND"
-			(at 363.22 149.86 0)
+			(at 226.06 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7685,7 +7085,7 @@
 	)
 	(global_label "3V3"
 		(shape passive)
-		(at 363.22 146.05 90)
+		(at 226.06 146.05 90)
 		(effects
 			(font
 				(size 1 1)
@@ -7694,7 +7094,7 @@
 		)
 		(uuid "9e347c12-2840-53fc-a968-ea8b227fb214")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 363.22 146.05 0)
+			(at 226.06 146.05 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7705,7 +7105,7 @@
 	)
 	(global_label "I2C1_SCL"
 		(shape passive)
-		(at 363.22 153.67 270)
+		(at 226.06 153.67 270)
 		(effects
 			(font
 				(size 1 1)
@@ -7714,7 +7114,7 @@
 		)
 		(uuid "d2c8e8d2-9891-5621-b18a-d60d793d71d0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 363.22 153.67 0)
+			(at 226.06 153.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7725,7 +7125,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 391.16 149.86 0)
+		(at 256.54 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7733,7 +7133,7 @@
 		(dnp no)
 		(uuid "ca0407d7-1a48-5149-8d20-ef247216d858")
 		(property "Reference" "R26"
-			(at 391.16 143.51 0)
+			(at 256.54 143.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7741,7 +7141,7 @@
 			)
 		)
 		(property "Value" "2.20K"
-			(at 391.16 156.21 0)
+			(at 256.54 156.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7749,7 +7149,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 391.16 149.86 0)
+			(at 256.54 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7758,7 +7158,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 391.16 149.86 0)
+			(at 256.54 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7767,7 +7167,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 391.16 149.86 0)
+			(at 256.54 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7776,7 +7176,7 @@
 			)
 		)
 		(property "MPN" "RC0402FR-072K2L"
-			(at 391.16 149.86 0)
+			(at 256.54 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7785,7 +7185,7 @@
 			)
 		)
 		(property "Manufacturer" "Yageo"
-			(at 391.16 149.86 0)
+			(at 256.54 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7794,7 +7194,7 @@
 			)
 		)
 		(property "DigiKey" "311-2.20KLRCT-ND"
-			(at 391.16 149.86 0)
+			(at 256.54 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7819,7 +7219,7 @@
 	)
 	(global_label "3V3"
 		(shape passive)
-		(at 391.16 146.05 90)
+		(at 256.54 146.05 90)
 		(effects
 			(font
 				(size 1 1)
@@ -7828,7 +7228,7 @@
 		)
 		(uuid "75bc1f38-6da5-563a-ac95-20d6c75ae7d3")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 391.16 146.05 0)
+			(at 256.54 146.05 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7839,7 +7239,7 @@
 	)
 	(global_label "I2C1_SDA"
 		(shape passive)
-		(at 391.16 153.67 270)
+		(at 256.54 153.67 270)
 		(effects
 			(font
 				(size 1 1)
@@ -7848,7 +7248,7 @@
 		)
 		(uuid "3dfdf8f3-93c5-598b-8614-31980bf4404d")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 391.16 153.67 0)
+			(at 256.54 153.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7859,7 +7259,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 30.48 172.72 0)
+		(at 287.02 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7867,7 +7267,7 @@
 		(dnp no)
 		(uuid "d9e72533-0a91-5623-b93e-24b4a13adad6")
 		(property "Reference" "R27"
-			(at 30.48 166.37 0)
+			(at 287.02 143.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7875,7 +7275,7 @@
 			)
 		)
 		(property "Value" "330"
-			(at 30.48 179.07 0)
+			(at 287.02 156.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7883,7 +7283,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 30.48 172.72 0)
+			(at 287.02 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7892,7 +7292,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 30.48 172.72 0)
+			(at 287.02 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7901,7 +7301,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 30.48 172.72 0)
+			(at 287.02 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7910,7 +7310,7 @@
 			)
 		)
 		(property "MPN" "RC0402FR-07330RL"
-			(at 30.48 172.72 0)
+			(at 287.02 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7919,7 +7319,7 @@
 			)
 		)
 		(property "Manufacturer" "Yageo"
-			(at 30.48 172.72 0)
+			(at 287.02 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7928,7 +7328,7 @@
 			)
 		)
 		(property "DigiKey" "311-330LRCT-ND"
-			(at 30.48 172.72 0)
+			(at 287.02 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7953,7 +7353,7 @@
 	)
 	(global_label "3V3"
 		(shape passive)
-		(at 30.48 168.91 90)
+		(at 287.02 146.05 90)
 		(effects
 			(font
 				(size 1 1)
@@ -7962,7 +7362,7 @@
 		)
 		(uuid "aa42f334-af38-510e-b5cb-55682908fbad")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 30.48 168.91 0)
+			(at 287.02 146.05 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7973,7 +7373,7 @@
 	)
 	(global_label "LED_BLUE_A"
 		(shape passive)
-		(at 30.48 176.53 270)
+		(at 287.02 153.67 270)
 		(effects
 			(font
 				(size 1 1)
@@ -7982,7 +7382,7 @@
 		)
 		(uuid "63034f4e-a17c-5f98-8db6-f2bca08f3e4b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 30.48 176.53 0)
+			(at 287.02 153.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7993,7 +7393,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 71.12 170.18 0)
+		(at 327.66 144.78 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -8001,7 +7401,7 @@
 		(dnp no)
 		(uuid "c3f17b22-09c3-5613-8f80-4fa71f783bb9")
 		(property "Reference" "D11"
-			(at 71.12 167.64 0)
+			(at 327.66 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8009,7 +7409,7 @@
 			)
 		)
 		(property "Value" "Blue"
-			(at 71.12 172.72 0)
+			(at 327.66 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8017,7 +7417,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
-			(at 71.12 170.18 0)
+			(at 327.66 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8026,7 +7426,7 @@
 			)
 		)
 		(property "Datasheet" "https://optoelectronics.liteon.com/upload/download/DS22-2000-213/LTST-C191TBKT.pdf"
-			(at 71.12 170.18 0)
+			(at 327.66 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8035,7 +7435,7 @@
 			)
 		)
 		(property "Description" "status LED0"
-			(at 71.12 170.18 0)
+			(at 327.66 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8044,7 +7444,7 @@
 			)
 		)
 		(property "MPN" "LTST-C191TBKT"
-			(at 71.12 170.18 0)
+			(at 327.66 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8053,7 +7453,7 @@
 			)
 		)
 		(property "Manufacturer" "Lite-On"
-			(at 71.12 170.18 0)
+			(at 327.66 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8062,7 +7462,7 @@
 			)
 		)
 		(property "DigiKey" "160-1647-1-ND"
-			(at 71.12 170.18 0)
+			(at 327.66 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8087,7 +7487,7 @@
 	)
 	(global_label "STATUS_LED_BLUE"
 		(shape passive)
-		(at 67.31 170.18 180)
+		(at 323.85 144.78 180)
 		(effects
 			(font
 				(size 1 1)
@@ -8096,7 +7496,7 @@
 		)
 		(uuid "871e993f-e836-5821-817d-227df857e0d7")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 67.31 170.18 0)
+			(at 323.85 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8107,7 +7507,7 @@
 	)
 	(global_label "LED_BLUE_A"
 		(shape passive)
-		(at 74.93 170.18 0)
+		(at 331.47 144.78 0)
 		(effects
 			(font
 				(size 1 1)
@@ -8116,7 +7516,7 @@
 		)
 		(uuid "12249dac-0a39-5a4c-a717-c9cc06ce7dd0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 74.93 170.18 0)
+			(at 331.47 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8127,7 +7527,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 114.3 172.72 0)
+		(at 370.84 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -8135,7 +7535,7 @@
 		(dnp no)
 		(uuid "aa2555aa-122b-53ac-b7eb-00852520b967")
 		(property "Reference" "R28"
-			(at 114.3 166.37 0)
+			(at 370.84 143.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8143,7 +7543,7 @@
 			)
 		)
 		(property "Value" "1.00K"
-			(at 114.3 179.07 0)
+			(at 370.84 156.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8151,7 +7551,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 114.3 172.72 0)
+			(at 370.84 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8160,7 +7560,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 114.3 172.72 0)
+			(at 370.84 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8169,7 +7569,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 114.3 172.72 0)
+			(at 370.84 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8178,7 +7578,7 @@
 			)
 		)
 		(property "MPN" "RC0402FR-071KL"
-			(at 114.3 172.72 0)
+			(at 370.84 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8187,7 +7587,7 @@
 			)
 		)
 		(property "Manufacturer" "Yageo"
-			(at 114.3 172.72 0)
+			(at 370.84 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8196,7 +7596,7 @@
 			)
 		)
 		(property "DigiKey" "311-1.00KLRCT-ND"
-			(at 114.3 172.72 0)
+			(at 370.84 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8221,7 +7621,7 @@
 	)
 	(global_label "3V3"
 		(shape passive)
-		(at 114.3 168.91 90)
+		(at 370.84 146.05 90)
 		(effects
 			(font
 				(size 1 1)
@@ -8230,7 +7630,7 @@
 		)
 		(uuid "8952cd1b-188a-5f59-9a4e-3faa4a5c2224")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 114.3 168.91 0)
+			(at 370.84 146.05 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8241,7 +7641,7 @@
 	)
 	(global_label "LED_GREEN_A"
 		(shape passive)
-		(at 114.3 176.53 270)
+		(at 370.84 153.67 270)
 		(effects
 			(font
 				(size 1 1)
@@ -8250,7 +7650,7 @@
 		)
 		(uuid "f41487ce-4f00-584c-95dc-8b1c2952f6a7")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 114.3 176.53 0)
+			(at 370.84 153.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8261,7 +7661,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 157.48 170.18 0)
+		(at 38.1 170.18 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -8269,7 +7669,7 @@
 		(dnp no)
 		(uuid "bc5d67d1-d536-5159-b422-dac1bb5de4dd")
 		(property "Reference" "D12"
-			(at 157.48 167.64 0)
+			(at 38.1 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8277,7 +7677,7 @@
 			)
 		)
 		(property "Value" "Green"
-			(at 157.48 172.72 0)
+			(at 38.1 172.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8285,7 +7685,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
-			(at 157.48 170.18 0)
+			(at 38.1 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8294,7 +7694,7 @@
 			)
 		)
 		(property "Datasheet" "https://optoelectronics.liteon.com/upload/download/DS22-2000-222/LTST-C191KGKT.pdf"
-			(at 157.48 170.18 0)
+			(at 38.1 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8303,7 +7703,7 @@
 			)
 		)
 		(property "Description" "status LED1"
-			(at 157.48 170.18 0)
+			(at 38.1 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8312,7 +7712,7 @@
 			)
 		)
 		(property "MPN" "LTST-C191KGKT"
-			(at 157.48 170.18 0)
+			(at 38.1 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8321,7 +7721,7 @@
 			)
 		)
 		(property "Manufacturer" "Lite-On"
-			(at 157.48 170.18 0)
+			(at 38.1 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8330,7 +7730,7 @@
 			)
 		)
 		(property "DigiKey" "160-1446-1-ND"
-			(at 157.48 170.18 0)
+			(at 38.1 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8355,7 +7755,7 @@
 	)
 	(global_label "STATUS_LED_GREEN"
 		(shape passive)
-		(at 153.67 170.18 180)
+		(at 34.29 170.18 180)
 		(effects
 			(font
 				(size 1 1)
@@ -8364,7 +7764,7 @@
 		)
 		(uuid "09bee6ef-ade1-55be-a15a-8c7390e0c0b0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 153.67 170.18 0)
+			(at 34.29 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8375,7 +7775,7 @@
 	)
 	(global_label "LED_GREEN_A"
 		(shape passive)
-		(at 161.29 170.18 0)
+		(at 41.91 170.18 0)
 		(effects
 			(font
 				(size 1 1)
@@ -8384,7 +7784,7 @@
 		)
 		(uuid "afd85428-e77f-54b6-b976-46b9a440e6e1")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 161.29 170.18 0)
+			(at 41.91 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)

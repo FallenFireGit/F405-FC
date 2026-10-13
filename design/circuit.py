@@ -286,11 +286,11 @@ for n in ("VBAT", "GND", "5V", "10V", "5V_SYS", "VBUS", "3V3A"):
 # ============================================================================================
 mcu_conn = {
     "VBAT": "3V3", "PC13": "CAM_SEL", "PC14": "GYRO2_INT", "PC15": "VTX_PWR_EN", "PH0": "HSE_IN", "PH1": "HSE_OUT",
-    "NRST": "NRST", "PC0": "VBAT_ADC", "PC1": "CURR_ADC", "PC2": "UNUSED_PC2", "PC3": "UNUSED_PC3", "VSSA": "GND", "VDDA": "3V3A",
+    "NRST": "NRST", "PC0": "VBAT_ADC", "PC1": "CURR_ADC", "PC2": None, "PC3": None, "VSSA": "GND", "VDDA": "3V3A",
     "PA0": "MOTOR8", "PA1": "ESC_TLM", "PA2": "UART2_TX", "PA3": "UART2_RX", "VSS": "GND", "VDD": "3V3",
     "PA4": "GYRO1_CS", "PA5": "SPI1_SCK", "PA6": "SPI1_MISO", "PA7": "SPI1_MOSI", "PC4": "GYRO1_INT", "PC5": "RSSI_ADC",
     "PB0": "MOTOR1", "PB1": "MOTOR2", "PB2": "BEEPER", "PB10": "MOTOR3", "PB11": "MOTOR4", "VCAP_1": "VCAP1",
-    "PB12": "UNUSED_PB12", "PB13": "UNUSED_PB13", "PB14": "STATUS_LED_BLUE", "PB15": "STATUS_LED_GREEN", "PC6": "UART6_TX",
+    "PB12": None, "PB13": None, "PB14": "STATUS_LED_BLUE", "PB15": "STATUS_LED_GREEN", "PC6": "UART6_TX",
     "PC7": "UART6_RX", "PC8": "MOTOR5", "PC9": "MOTOR6", "PA8": "LED_STRIP", "PA9": "UART1_TX", "PA10": "UART1_RX",
     "PA11": "USB_DM", "PA12": "USB_DP", "PA13": "SWDIO", "VCAP_2": "VCAP2", "PA14": "SWCLK", "PA15": "GYRO2_CS",
     "PC10": "UART3_TX", "PC11": "UART3_RX", "PC12": "UART5_TX", "PD2": "UART5_RX", "PB3": "SPI3_SCK",
@@ -324,8 +324,8 @@ C(MCU, "C8p2", "HSE_IN")   # 8.2 pF: CL 8 pF crystal with 3-5 pF stray (Gate 1 G
 C(MCU, "C8p2", "HSE_OUT")
 for cs in ("GYRO1_CS", "GYRO2_CS", "FLASH_CS"):
     R(MCU, "R10k", "3V3", cs)
-for n in ("UNUSED_PC2", "UNUSED_PC3", "UNUSED_PB12", "UNUSED_PB13"):
-    R(MCU, "R100k", n, "GND")  # define unused pins (re-audit R-03)
+for _ in range(4):
+    nextref("R")  # R21-R24 (unused-pin pulldowns of D-13) removed in D-24: refs kept free so later refs do not shift
 R(MCU, "R2k2", "3V3", "I2C1_SCL")
 R(MCU, "R2k2", "3V3", "I2C1_SDA")
 R(MCU, "R330", "3V3", "LED_BLUE_A")

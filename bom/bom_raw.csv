@@ -24,8 +24,8 @@ Qty per board,Refs,Value,MPN,Manufacturer,DigiKey PN,Footprint,Datasheet
 2,L1 L2,5.6uH,74438356056,Würth Elektronik,not confirmed; alt 78438356056 = 732-11317-1-ND,L_Wuerth_MAPI-4020,https://www.we-online.com/components/products/datasheet/74438356056.pdf
 1,Q2,NX7002AK,"NX7002AK,215",Nexperia,1727-1289-1-ND,SOT-23,https://assets.nexperia.com/documents/data-sheet/NX7002AK.pdf
 1,Q1,PMV40UN2,PMV40UN2R,Nexperia,1727-1900-1-ND,SOT-23,https://assets.nexperia.com/documents/data-sheet/PMV40UN2.pdf
-11,R2 R4 R7 R9 R12 R21 R22 R23 R24 R31 R36,100K,RC0402FR-07100KL,Yageo,311-100KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
 9,R16 R17 R18 R19 R20 R29 R30 R38 R39,10.0K,RC0402FR-0710KL,Yageo,311-10.0KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+7,R2 R4 R7 R9 R12 R31 R36,100K,RC0402FR-07100KL,Yageo,311-100KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
 4,R11 R13 R15 R28,1.00K,RC0402FR-071KL,Yageo,311-1.00KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
 2,R3 R8,34.8K,ERJ-2RKF3482X,Panasonic,P34.8KLCT-ND,R_0402_1005Metric,https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf
 2,R25 R26,2.20K,RC0402FR-072K2L,Yageo,311-2.20KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
