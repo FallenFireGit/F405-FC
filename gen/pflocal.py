@@ -11,7 +11,10 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import numpy as np  # noqa: E402
+from scipy import ndimage  # noqa: E402
 import pathfinder as pf  # noqa: E402
+from mazeroute import cls  # noqa: E402
 from pffinish import conflicts, load  # noqa: E402
 
 
@@ -65,15 +68,43 @@ def main():
                 print("saved")
                 return
             if best is None or ov < best[0]:
-                best = (ov, sorted(b for b in bad if b != "GND"))
+                best = (ov, sorted(b for b in bad if b != "GND"), order)
             for net, r in recs.items():
                 n = P.nid(net)
                 P.occupy(n, r, -1)
                 P.routes[n] = []
-        # widen: also rip the signal nets the best order still collided with
+        # widen: rip the signal nets the best order still collided with; if those are already in the set, rip the nets that
+        # pass within 1.5 mm of the collision instead (they hold the space the colliding nets need)
         extra = [b for b in best[1] if b not in nets]
         if not extra:
-            break
+            for order in [best[2]]:
+                for net in order:
+                    n = P.nid(net)
+                    r = P.route_net(n, 1e7)
+                    if r is None:
+                        break
+                    P.routes[n] = r
+                    P.occupy(n, r, +1)
+            over = np.zeros((pf.N, pf.N), bool)
+            for l in pf.RL:
+                over |= P.occ[l] > 1
+            zone = ndimage.binary_dilation(over, structure=pf.disk(1.5))
+            near = set()
+            for n2, rs in P.routes.items():
+                name = P.names[n2]
+                if name in nets or name == "GND" or cls(name)[0] >= 0.35 or not rs:
+                    continue
+                for l, m in P.occupy(n2, rs, 0).items():
+                    if (m & zone).any():
+                        near.add(name)
+                        break
+            for net in best[2]:
+                n = P.nid(net)
+                P.occupy(n, P.routes[n], -1)
+                P.routes[n] = []
+            extra = sorted(near)
+            if not extra:
+                break
         for net in extra:
             n = P.nid(net)
             P.occupy(n, P.routes.get(n, []), -1)
