@@ -37,7 +37,7 @@ for n in ("10V", "SW_5V", "SW_10V", "VTX_PWR"):
     CLASS[n] = (0.45, 0.15)           # VTX feed: up to 1.3 A
 for n in ("VBAT", "5V"):
     CLASS[n] = (0.35, 0.127)          # main 5 V / VBAT copper is scripted (gen/critical.py); these are branches <= 0.8 A
-for n in ("5V_SYS", "3V3", "3V3_IMU", "3V3A", "VBUS", "BUZ_N", "BST_5V", "BST_10V", "VCAP1", "VCAP2"):
+for n in ("5V_SYS", "3V3", "VBUS", "BUZ_N", "BST_5V", "BST_10V", "VCAP1", "VCAP2"):   # 3V3_IMU / 3V3A (<= 10 mA) are Default
     CLASS[n] = (0.2, 0.127)           # <= 0.4 A
 for n in ("USB_DP", "USB_DM"):
     CLASS[n] = (0.2, 0.127)

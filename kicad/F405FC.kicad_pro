@@ -270,64 +270,79 @@
   "net_settings": {
     "classes": [
       {
+        "clearance": 0.127,
+        "diff_pair_gap": 0.15,
+        "diff_pair_width": 0.2,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
         "name": "Default",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 0,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.15,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      },
+      {
         "clearance": 0.127,
-        "track_width": 0.127,
-        "via_diameter": 0.6,
-        "via_drill": 0.3,
-        "diff_pair_width": 0.2,
         "diff_pair_gap": 0.15,
+        "diff_pair_width": 0.2,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
-        "priority": 0
-      },
-      {
-        "name": "PWR_HI",
-        "clearance": 0.15,
-        "track_width": 0.45,
-        "via_diameter": 0.6,
-        "via_drill": 0.3,
-        "diff_pair_width": 0.2,
-        "diff_pair_gap": 0.15,
-        "microvia_diameter": 0.3,
-        "microvia_drill": 0.1,
-        "priority": 1
-      },
-      {
-        "name": "PWR_MID",
-        "clearance": 0.127,
-        "track_width": 0.35,
-        "via_diameter": 0.6,
-        "via_drill": 0.3,
-        "diff_pair_width": 0.2,
-        "diff_pair_gap": 0.15,
-        "microvia_diameter": 0.3,
-        "microvia_drill": 0.1,
-        "priority": 2
-      },
-      {
         "name": "PWR",
-        "clearance": 0.127,
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 3,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.2,
+        "tuning_profile": "",
         "via_diameter": 0.6,
-        "via_drill": 0.3,
-        "diff_pair_width": 0.2,
-        "diff_pair_gap": 0.15,
-        "microvia_diameter": 0.3,
-        "microvia_drill": 0.1,
-        "priority": 3
+        "via_drill": 0.3
       },
       {
-        "name": "USB",
-        "clearance": 0.127,
-        "track_width": 0.2,
-        "via_diameter": 0.6,
-        "via_drill": 0.3,
-        "diff_pair_width": 0.2,
+        "clearance": 0.15,
         "diff_pair_gap": 0.15,
+        "diff_pair_width": 0.2,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
-        "priority": 4
+        "name": "PWR_HI",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 1,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.45,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      },
+      {
+        "clearance": 0.127,
+        "diff_pair_gap": 0.15,
+        "diff_pair_width": 0.2,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "PWR_MID",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.35,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      },
+      {
+        "clearance": 0.127,
+        "diff_pair_gap": 0.15,
+        "diff_pair_width": 0.2,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "USB",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 4,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.2,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3
       }
     ],
     "meta": {
@@ -367,14 +382,6 @@
       {
         "netclass": "PWR",
         "pattern": "3V3"
-      },
-      {
-        "netclass": "PWR",
-        "pattern": "3V3_IMU"
-      },
-      {
-        "netclass": "PWR",
-        "pattern": "3V3A"
       },
       {
         "netclass": "PWR",
@@ -465,16 +472,5 @@
       "version": 0
     },
     "tuning_profiles_impedance_geometric": []
-  },
-  "erc": {
-    "rule_severities": {
-      "single_global_label": "error",
-      "global_label_dangling": "error",
-      "similar_labels": "warning",
-      "unconnected_wire_endpoint": "warning",
-      "lib_symbol_issues": "warning",
-      "lib_symbol_mismatch": "warning",
-      "footprint_link_issues": "warning"
-    }
   }
 }

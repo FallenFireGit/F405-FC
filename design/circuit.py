@@ -512,7 +512,7 @@ def net_settings():
                nc("PWR", 0.2, priority=3),  # buck hot loops + main VBAT/5V copper: gen/critical.py
                nc("USB", 0.2, diff_pair_width=0.2, diff_pair_gap=0.15, priority=4)]
     patterns = ([("PWR_HI", n) for n in ("10V", "SW_5V", "SW_10V", "VTX_PWR")] + [("PWR_MID", n) for n in ("VBAT", "5V")] +
-                [("PWR", n) for n in ("5V_SYS", "3V3", "3V3_IMU", "3V3A", "VBUS", "BUZ_N", "BST_5V", "BST_10V",
+                [("PWR", n) for n in ("5V_SYS", "3V3", "VBUS", "BUZ_N", "BST_5V", "BST_10V",
                                        "VCAP1", "VCAP2")] +
                 [("USB", n) for n in ("USB_DP", "USB_DM")])
     return classes, patterns
