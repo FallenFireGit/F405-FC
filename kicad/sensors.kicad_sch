@@ -3,7 +3,7 @@
 	(generator "f405fc_gen")
 	(generator_version "10.0")
 	(uuid "26784101-3758-547d-afe0-41d24b65b376")
-	(paper "A4")
+	(paper "A3")
 	(title_block
 		(title "F405-FC flight controller - Sensors")
 		(rev "C")
@@ -1741,10 +1741,130 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "power:GND"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "GND_0_1"
+				(polyline
+					(pts
+						(xy 0 0)
+						(xy 0 -1.27)
+						(xy 1.27 -1.27)
+						(xy 0 -2.54)
+						(xy -1.27 -1.27)
+						(xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
 	(symbol
 		(lib_id "F405FC:ICM-42688-P")
-		(at 45.72 38.1 0)
+		(at 96.52 35.56 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1752,7 +1872,7 @@
 		(dnp no)
 		(uuid "cadabe18-e93a-5283-ae16-24bde82106b7")
 		(property "Reference" "U6"
-			(at 45.72 29.21 0)
+			(at 96.52 26.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1760,7 +1880,7 @@
 			)
 		)
 		(property "Value" "ICM-42688-P"
-			(at 45.72 52.07 0)
+			(at 96.52 49.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1768,7 +1888,7 @@
 			)
 		)
 		(property "Footprint" "Package_LGA:LGA-14_3x2.5mm_P0.5mm_LayoutBorder3x4y"
-			(at 45.72 38.1 0)
+			(at 96.52 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1777,7 +1897,7 @@
 			)
 		)
 		(property "Datasheet" "https://invensense.tdk.com/wp-content/uploads/2020/04/ds-000347_icm-42688-p-datasheet.pdf"
-			(at 45.72 38.1 0)
+			(at 96.52 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1786,7 +1906,7 @@
 			)
 		)
 		(property "Description" "IMU 1 (gyro_1)"
-			(at 45.72 38.1 0)
+			(at 96.52 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1795,7 +1915,7 @@
 			)
 		)
 		(property "MPN" "ICM-42688-P"
-			(at 45.72 38.1 0)
+			(at 96.52 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1804,7 +1924,7 @@
 			)
 		)
 		(property "Manufacturer" "TDK InvenSense"
-			(at 45.72 38.1 0)
+			(at 96.52 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1813,7 +1933,7 @@
 			)
 		)
 		(property "DigiKey" "1428-ICM-42688-PCT-ND"
-			(at 45.72 38.1 0)
+			(at 96.52 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1872,18 +1992,29 @@
 			)
 		)
 	)
+	(text "U6  ICM-42688-P  -  IMU 1 (gyro_1)"
+		(exclude_from_sim no)
+		(at 13.32 22.13 0)
+		(effects
+			(font
+				(size 1.6 1.6)
+			)
+			(justify left bottom)
+		)
+		(uuid "064f3f75-ccff-5ec1-9d47-48398b6a4946")
+	)
 	(global_label "3V3_IMU"
 		(shape passive)
-		(at 27.94 31.75 180)
+		(at 78.74 29.21 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "849f9cb3-9df6-5d67-962a-086f498a07ba")
+		(uuid "ede07afe-c377-59ca-848d-1e22ca3898f5")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.94 31.75 0)
+			(at 78.74 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1894,16 +2025,16 @@
 	)
 	(global_label "3V3_IMU"
 		(shape passive)
-		(at 27.94 34.29 180)
+		(at 78.74 31.75 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "0e14722c-e1ad-5e9a-af75-2d70a54cb149")
+		(uuid "f5c3cda8-c536-568c-abb6-82787743aef6")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.94 34.29 0)
+			(at 78.74 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1914,16 +2045,16 @@
 	)
 	(global_label "GYRO1_CS"
 		(shape passive)
-		(at 27.94 36.83 180)
+		(at 78.74 34.29 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "6f6f039f-44ca-5352-a90a-38b3ab5b44a4")
+		(uuid "a8dd414e-9504-541c-ac38-00434073c207")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.94 36.83 0)
+			(at 78.74 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1934,16 +2065,16 @@
 	)
 	(global_label "SPI1_SCK"
 		(shape passive)
-		(at 27.94 39.37 180)
+		(at 78.74 36.83 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "0fecd5e4-6697-5b7a-93ad-94f662bd6c89")
+		(uuid "adcf3826-5752-5016-9b1e-20b3e4c71e66")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.94 39.37 0)
+			(at 78.74 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1954,16 +2085,16 @@
 	)
 	(global_label "SPI1_MOSI"
 		(shape passive)
-		(at 27.94 41.91 180)
+		(at 78.74 39.37 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "7915a3d9-a039-5a64-b7eb-880ca5c7d936")
+		(uuid "ad617473-3988-5f26-97e2-72479776b036")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.94 41.91 0)
+			(at 78.74 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1974,16 +2105,16 @@
 	)
 	(global_label "SPI1_MISO"
 		(shape passive)
-		(at 27.94 44.45 180)
+		(at 78.74 41.91 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "e93ae4d5-2755-5c57-8022-962400ac20a2")
+		(uuid "3ec0c9a1-929b-5531-824d-caed020f2203")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.94 44.45 0)
+			(at 78.74 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1994,16 +2125,16 @@
 	)
 	(global_label "GYRO1_INT"
 		(shape passive)
-		(at 63.5 31.75 0)
+		(at 114.3 29.21 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "38cd45c5-cbab-5a4f-86d3-69065213ca29")
+		(uuid "b8f4372f-4e33-5d3f-8165-c4b16be95882")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 63.5 31.75 0)
+			(at 114.3 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2014,16 +2145,16 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 63.5 34.29 0)
+		(at 114.3 31.75 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "bc11cad6-9350-5a88-8417-352f93294920")
+		(uuid "d737977c-aaf0-5126-a6e1-cb51e009698e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 63.5 34.29 0)
+			(at 114.3 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2034,16 +2165,16 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 63.5 36.83 0)
+		(at 114.3 34.29 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "42f5c10c-78f6-5952-928a-d0d6d4093734")
+		(uuid "1940a81e-aa52-5350-a446-7f7196358d45")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 63.5 36.83 0)
+			(at 114.3 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2054,16 +2185,16 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 63.5 39.37 0)
+		(at 114.3 36.83 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "d8aacdaa-2616-50b3-bfe6-412b8636e49f")
+		(uuid "5e6d6269-5b14-553e-a69b-6fd3911444db")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 63.5 39.37 0)
+			(at 114.3 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2074,16 +2205,16 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 63.5 41.91 0)
+		(at 114.3 39.37 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "1906fbec-b6a0-5dd1-878f-fa2d5de4ef9a")
+		(uuid "900205b2-71a5-59a6-80ba-61b06d9f8cc5")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 63.5 41.91 0)
+			(at 114.3 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2094,16 +2225,16 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 63.5 44.45 0)
+		(at 114.3 41.91 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "53b73f83-38b1-53eb-a862-e556d2b51066")
+		(uuid "42f80776-70ce-5c67-bdbb-8f8edc506058")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 63.5 44.45 0)
+			(at 114.3 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2112,73 +2243,28 @@
 			)
 		)
 	)
-	(global_label "GND"
-		(shape passive)
-		(at 33.02 49.53 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 83.82 46.99)
+			(xy 86.36 46.99)
 		)
-		(uuid "9fe906ba-473e-52d6-bf35-7036255a9fc3")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 33.02 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 35.56 49.53 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "e23c047f-4cba-59e5-8965-2c8ae6d68f9c")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 35.56 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
+		(uuid "200244f1-d3a3-5bee-bc12-e7ac1d4c099a")
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 93.98 35.56 0)
+		(lib_id "power:GND")
+		(at 83.82 46.99 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "b2a9b82d-68bc-5ad9-bc79-872b1b5857c0")
-		(property "Reference" "C38"
-			(at 93.98 29.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100nF X7R 16V"
-			(at 93.98 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 93.98 35.56 0)
+		(uuid "edecfe6f-f207-5ccf-9554-7f07410d75b2")
+		(property "Reference" "#PWR055"
+			(at 83.82 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2186,8 +2272,16 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
-			(at 93.98 35.56 0)
+		(property "Value" "GND"
+			(at 83.82 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 83.82 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2195,35 +2289,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 93.98 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CL05B104KO5NNNC"
-			(at 93.98 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 93.98 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "1276-1001-1-ND"
-			(at 93.98 35.56 0)
+		(property "Datasheet" ""
+			(at 83.82 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2232,63 +2299,20 @@
 			)
 		)
 		(pin "1"
-			(uuid "11610aac-cdf3-5655-9729-a6ed6073c548")
-		)
-		(pin "2"
-			(uuid "fcf2cee5-b57a-5630-9de5-be8bcef3d403")
+			(uuid "648355f7-f847-5caf-aab3-096ea663d375")
 		)
 		(instances
 			(project "F405FC"
 				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
-					(reference "C38")
+					(reference "#PWR055")
 					(unit 1)
 				)
 			)
 		)
 	)
-	(global_label "3V3_IMU"
-		(shape passive)
-		(at 93.98 31.75 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "cbda7cab-4b0d-5c90-99e8-6637879e6a19")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 93.98 31.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 93.98 39.37 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "43be7020-9558-5d91-8b4a-b835f4abd6dd")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 93.98 39.37 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
 	(symbol
 		(lib_id "Device:C")
-		(at 119.38 35.56 0)
+		(at 40.64 35.56 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2296,23 +2320,25 @@
 		(dnp no)
 		(uuid "8a5bb7cf-bb74-5a97-853a-10fc823818e4")
 		(property "Reference" "C39"
-			(at 119.38 29.21 0)
+			(at 43.18 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "2.2uF X7R 10V"
-			(at 119.38 41.91 0)
+			(at 43.18 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 119.38 35.56 0)
+			(at 40.64 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2321,7 +2347,7 @@
 			)
 		)
 		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL10B225KP8NNNC.do"
-			(at 119.38 35.56 0)
+			(at 40.64 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2330,7 +2356,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 119.38 35.56 0)
+			(at 40.64 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2339,7 +2365,7 @@
 			)
 		)
 		(property "MPN" "CL10B225KP8NNNC"
-			(at 119.38 35.56 0)
+			(at 40.64 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2348,7 +2374,7 @@
 			)
 		)
 		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 119.38 35.56 0)
+			(at 40.64 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2357,7 +2383,7 @@
 			)
 		)
 		(property "DigiKey" "1276-1134-1-ND"
-			(at 119.38 35.56 0)
+			(at 40.64 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2380,73 +2406,28 @@
 			)
 		)
 	)
-	(global_label "3V3_IMU"
-		(shape passive)
-		(at 119.38 31.75 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 78.74 31.75)
+			(xy 40.64 31.75)
 		)
-		(uuid "491369f8-0dd5-5cd4-bf68-bc1b8fcd3c5e")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 119.38 31.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 119.38 39.37 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "c6c34fe7-618a-532e-a3f4-b7f179f48793")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 119.38 39.37 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
+		(uuid "8b9e5b88-0809-571e-8e7a-4f0b2cbaf255")
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 147.32 35.56 0)
+		(lib_id "power:GND")
+		(at 40.64 39.37 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "0788091f-cb01-5cc3-8074-4e6777b1553d")
-		(property "Reference" "C40"
-			(at 147.32 29.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10nF X7R 50V"
-			(at 147.32 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 147.32 35.56 0)
+		(uuid "b424cb52-c11e-56fa-8a7a-85f8e584f7bc")
+		(property "Reference" "#PWR056"
+			(at 40.64 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2454,8 +2435,16 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B103KB5NNNC.do"
-			(at 147.32 35.56 0)
+		(property "Value" "GND"
+			(at 40.64 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 40.64 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2463,35 +2452,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 147.32 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CL05B103KB5NNNC"
-			(at 147.32 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 147.32 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "1276-1028-1-ND"
-			(at 147.32 35.56 0)
+		(property "Datasheet" ""
+			(at 40.64 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2500,63 +2462,183 @@
 			)
 		)
 		(pin "1"
-			(uuid "7cce85ca-6253-5e60-aae7-ff438c3eaf3a")
-		)
-		(pin "2"
-			(uuid "230eeb87-bc6e-50d6-88e4-833c50e7b584")
+			(uuid "784f7ea8-6b1e-548c-be7e-10efc249c92b")
 		)
 		(instances
 			(project "F405FC"
 				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
-					(reference "C40")
+					(reference "#PWR056")
 					(unit 1)
 				)
 			)
 		)
 	)
-	(global_label "3V3_IMU"
-		(shape passive)
-		(at 147.32 31.75 90)
-		(effects
-			(font
-				(size 1 1)
+	(symbol
+		(lib_id "Device:C")
+		(at 20.32 33.02 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b2a9b82d-68bc-5ad9-bc79-872b1b5857c0")
+		(property "Reference" "C38"
+			(at 22.86 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
-			(justify left)
 		)
-		(uuid "86c8630b-7c7d-59ff-9c2e-c2a9aa942c8c")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 147.32 31.75 0)
+		(property "Value" "100nF X7R 16V"
+			(at 22.86 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 20.32 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
+			(at 20.32 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 20.32 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL05B104KO5NNNC"
+			(at 20.32 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 20.32 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "1276-1001-1-ND"
+			(at 20.32 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "11610aac-cdf3-5655-9729-a6ed6073c548")
+		)
+		(pin "2"
+			(uuid "fcf2cee5-b57a-5630-9de5-be8bcef3d403")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "C38")
+					(unit 1)
+				)
 			)
 		)
 	)
-	(global_label "GND"
-		(shape passive)
-		(at 147.32 39.37 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 78.74 29.21)
+			(xy 20.32 29.21)
 		)
-		(uuid "b2cd82bb-0150-5f3d-af60-73ab52bd8040")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 147.32 39.37 0)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "665eb167-7537-51b7-8c99-c1d641d059de")
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 20.32 36.83 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2e8cc644-461a-51a8-9ef9-f1982d29deb2")
+		(property "Reference" "#PWR057"
+			(at 20.32 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 20.32 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 20.32 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 20.32 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "11c14478-5f64-500e-880e-a61dbce421c9")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "#PWR057")
+					(unit 1)
+				)
 			)
 		)
 	)
 	(symbol
 		(lib_id "F405FC:BMI270")
-		(at 187.96 38.1 0)
+		(at 233.68 35.56 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2564,7 +2646,7 @@
 		(dnp no)
 		(uuid "ca829a09-36da-5da3-95dc-5a18f1b578b1")
 		(property "Reference" "U7"
-			(at 187.96 29.21 0)
+			(at 233.68 26.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2572,7 +2654,7 @@
 			)
 		)
 		(property "Value" "BMI270"
-			(at 187.96 52.07 0)
+			(at 233.68 49.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2580,7 +2662,7 @@
 			)
 		)
 		(property "Footprint" "F405FC:Bosch_LGA-14_3x2.5mm_P0.5mm_BMI270"
-			(at 187.96 38.1 0)
+			(at 233.68 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2589,7 +2671,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi270-ds000.pdf"
-			(at 187.96 38.1 0)
+			(at 233.68 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2598,7 +2680,7 @@
 			)
 		)
 		(property "Description" "IMU 2 (gyro_2)"
-			(at 187.96 38.1 0)
+			(at 233.68 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2607,7 +2689,7 @@
 			)
 		)
 		(property "MPN" "BMI270"
-			(at 187.96 38.1 0)
+			(at 233.68 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2616,7 +2698,7 @@
 			)
 		)
 		(property "Manufacturer" "Bosch Sensortec"
-			(at 187.96 38.1 0)
+			(at 233.68 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2625,7 +2707,7 @@
 			)
 		)
 		(property "DigiKey" "828-1091-1-ND"
-			(at 187.96 38.1 0)
+			(at 233.68 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2684,18 +2766,29 @@
 			)
 		)
 	)
+	(text "U7  BMI270  -  IMU 2 (gyro_2)"
+		(exclude_from_sim no)
+		(at 135.24 22.13 0)
+		(effects
+			(font
+				(size 1.6 1.6)
+			)
+			(justify left bottom)
+		)
+		(uuid "99e2035f-c8e0-519a-9c19-4a9b6ef52cd0")
+	)
 	(global_label "3V3_IMU"
 		(shape passive)
-		(at 176.53 31.75 180)
+		(at 222.25 29.21 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "552d57bb-5ca2-53d1-a5f9-a6b2b21cec4e")
+		(uuid "f7bafed9-0a1a-5c94-815d-cf222639715e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 176.53 31.75 0)
+			(at 222.25 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2706,16 +2799,16 @@
 	)
 	(global_label "3V3_IMU"
 		(shape passive)
-		(at 176.53 34.29 180)
+		(at 222.25 31.75 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "6a1e8845-af43-5ea2-ae21-9e1be09a37f5")
+		(uuid "54c83fe8-25c8-5d6f-adc2-8dda0bf2bf62")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 176.53 34.29 0)
+			(at 222.25 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2726,16 +2819,16 @@
 	)
 	(global_label "GYRO2_CS"
 		(shape passive)
-		(at 176.53 36.83 180)
+		(at 222.25 34.29 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "c2f62698-a7e2-5e6b-89f7-7dcfdbbe9097")
+		(uuid "f8ce8608-458e-5c8a-9895-9ba3c54efd32")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 176.53 36.83 0)
+			(at 222.25 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2746,16 +2839,16 @@
 	)
 	(global_label "SPI1_SCK"
 		(shape passive)
-		(at 176.53 39.37 180)
+		(at 222.25 36.83 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "2465c59a-32d1-5962-810c-2aef50365c70")
+		(uuid "6f96e0ab-780b-53ac-a7dc-596be09660ea")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 176.53 39.37 0)
+			(at 222.25 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2766,16 +2859,16 @@
 	)
 	(global_label "SPI1_MOSI"
 		(shape passive)
-		(at 176.53 41.91 180)
+		(at 222.25 39.37 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "166d5682-0a3b-5423-90fb-0336cbcdfeda")
+		(uuid "544ee8e8-f68f-5adc-abc3-2c0c233393f2")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 176.53 41.91 0)
+			(at 222.25 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2786,16 +2879,16 @@
 	)
 	(global_label "SPI1_MISO"
 		(shape passive)
-		(at 176.53 44.45 180)
+		(at 222.25 41.91 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "b893c087-dc05-521b-89f0-474c218a6e97")
+		(uuid "48781b55-f6d9-5114-b05e-b1e567acc6b0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 176.53 44.45 0)
+			(at 222.25 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2806,16 +2899,16 @@
 	)
 	(global_label "GYRO2_INT"
 		(shape passive)
-		(at 199.39 31.75 0)
+		(at 245.11 29.21 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "47c992f2-010a-503e-8157-4d5351f65c1f")
+		(uuid "c30dd1ad-2757-58a5-baa2-9daf3978155a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 199.39 31.75 0)
+			(at 245.11 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2825,68 +2918,95 @@
 		)
 	)
 	(no_connect
-		(at 199.39 34.29)
+		(at 245.11 31.75)
 		(uuid "c18178f5-c773-556c-9a86-7a5b02d51f13")
 	)
 	(no_connect
-		(at 199.39 36.83)
+		(at 245.11 34.29)
 		(uuid "49f6e9bf-7eba-5cdc-9310-ed40282e3fe2")
 	)
 	(no_connect
-		(at 199.39 39.37)
+		(at 245.11 36.83)
 		(uuid "b624153f-4471-5899-ae2a-f8da291e6f9c")
 	)
 	(no_connect
-		(at 199.39 41.91)
+		(at 245.11 39.37)
 		(uuid "f2781e40-440c-582c-91fb-ba17c7b81257")
 	)
 	(no_connect
-		(at 199.39 44.45)
+		(at 245.11 41.91)
 		(uuid "17e76a90-caa2-525c-9806-fb17934924a7")
 	)
-	(global_label "GND"
-		(shape passive)
-		(at 181.61 49.53 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 227.33 46.99)
+			(xy 229.87 46.99)
 		)
-		(uuid "012c29d8-eec5-5f23-9efd-fef5295e7f7c")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 181.61 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
+		(uuid "1439dcdf-9529-5cdc-90af-41c46e295c19")
 	)
-	(global_label "GND"
-		(shape passive)
-		(at 184.15 49.53 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "8cf8e672-74c8-5bd7-bcd1-0073e3d65693")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 184.15 49.53 0)
+	(symbol
+		(lib_id "power:GND")
+		(at 227.33 46.99 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "657985f2-ee61-5f70-bbd6-1ac834d827ae")
+		(property "Reference" "#PWR058"
+			(at 227.33 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 227.33 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 227.33 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 227.33 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "295524fc-037a-5e54-ae80-6e0da1bd18b4")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "#PWR058")
+					(unit 1)
+				)
 			)
 		)
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 228.6 35.56 0)
+		(at 182.88 35.56 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2894,23 +3014,25 @@
 		(dnp no)
 		(uuid "40150d8b-9dee-5aca-a3f4-875369bd1a64")
 		(property "Reference" "C41"
-			(at 228.6 29.21 0)
+			(at 185.42 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "100nF X7R 16V"
-			(at 228.6 41.91 0)
+			(at 185.42 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 228.6 35.56 0)
+			(at 182.88 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2919,7 +3041,7 @@
 			)
 		)
 		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
-			(at 228.6 35.56 0)
+			(at 182.88 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2928,7 +3050,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 228.6 35.56 0)
+			(at 182.88 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2937,7 +3059,7 @@
 			)
 		)
 		(property "MPN" "CL05B104KO5NNNC"
-			(at 228.6 35.56 0)
+			(at 182.88 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2946,7 +3068,7 @@
 			)
 		)
 		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 228.6 35.56 0)
+			(at 182.88 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2955,7 +3077,7 @@
 			)
 		)
 		(property "DigiKey" "1276-1001-1-ND"
-			(at 228.6 35.56 0)
+			(at 182.88 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2978,73 +3100,28 @@
 			)
 		)
 	)
-	(global_label "3V3_IMU"
-		(shape passive)
-		(at 228.6 31.75 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 222.25 31.75)
+			(xy 182.88 31.75)
 		)
-		(uuid "1d60fc44-ad8d-562e-a8ea-680a8b63b790")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 228.6 31.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 228.6 39.37 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "74faa6b2-e47e-5333-b8b1-ed05cc0edc29")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 228.6 39.37 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
+		(uuid "b3616225-b554-5429-ae23-eacfa608b001")
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 254 35.56 0)
+		(lib_id "power:GND")
+		(at 182.88 39.37 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "201bb5c4-834d-54f3-848a-c4c5fedaf79c")
-		(property "Reference" "C42"
-			(at 254 29.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100nF X7R 16V"
-			(at 254 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 254 35.56 0)
+		(uuid "ec521e51-8f36-5f40-a23d-412c982676d4")
+		(property "Reference" "#PWR059"
+			(at 182.88 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3052,8 +3129,82 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
-			(at 254 35.56 0)
+		(property "Value" "GND"
+			(at 182.88 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 182.88 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 182.88 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1aded2d2-45e0-5a79-9eda-21408a1c24dc")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "#PWR059")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 162.56 33.02 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0788091f-cb01-5cc3-8074-4e6777b1553d")
+		(property "Reference" "C40"
+			(at 165.1 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10nF X7R 50V"
+			(at 165.1 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 162.56 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B103KB5NNNC.do"
+			(at 162.56 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3062,7 +3213,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 254 35.56 0)
+			(at 162.56 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3070,8 +3221,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL05B104KO5NNNC"
-			(at 254 35.56 0)
+		(property "MPN" "CL05B103KB5NNNC"
+			(at 162.56 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3080,7 +3231,170 @@
 			)
 		)
 		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 254 35.56 0)
+			(at 162.56 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "1276-1028-1-ND"
+			(at 162.56 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7cce85ca-6253-5e60-aae7-ff438c3eaf3a")
+		)
+		(pin "2"
+			(uuid "230eeb87-bc6e-50d6-88e4-833c50e7b584")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "C40")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 222.25 29.21)
+			(xy 162.56 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1a974259-27fd-5ca2-a76b-1de14605047e")
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 162.56 36.83 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d3c37e4b-9ac6-5e80-9f9f-643485dafcd0")
+		(property "Reference" "#PWR060"
+			(at 162.56 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 162.56 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 162.56 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 162.56 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "147ae3c4-5eae-5a99-9efc-71d3f9517ceb")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "#PWR060")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 142.24 33.02 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "201bb5c4-834d-54f3-848a-c4c5fedaf79c")
+		(property "Reference" "C42"
+			(at 144.78 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100nF X7R 16V"
+			(at 144.78 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 142.24 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
+			(at 142.24 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 142.24 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL05B104KO5NNNC"
+			(at 142.24 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 142.24 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3089,7 +3403,7 @@
 			)
 		)
 		(property "DigiKey" "1276-1001-1-ND"
-			(at 254 35.56 0)
+			(at 142.24 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3112,49 +3426,76 @@
 			)
 		)
 	)
-	(global_label "3V3_IMU"
-		(shape passive)
-		(at 254 31.75 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 222.25 29.21)
+			(xy 142.24 29.21)
 		)
-		(uuid "f39875b2-add7-5981-9eaa-8d0d727c9f90")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 254 31.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
+		(uuid "1926348c-1538-5c98-ac94-a8373d52db34")
 	)
-	(global_label "GND"
-		(shape passive)
-		(at 254 39.37 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "b6357aeb-868f-5ba0-84d3-c84259807fc6")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 254 39.37 0)
+	(symbol
+		(lib_id "power:GND")
+		(at 142.24 36.83 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "61712406-a34f-5d48-8962-8017cd5f5432")
+		(property "Reference" "#PWR061"
+			(at 142.24 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 142.24 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 142.24 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 142.24 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6d9369e9-4722-5e48-ab2c-da235bc6bc39")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "#PWR061")
+					(unit 1)
+				)
 			)
 		)
 	)
 	(symbol
 		(lib_id "F405FC:BMP390")
-		(at 38.1 73.66 0)
+		(at 320.04 35.56 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3162,7 +3503,7 @@
 		(dnp no)
 		(uuid "8a348bf6-cebf-5397-9a22-1a6fceb1585e")
 		(property "Reference" "U8"
-			(at 38.1 64.77 0)
+			(at 320.04 26.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3170,7 +3511,7 @@
 			)
 		)
 		(property "Value" "BMP390"
-			(at 38.1 87.63 0)
+			(at 320.04 49.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3178,7 +3519,7 @@
 			)
 		)
 		(property "Footprint" "F405FC:Bosch_LGA-10_2x2mm_P0.5mm_BMP390"
-			(at 38.1 73.66 0)
+			(at 320.04 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3187,7 +3528,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp390-ds002.pdf"
-			(at 38.1 73.66 0)
+			(at 320.04 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3196,7 +3537,7 @@
 			)
 		)
 		(property "Description" "baro, I2C 0x76"
-			(at 38.1 73.66 0)
+			(at 320.04 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3205,7 +3546,7 @@
 			)
 		)
 		(property "MPN" "BMP390"
-			(at 38.1 73.66 0)
+			(at 320.04 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3214,7 +3555,7 @@
 			)
 		)
 		(property "Manufacturer" "Bosch Sensortec"
-			(at 38.1 73.66 0)
+			(at 320.04 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3223,7 +3564,7 @@
 			)
 		)
 		(property "DigiKey" "828-BMP390CT-ND"
-			(at 38.1 73.66 0)
+			(at 320.04 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3270,18 +3611,29 @@
 			)
 		)
 	)
+	(text "U8  BMP390  -  baro, I2C 0x76"
+		(exclude_from_sim no)
+		(at 264.78 22.13 0)
+		(effects
+			(font
+				(size 1.6 1.6)
+			)
+			(justify left bottom)
+		)
+		(uuid "ea36ccba-01e9-59f6-893b-89e32b79e074")
+	)
 	(global_label "3V3"
 		(shape passive)
-		(at 26.67 67.31 180)
+		(at 308.61 29.21 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "cdb77180-e70d-5768-9a60-9fafa26cbd27")
+		(uuid "d995235a-069c-5f16-979c-7d24777ed855")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 26.67 67.31 0)
+			(at 308.61 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3292,16 +3644,16 @@
 	)
 	(global_label "3V3"
 		(shape passive)
-		(at 26.67 69.85 180)
+		(at 308.61 31.75 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "43dc1a8c-a239-5155-80e3-cedab666f834")
+		(uuid "6061dd03-2090-5a31-9973-c43ba29e5a76")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 26.67 69.85 0)
+			(at 308.61 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3312,16 +3664,16 @@
 	)
 	(global_label "3V3"
 		(shape passive)
-		(at 26.67 72.39 180)
+		(at 308.61 34.29 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "f868bf11-306c-55b3-8bef-c5e1ed46f9e7")
+		(uuid "4232fda8-ac29-5343-9c30-14f9fd240d67")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 26.67 72.39 0)
+			(at 308.61 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3332,16 +3684,16 @@
 	)
 	(global_label "I2C1_SCL"
 		(shape passive)
-		(at 26.67 74.93 180)
+		(at 308.61 36.83 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "5eeb9b7d-2273-5e23-9a78-4c8136b524e8")
+		(uuid "933c0485-3941-5291-8f4d-bc1fdacf5ced")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 26.67 74.93 0)
+			(at 308.61 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3352,16 +3704,16 @@
 	)
 	(global_label "I2C1_SDA"
 		(shape passive)
-		(at 26.67 77.47 180)
+		(at 308.61 39.37 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "4106cbb5-e931-5ed1-90ad-a5e1944bde6e")
+		(uuid "675db537-c9a5-5df7-bdd5-967738190df8")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 26.67 77.47 0)
+			(at 308.61 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3372,16 +3724,16 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 26.67 80.01 180)
+		(at 308.61 41.91 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "ae75d8fd-e56d-5c2a-b69c-b730bd1d5ff4")
+		(uuid "f04a4a65-ed4f-5c49-ab7c-7d9bef269687")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 26.67 80.01 0)
+			(at 308.61 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3391,72 +3743,90 @@
 		)
 	)
 	(no_connect
-		(at 49.53 67.31)
+		(at 331.47 29.21)
 		(uuid "74907756-81ab-574e-a2bd-9a589b52a900")
 	)
-	(global_label "GND"
-		(shape passive)
-		(at 31.75 85.09 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 313.69 46.99)
+			(xy 316.23 46.99)
 		)
-		(uuid "4ce783d5-ab93-55c0-b160-c9859b3bcdbb")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 31.75 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
+		(uuid "232bcb4d-27ad-52a4-8a83-1efb60efab90")
 	)
-	(global_label "GND"
-		(shape passive)
-		(at 34.29 85.09 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 316.23 46.99)
+			(xy 318.77 46.99)
 		)
-		(uuid "0ff43127-8eb6-5153-a6e2-bf6da4237692")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 34.29 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
+		(uuid "03b82a0a-304d-59b6-98ad-74409d6a4e0e")
 	)
-	(global_label "GND"
-		(shape passive)
-		(at 36.83 85.09 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "66f6c491-78a9-5dae-a00b-3622dcd686e5")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 36.83 85.09 0)
+	(symbol
+		(lib_id "power:GND")
+		(at 313.69 46.99 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "38287067-a9b4-5e2d-b400-35a09a2a2da8")
+		(property "Reference" "#PWR062"
+			(at 313.69 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 313.69 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 313.69 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 313.69 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f82bd562-2f74-53f5-87ac-b8b1db3b514a")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "#PWR062")
+					(unit 1)
+				)
 			)
 		)
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 73.66 71.12 0)
+		(at 271.78 33.02 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3464,23 +3834,25 @@
 		(dnp no)
 		(uuid "669a656a-2ae5-5b56-9831-6b92dfa095ef")
 		(property "Reference" "C43"
-			(at 73.66 64.77 0)
+			(at 274.32 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "100nF X7R 16V"
-			(at 73.66 77.47 0)
+			(at 274.32 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 73.66 71.12 0)
+			(at 271.78 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3489,7 +3861,7 @@
 			)
 		)
 		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
-			(at 73.66 71.12 0)
+			(at 271.78 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3498,7 +3870,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 73.66 71.12 0)
+			(at 271.78 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3507,7 +3879,7 @@
 			)
 		)
 		(property "MPN" "CL05B104KO5NNNC"
-			(at 73.66 71.12 0)
+			(at 271.78 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3516,7 +3888,7 @@
 			)
 		)
 		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 73.66 71.12 0)
+			(at 271.78 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3525,7 +3897,7 @@
 			)
 		)
 		(property "DigiKey" "1276-1001-1-ND"
-			(at 73.66 71.12 0)
+			(at 271.78 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3548,73 +3920,28 @@
 			)
 		)
 	)
-	(global_label "3V3"
-		(shape passive)
-		(at 73.66 67.31 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 308.61 29.21)
+			(xy 271.78 29.21)
 		)
-		(uuid "bd3975fb-3dfb-581d-bb90-9ebad6513f15")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 73.66 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 73.66 74.93 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "0154df78-f0c0-5a27-9baf-7a3dd69ec77d")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 73.66 74.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
+		(uuid "4aef4108-9b7f-5a41-bda4-d13fd844bb2d")
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 93.98 71.12 0)
+		(lib_id "power:GND")
+		(at 271.78 36.83 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "d325153a-9e02-5104-b943-3df50adc5c78")
-		(property "Reference" "C44"
-			(at 93.98 64.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100nF X7R 16V"
-			(at 93.98 77.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 93.98 71.12 0)
+		(uuid "e0a9f139-0605-56fb-904f-f50c855054a7")
+		(property "Reference" "#PWR063"
+			(at 271.78 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3622,8 +3949,16 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
-			(at 93.98 71.12 0)
+		(property "Value" "GND"
+			(at 271.78 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 271.78 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3631,35 +3966,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 93.98 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CL05B104KO5NNNC"
-			(at 93.98 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 93.98 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "1276-1001-1-ND"
-			(at 93.98 71.12 0)
+		(property "Datasheet" ""
+			(at 271.78 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3668,63 +3976,20 @@
 			)
 		)
 		(pin "1"
-			(uuid "2161a0f8-ab11-5c3f-ae63-899a314aff2b")
-		)
-		(pin "2"
-			(uuid "5a0101e2-bd70-54e0-86c4-fc39552e71c0")
+			(uuid "8ecfb4de-bda4-5b62-bef9-002b23c8e190")
 		)
 		(instances
 			(project "F405FC"
 				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
-					(reference "C44")
+					(reference "#PWR063")
 					(unit 1)
 				)
 			)
 		)
 	)
-	(global_label "3V3"
-		(shape passive)
-		(at 93.98 67.31 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "d2ec1ece-7ce2-5f50-b73d-2723608b0c3d")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 93.98 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 93.98 74.93 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "4193eb51-b88e-52b1-8a95-25224dfe7e74")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 93.98 74.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
 	(symbol
 		(lib_id "Sensor_Magnetic:LIS2MDL")
-		(at 129.54 78.74 0)
+		(at 71.12 99.06 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3732,7 +3997,7 @@
 		(dnp no)
 		(uuid "92d6f095-30e1-5205-911c-c449caf026c9")
 		(property "Reference" "U9"
-			(at 129.54 63.5 0)
+			(at 71.12 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3740,7 +4005,7 @@
 			)
 		)
 		(property "Value" "IIS2MDC"
-			(at 129.54 93.98 0)
+			(at 71.12 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3748,7 +4013,7 @@
 			)
 		)
 		(property "Footprint" "Package_LGA:LGA-12_2x2mm_P0.5mm"
-			(at 129.54 78.74 0)
+			(at 71.12 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3757,7 +4022,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.st.com/resource/en/datasheet/iis2mdc.pdf"
-			(at 129.54 78.74 0)
+			(at 71.12 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3766,7 +4031,7 @@
 			)
 		)
 		(property "Description" "magnetometer, I2C 0x1E (LIS2MDL-compatible pinout)"
-			(at 129.54 78.74 0)
+			(at 71.12 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3775,7 +4040,7 @@
 			)
 		)
 		(property "MPN" "IIS2MDCTR"
-			(at 129.54 78.74 0)
+			(at 71.12 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3784,7 +4049,7 @@
 			)
 		)
 		(property "Manufacturer" "STMicroelectronics"
-			(at 129.54 78.74 0)
+			(at 71.12 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3793,7 +4058,7 @@
 			)
 		)
 		(property "DigiKey" "497-17728-1-ND"
-			(at 129.54 78.74 0)
+			(at 71.12 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3846,18 +4111,29 @@
 			)
 		)
 	)
+	(text "U9  IIS2MDC  -  magnetometer, I2C 0x1E (LIS2MDL-compatible pinout)"
+		(exclude_from_sim no)
+		(at 13.32 63.58 0)
+		(effects
+			(font
+				(size 1.6 1.6)
+			)
+			(justify left bottom)
+		)
+		(uuid "e03d4e61-d2ce-53b6-9fc7-0212e5956375")
+	)
 	(global_label "I2C1_SCL"
 		(shape passive)
-		(at 116.84 76.2 180)
+		(at 58.42 96.52 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "eb0134ee-71ff-5f56-8e44-68e2fb31c6cc")
+		(uuid "a771899a-f33e-55e7-92b0-fd17a43688e1")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 116.84 76.2 0)
+			(at 58.42 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3867,21 +4143,21 @@
 		)
 	)
 	(no_connect
-		(at 119.38 83.82)
+		(at 60.96 104.14)
 		(uuid "f50735eb-4953-5053-adc8-539af9bea49d")
 	)
 	(global_label "3V3"
 		(shape passive)
-		(at 116.84 73.66 180)
+		(at 58.42 93.98 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "26a9922a-ce80-52ba-aee1-967b3472215a")
+		(uuid "9531c577-f6af-5b17-910e-1354ca7a385f")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 116.84 73.66 0)
+			(at 58.42 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3892,16 +4168,16 @@
 	)
 	(global_label "I2C1_SDA"
 		(shape passive)
-		(at 116.84 78.74 180)
+		(at 58.42 99.06 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "1389745f-9376-5911-8efc-eee3729de265")
+		(uuid "47733f3b-4e70-505f-8c1d-90df853e2a44")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 116.84 78.74 0)
+			(at 58.42 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3912,16 +4188,16 @@
 	)
 	(global_label "MAG_C1"
 		(shape passive)
-		(at 142.24 81.28 0)
+		(at 83.82 101.6 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "0e35f822-03b7-546f-b2ee-ca075ee5c3e9")
+		(uuid "4a5754ce-0eb4-52dd-b9f9-74b0895b7484")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 142.24 81.28 0)
+			(at 83.82 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3930,18 +4206,18 @@
 			)
 		)
 	)
-	(global_label "GND"
+	(global_label "MAG_C1"
 		(shape passive)
-		(at 129.54 91.44 270)
+		(at 99.06 101.6 90)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "2a9c333b-7211-53d0-a33b-5fae34063b8e")
+		(uuid "2daa26ef-c66d-5b79-aa7e-4981bc832b76")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 129.54 91.44 0)
+			(at 99.06 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3951,21 +4227,21 @@
 		)
 	)
 	(no_connect
-		(at 142.24 73.66)
+		(at 83.82 93.98)
 		(uuid "eccc09a7-91a1-5708-a64a-205b63bed273")
 	)
 	(global_label "3V3"
 		(shape passive)
-		(at 129.54 66.04 90)
+		(at 71.12 86.36 90)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "b0c8bf2e-d92c-556d-a080-df6935809d8e")
+		(uuid "1069094c-3f9d-5e65-aaa9-050df9c2bf2b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 129.54 66.04 0)
+			(at 71.12 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3976,16 +4252,16 @@
 	)
 	(global_label "3V3"
 		(shape passive)
-		(at 132.08 66.04 90)
+		(at 73.66 86.36 90)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "864c8e63-bddc-50e6-a81d-eb56df69e900")
+		(uuid "9b33b1f3-09e3-5cf6-8318-d59ec66448c3")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 132.08 66.04 0)
+			(at 73.66 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3995,16 +4271,72 @@
 		)
 	)
 	(no_connect
-		(at 119.38 86.36)
+		(at 60.96 106.68)
 		(uuid "5b73c5de-9cc2-5976-b84a-a72aa167497a")
 	)
 	(no_connect
-		(at 139.7 86.36)
+		(at 81.28 106.68)
 		(uuid "6af1a4ff-bd8e-5cc9-8cbc-789a6f8da5c8")
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 71.12 111.76 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6665c7c1-3777-584d-8c61-ea2447c3eb2b")
+		(property "Reference" "#PWR064"
+			(at 71.12 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 71.12 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 71.12 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 71.12 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d36d79db-5eea-54e4-a36d-b946883e7b5e")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "#PWR064")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
-		(at 170.18 71.12 0)
+		(at 99.06 105.41 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4012,23 +4344,25 @@
 		(dnp no)
 		(uuid "e1e56160-9208-5911-8893-07201bf6c35d")
 		(property "Reference" "C45"
-			(at 170.18 64.77 0)
+			(at 101.6 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "220nF X5R 25V"
-			(at 170.18 77.47 0)
+			(at 101.6 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 170.18 71.12 0)
+			(at 99.06 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4037,7 +4371,7 @@
 			)
 		)
 		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05A224KA5NNNC.do"
-			(at 170.18 71.12 0)
+			(at 99.06 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4046,7 +4380,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 170.18 71.12 0)
+			(at 99.06 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4055,7 +4389,7 @@
 			)
 		)
 		(property "MPN" "CL05A224KA5NNNC"
-			(at 170.18 71.12 0)
+			(at 99.06 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4064,7 +4398,7 @@
 			)
 		)
 		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 170.18 71.12 0)
+			(at 99.06 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4073,7 +4407,7 @@
 			)
 		)
 		(property "DigiKey" "1276-1455-1-ND"
-			(at 170.18 71.12 0)
+			(at 99.06 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4096,49 +4430,76 @@
 			)
 		)
 	)
-	(global_label "MAG_C1"
-		(shape passive)
-		(at 170.18 67.31 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 83.82 101.6)
+			(xy 99.06 101.6)
 		)
-		(uuid "9638c9b8-738c-5d1d-bf72-85bd2d726d96")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 170.18 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
+		(uuid "23c57386-4385-50b8-8e68-74549409ec23")
 	)
-	(global_label "GND"
-		(shape passive)
-		(at 170.18 74.93 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "a1565c24-c27e-57be-93af-2d1ed9dd5dd3")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 170.18 74.93 0)
+	(symbol
+		(lib_id "power:GND")
+		(at 99.06 109.22 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "443712f7-d8b0-538b-b6e0-a437a3757ae1")
+		(property "Reference" "#PWR065"
+			(at 99.06 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 99.06 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 99.06 109.22 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 99.06 109.22 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a66b486c-5a08-5a48-885c-db18c1211e36")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "#PWR065")
+					(unit 1)
+				)
 			)
 		)
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 193.04 71.12 0)
+		(at 71.12 72.39 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4146,23 +4507,25 @@
 		(dnp no)
 		(uuid "d78cc5fc-296f-5519-b91b-ea2c5d22cba1")
 		(property "Reference" "C46"
-			(at 193.04 64.77 0)
+			(at 73.66 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "100nF X7R 16V"
-			(at 193.04 77.47 0)
+			(at 73.66 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 193.04 71.12 0)
+			(at 71.12 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4171,7 +4534,7 @@
 			)
 		)
 		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
-			(at 193.04 71.12 0)
+			(at 71.12 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4180,7 +4543,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 193.04 71.12 0)
+			(at 71.12 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4189,7 +4552,7 @@
 			)
 		)
 		(property "MPN" "CL05B104KO5NNNC"
-			(at 193.04 71.12 0)
+			(at 71.12 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4198,7 +4561,7 @@
 			)
 		)
 		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 193.04 71.12 0)
+			(at 71.12 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4207,7 +4570,7 @@
 			)
 		)
 		(property "DigiKey" "1276-1001-1-ND"
-			(at 193.04 71.12 0)
+			(at 71.12 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4230,73 +4593,28 @@
 			)
 		)
 	)
-	(global_label "3V3"
-		(shape passive)
-		(at 193.04 67.31 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 71.12 86.36)
+			(xy 71.12 76.2)
 		)
-		(uuid "f2a84b99-f278-5fab-aa32-6386c34a20a8")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 193.04 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 193.04 74.93 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "72e1c418-64f2-57a7-83d2-8e7d5ecd58c3")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 193.04 74.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
+		(uuid "042441c1-a2ec-5aa4-8fd4-f9acddaae6db")
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 210.82 71.12 0)
+		(lib_id "power:GND")
+		(at 71.12 68.58 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "9b5483ff-df93-581b-a3d6-fcce29549d2c")
-		(property "Reference" "C47"
-			(at 210.82 64.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "4.7uF X5R 16V"
-			(at 210.82 77.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 210.82 71.12 0)
+		(uuid "6ca22199-071d-5feb-9715-199141040f2b")
+		(property "Reference" "#PWR066"
+			(at 71.12 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4304,8 +4622,16 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL10A475KO8NNNC.do"
-			(at 210.82 71.12 0)
+		(property "Value" "GND"
+			(at 71.12 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 71.12 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4313,35 +4639,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 210.82 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CL10A475KO8NNNC"
-			(at 210.82 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 210.82 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "1276-1784-1-ND"
-			(at 210.82 71.12 0)
+		(property "Datasheet" ""
+			(at 71.12 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4350,63 +4649,183 @@
 			)
 		)
 		(pin "1"
-			(uuid "a87d7339-a293-5d60-9d7c-ca683337c163")
-		)
-		(pin "2"
-			(uuid "df8d36cf-9054-5a45-b931-beb348c691e3")
+			(uuid "d1da8cea-bff6-5b40-97af-b50e91e5edc4")
 		)
 		(instances
 			(project "F405FC"
 				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
-					(reference "C47")
+					(reference "#PWR066")
 					(unit 1)
 				)
 			)
 		)
 	)
-	(global_label "3V3"
-		(shape passive)
-		(at 210.82 67.31 90)
-		(effects
-			(font
-				(size 1 1)
+	(symbol
+		(lib_id "Device:C")
+		(at 20.32 97.79 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d325153a-9e02-5104-b943-3df50adc5c78")
+		(property "Reference" "C44"
+			(at 22.86 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
-			(justify left)
 		)
-		(uuid "65df50b8-d288-519d-afcb-2cdc4b65e6e8")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 210.82 67.31 0)
+		(property "Value" "100nF X7R 16V"
+			(at 22.86 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 20.32 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
+			(at 20.32 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 20.32 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL05B104KO5NNNC"
+			(at 20.32 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 20.32 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "1276-1001-1-ND"
+			(at 20.32 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2161a0f8-ab11-5c3f-ae63-899a314aff2b")
+		)
+		(pin "2"
+			(uuid "5a0101e2-bd70-54e0-86c4-fc39552e71c0")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "C44")
+					(unit 1)
+				)
 			)
 		)
 	)
-	(global_label "GND"
-		(shape passive)
-		(at 210.82 74.93 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 58.42 93.98)
+			(xy 20.32 93.98)
 		)
-		(uuid "e91dd733-8ac5-5554-b1e3-16932586c8f2")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 210.82 74.93 0)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec2c7f09-cc96-56b0-a256-ecc793447108")
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 20.32 101.6 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f6ae8265-ea71-5357-a75c-60d250a6556c")
+		(property "Reference" "#PWR067"
+			(at 20.32 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 20.32 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 20.32 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 20.32 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "43ce6753-872d-5ed6-947b-8b5597369dea")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "#PWR067")
+					(unit 1)
+				)
 			)
 		)
 	)
 	(symbol
 		(lib_id "F405FC:W25N01GV")
-		(at 251.46 71.12 0)
+		(at 208.28 73.66 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4414,7 +4833,7 @@
 		(dnp no)
 		(uuid "fff3c938-4d4d-5df8-b3a4-22bc80c28ee1")
 		(property "Reference" "U10"
-			(at 251.46 64.77 0)
+			(at 208.28 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4422,7 +4841,7 @@
 			)
 		)
 		(property "Value" "W25N01GV"
-			(at 251.46 82.55 0)
+			(at 208.28 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4430,7 +4849,7 @@
 			)
 		)
 		(property "Footprint" "Package_SON:WSON-8-1EP_8x6mm_P1.27mm_EP3.4x4.3mm"
-			(at 251.46 71.12 0)
+			(at 208.28 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4439,7 +4858,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.winbond.com/resource-files/w25n01gv%20revl%20050918%20unsecured.pdf"
-			(at 251.46 71.12 0)
+			(at 208.28 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4448,7 +4867,7 @@
 			)
 		)
 		(property "Description" "blackbox flash 1 Gbit"
-			(at 251.46 71.12 0)
+			(at 208.28 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4457,7 +4876,7 @@
 			)
 		)
 		(property "MPN" "W25N01GVZEIG TR"
-			(at 251.46 71.12 0)
+			(at 208.28 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4466,7 +4885,7 @@
 			)
 		)
 		(property "Manufacturer" "Winbond"
-			(at 251.46 71.12 0)
+			(at 208.28 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4475,7 +4894,7 @@
 			)
 		)
 		(property "DigiKey" "256-W25N01GVZEIGTRCT-ND"
-			(at 251.46 71.12 0)
+			(at 208.28 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4519,18 +4938,29 @@
 			)
 		)
 	)
+	(text "U10  W25N01GV  -  blackbox flash 1 Gbit"
+		(exclude_from_sim no)
+		(at 127.62 62.77 0)
+		(effects
+			(font
+				(size 1.6 1.6)
+			)
+			(justify left bottom)
+		)
+		(uuid "0a28d1b1-e3ff-5697-be25-15e43f355248")
+	)
 	(global_label "3V3"
 		(shape passive)
-		(at 237.49 67.31 180)
+		(at 194.31 69.85 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "16d563c1-c908-59d8-9a9d-951e7c2a81b4")
+		(uuid "c2b5734d-0640-50b6-982d-9e5265de7e7a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 237.49 67.31 0)
+			(at 194.31 69.85 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4541,16 +4971,16 @@
 	)
 	(global_label "FLASH_CS"
 		(shape passive)
-		(at 237.49 69.85 180)
+		(at 194.31 72.39 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "bdc7c1d5-b9bf-51d9-837a-7df26cf14223")
+		(uuid "12172ef8-89fc-577e-a458-6a85d3f00da1")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 237.49 69.85 0)
+			(at 194.31 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4561,16 +4991,16 @@
 	)
 	(global_label "SPI3_SCK"
 		(shape passive)
-		(at 237.49 72.39 180)
+		(at 194.31 74.93 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "bae89a13-ee6a-576b-b98f-1bacb64f9644")
+		(uuid "e587de26-526c-5941-aacb-ea4194b6b5c0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 237.49 72.39 0)
+			(at 194.31 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4581,16 +5011,16 @@
 	)
 	(global_label "SPI3_MOSI"
 		(shape passive)
-		(at 237.49 74.93 180)
+		(at 194.31 77.47 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "ec415296-c446-51da-80b9-e07dedc58c56")
+		(uuid "9829e341-a53c-50a4-8594-7d2323fc7ccc")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 237.49 74.93 0)
+			(at 194.31 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4601,16 +5031,16 @@
 	)
 	(global_label "SPI3_MISO"
 		(shape passive)
-		(at 265.43 67.31 0)
+		(at 222.25 69.85 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "053e508a-07a1-5b46-b416-1481185ebb0b")
+		(uuid "2772d2e5-b6d1-52a9-99fe-fa95b4105ff4")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 265.43 67.31 0)
+			(at 222.25 69.85 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4621,16 +5051,36 @@
 	)
 	(global_label "FLASH_WP"
 		(shape passive)
-		(at 265.43 69.85 0)
+		(at 222.25 72.39 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "b74b3324-b9a1-5647-a2f3-e043bd7b6487")
+		(uuid "77581c93-0725-5b9b-afd8-bfcba7779482")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 265.43 69.85 0)
+			(at 222.25 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "FLASH_WP"
+		(shape passive)
+		(at 254 72.39 90)
+		(effects
+			(font
+				(size 1 1)
+			)
+			(justify left)
+		)
+		(uuid "d54383e1-40fc-518b-bde8-07034efac9d4")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 254 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4641,16 +5091,16 @@
 	)
 	(global_label "FLASH_HOLD"
 		(shape passive)
-		(at 265.43 72.39 0)
+		(at 222.25 74.93 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "84941e4e-9bd7-5d01-a488-6cffc9dc8964")
+		(uuid "7c495282-b886-58bb-980b-cdeb7c8bafe2")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 265.43 72.39 0)
+			(at 222.25 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4659,18 +5109,18 @@
 			)
 		)
 	)
-	(global_label "GND"
+	(global_label "FLASH_HOLD"
 		(shape passive)
-		(at 242.57 80.01 270)
+		(at 241.3 74.93 90)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "524df56a-03fb-5666-a474-230dd6554ee2")
+		(uuid "6f3589b6-6fda-5f24-b027-3cdd57a7bf3b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 242.57 80.01 0)
+			(at 241.3 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4679,53 +5129,28 @@
 			)
 		)
 	)
-	(global_label "GND"
-		(shape passive)
-		(at 245.11 80.01 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 199.39 82.55)
+			(xy 201.93 82.55)
 		)
-		(uuid "170c6afc-d6c9-57f3-a1d8-621330f0b32e")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 245.11 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
+		(uuid "ec546fdb-9633-5f56-b7cf-9da577cf9ee8")
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 22.86 111.76 0)
+		(lib_id "power:GND")
+		(at 199.39 82.55 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "52747144-bfd3-5a31-bd73-e87db419e351")
-		(property "Reference" "C48"
-			(at 22.86 105.41 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100nF X7R 16V"
-			(at 22.86 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 22.86 111.76 0)
+		(uuid "e798fcdb-2b4f-522f-95f7-5b5327a2eed3")
+		(property "Reference" "#PWR068"
+			(at 199.39 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4733,8 +5158,16 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
-			(at 22.86 111.76 0)
+		(property "Value" "GND"
+			(at 199.39 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 199.39 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4742,35 +5175,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 22.86 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CL05B104KO5NNNC"
-			(at 22.86 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 22.86 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "1276-1001-1-ND"
-			(at 22.86 111.76 0)
+		(property "Datasheet" ""
+			(at 199.39 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4779,197 +5185,20 @@
 			)
 		)
 		(pin "1"
-			(uuid "8d49b4f8-1483-5c98-b991-0b973a957844")
-		)
-		(pin "2"
-			(uuid "435d2f20-6fb3-50fc-a92b-fed9dd30705c")
+			(uuid "294248b1-589c-5edf-84ed-a09857777cba")
 		)
 		(instances
 			(project "F405FC"
 				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
-					(reference "C48")
+					(reference "#PWR068")
 					(unit 1)
 				)
 			)
 		)
 	)
-	(global_label "3V3"
-		(shape passive)
-		(at 22.86 107.95 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "e2cff526-02b4-5924-8f24-937a0f4e6aba")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 22.86 107.95 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 22.86 115.57 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "7365e214-eaf3-5d9b-9133-e37163d98ff0")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 22.86 115.57 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
 	(symbol
 		(lib_id "Device:R")
-		(at 45.72 111.76 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "db5e3eae-6e97-536e-8bb2-a65591d4cba7")
-		(property "Reference" "R29"
-			(at 45.72 105.41 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10.0K"
-			(at 45.72 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 45.72 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 45.72 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 45.72 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "RC0402FR-0710KL"
-			(at 45.72 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Yageo"
-			(at 45.72 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "311-10.0KLRCT-ND"
-			(at 45.72 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "a3085c67-d096-5522-a27c-9827a7ed3836")
-		)
-		(pin "2"
-			(uuid "fd73ceb9-f661-5837-82cb-3d03014f7fef")
-		)
-		(instances
-			(project "F405FC"
-				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
-					(reference "R29")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(global_label "3V3"
-		(shape passive)
-		(at 45.72 107.95 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "ba38548e-cc2c-5f7e-9ad0-5aee9313f611")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 45.72 107.95 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "FLASH_WP"
-		(shape passive)
-		(at 45.72 115.57 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "b1c5167b-d9e3-525b-984b-6bce9c0afd70")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 45.72 115.57 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 76.2 111.76 0)
+		(at 241.3 78.74 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4977,23 +5206,25 @@
 		(dnp no)
 		(uuid "a7c1bc7e-e136-5762-b5a2-1967a8b516a1")
 		(property "Reference" "R30"
-			(at 76.2 105.41 0)
+			(at 243.84 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "10.0K"
-			(at 76.2 118.11 0)
+			(at 243.84 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 76.2 111.76 0)
+			(at 241.3 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5002,7 +5233,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 76.2 111.76 0)
+			(at 241.3 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5011,7 +5242,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 76.2 111.76 0)
+			(at 241.3 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5020,7 +5251,7 @@
 			)
 		)
 		(property "MPN" "RC0402FR-0710KL"
-			(at 76.2 111.76 0)
+			(at 241.3 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5029,7 +5260,7 @@
 			)
 		)
 		(property "Manufacturer" "Yageo"
-			(at 76.2 111.76 0)
+			(at 241.3 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5038,7 +5269,7 @@
 			)
 		)
 		(property "DigiKey" "311-10.0KLRCT-ND"
-			(at 76.2 111.76 0)
+			(at 241.3 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5061,18 +5292,29 @@
 			)
 		)
 	)
+	(wire
+		(pts
+			(xy 222.25 74.93)
+			(xy 241.3 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "93149f69-e650-5f81-a8b2-5981e5724194")
+	)
 	(global_label "3V3"
 		(shape passive)
-		(at 76.2 107.95 90)
+		(at 241.3 82.55 270)
 		(effects
 			(font
 				(size 1 1)
 			)
-			(justify left)
+			(justify right)
 		)
-		(uuid "d28b0fad-2cf5-58d8-a2eb-4ce78fec9356")
+		(uuid "6747eb27-77ff-58a0-8b92-da70bad8f010")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 76.2 107.95 0)
+			(at 241.3 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5081,29 +5323,462 @@
 			)
 		)
 	)
-	(global_label "FLASH_HOLD"
-		(shape passive)
-		(at 76.2 115.57 270)
-		(effects
-			(font
-				(size 1 1)
+	(symbol
+		(lib_id "Device:R")
+		(at 254 76.2 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "db5e3eae-6e97-536e-8bb2-a65591d4cba7")
+		(property "Reference" "R29"
+			(at 256.54 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
-			(justify left)
 		)
-		(uuid "ef8afbd5-ca05-5485-8f27-59650afb9358")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 76.2 115.57 0)
+		(property "Value" "10.0K"
+			(at 256.54 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 254 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
+			(at 254 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 254 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RC0402FR-0710KL"
+			(at 254 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 254 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "311-10.0KLRCT-ND"
+			(at 254 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a3085c67-d096-5522-a27c-9827a7ed3836")
+		)
+		(pin "2"
+			(uuid "fd73ceb9-f661-5837-82cb-3d03014f7fef")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "R29")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 222.25 72.39)
+			(xy 254 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6978bad7-920f-5f8b-9827-ba100e711154")
+	)
+	(global_label "3V3"
+		(shape passive)
+		(at 254 80.01 270)
+		(effects
+			(font
+				(size 1 1)
+			)
+			(justify right)
+		)
+		(uuid "287f0517-a2fa-53a8-a223-9c7ed5c43b56")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 254 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 154.94 73.66 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9b5483ff-df93-581b-a3d6-fcce29549d2c")
+		(property "Reference" "C47"
+			(at 157.48 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "4.7uF X5R 16V"
+			(at 157.48 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+			(at 154.94 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL10A475KO8NNNC.do"
+			(at 154.94 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 154.94 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL10A475KO8NNNC"
+			(at 154.94 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 154.94 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "1276-1784-1-ND"
+			(at 154.94 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a87d7339-a293-5d60-9d7c-ca683337c163")
+		)
+		(pin "2"
+			(uuid "df8d36cf-9054-5a45-b931-beb348c691e3")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "C47")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 194.31 69.85)
+			(xy 154.94 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5a5d54e5-cfa8-536b-a85f-c60afe66b1b7")
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 154.94 77.47 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9e7fb3b1-2e0f-59e5-bdb5-52aa9b3161e0")
+		(property "Reference" "#PWR069"
+			(at 154.94 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 154.94 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 154.94 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 154.94 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b5df02dd-db40-5390-a9be-c94e7e3e547a")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "#PWR069")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 134.62 73.66 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "52747144-bfd3-5a31-bd73-e87db419e351")
+		(property "Reference" "C48"
+			(at 137.16 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100nF X7R 16V"
+			(at 137.16 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 134.62 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
+			(at 134.62 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 134.62 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL05B104KO5NNNC"
+			(at 134.62 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 134.62 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "1276-1001-1-ND"
+			(at 134.62 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8d49b4f8-1483-5c98-b991-0b973a957844")
+		)
+		(pin "2"
+			(uuid "435d2f20-6fb3-50fc-a92b-fed9dd30705c")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "C48")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 194.31 69.85)
+			(xy 134.62 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "76c5c72c-8eae-59cb-9233-1b132388d396")
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 134.62 77.47 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5f172f83-e068-5ea4-a4a8-71c6385ee195")
+		(property "Reference" "#PWR070"
+			(at 134.62 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 134.62 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 134.62 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 134.62 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "27ec95d6-d992-5de8-a949-290a6006fdb6")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/26784101-3758-547d-afe0-41d24b65b376"
+					(reference "#PWR070")
+					(unit 1)
+				)
 			)
 		)
 	)
 	(text "Sensors: IMUs on 3V3_IMU (LP5907), SPI1. Baro 0x76 + mag 0x1E on I2C1. Flash on SPI3."
 		(exclude_from_sim no)
-		(at 15.24 198 0)
+		(at 15.24 285 0)
 		(effects
 			(font
 				(size 1.5 1.5)

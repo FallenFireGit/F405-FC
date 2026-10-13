@@ -3,7 +3,7 @@
 	(generator "f405fc_gen")
 	(generator_version "10.0")
 	(uuid "2044f6dd-e7bb-58bb-b615-40e24245c19a")
-	(paper "A4")
+	(paper "A3")
 	(title_block
 		(title "F405-FC flight controller - Video")
 		(rev "C")
@@ -797,10 +797,130 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "power:GND"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "GND_0_1"
+				(polyline
+					(pts
+						(xy 0 0)
+						(xy 0 -1.27)
+						(xy 1.27 -1.27)
+						(xy 0 -2.54)
+						(xy -1.27 -1.27)
+						(xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
 	(symbol
 		(lib_id "F405FC:TS5A3159A")
-		(at 38.1 33.02 0)
+		(at 86.36 33.02 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -808,7 +928,7 @@
 		(dnp no)
 		(uuid "0839c908-1bb5-5291-b270-9985e68eebcd")
 		(property "Reference" "U11"
-			(at 38.1 27.94 0)
+			(at 86.36 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -816,7 +936,7 @@
 			)
 		)
 		(property "Value" "TS5A3159A"
-			(at 38.1 43.18 0)
+			(at 86.36 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -824,7 +944,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
-			(at 38.1 33.02 0)
+			(at 86.36 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -833,7 +953,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/ts5a3159a.pdf"
-			(at 38.1 33.02 0)
+			(at 86.36 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -842,7 +962,7 @@
 			)
 		)
 		(property "Description" "camera select (low = CAM1)"
-			(at 38.1 33.02 0)
+			(at 86.36 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -851,7 +971,7 @@
 			)
 		)
 		(property "MPN" "TS5A3159ADBVR"
-			(at 38.1 33.02 0)
+			(at 86.36 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -860,7 +980,7 @@
 			)
 		)
 		(property "Manufacturer" "Texas Instruments"
-			(at 38.1 33.02 0)
+			(at 86.36 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -869,7 +989,7 @@
 			)
 		)
 		(property "DigiKey" "296-19265-1-ND"
-			(at 38.1 33.02 0)
+			(at 86.36 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -904,18 +1024,29 @@
 			)
 		)
 	)
+	(text "U11  TS5A3159A  -  camera select (low = CAM1)"
+		(exclude_from_sim no)
+		(at 13.32 23.4 0)
+		(effects
+			(font
+				(size 1.6 1.6)
+			)
+			(justify left bottom)
+		)
+		(uuid "189e585d-fd71-5e42-8b66-42550b9d1d9c")
+	)
 	(global_label "3V3"
 		(shape passive)
-		(at 27.94 30.48 180)
+		(at 76.2 30.48 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "a78198e1-90d0-5dc5-a80b-485625e2c615")
+		(uuid "c54e862d-7de3-57fd-9ff4-0c537e820da9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.94 30.48 0)
+			(at 76.2 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -926,16 +1057,16 @@
 	)
 	(global_label "CAM_SEL"
 		(shape passive)
-		(at 27.94 33.02 180)
+		(at 76.2 33.02 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "1c3c7ec9-378b-5212-9ef6-70044370dde1")
+		(uuid "85b83593-9bd8-5254-8cbb-678e9d9c256c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.94 33.02 0)
+			(at 76.2 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -946,16 +1077,16 @@
 	)
 	(global_label "VTX_VID"
 		(shape passive)
-		(at 48.26 30.48 0)
+		(at 96.52 30.48 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "1b457825-8803-599c-934f-98f5cca5d2b8")
+		(uuid "d10426b0-88d7-5054-b8ec-13b15b7f032b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 48.26 30.48 0)
+			(at 96.52 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -966,16 +1097,16 @@
 	)
 	(global_label "CAM1_VID"
 		(shape passive)
-		(at 48.26 33.02 0)
+		(at 96.52 33.02 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "89ab0c8a-e904-515c-b055-9b38ad5d1911")
+		(uuid "1932a71b-48fd-5634-91f4-405770bc524f")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 48.26 33.02 0)
+			(at 96.52 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -986,36 +1117,16 @@
 	)
 	(global_label "CAM2_VID"
 		(shape passive)
-		(at 48.26 35.56 0)
+		(at 96.52 35.56 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "06ca20ff-c02c-5fe9-a0ec-f851c96ab997")
+		(uuid "60770726-6828-50ce-b31b-bd8686a6e035")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 48.26 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 33.02 40.64 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "60790ff2-ae2a-5c9f-985d-f81e98c785a4")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 33.02 40.64 0)
+			(at 96.52 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1025,32 +1136,16 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 71.12 35.56 0)
+		(lib_id "power:GND")
+		(at 81.28 40.64 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "7a3971de-d727-51d0-9af6-ed3e65a90bee")
-		(property "Reference" "C49"
-			(at 71.12 29.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100nF X7R 16V"
-			(at 71.12 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 71.12 35.56 0)
+		(uuid "fe5b8001-bee5-5dac-b50c-da94062eec1f")
+		(property "Reference" "#PWR071"
+			(at 81.28 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1058,8 +1153,16 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
-			(at 71.12 35.56 0)
+		(property "Value" "GND"
+			(at 81.28 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 81.28 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1067,35 +1170,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 71.12 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CL05B104KO5NNNC"
-			(at 71.12 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 71.12 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "1276-1001-1-ND"
-			(at 71.12 35.56 0)
+		(property "Datasheet" ""
+			(at 81.28 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1104,63 +1180,20 @@
 			)
 		)
 		(pin "1"
-			(uuid "0f8aad5d-0e7e-5567-bebb-0a824e37f003")
-		)
-		(pin "2"
-			(uuid "0f257fed-0326-527e-9052-dfe3c8a3de8b")
+			(uuid "4fb86744-ed74-557c-bab6-e433dbb79ab4")
 		)
 		(instances
 			(project "F405FC"
 				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
-					(reference "C49")
+					(reference "#PWR071")
 					(unit 1)
 				)
 			)
 		)
 	)
-	(global_label "3V3"
-		(shape passive)
-		(at 71.12 31.75 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "13d14181-1c74-5364-ab06-a65ea3fc1081")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 71.12 31.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 71.12 39.37 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "5c663537-39be-51d6-846a-dade747d53bd")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 71.12 39.37 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
 	(symbol
 		(lib_id "Device:R")
-		(at 93.98 35.56 0)
+		(at 40.64 36.83 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1168,23 +1201,25 @@
 		(dnp no)
 		(uuid "e8b250ca-98da-5ed2-8895-767917ab5360")
 		(property "Reference" "R31"
-			(at 93.98 29.21 0)
+			(at 43.18 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "100K"
-			(at 93.98 41.91 0)
+			(at 43.18 38.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 93.98 35.56 0)
+			(at 40.64 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1193,7 +1228,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 93.98 35.56 0)
+			(at 40.64 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1202,7 +1237,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 93.98 35.56 0)
+			(at 40.64 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1211,7 +1246,7 @@
 			)
 		)
 		(property "MPN" "RC0402FR-07100KL"
-			(at 93.98 35.56 0)
+			(at 40.64 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1220,7 +1255,7 @@
 			)
 		)
 		(property "Manufacturer" "Yageo"
-			(at 93.98 35.56 0)
+			(at 40.64 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1229,7 +1264,7 @@
 			)
 		)
 		(property "DigiKey" "311-100KLRCT-ND"
-			(at 93.98 35.56 0)
+			(at 40.64 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1252,553 +1287,45 @@
 			)
 		)
 	)
-	(global_label "CAM_SEL"
-		(shape passive)
-		(at 93.98 31.75 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 76.2 33.02)
+			(xy 40.64 33.02)
 		)
-		(uuid "b61fbc47-9323-57e4-8a1b-8ac7c589f7c4")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 93.98 31.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 93.98 39.37 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "86b2debf-162a-5614-a462-e6f1a20bcc6b")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 93.98 39.37 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
+		(uuid "37e0677b-73e2-5c96-bb50-14d6c5cec089")
 	)
 	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 121.92 30.48 0)
+		(lib_id "power:GND")
+		(at 40.64 40.64 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "1c3af98c-49fc-50a0-851d-b22aa39693c3")
-		(property "Reference" "P5"
-			(at 121.92 27.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "CAM1_VID"
-			(at 121.92 33.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 121.92 30.48 0)
+		(uuid "0ee331c0-f21d-5c04-a61d-8bc007cb67c7")
+		(property "Reference" "#PWR072"
+			(at 40.64 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 121.92 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "video pad"
-			(at 121.92 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "n/a (PCB pad)"
-			(at 121.92 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "n/a"
-			(at 121.92 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "n/a (PCB pad)"
-			(at 121.92 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "InBOM" "no"
-			(at 121.92 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "573b67dd-cdd8-5b33-8a53-9727a7794141")
-		)
-		(instances
-			(project "F405FC"
-				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
-					(reference "P5")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(global_label "CAM1_VID"
-		(shape passive)
-		(at 121.92 30.48 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "c0f07017-1dfa-5faa-9b87-3e5a685f72a8")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 121.92 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 152.4 30.48 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(uuid "53b9c598-89f0-5bc4-8b7c-33ae886fb93c")
-		(property "Reference" "P6"
-			(at 152.4 27.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "CAM2_VID"
-			(at 152.4 33.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 152.4 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 152.4 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "video pad"
-			(at 152.4 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "n/a (PCB pad)"
-			(at 152.4 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "n/a"
-			(at 152.4 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "n/a (PCB pad)"
-			(at 152.4 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "InBOM" "no"
-			(at 152.4 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "f7af3b0e-58ff-5beb-a4f9-1ca501ea973d")
-		)
-		(instances
-			(project "F405FC"
-				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
-					(reference "P6")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(global_label "CAM2_VID"
-		(shape passive)
-		(at 152.4 30.48 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "a68fae24-5b8d-5105-a6c8-d58a62b89de6")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 152.4 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 180.34 30.48 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(uuid "bb806213-422a-5a87-a1f1-9013432e0c5d")
-		(property "Reference" "P7"
-			(at 180.34 27.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "VTX_VID"
-			(at 180.34 33.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 180.34 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 180.34 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "video pad"
-			(at 180.34 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "n/a (PCB pad)"
-			(at 180.34 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "n/a"
-			(at 180.34 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "n/a (PCB pad)"
-			(at 180.34 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "InBOM" "no"
-			(at 180.34 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "c0fe63a3-f8e1-5a68-a9ef-6f19aa861546")
-		)
-		(instances
-			(project "F405FC"
-				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
-					(reference "P7")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(global_label "VTX_VID"
-		(shape passive)
-		(at 180.34 30.48 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "98a17802-a2c2-518f-b11b-8dfec45acaa4")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 180.34 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 203.2 30.48 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(uuid "270006e5-25e6-5521-8567-89a240d9d2f8")
-		(property "Reference" "P8"
-			(at 203.2 27.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "5V"
-			(at 203.2 33.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 203.2 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 203.2 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "camera power pad"
-			(at 203.2 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "n/a (PCB pad)"
-			(at 203.2 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "n/a"
-			(at 203.2 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "n/a (PCB pad)"
-			(at 203.2 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "InBOM" "no"
-			(at 203.2 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "63fe8f5c-8373-557d-80a9-9199f2b1a37a")
-		)
-		(instances
-			(project "F405FC"
-				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
-					(reference "P8")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(global_label "5V"
-		(shape passive)
-		(at 203.2 30.48 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "890df31f-d81e-5718-9780-1a8a8492aed5")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 203.2 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 220.98 30.48 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(uuid "585f6a0a-fe2c-5e48-bac9-cfc67dd6732e")
-		(property "Reference" "P9"
-			(at 220.98 27.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
 			)
 		)
 		(property "Value" "GND"
-			(at 220.98 33.02 0)
+			(at 40.64 44.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 220.98 30.48 0)
+		(property "Footprint" ""
+			(at 40.64 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1807,52 +1334,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 220.98 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "camera power pad"
-			(at 220.98 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "n/a (PCB pad)"
-			(at 220.98 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "n/a"
-			(at 220.98 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "n/a (PCB pad)"
-			(at 220.98 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "InBOM" "no"
-			(at 220.98 30.48 0)
+			(at 40.64 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1861,40 +1343,183 @@
 			)
 		)
 		(pin "1"
-			(uuid "ea31f593-6215-54fe-9c74-c802a8ca1607")
+			(uuid "d059dccc-dd12-59ad-bd68-bab245891f05")
 		)
 		(instances
 			(project "F405FC"
 				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
-					(reference "P9")
+					(reference "#PWR072")
 					(unit 1)
 				)
 			)
 		)
 	)
-	(global_label "GND"
-		(shape passive)
-		(at 220.98 30.48 270)
-		(effects
-			(font
-				(size 1 1)
+	(symbol
+		(lib_id "Device:C")
+		(at 20.32 34.29 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "7a3971de-d727-51d0-9af6-ed3e65a90bee")
+		(property "Reference" "C49"
+			(at 22.86 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
-			(justify left)
 		)
-		(uuid "6ff840fa-485d-5933-bbb4-710868ee7137")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 220.98 30.48 0)
+		(property "Value" "100nF X7R 16V"
+			(at 22.86 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 20.32 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
+			(at 20.32 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 20.32 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL05B104KO5NNNC"
+			(at 20.32 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 20.32 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "1276-1001-1-ND"
+			(at 20.32 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0f8aad5d-0e7e-5567-bebb-0a824e37f003")
+		)
+		(pin "2"
+			(uuid "0f257fed-0326-527e-9052-dfe3c8a3de8b")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
+					(reference "C49")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 76.2 30.48)
+			(xy 20.32 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bf3105a8-657d-577c-9c06-ce51edd995b1")
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 20.32 38.1 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0f96d531-0660-5164-904c-a28ec2914df8")
+		(property "Reference" "#PWR073"
+			(at 20.32 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 20.32 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 20.32 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 20.32 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a70829c7-c1f3-5e64-a07b-02020bb5ca52")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
+					(reference "#PWR073")
+					(unit 1)
+				)
 			)
 		)
 	)
 	(symbol
 		(lib_id "74xGxx:74AHCT1G125")
-		(at 45.72 68.58 0)
+		(at 175.26 43.18 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1902,7 +1527,7 @@
 		(dnp no)
 		(uuid "2bce0aba-0081-5d69-b8e4-1875792749e8")
 		(property "Reference" "U12"
-			(at 45.72 55.88 0)
+			(at 175.26 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1910,7 +1535,7 @@
 			)
 		)
 		(property "Value" "SN74LV1T125"
-			(at 45.72 81.28 0)
+			(at 175.26 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1918,7 +1543,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
-			(at 45.72 68.58 0)
+			(at 175.26 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1927,7 +1552,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/sn74lv1t125.pdf"
-			(at 45.72 68.58 0)
+			(at 175.26 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1936,7 +1561,7 @@
 			)
 		)
 		(property "Description" "WS2812 3.3->5 V buffer"
-			(at 45.72 68.58 0)
+			(at 175.26 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1945,7 +1570,7 @@
 			)
 		)
 		(property "MPN" "SN74LV1T125DBVR"
-			(at 45.72 68.58 0)
+			(at 175.26 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1954,7 +1579,7 @@
 			)
 		)
 		(property "Manufacturer" "Texas Instruments"
-			(at 45.72 68.58 0)
+			(at 175.26 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1963,7 +1588,7 @@
 			)
 		)
 		(property "DigiKey" "296-37172-1-ND"
-			(at 45.72 68.58 0)
+			(at 175.26 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1995,18 +1620,29 @@
 			)
 		)
 	)
+	(text "U12  SN74LV1T125  -  WS2812 3.3->5 V buffer"
+		(exclude_from_sim no)
+		(at 114.54 22.94 0)
+		(effects
+			(font
+				(size 1.6 1.6)
+			)
+			(justify left bottom)
+		)
+		(uuid "09253321-7a29-5ea8-98a7-f0ee87ec4cca")
+	)
 	(global_label "GND"
 		(shape passive)
-		(at 45.72 58.42 90)
+		(at 175.26 33.02 90)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "58e19df0-2059-5dbb-ad09-d97e4ce98660")
+		(uuid "0e7d5759-a227-528c-8f07-69a46500dfd5")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 45.72 58.42 0)
+			(at 175.26 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2017,36 +1653,16 @@
 	)
 	(global_label "LED_STRIP"
 		(shape passive)
-		(at 30.48 68.58 180)
+		(at 160.02 43.18 180)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify right)
 		)
-		(uuid "b9b7b5b4-f1a1-5782-b789-ec0a07f82c60")
+		(uuid "ba3a1e36-b4f3-5785-80c0-7f79e20970e9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 30.48 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 40.64 78.74 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "c449532a-18a5-5226-896e-b51a61c07ed2")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 40.64 78.74 0)
+			(at 160.02 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2057,16 +1673,16 @@
 	)
 	(global_label "LED_DIN_BUF"
 		(shape passive)
-		(at 58.42 68.58 0)
+		(at 187.96 43.18 0)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "5b25f232-1280-5e25-8f64-2792faeaefe8")
+		(uuid "bdeb8e90-00c5-590b-a567-e74387213c23")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 58.42 68.58 0)
+			(at 187.96 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2077,16 +1693,16 @@
 	)
 	(global_label "5V"
 		(shape passive)
-		(at 40.64 58.42 90)
+		(at 170.18 33.02 90)
 		(effects
 			(font
 				(size 1 1)
 			)
 			(justify left)
 		)
-		(uuid "03aed69f-2d1d-5531-bfd1-e074a3410265")
+		(uuid "b26de69b-25e3-57dc-bf49-7d939dfc6df8")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 40.64 58.42 0)
+			(at 170.18 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2096,32 +1712,16 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 86.36 63.5 0)
+		(lib_id "power:GND")
+		(at 170.18 53.34 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "648a876e-e7ef-5f32-9fa6-0b2b4928096d")
-		(property "Reference" "C50"
-			(at 86.36 57.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100nF X7R 16V"
-			(at 86.36 69.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 86.36 63.5 0)
+		(uuid "06eeeba8-8734-591d-9352-482a2f3576d7")
+		(property "Reference" "#PWR074"
+			(at 170.18 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2129,8 +1729,16 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
-			(at 86.36 63.5 0)
+		(property "Value" "GND"
+			(at 170.18 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 170.18 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2138,35 +1746,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 86.36 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CL05B104KO5NNNC"
-			(at 86.36 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 86.36 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey" "1276-1001-1-ND"
-			(at 86.36 63.5 0)
+		(property "Datasheet" ""
+			(at 170.18 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2175,63 +1756,20 @@
 			)
 		)
 		(pin "1"
-			(uuid "adfee234-f328-56b0-b72c-7a387c8d62df")
-		)
-		(pin "2"
-			(uuid "5559246c-a9eb-557b-b88c-c8b54bd42486")
+			(uuid "eb06dbfd-d709-5d4b-8eb5-a1c48679340a")
 		)
 		(instances
 			(project "F405FC"
 				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
-					(reference "C50")
+					(reference "#PWR074")
 					(unit 1)
 				)
 			)
 		)
 	)
-	(global_label "5V"
-		(shape passive)
-		(at 86.36 59.69 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "e2464904-8c70-5cbc-98d0-6ae4354bf485")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 86.36 59.69 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 86.36 67.31 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
-		)
-		(uuid "aecb073a-6081-5f69-ae76-b9959a8a3c11")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 86.36 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
 	(symbol
 		(lib_id "Device:R")
-		(at 111.76 63.5 0)
+		(at 129.54 46.99 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2239,23 +1777,25 @@
 		(dnp yes)
 		(uuid "623e63e5-5a52-570d-80e4-861067ea30be")
 		(property "Reference" "R32"
-			(at 111.76 57.15 0)
+			(at 132.08 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "0R"
-			(at 111.76 69.85 0)
+			(at 132.08 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 111.76 63.5 0)
+			(at 129.54 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2264,7 +1804,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 111.76 63.5 0)
+			(at 129.54 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2273,7 +1813,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 111.76 63.5 0)
+			(at 129.54 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2282,7 +1822,7 @@
 			)
 		)
 		(property "MPN" "RC0402JR-070RL"
-			(at 111.76 63.5 0)
+			(at 129.54 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2291,7 +1831,7 @@
 			)
 		)
 		(property "Manufacturer" "Yageo"
-			(at 111.76 63.5 0)
+			(at 129.54 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2300,7 +1840,7 @@
 			)
 		)
 		(property "DigiKey" "311-0.0JRCT-ND"
-			(at 111.76 63.5 0)
+			(at 129.54 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2323,38 +1863,29 @@
 			)
 		)
 	)
-	(global_label "LED_STRIP"
-		(shape passive)
-		(at 111.76 59.69 90)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify left)
+	(wire
+		(pts
+			(xy 160.02 43.18)
+			(xy 129.54 43.18)
 		)
-		(uuid "4e80cd5f-d903-5959-af42-420c8e78fc3d")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 111.76 59.69 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
+		(uuid "9dcae5c0-eb40-5322-84ba-a1651a6c53ab")
 	)
 	(global_label "LED_DIN_BUF"
 		(shape passive)
-		(at 111.76 67.31 270)
+		(at 129.54 50.8 270)
 		(effects
 			(font
 				(size 1 1)
 			)
-			(justify left)
+			(justify right)
 		)
-		(uuid "e7a80a3e-7641-5804-a09c-4187251a1dca")
+		(uuid "bb8d7f7e-a2fe-531e-a100-66566e13d5ec")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 111.76 67.31 0)
+			(at 129.54 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2365,7 +1896,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 147.32 63.5 0)
+		(at 208.28 46.99 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2373,23 +1904,25 @@
 		(dnp no)
 		(uuid "c154db73-0bbb-5b9b-81f0-85280a9272ad")
 		(property "Reference" "R33"
-			(at 147.32 57.15 0)
+			(at 210.82 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "330"
-			(at 147.32 69.85 0)
+			(at 210.82 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 147.32 63.5 0)
+			(at 208.28 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2398,7 +1931,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"
-			(at 147.32 63.5 0)
+			(at 208.28 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2407,7 +1940,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 147.32 63.5 0)
+			(at 208.28 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2416,7 +1949,7 @@
 			)
 		)
 		(property "MPN" "RC0402FR-07330RL"
-			(at 147.32 63.5 0)
+			(at 208.28 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2425,7 +1958,7 @@
 			)
 		)
 		(property "Manufacturer" "Yageo"
-			(at 147.32 63.5 0)
+			(at 208.28 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2434,7 +1967,7 @@
 			)
 		)
 		(property "DigiKey" "311-330LRCT-ND"
-			(at 147.32 63.5 0)
+			(at 208.28 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2457,18 +1990,29 @@
 			)
 		)
 	)
-	(global_label "LED_DIN_BUF"
+	(wire
+		(pts
+			(xy 187.96 43.18)
+			(xy 208.28 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a267e9a2-f5f0-5e8a-ab93-96c6159054ac")
+	)
+	(global_label "LED_DIN"
 		(shape passive)
-		(at 147.32 59.69 90)
+		(at 208.28 50.8 270)
 		(effects
 			(font
 				(size 1 1)
 			)
-			(justify left)
+			(justify right)
 		)
-		(uuid "82a31453-e83d-549b-9ffa-042b269c903d")
+		(uuid "5c808868-a905-5dc3-8b37-93cb52bcc9c7")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 147.32 59.69 0)
+			(at 208.28 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2477,18 +2021,314 @@
 			)
 		)
 	)
-	(global_label "LED_DIN"
+	(text "5V decoupling / bulk"
+		(exclude_from_sim no)
+		(at 233.68 22.86 0)
+		(effects
+			(font
+				(size 1.6 1.6)
+			)
+			(justify left bottom)
+		)
+		(uuid "a25ff618-1191-547c-bda4-5fd1ba937095")
+	)
+	(wire
+		(pts
+			(xy 236.22 27.94)
+			(xy 241.3 27.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "be5be90d-13a7-5d15-997e-2649c0c41c8c")
+	)
+	(global_label "5V"
 		(shape passive)
-		(at 147.32 67.31 270)
+		(at 236.22 27.94 180)
 		(effects
 			(font
 				(size 1 1)
 			)
-			(justify left)
+			(justify right)
 		)
-		(uuid "13d2857f-ca3e-5204-9804-317fcd42ac81")
+		(uuid "01f59449-cd8c-574a-a7bf-c860e0045df8")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 147.32 67.31 0)
+			(at 236.22 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 241.3 31.75 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "648a876e-e7ef-5f32-9fa6-0b2b4928096d")
+		(property "Reference" "C50"
+			(at 243.84 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100nF X7R 16V"
+			(at 243.84 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 241.3 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do"
+			(at 241.3 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 241.3 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL05B104KO5NNNC"
+			(at 241.3 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 241.3 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "1276-1001-1-ND"
+			(at 241.3 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "adfee234-f328-56b0-b72c-7a387c8d62df")
+		)
+		(pin "2"
+			(uuid "5559246c-a9eb-557b-b88c-c8b54bd42486")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
+					(reference "C50")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 241.3 35.56 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "15854712-eebb-5ae6-822e-abbf3afa16a1")
+		(property "Reference" "#PWR075"
+			(at 241.3 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 241.3 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "70a8eed7-18cc-5e7f-9313-a4a79feebf74")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
+					(reference "#PWR075")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 276.86 30.48 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "1c3af98c-49fc-50a0-851d-b22aa39693c3")
+		(property "Reference" "P5"
+			(at 279.4 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "CAM1_VID"
+			(at 279.4 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
+			(at 276.86 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 276.86 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "video pad"
+			(at 276.86 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "n/a (PCB pad)"
+			(at 276.86 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "n/a"
+			(at 276.86 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "n/a (PCB pad)"
+			(at 276.86 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "InBOM" "no"
+			(at 276.86 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "573b67dd-cdd8-5b33-8a53-9727a7794141")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
+					(reference "P5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(global_label "CAM1_VID"
+		(shape passive)
+		(at 276.86 30.48 270)
+		(effects
+			(font
+				(size 1 1)
+			)
+			(justify right)
+		)
+		(uuid "e6546e95-7ef8-50ca-b274-c8196679e36d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 276.86 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2499,31 +2339,33 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 177.8 58.42 0)
+		(at 292.1 30.48 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "511feca8-1503-5205-a590-fd2409dd477d")
-		(property "Reference" "P10"
-			(at 177.8 55.88 0)
+		(uuid "53b9c598-89f0-5bc4-8b7c-33ae886fb93c")
+		(property "Reference" "P6"
+			(at 294.64 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Value" "LED_DIN"
-			(at 177.8 60.96 0)
+		(property "Value" "CAM2_VID"
+			(at 294.64 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
-			(at 177.8 58.42 0)
+			(at 292.1 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2532,7 +2374,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 177.8 58.42 0)
+			(at 292.1 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2540,8 +2382,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "LED strip pad"
-			(at 177.8 58.42 0)
+		(property "Description" "video pad"
+			(at 292.1 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2550,7 +2392,7 @@
 			)
 		)
 		(property "MPN" "n/a (PCB pad)"
-			(at 177.8 58.42 0)
+			(at 292.1 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2559,7 +2401,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 177.8 58.42 0)
+			(at 292.1 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2568,7 +2410,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (PCB pad)"
-			(at 177.8 58.42 0)
+			(at 292.1 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2577,7 +2419,531 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 177.8 58.42 0)
+			(at 292.1 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f7af3b0e-58ff-5beb-a4f9-1ca501ea973d")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
+					(reference "P6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(global_label "CAM2_VID"
+		(shape passive)
+		(at 292.1 30.48 270)
+		(effects
+			(font
+				(size 1 1)
+			)
+			(justify right)
+		)
+		(uuid "be8fb0a8-aeac-5611-aac7-2b9ba842d1e6")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 292.1 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 307.34 30.48 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "bb806213-422a-5a87-a1f1-9013432e0c5d")
+		(property "Reference" "P7"
+			(at 309.88 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "VTX_VID"
+			(at 309.88 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
+			(at 307.34 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 307.34 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "video pad"
+			(at 307.34 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "n/a (PCB pad)"
+			(at 307.34 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "n/a"
+			(at 307.34 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "n/a (PCB pad)"
+			(at 307.34 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "InBOM" "no"
+			(at 307.34 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c0fe63a3-f8e1-5a68-a9ef-6f19aa861546")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
+					(reference "P7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(global_label "VTX_VID"
+		(shape passive)
+		(at 307.34 30.48 270)
+		(effects
+			(font
+				(size 1 1)
+			)
+			(justify right)
+		)
+		(uuid "2926963e-7db0-5f56-ba2e-005575cf77a2")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 307.34 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 322.58 30.48 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "270006e5-25e6-5521-8567-89a240d9d2f8")
+		(property "Reference" "P8"
+			(at 325.12 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "5V"
+			(at 325.12 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
+			(at 322.58 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 322.58 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "camera power pad"
+			(at 322.58 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "n/a (PCB pad)"
+			(at 322.58 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "n/a"
+			(at 322.58 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "n/a (PCB pad)"
+			(at 322.58 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "InBOM" "no"
+			(at 322.58 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "63fe8f5c-8373-557d-80a9-9199f2b1a37a")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
+					(reference "P8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(global_label "5V"
+		(shape passive)
+		(at 322.58 30.48 270)
+		(effects
+			(font
+				(size 1 1)
+			)
+			(justify right)
+		)
+		(uuid "90f870d5-d370-57fe-afde-6301ed63e8b9")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 322.58 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 337.82 30.48 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "585f6a0a-fe2c-5e48-bac9-cfc67dd6732e")
+		(property "Reference" "P9"
+			(at 340.36 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "GND"
+			(at 340.36 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
+			(at 337.82 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 337.82 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "camera power pad"
+			(at 337.82 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "n/a (PCB pad)"
+			(at 337.82 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "n/a"
+			(at 337.82 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "n/a (PCB pad)"
+			(at 337.82 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "InBOM" "no"
+			(at 337.82 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ea31f593-6215-54fe-9c74-c802a8ca1607")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
+					(reference "P9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 337.82 30.48 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9424082e-77a6-53f7-8883-0285c85f770d")
+		(property "Reference" "#PWR076"
+			(at 337.82 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 337.82 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 337.82 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 337.82 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "453e2bae-737f-5526-862f-03ce344b2f73")
+		)
+		(instances
+			(project "F405FC"
+				(path "/85397873-de58-5f94-9eed-9a7928bbcb45/2044f6dd-e7bb-58bb-b615-40e24245c19a"
+					(reference "#PWR076")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 353.06 30.48 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "511feca8-1503-5205-a590-fd2409dd477d")
+		(property "Reference" "P10"
+			(at 355.6 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "LED_DIN"
+			(at 355.6 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "F405FC:Pad_SMD_1.2x1.6mm"
+			(at 353.06 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 353.06 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "LED strip pad"
+			(at 353.06 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "n/a (PCB pad)"
+			(at 353.06 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "n/a"
+			(at 353.06 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey" "n/a (PCB pad)"
+			(at 353.06 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "InBOM" "no"
+			(at 353.06 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2599,16 +2965,16 @@
 	)
 	(global_label "LED_DIN"
 		(shape passive)
-		(at 177.8 58.42 270)
+		(at 353.06 30.48 270)
 		(effects
 			(font
 				(size 1 1)
 			)
-			(justify left)
+			(justify right)
 		)
-		(uuid "a5029295-b0b6-5469-a070-383dbf3ecc1b")
+		(uuid "d3211740-c753-55de-bb20-0eb9026fb610")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 177.8 58.42 0)
+			(at 353.06 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2619,7 +2985,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 200.66 58.42 0)
+		(at 370.84 30.48 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -2627,23 +2993,25 @@
 		(dnp no)
 		(uuid "55fd0e5e-280d-5470-96e6-117ac8ac51a0")
 		(property "Reference" "P11"
-			(at 200.66 55.88 0)
+			(at 373.38 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "5V"
-			(at 200.66 60.96 0)
+			(at 373.38 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "F405FC:Pad_SMD_1.5x2.0mm"
-			(at 200.66 58.42 0)
+			(at 370.84 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2652,7 +3020,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 200.66 58.42 0)
+			(at 370.84 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2661,7 +3029,7 @@
 			)
 		)
 		(property "Description" "LED strip pad"
-			(at 200.66 58.42 0)
+			(at 370.84 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2670,7 +3038,7 @@
 			)
 		)
 		(property "MPN" "n/a (PCB pad)"
-			(at 200.66 58.42 0)
+			(at 370.84 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2679,7 +3047,7 @@
 			)
 		)
 		(property "Manufacturer" "n/a"
-			(at 200.66 58.42 0)
+			(at 370.84 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2688,7 +3056,7 @@
 			)
 		)
 		(property "DigiKey" "n/a (PCB pad)"
-			(at 200.66 58.42 0)
+			(at 370.84 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2697,7 +3065,7 @@
 			)
 		)
 		(property "InBOM" "no"
-			(at 200.66 58.42 0)
+			(at 370.84 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2719,16 +3087,16 @@
 	)
 	(global_label "5V"
 		(shape passive)
-		(at 200.66 58.42 270)
+		(at 370.84 30.48 270)
 		(effects
 			(font
 				(size 1 1)
 			)
-			(justify left)
+			(justify right)
 		)
-		(uuid "26ce6a7c-cd54-590a-b4f6-479cd96877e4")
+		(uuid "84d3087e-2bfb-5774-aead-1a9f140b353b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 200.66 58.42 0)
+			(at 370.84 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2739,7 +3107,7 @@
 	)
 	(text "Video: analog camera switch only (no OSD chip, D-01); DC-coupled cameras only (signal must stay 0..3.3 V). LED buffer U12 from 5V; DNP bypass R32 only with U12 removed."
 		(exclude_from_sim no)
-		(at 15.24 198 0)
+		(at 15.24 285 0)
 		(effects
 			(font
 				(size 1.5 1.5)
