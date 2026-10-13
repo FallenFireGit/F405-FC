@@ -24,7 +24,7 @@ CAMERA = "-50,0,25"
 
 # board-revision commits worth showing (oldest first) and their captions; the working-tree board is the final frame
 REVS = [
-    ("4054877", "First placement draft"),
+    ("4054877", "Board outline and mounting holes"),
     ("fc2999f", "Gate 0/1 fixes: crystal loads, LDO caps"),
     ("466f0d4", "Gate 3 rework: pin-anchored placement"),
     ("147f55c", "Clean placement, 4020 inductors"),
@@ -35,7 +35,8 @@ REVS = [
     ("ebfe172", "PathFinder router: first full attempt"),
     ("bf89f19", "Routability moves around the MCU"),
     ("0531bb0", "ADC clamps removed for routing space"),
-    ("6216e29", "Converged routing, GND pours"),
+    ("6216e29", "Router converging, GND pours"),
+    ("27995e1", "Routing closed: DRC clean"),
 ]
 
 
@@ -70,7 +71,7 @@ def main():
         print("rendered", sha, flush=True)
     shutil.copy(os.path.join(ROOT, "kicad", "F405FC.kicad_pcb"), f"{CH}{WORK}/final.kicad_pcb")
     final = render(f"{WORK}/final.kicad_pcb", f"{WORK}/final.png", CAMERA)
-    stills.append(caption(final, f"Rev {n}/{n}  Final design", "36 x 36 mm, 4 layers, STM32F405"))
+    stills.append(caption(final, f"Rev {n}/{n}  Final: tidied tracks", "DRC 0 errors / 0 unconnected / 0 parity  -  36 x 36 mm, 4 layers"))
     frames = []
     hold, fade = 14, 5                      # 0.8 s per revision incl. cross-fade
     for i, s in enumerate(stills):
