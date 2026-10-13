@@ -57,8 +57,8 @@ put("C34", 23.9, 11.6, 0)         # VCAP2 (pin 47)
 put("R16", 19.6, 9.9, 90)         # BOOT0 pulldown (pin 60)
 put("R17", 18.6, 25.0, 90)        # BEEPER/BOOT1 pulldown (pin 28)
 put("R18", 14.6, 27.2, 90)        # GYRO1_CS pullup
-put("R19", 16.0, 9.9, 90)         # GYRO2_CS (pin 50)
-put("R20", 18.4, 9.9, 90)         # FLASH_CS (pin 58)
+put("R19", 24.55, 13.55, 90)      # GYRO2_CS pull-up (moved off the MCU top-row corridor, routing)
+put("R20", 11.55, 9.05, 90)       # FLASH_CS pull-up, on the FLASH_CS path to U10 (moved off the top-row corridor, routing)
 put("R25", 13.6, 9.9, 90)         # I2C SCL pullup
 put("R26", 14.8, 9.9, 90)         # I2C SDA pullup
 # status LEDs (PB14/PB15, right side lower)

@@ -22,4 +22,9 @@ while y < 36:
             spots.append((round(x + w / 2, 2), round(y + h / 2, 2)))
         x += 0.25
     y += 0.25
-print(len(spots), "free centres; sample:", spots[::max(1, len(spots) // 40)])
+win = [float(v) for v in sys.argv[4:8]] if len(sys.argv) >= 8 else None   # optional x0 y0 x1 y1 window: list all spots in it
+if win:
+    spots = [s for s in spots if win[0] <= s[0] <= win[2] and win[1] <= s[1] <= win[3]]
+    print(len(spots), "free centres in window:", spots)
+else:
+    print(len(spots), "free centres; sample:", spots[::max(1, len(spots) // 40)])
