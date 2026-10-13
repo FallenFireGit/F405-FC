@@ -74,8 +74,8 @@ def stage(name, passes):
             z.SetLayer(layer)
             z.SetNet(gnd)
             z.SetZoneName("GND_" + board.GetLayerName(layer).replace(".", "_"))
-            z.SetLocalClearance(mm(0.15))      # >= largest class clearance (PWR_HI 0.15); lets the pour reach boxed-in GND pads
-            z.SetMinThickness(mm(0.13))
+            z.SetLocalClearance(mm(0.127))     # board minimum; KiCad still applies the larger PWR_HI class clearance (0.15)
+            z.SetMinThickness(mm(0.127))
             z.SetThermalReliefGap(mm(0.25))
             z.SetThermalReliefSpokeWidth(mm(0.3))
             z.SetPadConnection(pcbnew.ZONE_CONNECTION_THT_THERMAL)   # SMD pads solid (no starved spokes), THT pads thermal
