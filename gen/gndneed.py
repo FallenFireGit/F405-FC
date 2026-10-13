@@ -1,6 +1,6 @@
 """List the GND pads whose filled pour fragment has no GND via or THT pad (run inside the KiCad chroot on the routed, filled
-board): these are the pads DRC reports as unconnected GND zone islands. Output kicad/gnd_need.json = [[x, y, layer], ...] in
-board mm (origin = board corner) for gen/pathfinder.py (env GND_NEED), which then ties exactly these pads to the In1 plane.
+board): these are the pads DRC reports as unconnected GND zone islands. Output kicad/gnd_need.json = [[x, y, layer, fragment], ...] in
+board mm (origin = board corner) for gen/pathfinder.py (env GND_NEED), which then ties one pad of each fragment to the In1 plane (the pour joins the rest).
 
   kc 'python3 gen/gndneed.py'
 """
@@ -38,7 +38,7 @@ def main():
                 for p in pads:
                     if p.IsOnLayer(l) and fr.Contains(p.GetPosition()):
                         q = p.GetPosition()
-                        need.append([pcbnew.ToMM(q.x) - OX, pcbnew.ToMM(q.y) - OY, ln])
+                        need.append([pcbnew.ToMM(q.x) - OX, pcbnew.ToMM(q.y) - OY, ln, f"{ln}{i}"])
                         names.append(f"{p.GetParentFootprint().GetReference()}.{p.GetNumber()}")
     json.dump(need, open(OUT, "w"))
     print(f"gndneed: {len(need)} GND pads in untied pour fragments: {' '.join(names)}")

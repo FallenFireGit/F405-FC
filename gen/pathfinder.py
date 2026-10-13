@@ -408,15 +408,39 @@ class PF:
         return recs
 
 
-def gnd_needed(m):
-    """With GND_NEED (kicad/gnd_need.json from gen/gndneed.py) only islands holding a listed pad need a tie: the pours on
-    F/In2/B already join the others to a stitched area."""
+def gnd_needed(m, done=None):
+    """With GND_NEED (kicad/gnd_need.json from gen/gndneed.py) only islands holding a listed pad need a tie, and only one per
+    pour fragment (the pour joins the rest of that fragment); the pours on F/In2/B join every other island to a stitched area.
+    Returns the fragment id (truthy) or None; fragments in `done` are already tied."""
     path = os.environ.get("GND_NEED")
     if not path:
-        return True
+        return "all"
     if not hasattr(gnd_needed, "pts"):
         gnd_needed.pts = json.load(open(path))
-    return any(m[l][min(N - 1, int(y / RES)), min(N - 1, int(x / RES))] for x, y, l in gnd_needed.pts if l in m)
+    for e in gnd_needed.pts:
+        x, y, l = e[0], e[1], e[2]
+        frag = e[3] if len(e) > 3 else f"{x},{y}"
+        if l in m and m[l][min(N - 1, int(y / RES)), min(N - 1, int(x / RES))] and not (done and frag in done):
+            return frag
+    return None
+
+
+def gnd_done(P, n):
+    """Fragments of GND_NEED already holding a tied island."""
+    done = set()
+    if not os.environ.get("GND_NEED"):
+        return done
+    vm = (P.vbase == n)
+    for r in P.routes[n]:
+        if r["t"] == "v":
+            vm |= seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3)
+    for m in P.islands(n, P.routes[n]):
+        if any((m[l] & vm).any() for l in ALL):
+            f = gnd_needed(m)
+            while f and f != "all":
+                done.add(f)
+                f = gnd_needed(m, done)
+    return done
 
 
 def gnd_pass(P):
@@ -438,7 +462,7 @@ def gnd_pass(P):
             if any((m[l] & vm).any() for l in ALL):
                 for l in ALL:
                     tied[l] |= m[l]
-            elif gnd_needed(m):
+            else:
                 loose.append(m)
         if not loose:
             break
@@ -455,7 +479,11 @@ def gnd_pass(P):
         others &= ~mine
         via_block = ndimage.binary_dilation(others, structure=disk(0.3 + occ_k(cls("GND")[1])))
         site0 = ~vh & ~via_block & ~ndimage.binary_dilation(gpads, structure=disk(0.35))
+        done = gnd_done(P, n)
         for m in loose:
+            frag = gnd_needed(m, done)
+            if not frag:
+                continue
             own = np.any([m[l] for l in RL], axis=0)
             ys, xs = np.nonzero(own)
             near_pad = np.zeros((N, N), bool)
@@ -481,6 +509,7 @@ def gnd_pass(P):
                 r.append({"t": "v", "x": x, "y": y})
             P.routes[n] += r
             P.occupy(n, r, +1)
+            done.add(frag)
             for l in ALL:
                 tied[l] |= m[l]
     return left
@@ -499,8 +528,10 @@ def gnd_force(P):
         if r["t"] == "v":
             vm |= seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3)
     made = 0
+    done = gnd_done(P, n)
     for m in isl:
-        if any((m[l] & vm).any() for l in ALL) or not gnd_needed(m):
+        frag = None if any((m[l] & vm).any() for l in ALL) else gnd_needed(m, done)
+        if not frag:
             continue
         dst = {l: site0.copy() if l in ("F", "B", "In2") else np.zeros((N, N), bool) for l in ALL}
         src = {l: m[l] for l in ALL}
@@ -515,6 +546,7 @@ def gnd_force(P):
         r.append({"t": "v", "x": x, "y": y})
         P.routes[n] += r
         P.occupy(n, r, +1)
+        done.add(frag)
         made += 1
     return made
 
