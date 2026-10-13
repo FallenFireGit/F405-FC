@@ -59,8 +59,8 @@ put("R17", 18.6, 25.0, 90)        # BEEPER/BOOT1 pulldown (pin 28)
 put("R18", 14.6, 27.2, 90)        # GYRO1_CS pullup
 put("R19", 24.55, 13.55, 90)      # GYRO2_CS pull-up (moved off the MCU top-row corridor, routing)
 put("R20", 11.55, 9.05, 90)       # FLASH_CS pull-up, on the FLASH_CS path to U10 (moved off the top-row corridor, routing)
-put("R25", 13.6, 9.9, 90)         # I2C SCL pullup
-put("R26", 14.8, 9.9, 90)         # I2C SDA pullup
+put("R25", 7.6, 4.8, 0)           # I2C SCL pullup, west of the MCU next to the I2C sensors (routing)
+put("R26", 9.4, 4.8, 0)           # I2C SDA pullup, west of the MCU next to the I2C sensors (routing)
 # status LEDs (PB14/PB15, right side lower)
 put("D11", 13.0, 3.0, 0, "B")
 put("R27", 10.6, 3.0, 0, "B")

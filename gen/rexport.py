@@ -33,9 +33,11 @@ def main():
     for fp in board.GetFootprints():
         for p in fp.Pads():
             lays = [n for l, n in LAYERS.items() if p.IsOnLayer(l)]
-            if not lays:
+            npth = p.GetAttribute() == pcbnew.PAD_ATTRIB_NPTH
+            if not lays and not npth:
                 continue
-            lid = next(l for l, n in LAYERS.items() if n == lays[0])
+            # NPTH holes (USB-C pegs) have no copper but still need the hole clearance in the router
+            lid = next(l for l, n in LAYERS.items() if n == lays[0]) if lays else pcbnew.F_Cu
             ps = p.GetEffectivePolygon(lid, pcbnew.ERROR_OUTSIDE)
             q = p.GetPosition()
             hole = None
