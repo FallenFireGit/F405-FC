@@ -91,6 +91,21 @@ class PF:
             for l in p["layers"]:
                 if l in self.smd:
                     self.smd[l][m] = self.nid(p["net"])
+        # MCU pin escape lanes: the 1.0 mm in front of every U3 pad (outward) is closed to other nets' vias, so a via can never
+        # sit in front of a pin it does not belong to (that blocked USB_DM at pin 44)
+        self.escape = np.zeros((N, N), np.int32)
+        u3 = [p for p in g["pads"] if p["ref"] == "U3" and not p["hole"] and p["net"] and not p["net"].startswith("unconnected-")]
+        if u3:
+            cx = sum(p["x"] for p in u3) / len(u3)
+            cy = sum(p["y"] for p in u3) / len(u3)
+            for p in u3:
+                dx, dy = p["x"] - cx, p["y"] - cy
+                if abs(dx) < 3.0 and abs(dy) < 3.0:      # exposed pad / inner pads: none on the LQFP, kept for safety
+                    continue
+                ux, uy = (1.0 if dx > 0 else -1.0, 0.0) if abs(dx) > abs(dy) else (0.0, 1.0 if dy > 0 else -1.0)
+                a = (p["x"] + ux * 0.6, p["y"] + uy * 0.6)
+                b = (p["x"] + ux * 1.6, p["y"] + uy * 1.6)
+                self.escape[seg_mask(a, b, 0.15)] = self.nid(p["net"])
         self.fixed_routes = []
         for t in g["tracks"]:
             if t["layer"] in ALL and t["locked"]:
@@ -175,6 +190,9 @@ class PF:
                 hard[l] = hl | (hole_d < w / 2 + HOLE_CLR + SAFE) | (self.edge_dist < w / 2 + 0.02) | ft
             vhard |= vl
         vhard |= (self.edge_dist < 0.32) | ndimage.binary_dilation(self.fvia, structure=disk(0.33))   # whole via body outside keepouts
+        lane = (self.escape != 0) & (self.escape != n)
+        if lane.any() and os.environ.get("ESCAPE_LANES", "1") == "1":
+            vhard |= ndimage.binary_dilation(lane, structure=disk(0.3))
         # no via inside (or overlapping) an own SMD pad: hand assembly, solder wicking (Gate 6 minor)
         ownpad = (self.smd["F"] == n) | (self.smd["B"] == n)
         if ownpad.any():
