@@ -432,20 +432,26 @@ def gnd_pass(P):
         if not loose:
             break
         left = 0
+        hard, vh = P.hard(n)
+        gpads = np.any([(P.base[l] == n) for l in ("F", "B")], axis=0)
+        # other nets' routed copper does not change during the GND pass: the via-site mask is computed once per round
+        others = np.zeros((N, N), bool)
+        for l in RL:
+            others |= P.occ[l] > 0
+        mine = np.zeros((N, N), bool)
+        for l, mm_ in P.occupy(n, P.routes[n], 0).items():
+            mine |= mm_
+        others &= ~mine
+        via_block = ndimage.binary_dilation(others, structure=disk(0.3 + occ_k(cls("GND")[1])))
+        site0 = ~vh & ~via_block & ~ndimage.binary_dilation(gpads, structure=disk(0.35))
         for m in loose:
-            hard, vh = P.hard(n)
             own = np.any([m[l] for l in RL], axis=0)
-            gpads = np.any([(P.base[l] == n) for l in ("F", "B")], axis=0)
-            near_pad = ndimage.binary_dilation(own | gpads, structure=disk(0.35))
-            others = np.zeros((N, N), bool)
-            for l in RL:
-                others |= P.occ[l] > 0
-            mine = np.zeros((N, N), bool)
-            for l, mm_ in P.occupy(n, P.routes[n], 0).items():
-                mine |= mm_
-            others &= ~mine
-            via_block = ndimage.binary_dilation(others, structure=disk(0.3 + occ_k(cls("GND")[1])))
-            site = ~vh & ~near_pad & ~via_block
+            ys, xs = np.nonzero(own)
+            near_pad = np.zeros((N, N), bool)
+            k = int(math.ceil(0.4 / RES))
+            sl = (slice(max(0, ys.min() - k), ys.max() + k + 1), slice(max(0, xs.min() - k), xs.max() + k + 1))
+            near_pad[sl] = ndimage.binary_dilation(own[sl], structure=disk(0.35))
+            site = site0 & ~near_pad
             dst = {l: (site | (tied[l] & ~m[l])) if l in RL and l != "In1" else np.zeros((N, N), bool) for l in ALL}
             src = {l: m[l] for l in ALL}
             r = None

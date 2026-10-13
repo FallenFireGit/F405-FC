@@ -77,7 +77,18 @@ def plan():
             bb = z.GetBoundingBox()
             keep.append([mm(bb.GetLeft()) - OX, mm(bb.GetTop()) - OY, mm(bb.GetRight()) - OX, mm(bb.GetBottom()) - OY])
 
+    # the In2 VBAT zone (made later by gen/route.py --stage zones): a GND through via inside it would cut its 1 mm trunk
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from route import VBAT_ZONE
+    vz = pcbnew.SHAPE_LINE_CHAIN()
+    for zx, zy in VBAT_ZONE:
+        vz.Append(pcbnew.FromMM(zx + OX), pcbnew.FromMM(zy + OY))
+    vz.SetClosed(True)
+    vzone = pcbnew.SHAPE_POLY_SET(vz)
+
     def via_ok(x, y, own):
+        if MODE == "gnd" and vzone.Collide(pcbnew.VECTOR2I(pcbnew.FromMM(x + OX), pcbnew.FromMM(y + OY)), pcbnew.FromMM(VIA_R + 0.2)):
+            return False
         if x < 0.3 + VIA_R + 0.05 or y < 0.3 + VIA_R + 0.05 or x > W - 0.65 or y > H - 0.65:
             return False
         if any(math.hypot(x - hx, y - hy) < 2.3 + VIA_R + 0.05 for hx, hy in HOLES):

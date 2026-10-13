@@ -23,8 +23,8 @@ FR = "/opt/fr/freerouting-2.5.0.jar"
 OX = OY = 100.0
 W = H = 36.0
 _KEEP = []
-VBAT_ZONE = [(0.5, 21.6), (8.8, 21.6), (8.8, 33.6), (17.0, 33.6), (17.0, 20.4), (18.3, 20.4), (18.3, 24.0), (18.0, 24.0),
-             (18.0, 35.5), (0.5, 35.5)]   # riser to the U2 input vias 1.0-1.3 mm wide (leaves a via site at x >= 18.55 below the MCU)
+VBAT_ZONE = [(0.5, 21.6), (8.8, 21.6), (8.8, 33.6), (16.7, 33.6), (16.7, 23.5), (23.0, 23.5), (23.0, 25.1), (18.3, 25.1),
+             (18.3, 35.5), (0.5, 35.5)]   # 1.6 mm riser on In2 (G3R-02) to the three U2-input vias on the C10-C12-U2 VIN track
 
 
 def stage(name, passes):

@@ -3,8 +3,9 @@ segfaults on board.Remove).
 
   python3 gen/prune.py [drc.json]      then refill zones and re-run DRC (gen/route_finish.sh does this)
 
-- via_dangling: an MCU fanout via the router did not use. The via is deleted together with its stub (a same-net segment ending
-  on the via) when no other same-net segment ends on that stub away from its pad end.
+- via_dangling (only with PRUNE_DANGLING=1; off by default because the router often attaches to a fanout stub's knee, so trimming
+  can cut a used stub; the unused vias are left as DRC warnings): an MCU fanout via the router did not use. The via is deleted together with its stub (a same-net segment ending
+  on the via) when no other same-net segment ends anywhere along that stub away from its pad end.
 - hole_to_hole between two GND vias: the unlocked one (else the second) is deleted; GND stays tied through the other via and
   the pours. The DRC run that follows checks that nothing became unconnected.
 """
@@ -24,6 +25,13 @@ BLOCK = re.compile(r"\t\((via|segment)\n.*?\n\t\)\n", re.S)
 def num(blk, key):
     m = re.search(r"\(" + key + r" ([-0-9.]+) ([-0-9.]+)\)", blk)
     return (float(m.group(1)), float(m.group(2))) if m else None
+
+
+def seg_dist(p, a, b):
+    dx, dy = b[0] - a[0], b[1] - a[1]
+    L = dx * dx + dy * dy
+    t = 0 if L == 0 else max(0.0, min(1.0, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / L))
+    return math.hypot(p[0] - (a[0] + t * dx), p[1] - (a[1] + t * dy))
 
 
 def main():
@@ -47,7 +55,7 @@ def main():
     drop = set()
     n_dang = n_h2h = 0
     for v in d["violations"]:
-        if v["type"] == "via_dangling":
+        if v["type"] == "via_dangling" and os.environ.get("PRUNE_DANGLING") == "1":
             p = v["items"][0]["pos"]
             via = via_at(p["x"] - OX, p["y"] - OY)
             if via is None:
@@ -59,8 +67,10 @@ def main():
                     continue
                 if close(s["a"], via["at"]) or close(s["b"], via["at"]):
                     far = s["b"] if close(s["a"], via["at"]) else s["a"]
+                    # keep the stub when another same-net segment ends anywhere along it away from its pad end
                     used = any(o is not s and o["k"] == "s" and o["net"] == s["net"] and
-                               any(close(e, x) for e in (o["a"], o["b"]) for x in (s["a"], s["b"]) if not close(x, far))
+                               any(seg_dist(e, s["a"], s["b"]) <= s["w"] / 2 + 0.01 and not close(e, far, 0.05)
+                                   for e in (o["a"], o["b"]))
                                for o in items)
                     if not used:
                         drop.add(s["span"])
