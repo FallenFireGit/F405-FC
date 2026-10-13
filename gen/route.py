@@ -78,7 +78,7 @@ def stage(name, passes):
             z.SetMinThickness(mm(0.127))
             z.SetThermalReliefGap(mm(0.25))
             z.SetThermalReliefSpokeWidth(mm(0.3))
-            z.SetPadConnection(pcbnew.ZONE_CONNECTION_THT_THERMAL)   # SMD pads solid (no starved spokes), THT pads thermal
+            z.SetPadConnection(pcbnew.ZONE_CONNECTION_FULL)   # solid on all pads: thermal spokes starved on the dense board (USB shield)
             z.SetAssignedPriority(0)
             z.SetIslandRemovalMode(pcbnew.ISLAND_REMOVAL_MODE_ALWAYS)   # unconnected copper islands are dropped
             z.SetOutline(ps)

@@ -30,7 +30,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from mazeroute import CX, CY, EDGE, HOLES, N, RES, cls, poly_mask, seg_mask  # noqa: E402
 
 SAFE = 0.7 * RES  # grid safety to fixed copper: an edge can sit up to RES/sqrt(2) beyond its last rasterized cell centre
-HOLE_CLR = 0.19  # board rule min_hole_clearance
+HOLE_CLR = 0.20  # board rule min_hole_clearance 0.19 + 0.01 mm rasterization margin
 OCC_X = 0.3 * RES  # routed-to-routed rasterization margin per net
 
 
