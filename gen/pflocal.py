@@ -15,6 +15,23 @@ import pathfinder as pf  # noqa: E402
 from pffinish import conflicts, load  # noqa: E402
 
 
+def _orders(nets, cap=24):
+    """Up to `cap` routing orders, spread so that every net gets to go first (n! explodes for more than four nets)."""
+    import itertools
+    import random
+    nets = list(nets)
+    if len(nets) <= 4:
+        return list(itertools.permutations(nets))[:cap]
+    rnd = random.Random(1)
+    out = []
+    for i in range(cap):
+        first = nets[i % len(nets)]
+        rest = [x for x in nets if x != first]
+        rnd.shuffle(rest)
+        out.append(tuple([first] + rest))
+    return out
+
+
 def main():
     P = pf.PF(json.load(open(pf.GEOM)))
     load(P, pf.OUT)
@@ -31,7 +48,7 @@ def main():
     nets = list(rip)
     for attempt in range(3):
         best = None
-        for order in itertools.islice(itertools.permutations(nets), 24):
+        for order in _orders(nets):
             recs = {}
             for net in order:
                 n = P.nid(net)

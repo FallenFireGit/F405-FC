@@ -43,6 +43,23 @@ def conflicts(P):
     return bad, int(sum(int(o.sum()) for o in over.values()))
 
 
+def _orders(nets, cap=24):
+    """Up to `cap` routing orders, spread so that every net gets to go first (n! explodes for more than four nets)."""
+    import itertools
+    import random
+    nets = list(nets)
+    if len(nets) <= 4:
+        return list(itertools.permutations(nets))[:cap]
+    rnd = random.Random(1)
+    out = []
+    for i in range(cap):
+        first = nets[i % len(nets)]
+        rest = [x for x in nets if x != first]
+        rnd.shuffle(rest)
+        out.append(tuple([first] + rest))
+    return out
+
+
 def main():
     g = json.load(open(pf.GEOM))
     P = pf.PF(g)
@@ -78,7 +95,7 @@ def main():
         P.occupy(n, P.routes[n], -1)
         P.routes[n] = []
     ok = False
-    orders = list(itertools.islice(itertools.permutations(sig_bad), 24))   # n! explodes: cap the tries
+    orders = _orders(sig_bad)
     for order in orders:
         recs = {}
         for net in order:
