@@ -577,24 +577,34 @@ def gnd_force(P, pres=20.0):
             vm |= seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3)
     made = 0
     done = gnd_done(P, n)
+    tied = {l: np.zeros((N, N), bool) for l in ALL}
+    for m in isl:
+        if any((m[l] & vm).any() for l in ALL):
+            for l in ALL:
+                tied[l] |= m[l]
     for m in isl:
         frag = None if any((m[l] & vm).any() for l in ALL) else gnd_needed(m, done)
         if not frag:
             continue
-        dst = {l: site0.copy() if l in ("F", "B", "In2") else np.zeros((N, N), bool) for l in ALL}
+        # a new via site, or GND copper on the same layer that already reaches the plane (no via needed then)
+        dst = {l: (site0 | tied[l]) if l in ("F", "B", "In2") else np.zeros((N, N), bool) for l in ALL}
         src = {l: m[l] for l in ALL}
         r = None
         for win in (1.5, 3.0):
-            r = P.astar(n, src, dst, pres, win, allow_via=False, via_at_goal=True)
+            r = P.astar(n, src, dst, pres, win, allow_via=False, via_at_goal=False)
             if r is not None:
                 break
         if r is None:
             continue
         x, y = P.last_end
-        r.append({"t": "v", "x": x, "y": y})
+        lay = r[-1]["l"] if r and r[-1]["t"] == "t" else None
+        if not (lay and tied[lay][min(N - 1, int(y / RES)), min(N - 1, int(x / RES))]):
+            r.append({"t": "v", "x": x, "y": y})
         P.routes[n] += r
         P.occupy(n, r, +1)
         P.gnd_ties.append(r)
+        for l in ALL:
+            tied[l] |= m[l]
         done.add(frag)
         made += 1
     return made

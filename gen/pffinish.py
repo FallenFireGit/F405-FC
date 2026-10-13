@@ -78,7 +78,8 @@ def main():
         P.occupy(n, P.routes[n], -1)
         P.routes[n] = []
     ok = False
-    for order in itertools.permutations(sig_bad):
+    orders = list(itertools.islice(itertools.permutations(sig_bad), 24))   # n! explodes: cap the tries
+    for order in orders:
         recs = {}
         for net in order:
             n = P.nid(net)
