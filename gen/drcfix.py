@@ -6,7 +6,7 @@ For every DRC clearance / hole_clearance violation that involves an unlocked rou
   - power-class tracks (wider than 0.127 mm) are narrowed just enough (never below 0.127 mm), else
   - the track segment (or via) is moved away from the other item by the deficit + 0.01 mm, perpendicular to the segment; every
     other track end that sat on a moved end point moves with it, so connectivity is kept.
-Then DRC runs again, up to [rounds] times. Locked items (critical routes, fanout) are never touched. Each round is one process
+Then DRC runs again, up to [rounds] times. NARROW_ONLY=1 (used by gen/route_finish.sh) only necks power tracks. Locked items (critical routes, fanout) are never touched. Each round is one process
 that only modifies existing items (no new board items: KiCad 10.0.6 SWIG quirk, see build_pcb._stage).
 """
 import json
@@ -71,6 +71,8 @@ def one_round():
             it.SetWidth(pcbnew.FromMM(mm(it.GetWidth()) - 2 * deficit))
             fixed += 1
             continue
+        if os.environ.get("NARROW_ONLY") == "1":
+            continue      # never move copper in the release flow; only power-track necking is allowed
         # direction away from the other item
         op = other.GetPosition() if other.GetClass() != "PCB_TRACK" else None
         if it.GetClass() == "PCB_VIA":
