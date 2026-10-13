@@ -64,7 +64,8 @@ def one_round():
         movable = [it for it in items if it.GetClass() in ("PCB_TRACK", "PCB_VIA") and not it.IsLocked()]
         if not movable:
             continue
-        it = movable[0]
+        tracks_m = [x for x in movable if x.GetClass() == "PCB_TRACK"]
+        it = tracks_m[0] if tracks_m else movable[0]      # a track can be necked; a via can only move
         other = items[1] if items[0] is it else items[0]
         # narrow a power track first
         if it.GetClass() == "PCB_TRACK" and mm(it.GetWidth()) - 2 * deficit >= MINW:
