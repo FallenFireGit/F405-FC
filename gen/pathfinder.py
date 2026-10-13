@@ -659,6 +659,31 @@ def main():
                 P.routes[P.nets[net]] = []
         for n, rs in P.routes.items():
             P.occupy(n, rs, +1)
+        # GND plane ties from the saved run stay renegotiable: group the GND records into connected ties
+        ng = P.nets.get("GND")
+        if ng in P.routes and P.routes[ng]:
+            recs = P.routes[ng]
+            par = list(range(len(recs)))
+
+            def fnd(i):
+                while par[i] != i:
+                    par[i] = par[par[i]]
+                    i = par[i]
+                return i
+            ends = {}
+            for i, r in enumerate(recs):
+                pts = [r["a"], r["b"]] if r["t"] == "t" else [(r["x"], r["y"])]
+                for x, y in pts:
+                    k = (round(x / RES), round(y / RES))
+                    if k in ends:
+                        par[fnd(i)] = fnd(ends[k])
+                    else:
+                        ends[k] = i
+            groups = collections.defaultdict(list)
+            for i, r in enumerate(recs):
+                groups[fnd(i)].append(r)
+            P.gnd_ties = list(groups.values())
+            print(f"resume: {len(P.gnd_ties)} GND ties loaded as renegotiable", flush=True)
         pres = float(os.environ.get("PRES", "50"))
         over = {l: P.occ[l] > 1 for l in RL}
         for l in RL:
