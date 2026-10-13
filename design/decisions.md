@@ -234,3 +234,11 @@ sat in the most congested area under the MCU, and every extra GND pad there need
 floating input only between reset and firmware start (Schmitt-trigger input, leakage-level current; RM0090 GPIO reset state);
 the firmware may set them to analog mode. The refs R21-R24 stay unused so later refs do not shift. BOM: 4 x 100k fewer
 (estimate $173.28).
+
+## D-25 3V3_IMU and 3V3A routed at signal width (routing closure)
+
+3V3_IMU (LP5907 output, two IMUs, ≈ 10 mA) and 3V3A (VDDA through FB1, < 5 mA) move from the 0.2 mm PWR class to the Default
+class (0.127 mm). At 10 mA a 0.127 mm, 20 mm long outer trace drops < 1 mV; the IMU and VDDA decoupling caps sit at their pins.
+This freed the space under the MCU right pin row where 3V3_IMU and UART1_RX could not both fit (the last signal conflict).
+Routing closure also uses `gen/pffinish.py`: GND plane ties frozen as fixed copper, the few signal nets still in conflict
+re-routed with overlap forbidden (every routing order tried), then the remaining GND islands re-tied.

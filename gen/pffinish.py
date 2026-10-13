@@ -47,9 +47,14 @@ def main():
     g = json.load(open(pf.GEOM))
     P = pf.PF(g)
     load(P, pf.OUT)
+    gid = P.nid("GND")
+    if os.environ.get("FORCE_GND") == "1":
+        # tie the GND islands listed in GND_NEED first (they may overlap signals); the signals then move around them
+        made = pf.gnd_force(P, float(os.environ.get("GND_PRES", "20")))
+        print("forced GND ties:", made, flush=True)
+        P.gnd_ties = []
     bad, ov = conflicts(P)
     print("start: overuse", ov, "nets", sorted(bad), flush=True)
-    gid = P.nid("GND")
     # GND ties that overlap a signal are dropped (re-tied at the end); the rest become fixed GND copper
     sig_bad = sorted(b for b in bad if b != "GND")
     gnd_recs = P.routes.get(gid, [])
@@ -60,7 +65,7 @@ def main():
             hit = (over[r["l"]] & seg_mask(r["a"], r["b"], r["w"] / 2 + pf.occ_k(0.127))).any()
         else:
             hit = any((over[l] & seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + pf.occ_k(0.127))).any() for l in pf.RL)
-        (drop if hit else keep).append(r)
+        (drop if hit and os.environ.get("FORCE_GND") != "1" else keep).append(r)
     P.occupy(gid, gnd_recs, -1)
     P.routes[gid] = keep
     P.occupy(gid, keep, +1)
