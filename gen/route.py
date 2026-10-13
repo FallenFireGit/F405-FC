@@ -100,6 +100,14 @@ def stage(name, passes):
         print("ses", ok)
         filler = pcbnew.ZONE_FILLER(board)
         filler.Fill(board.Zones())
+    elif name == "lockall":
+        # freeze every existing track and via: Freerouting then only completes what is still unrouted (gen/fr_finish.sh)
+        n = 0
+        for t in board.GetTracks():
+            if not t.IsLocked():
+                t.SetLocked(True)
+                n += 1
+        print("locked", n)
     elif name == "minwidth":
         # Freerouting necks traces down to 0.75 x width at pins (0.1124 mm for 0.15 mm): restore the 0.127 mm fab minimum
         n = 0
