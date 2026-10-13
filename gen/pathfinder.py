@@ -475,6 +475,39 @@ def gnd_pass(P):
     return left
 
 
+def gnd_force(P):
+    """For every GND island still without a plane tie: shortest path on the island's layer to a via site that clears fixed
+    copper only (routed copper of other nets is overlapped at a congestion cost and renegotiated afterwards). Returns ties made."""
+    n = P.nid("GND")
+    hard, vh = P.hard(n)
+    gpads = np.any([(P.base[l] == n) for l in ("F", "B")], axis=0)
+    site0 = ~vh & ~ndimage.binary_dilation(gpads, structure=disk(0.35))
+    isl = P.islands(n, P.routes[n])
+    vm = (P.vbase == n)
+    for r in P.routes[n]:
+        if r["t"] == "v":
+            vm |= seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3)
+    made = 0
+    for m in isl:
+        if any((m[l] & vm).any() for l in ALL):
+            continue
+        dst = {l: site0.copy() if l in ("F", "B", "In2") else np.zeros((N, N), bool) for l in ALL}
+        src = {l: m[l] for l in ALL}
+        r = None
+        for win in (1.5, 3.0):
+            r = P.astar(n, src, dst, 20.0, win, allow_via=False)
+            if r is not None:
+                break
+        if r is None:
+            continue
+        x, y = P.last_end
+        r.append({"t": "v", "x": x, "y": y})
+        P.routes[n] += r
+        P.occupy(n, r, +1)
+        made += 1
+    return made
+
+
 def segs(run, w):
     if len(run) < 2:
         return []
@@ -548,55 +581,76 @@ def main():
             if net and net in nets and net not in todo:
                 todo.append(net)
         print("resume: nets to reroute", len(todo), todo, flush=True)
-    unroutable = set()
-    for it in range(1, iters + 1):
-        for net in todo:
-            n = nid[net]
-            if n in P.routes:
-                P.occupy(n, P.routes[n], -1)
-            r = P.route_net(n, pres)
-            if r is None:
-                unroutable.add(net)
-                r = []
-            else:
-                unroutable.discard(net)
-            P.routes[n] = r
-            P.occupy(n, r, +1)
-        over = {l: P.occ[l] > 1 for l in RL}
-        n_over = int(sum(int(o.sum()) for o in over.values()))
-        for l in RL:
-            P.hist[l][over[l]] += hist_inc
-        # nets touching overused cells are rerouted next pass
-        bad = set()
-        for net in nets:
-            n = nid[net]
-            rs = P.routes.get(n, [])
-            if not rs:
-                continue
-            w, c = cls(net)
-            for r in rs:
-                if r["t"] == "t":
-                    m = seg_mask(r["a"], r["b"], r["w"] / 2 + occ_k(c))
-                    if (over[r["l"]] & m).any():
-                        bad.add(net)
-                        break
+    def negotiate(todo, pres, iters):
+        unroutable = set()
+        for it in range(1, iters + 1):
+            for net in todo:
+                n = nid[net]
+                if n in P.routes:
+                    P.occupy(n, P.routes[n], -1)
+                r = P.route_net(n, pres)
+                if r is None:
+                    unroutable.add(net)
+                    r = []
                 else:
-                    m = seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + occ_k(c))
-                    if any((over[l] & m).any() for l in RL):
-                        bad.add(net)
-                        break
-        print(f"pass {it}: overused cells {n_over}, nets in conflict {len(bad)}, unroutable {sorted(unroutable)}, "
-              f"pres {pres:.2f} ({time.time() - t0:.0f}s)", flush=True)
-        save(P, OUT)
-        if n_over == 0 and not unroutable:
-            print("pathfinder: converged")
-            break
-        todo = sorted(bad | unroutable, key=nets.index)
-        pres *= 1.6
+                    unroutable.discard(net)
+                P.routes[n] = r
+                P.occupy(n, r, +1)
+            over = {l: P.occ[l] > 1 for l in RL}
+            n_over = int(sum(int(o.sum()) for o in over.values()))
+            for l in RL:
+                P.hist[l][over[l]] += hist_inc
+            # nets touching overused cells are rerouted next pass
+            bad = set()
+            for net in nets:
+                n = nid[net]
+                rs = P.routes.get(n, [])
+                if not rs:
+                    continue
+                w, c = cls(net)
+                for r in rs:
+                    if r["t"] == "t":
+                        m = seg_mask(r["a"], r["b"], r["w"] / 2 + occ_k(c))
+                        if (over[r["l"]] & m).any():
+                            bad.add(net)
+                            break
+                    else:
+                        m = seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + occ_k(c))
+                        if any((over[l] & m).any() for l in RL):
+                            bad.add(net)
+                            break
+            print(f"pass {it}: overused cells {n_over}, nets in conflict {len(bad)}, unroutable {sorted(unroutable)}, "
+                  f"pres {pres:.2f} ({time.time() - t0:.0f}s)", flush=True)
+            save(P, OUT)
+            if n_over == 0 and not unroutable:
+                print("pathfinder: converged")
+                break
+            todo = sorted(bad | unroutable, key=nets.index)
+            pres *= 1.6
+        return pres, n_over, unroutable
+
+    pres, n_over, unroutable = negotiate(todo, pres, iters)
     if os.environ.get("GND", "1") == "1":
         left = gnd_pass(P)
         save(P, OUT)
         print(f"pathfinder: GND pass, {left} GND islands without a plane tie", flush=True)
+        # GND ties that found no free via site claim one anyway (fixed copper only); the signal nets they overlap are then
+        # renegotiated around them, as nets share space in the main loop. GND copper itself is never ripped up.
+        for rnd in range(int(os.environ.get("GND_FORCE", "2"))):
+            if left == 0:
+                break
+            forced = gnd_force(P)
+            over = {l: P.occ[l] > 1 for l in RL}
+            todo = [net for net in nets if any(
+                (over[r["l"]] & seg_mask(r["a"], r["b"], r["w"] / 2 + occ_k(cls(net)[1]))).any() if r["t"] == "t" else
+                any((over[l] & seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + occ_k(cls(net)[1]))).any() for l in RL)
+                for r in P.routes.get(nid[net], []))]
+            print(f"GND force round {rnd + 1}: {forced} ties forced, nets to renegotiate {len(todo)} {todo}", flush=True)
+            pres, n_over, unroutable = negotiate(todo, max(pres, 500.0), int(os.environ.get("GND_FORCE_PASSES", "12")))
+            left = gnd_pass(P)
+            save(P, OUT)
+            print(f"pathfinder: GND pass after round {rnd + 1}: {left} islands without a tie, overuse {n_over}, "
+                  f"unroutable {sorted(unroutable)}", flush=True)
     print(f"pathfinder: done in {time.time() - t0:.0f}s -> {OUT}")
 
 
