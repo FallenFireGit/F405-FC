@@ -556,6 +556,7 @@ def gnd_pass(P):
                 r.append({"t": "v", "x": x, "y": y})
             P.routes[n] += r
             P.occupy(n, r, +1)
+            P.gnd_ties.append(r)        # renegotiable like the forced ties
             done.add(frag)
             for l in ALL:
                 tied[l] |= m[l]
