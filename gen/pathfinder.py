@@ -124,6 +124,7 @@ class PF:
         self.own = {}                                               # net -> {layer: bool mask} occupancy
         self.routes = {}                                            # net -> list of records
         self.hard_cache = {}
+        self.gnd_ties = []                                          # forced GND ties (record lists), renegotiable
 
     def class_ids(self):
         """clearance -> net ids having that clearance (pads without a net count as default)."""
@@ -232,7 +233,7 @@ class PF:
         return out
 
     # ---- A* ----
-    def astar(self, n, src, dst, pres, window, allow_via=True):
+    def astar(self, n, src, dst, pres, window, allow_via=True, via_at_goal=False):
         w, c = cls(self.names[n])
         hard, vhard = self.hard(n)
         pts = np.argwhere(np.any([src[l] | dst[l] for l in ALL], axis=0))
@@ -272,13 +273,22 @@ class PF:
         heapq.heapify(pq)
         end = None
         exp = 0
+        done_goal = set()
         while pq:
             f, gc, kk, i, j = heapq.heappop(pq)
+            if kk < 0:                       # via_at_goal: a finished path (goal cell + its via's congestion cost)
+                end = (-kk - 1, i, j)
+                break
             if gc > g[kk, i, j]:
                 continue
             if goal[kk, i, j]:
-                end = (kk, i, j)
-                break
+                if not via_at_goal:
+                    end = (kk, i, j)
+                    break
+                if (kk, i, j) not in done_goal:   # the via there is not free: pay its congestion before accepting
+                    done_goal.add((kk, i, j))
+                    fin = gc + VIA_COST + float(vcost[i, j])
+                    heapq.heappush(pq, (fin, fin, -kk - 1, i, j))
             exp += 1
             if exp > int(1_500_000 * (0.05 / RES) ** 2):
                 break
@@ -515,7 +525,7 @@ def gnd_pass(P):
     return left
 
 
-def gnd_force(P):
+def gnd_force(P, pres=20.0):
     """For every GND island still without a plane tie: shortest path on the island's layer to a via site that clears fixed
     copper only (routed copper of other nets is overlapped at a congestion cost and renegotiated afterwards). Returns ties made."""
     n = P.nid("GND")
@@ -537,7 +547,7 @@ def gnd_force(P):
         src = {l: m[l] for l in ALL}
         r = None
         for win in (1.5, 3.0):
-            r = P.astar(n, src, dst, 20.0, win, allow_via=False)
+            r = P.astar(n, src, dst, pres, win, allow_via=False, via_at_goal=True)
             if r is not None:
                 break
         if r is None:
@@ -546,6 +556,7 @@ def gnd_force(P):
         r.append({"t": "v", "x": x, "y": y})
         P.routes[n] += r
         P.occupy(n, r, +1)
+        P.gnd_ties.append(r)
         done.add(frag)
         made += 1
     return made
@@ -643,6 +654,24 @@ def main():
             n_over = int(sum(int(o.sum()) for o in over.values()))
             for l in RL:
                 P.hist[l][over[l]] += hist_inc
+            # forced GND ties in conflict are ripped and re-placed with the present costs (they may move to another via site)
+            if P.gnd_ties:
+                ng = P.nid("GND")
+                cg = cls("GND")[1]
+                hit = [t for t in P.gnd_ties if any(
+                    (over[r["l"]] & seg_mask(r["a"], r["b"], r["w"] / 2 + occ_k(cg))).any() if r["t"] == "t" else
+                    any((over[l] & seg_mask((r["x"], r["y"]), (r["x"], r["y"]), 0.3 + occ_k(cg))).any() for l in RL)
+                    for r in t)]
+                if hit:
+                    for t in hit:
+                        P.occupy(ng, t, -1)
+                        ids = {id(r) for r in t}
+                        P.routes[ng] = [r for r in P.routes[ng] if id(r) not in ids]
+                        P.gnd_ties.remove(t)
+                    re_ = gnd_force(P, pres)
+                    print(f"  GND ties re-placed: {len(hit)} ripped, {re_} re-tied", flush=True)
+                    over = {l: P.occ[l] > 1 for l in RL}
+                    n_over = int(sum(int(o.sum()) for o in over.values()))
             # nets touching overused cells are rerouted next pass
             bad = set()
             for net in nets:
