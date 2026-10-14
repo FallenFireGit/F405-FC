@@ -10,7 +10,24 @@ current-limited bench supply.**
 ## 0. What you need
 
 - Bench supply with adjustable current limit (0-30 V, 0-3 A), DMM, oscilloscope (≥ 50 MHz) for ripple checks.
-- Hot plate or hot-air station, fine-tip iron, flux, 0.4 mm stencil-printed or syringe paste (SAC305 or Sn63Pb37), magnification.
+- Hot plate **and** hot-air station, fine-tip iron and a ≥ 60 W iron with a 2-3 mm chisel tip (USB-C shell), flux, magnification.
+- Solder paste (SAC305 or Sn63Pb37, type 4 or finer) and a **0.10 mm** stainless stencil (`fab/F405FC_stencil.zip`). The
+  BMP390's 0.25 x 0.275 mm apertures have an area ratio of 0.65 at 0.10 mm and only 0.55 at 0.12 mm (Gate 5 m-6).
+- Mounting: **nylon** M3 screws/standoffs or the grommets on all four holes. VBAT and VBUS copper (P1, D1, D4) is 3.0-3.4 mm from
+  the hole centres; a metal nut or standoff can touch a battery-lead fillet (Gate 5 m-5).
+
+### 0.1 Fab order settings (JLCPCB; the job file is not read by JLC)
+
+| Setting | Value |
+|---|---|
+| Layers / thickness | 4 layers, 1.6 mm, stackup **JLC04161H-7628** (In1 = GND, In2 = PWR as in the Gerber names) |
+| Copper | 1 oz outer, 0.5 oz inner |
+| Surface finish | **ENIG** (HASL is uneven on 0.25 mm LGA and 0.5 mm LQFP pads) |
+| Via covering | **Epoxy filled and capped** (POFV) preferred; else tented. About 26 fanout vias sit 0.03-0.09 mm from fine-pitch pads (U3, U6-U8, U10) and a few VBAT vias touch the C10/C12/C8/D1 pads; filled vias stop solder wicking there (Gate 5 M-3, D-26) |
+| Min track / space, via | 0.127 / 0.127 mm, 0.3 / 0.6 mm |
+| Mask / silk | any colour; silk text height 0.8 mm |
+
+This option and its cost on 4-layer boards were not checked against the live JLC page.
 - ST-LINK (SWD) is optional; USB DFU works.
 - Electronic load (or power resistors) for the full-load test: 5 V at 1.7 A (≈ 3 Ω, 10 W) and 10 V at 1.3 A (≈ 7.5 Ω, 15 W).
 - A fan for every full-load or thermal test (the board is not rated for full load in still air, `design/power.md` §12.5, D-12).
@@ -21,30 +38,35 @@ Measure resistance to GND (P2) with the DMM. All must read open (> 1 MΩ) on a b
 VBAT (P1), 5V (P8 / P11), 10V (P3), 5V_SYS (J5 pin 1), 3V3 (TP4), VBUS (USB-C), SW nodes (L1/L2 pad 1 lands).
 Any short here is a fab defect: do not populate.
 
-## 2. Stage A: power section only
+## 2. Stage A: bottom side in one hot-plate pass, then the power checks
 
-Fit, bottom side first (all are bottom-side parts unless noted):
+**Side order (Gate 5 M-2).** Every bottom-side part except three goes on in **one** hot-plate reflow, before anything is fitted on
+the top. The bottom IMUs U6/U7 sit directly under the MCU (U3), and the flash U10 sits under the magnetometer U9, so none of them
+may be soldered by local hot air after the other side is populated. The top side is then done with hot air or the iron while the
+board rests on standoffs, never back on the hot plate, so the bottom-side inductors and 1210 caps do not reflow and drop.
 
-| Block | Parts |
+**A1, hot plate, bottom side:** all bottom parts in the interactive BOM **except D5, U4 and U5**:
+
+| Block | Parts (bottom) |
 |---|---|
-| Battery entry | D1 (TVS, **top**), C1 (10 uF 1210, **top**) |
 | 5 V buck | U1, L1, C2, C3, C4, C5, C6, C7, C8, C9, R1, R2, R3, R4, R5 |
 | 10 V buck | U2, L2, C10, C11, C12, C13, C14, C15, C16, C17, R6, R7, R8, R9, R10 |
-| VTX switch | Q2, and the 1k / 100k gate resistors on VTX_PWR_EN / VTX_OFF_G |
-| VTX feed | R41 (0R 0805; leave it **out** on 2S HD builds, D-11/D-16) |
+| VTX switch | Q2 and its gate resistors |
+| Logic, unpowered in Stage A | U6 (ICM-42688-P), U7 (BMI270), U10 (flash), U11 (video switch), D10-D12, all remaining bottom passives (incl. the U4/U5 caps) |
+
+Then, top side by iron or hot air: D1 (TVS) and C1 (10 uF 1210), and R41 (0R 0805, VTX feed; leave it **out** on 2S HD builds,
+D-11/D-16). Nothing else on the top yet.
+
+Every bottom logic part is supplied only from 3V3 (U4) or 3V3_IMU (U5), which in turn are fed only through D5 (5V_SYS). With D5, U4
+and U5 left off they cannot see a rail during the power checks: a wrong or open feedback resistor that drives 5 V towards VIN cannot
+reach them (Gate 6 G6S-02). **A2** (step 2.1.9) fits D5, U4 and U5 (SOD-123 / SOT-223 / SOT-23-5) by hot air or iron once the
+5 V and 10 V rails are verified; they sit away from U6/U7/U10.
 
 Notes for U1/U2 (TI HSOIC-8 PowerPAD): the exposed pad needs solder. Print paste through the stencil (three windows per pad,
-`fab/F405FC_stencil.zip`) or tin the pad lightly, then reflow with the hot plate or hot air from the bottom. Check pin 1 orientation
-against the silk dot. The inductors are polarity-free but heavy: reflow them with the bucks so the second-side reflow does not move them.
-
-Side order: the bottom side carries the bucks, inductors and most power parts, so reflow it first on the hot plate. The top side
-(MCU, IMUs, connectors) is then done with hot air or the iron while the board rests on standoffs, never back on the hot plate,
-so the bottom-side inductors and 1210 caps do not reflow and drop. Keep hot air away from the bottom side once it is populated.
+`fab/F405FC_stencil.zip`), then reflow. Check pin 1 orientation against the silk dot before reflow. Use a **0.10 mm** stencil (the
+BMP390/BMI270 apertures need it, see §0) and inspect the LGA parts (U6/U7) and the WSON flash (U10) for bridging at the outer pads
+under magnification; their joints cannot be reworked once the top is populated, so get them right in this pass.
 Part heights against vendor drawings were not verified (see review/summary.md); check them with calipers before closing a stack.
-
-Stage A is fitted in two steps (Gate 6 G6S-02): **A1** = the table above (bucks and VTX switch only); the 5V_SYS OR diodes
-D4/D5 and the LDOs U4 (3V3) and U5 (3V3_IMU) with their caps are fitted only after the 5 V and 10 V rails have been verified
-(step 2.1.9). A wrong or open feedback resistor would otherwise drive the 5 V rail towards VIN and destroy U5 (6 V abs max) and U4.
 
 ### 2.1 First power-up (current limited)
 
@@ -68,7 +90,7 @@ D4/D5 and the LDOs U4 (3V3) and U5 (3V3_IMU) with their caps are fitted only aft
 6. UVLO: lower the input slowly from 8 V. Both bucks switch off between 3.8 V and 4.9 V and restart between 4.4 V and 5.6 V.
 7. VTX power switch: with 16.8 V in, apply 3.3 V through a 1 kΩ resistor to the VTX_PWR_EN node (or, after Stage B, toggle PINIO1):
    10V must drop to 0 V. Remove it: 10V returns within about 5 ms (soft start).
-9. Switch off, fit D4, D5, U4 (+ caps) and U5 (+ caps), then repeat steps 1-3 at 8.4 V and also check:
+9. Switch off, fit D4 (top), D5, U4 and U5 (A2; their caps went on in A1), then repeat steps 1-3 at 8.4 V and also check:
 
 | Rail | Where | Expected | Notes |
 |---|---|---|---|
@@ -90,7 +112,12 @@ D4/D5 and the LDOs U4 (3V3) and U5 (3V3_IMU) with their caps are fitted only aft
 ## 3. Stage B: MCU and USB
 
 Fit U3 (STM32F405RGT6, LQFP-64, **top**: drag-solder with flux, then inspect every pin under magnification; check pin 1), Y1 + C36/C37,
-all MCU decoupling (C24-C35, C52, C53), R14/R15 (VBAT divider), R16 (BOOT0 pull-down), FB1, U13 (USB ESD), J1 (USB-C), SW1 (BOOT), U10 (flash), LEDs D10-D12 + resistors, TP1-TP5.
+the top MCU decoupling (C25-C29, C31-C34, C53), R14/R15 (VBAT divider), R16 (BOOT0 pull-down), FB1, U13 (USB ESD), J1 (USB-C), SW1 (BOOT)
+(the bottom-side parts, U10 flash, LEDs D10-D12 and C24/C30/C35/C52 went on in A1; TP1-TP5 are bare pads).
+
+J1 shell: the four shell slots have thermal reliefs (Gate 5 M-1) but still sit in four GND layers. Use a ≥ 60 W iron with a 2-3 mm
+chisel tip and preheat the board from the top with hot air (≈ 150 °C) before soldering the shell; fill each slot from the top
+until solder shows at the bottom. These four joints hold the connector.
 
 1. Before power: SW1 open = BOOT0 low (measure BOOT0 to 3V3: open circuit unless the button is pressed).
 2. Bench 8.4 V, limit 200 mA. Expect ≈ 40-80 mA more than Stage A. 3V3 stays at 3.3 V.
@@ -100,11 +127,10 @@ all MCU decoupling (C24-C35, C52, C53), R14/R15 (VBAT divider), R16 (BOOT0 pull-
 4. USB-only DFU note: on USB power the 5 V rail is off, so GPS/LEDs/cameras stay dark. This is intended. The Betaflight `bl`
    command enters the same ROM bootloader, so use it on USB power only too: with a battery the VTX/GPS UARTs can capture it.
 
-## 4. Stage C: sensors and remaining parts
+## 4. Stage C: top-side sensors and remaining parts
 
-Fit U6 (ICM-42688-P) and U7 (BMI270) (LGA, bottom side: local hot air with a small nozzle, Kapton tape over the neighbouring
-bottom-side parts, paste or pre-tinned pads, no iron), U8 (BMP390), U9 (IIS2MDC), U11 (video switch),
-U12 (buffer), D9, Q1 and the remaining passives, connectors J2-J5.
+Fit (top side, hot air with a 3-5 mm nozzle, Kapton over the neighbours, or iron): U8 (BMP390), U9 (IIS2MDC), U12 (LED buffer),
+D9, Q1, the remaining top passives and the connectors J2-J5. U6/U7 (IMUs) and U11 are already on (A1).
 
 In the Betaflight CLI:
 - `status`: gyro and accelerometer detected, CPU load normal, no I2C errors.
