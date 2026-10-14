@@ -139,7 +139,7 @@ put("R36", 28.2, 8.0, 90)
 put("R34", 29.4, 6.2, 0)
 put("R35", 29.4, 7.0, 0)
 put("SW1", 26.5, 6.4, 0)     # BOOT button, bottom side, top edge
-put("U11", 6.5, 17.6, 90, "B")    # camera switch near the video pads
+put("U11", 4.8, 16.9, 90, "B")    # camera switch next to the video pads P5-P7; rev D: out from under Y1 (routing pocket)
 put("C49", 8.8, 17.6, 90, "B")
 put("R31", 8.8, 20.0, 90, "B")
 put("U12", 29.5, 24.5, 90)   # LED strip buffer near the LED pads
