@@ -213,12 +213,16 @@ Gate 3 (`review/gate-3-placement.md`) failed with 3 BLOCKER / 9 MAJOR. Changes:
   (6x and 10x did not converge): the In1 copper is listed in `review/summary.md` and checked at Gate 4 (return paths of signals that
   cross the cuts).
 - **GND ties.** Every GND pad island gets a tie to In1: a short stub plus a tented via (`gen/gndfan.py`, router GND pass in
-  `gen/pathfinder.py`). Pours on F/In2/B use 0.15 mm clearance, 0.13 mm minimum width, solid SMD pad connections (thermal reliefs
-  only on THT pads) and island removal; vias may sit next to a GND pad because vias are tented on both sides.
+  `gen/pathfinder.py`). Pours use 0.127 mm clearance and minimum width, solid connections on every pad except the J1 shell slots
+  (thermal reliefs, D-26), and island removal; vias may sit next to a GND pad because vias are tented on both sides.
+  *Correction (Gate 5 M-1):* an earlier version of this entry said "thermal reliefs only on THT pads"; the pours were in fact solid on
+  every pad, including the J1 shell slots.
 - **Cleanup.** `gen/prune.py` deletes MCU fanout vias the router did not use (and their stubs) and one via of any GND via pair that
   breaks the 0.25 mm hole-to-hole rule, then the zones are refilled and DRC is re-run.
 - **Routing-driven placement moves:** U5 (3V3_IMU LDO) and C23 moved from under the MCU top pin row, C53 (RSSI filter cap) moved next
-  to its series resistor R39, R21/R22 (unused-pin pulldowns) moved to the bottom, fanout vias kept 0.8 mm outside the IMU courtyards.
+  to its series resistor R39, R21/R22 (unused-pin pulldowns) moved to the bottom, MCU fanout vias kept 0.8 mm outside the IMU courtyards.
+  *Correction (Gate 5 M-3):* that applied only to the MCU inward fanout; router vias still landed inside the IMU courtyards
+  (4 in U6, 4 in U7, 3 in U8 on rev C).
   These free via sites under the MCU body for the SPI1/SPI3 pin escapes.
 
 ## D-23 ADC clamp diodes D7/D8 removed (Gate 3 re-review G3R-09 option)
@@ -242,3 +246,40 @@ class (0.127 mm). At 10 mA a 0.127 mm, 20 mm long outer trace drops < 1 mV; the 
 This freed the space under the MCU right pin row where 3V3_IMU and UART1_RX could not both fit (the last signal conflict).
 Routing closure also uses `gen/pffinish.py`: GND plane ties frozen as fixed copper, the few signal nets still in conflict
 re-routed with overlap forbidden (every routing order tried), then the remaining GND islands re-tied.
+
+## D-26 Gate 5 (DFM) actions
+
+- **M-1 J1 shell slots:** thermal reliefs (0.25 mm gap, 0.3 mm spokes) on the four plated USB-C shell slots (`gen/route.py`, zones
+  stage); the guide adds a >= 60 W chisel iron with top-side preheat for them.
+- **M-2 assembly order:** every bottom part except D5, U4 and U5 is reflowed in one hot-plate pass (the IMUs under the MCU and the flash
+  under the magnetometer can no longer be hot-aired later); `docs/assembly_and_bringup.md` §2-§4 rewritten.
+- **M-3 vias at fine-pitch pads:** `gen/vianudge.py` pulls every via that is < 0.10 mm from a same-net SMD pad off it where the
+  clearances allow (rev C: 81 -> 46 such vias); the rest, and the intentional VBAT vias in the C10/C12/C8/D1 pads, are covered by
+  ordering epoxy-filled, capped vias (fab settings in the guide, §0.1). Not verified: the option and its price for 4/6-layer boards.
+- **M-4 BOM:** Y1 DigiKey PN filled (50-ECS-80-8-33-JEN-TR3CT-ND, DigiKey listing 15282973). 445-6042-1-ND for C2/C3/C10/C11 seen
+  only on a distributor aggregator. **L1/L2 (Würth 74438356056): no DigiKey PN found** (DigiKey lists the MPN only as a related part);
+  order by MPN in BOM Manager. Still open.
+- **M-5 hidden labels:** silk labels may no longer sit on connector or button bodies; where there is no room beside a part the label
+  goes to the far side, prefixed with the reference ("J3 VTX 10V"). Board name and revision on the silk; the Pad_SMD silk rings are
+  gone (they struck through the labels).
+- Minor: stencil 0.10 mm, ENIG, JLC04161H stackup and nylon hardware are now in the guide (§0, §0.1).
+
+## D-27 Rev D: 6 layers, solid GND planes (Gate 4 G4-02/G4-05)
+
+Gate 4 found In1 used as a routing layer (328 mm of track, 72 % copper, 40 % under the MCU, five pieces). The board now has 6 layers:
+F (parts, signals) / In1 solid GND / In2 signals / In3 signals + VBAT riser / In4 solid GND / B (parts, signals). The router never
+uses In1/In4. Stackup to order: a JLC 6-layer 1.6 mm impedance stackup (name and thicknesses to be taken from the JLC page at order
+time; not verified here).
+
+Placement moves made for rev D routing (orientation of every sensor unchanged, so the gyro alignment does not change):
+- **U7 (BMI270)** 1.6 mm in from under the MCU right pin row; **C38** below U6. The MCU right-row escape vias all fell inside U7.
+- **U11 (video switch)** next to the video pads P5-P7, out from under the crystal Y1 (it blocked the MCU left-row escapes and sat
+  under the oscillator).
+- **C37** (HSE_OUT load cap) beside Y1, 3.3 mm pad-to-pad (Gate 4 G4-01 blocker: the legalizer had moved it 7.9 mm away);
+  `gen/placecheck.py` now checks both load caps.
+- **R20** (FLASH_CS pull-up) to the bottom between U3 pin 58 and the flash: its top-side branch forced FLASH_CS across SPI3_MISO.
+
+Routing method changes: GND fanout vias are placed before routing (signals route around them); the finished board replays the
+router's fixed copper from `kicad/route_geom.json` (`gen/geomreplay.py`) because GND fanout plans differ between runs; per-net layer
+cost overrides (`NET_LCOST`) for pin-order crossings (BEEPER/MOTOR2); 5V may use the inner layers at 4x cost (`PWR_OUTER_EXEMPT`)
+for its feedback-sense branch to R4 (every inner 5V segment is listed in review/summary.md with the current it can carry).
