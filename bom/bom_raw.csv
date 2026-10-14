@@ -1,7 +1,7 @@
 Qty per board,Refs,Value,MPN,Manufacturer,DigiKey PN,Footprint,Datasheet
 20,C5 C9 C13 C24 C25 C26 C27 C28 C30 C32 C35 C38 C41 C42 C43 C44 C46 C48 C49 C50,100nF X7R 16V,CL05B104KO5NNNC,Samsung Electro-Mechanics,1276-1001-1-ND,C_0402_1005Metric,https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do
 6,C6 C7 C8 C14 C15 C16,22uF X5R 25V,CL31A226KAHNNNE,Samsung Electro-Mechanics,1276-3047-1-ND,C_1206_3216Metric,https://product.samsungsem.com/mlcc/CL31A226KAHNNNE.do
-4,C2 C3 C10 C11,4.7uF X7S 100V 2.0mm,C3225X7S2A475K200AB,TDK,445-6042-1-ND (verify: K200AB cut tape),C_1210_3225Metric,https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/catalog/mlcc_commercial_midvoltage_en.pdf
+4,C2 C3 C10 C11,4.7uF X7S 100V 2.0mm,C3225X7S2A475K200AB,TDK,445-6042-1-ND,C_1210_3225Metric,https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/catalog/mlcc_commercial_midvoltage_en.pdf
 4,C19 C22 C31 C51,1uF X5R 25V,CL10A105KA8NNNC,Samsung Electro-Mechanics,1276-1102-1-ND (verify),C_0603_1608Metric,https://product.samsungsem.com/mlcc/CL10A105KA8NNNC.do
 3,C40 C52 C53,10nF X7R 50V,CL05B103KB5NNNC,Samsung Electro-Mechanics,1276-1028-1-ND,C_0402_1005Metric,https://product.samsungsem.com/mlcc/CL05B103KB5NNNC.do
 3,C20 C33 C34,2.2uF X5R 16V,CL10A225KO8NNNC,Samsung Electro-Mechanics,1276-1040-1-ND,C_0603_1608Metric,https://product.samsungsem.com/mlcc/CL10A225KO8NNNC.do
@@ -50,4 +50,4 @@ Qty per board,Refs,Value,MPN,Manufacturer,DigiKey PN,Footprint,Datasheet
 1,U11,TS5A3159A,TS5A3159ADBVR,Texas Instruments,296-19265-1-ND,SOT-23-6,https://www.ti.com/lit/ds/symlink/ts5a3159a.pdf
 1,U13,USBLC6-2SC6,USBLC6-2SC6,STMicroelectronics,497-5235-1-ND,SOT-23-6,https://www.st.com/resource/en/datasheet/usblc6-2.pdf
 1,U10,W25N01GV,W25N01GVZEIG TR,Winbond,256-W25N01GVZEIGTRCT-ND,WSON-8-1EP_8x6mm_P1.27mm_EP3.4x4.3mm,https://www.winbond.com/resource-files/w25n01gv%20revl%20050918%20unsecured.pdf
-1,Y1,8MHz,ECS-80-8-33-JEN-TR3,ECS Inc.,50-ECS-80-8-33-JEN-TR3CT-ND (verify),Crystal_SMD_3225-4Pin_3.2x2.5mm,https://ecsxtal.com/store/pdf/ECX-32.pdf
+1,Y1,8MHz,ECS-80-8-33-JEN-TR3,ECS Inc.,50-ECS-80-8-33-JEN-TR3CT-ND,Crystal_SMD_3225-4Pin_3.2x2.5mm,https://ecsxtal.com/store/pdf/ECX-32.pdf

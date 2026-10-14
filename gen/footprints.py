@@ -310,7 +310,7 @@ def solder_pad(w, h):
     x, y = w / 2, h / 2
     fp.rect(-x, -y, x, y, "F.Fab", FAB_W)
     so = SILK_PAD_CLEAR + SILK_W / 2
-    fp.rect(-x - so, -y - so, x + so, y + so, "F.SilkS", SILK_W)
+    # no silk ring: the mask opening marks the pad, and a ring struck through the function labels (Gate 5 m-3)
     c = max(CRT_CLEAR, so + SILK_W / 2 + 0.05)    # keep the silk ring inside the courtyard
     fp.courtyard(-x - c, -y - c, x + c, y + c)
     fp.ref_at, fp.val_at = (0, -y - 0.9), (0, y + 0.9)
