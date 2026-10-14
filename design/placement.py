@@ -114,7 +114,7 @@ put("U6", 15.4, 17.0, 0, "B")
 put("C38", 16.2, 19.2, 0, "B")
 put("C39", 16.2, 20.4, 0, "B")
 put("C40", 14.2, 17.0, 90, "B")
-put("U7", 20.8, 17.0, 0, "B")
+put("U7", 19.2, 17.0, 0, "B")   # rev D: 1.6 mm in from under the MCU right pin row (escape vias, Gate 4 G4-05)
 put("C41", 20.0, 19.2, 0, "B")
 put("C42", 22.0, 17.0, 90, "B")
 put("U5", 18.55, 10.4, 0, "B")     # LP5907 for 3V3_IMU
@@ -248,7 +248,7 @@ ANCHOR = {
     "C16": ("L2", 2, -5.1, 0.0, 90, "B"),
     "C17": ("L2", 2, -2.6, 2.6, 0, "B"),
     # IMUs: VDD (pin 8) and VDDIO (pin 5) decoupling hugging the pins
-    "C38": ("U6", 8, 1.2, 0.25, 90, "B"),
+    "C38": ("U6", 8, 0.25, -1.7, 0, "B"),      # rev D: below U6, frees the gap to U7
     "C39": ("U6", 8, -0.16, 3.15, 0, "B"),
     "C40": ("U6", 5, 0.0, -1.1, 0, "B"),
     "C41": ("U7", 8, 1.2, 0.25, 90, "B"),
