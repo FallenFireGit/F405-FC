@@ -202,7 +202,8 @@ class PF:
         if ownpad.any():
             vhard |= ndimage.binary_dilation(ownpad, structure=disk(0.3 + 0.02))
         # power nets (>= 0.35 mm classes: VBAT, 5V, 10V, VTX_PWR, SW) only on the 1 oz outer layers (Gate 6 G6S-04)
-        if w >= 0.35 and os.environ.get("PWR_OUTER", "1") == "1":
+        if w >= 0.35 and os.environ.get("PWR_OUTER", "1") == "1" and \
+                self.names[n] not in os.environ.get("PWR_OUTER_EXEMPT", "").split(","):
             for l in RL:
                 if l not in ("F", "B"):
                     hard[l] = np.ones((N, N), bool)
