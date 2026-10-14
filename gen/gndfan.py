@@ -22,7 +22,8 @@ VIA_R = 0.3
 CLR = 0.15            # via/stub copper to other-net copper
 STUB_W = 0.3
 HOLES = [(2.75, 2.75), (33.25, 2.75), (2.75, 33.25), (33.25, 33.25)]
-SKIP_REFS = {"U1", "U2", "P2", "J1", "J2", "J3", "J4", "J5"}   # PowerPAD via arrays / scripted entry vias / connector GND by router
+SKIP_REFS = {"U1", "U2", "P2", "J1", "J2", "J3", "J4", "J5"}
+SKIP_PADS = {"U8.5"}   # rev D: its via boxed in the I2C1_SDA pin; U8 pads 3/8/9 tie the same pour (reachcheck)   # PowerPAD via arrays / scripted entry vias / connector GND by router
 
 
 def seg_dist(px, py, ax, ay, bx, by):
@@ -129,7 +130,8 @@ def plan():
     if MODE == "mcu":
         return plan_mcu(pads, vias, tracks, via_ok, stub_ok)
     for r, net, lay, ref, p in pads:
-        if net != "GND" or ref in SKIP_REFS or p.GetAttribute() != pcbnew.PAD_ATTRIB_SMD or ref.startswith("H"):
+        if net != "GND" or ref in SKIP_REFS or p.GetAttribute() != pcbnew.PAD_ATTRIB_SMD or ref.startswith("H") or \
+                f"{ref}.{p.GetNumber()}" in SKIP_PADS:
             continue
         side = "F" if "F" in lay else "B"
         cx, cy = (r[0] + r[2]) / 2, (r[1] + r[3]) / 2

@@ -9,6 +9,7 @@ cd "$(dirname "$0")/.."
 kc 'python3 gen/build_pcb.py --fresh >/dev/null 2>&1
 python3 gen/critical.py
 FANOUT=mcu python3 gen/gndfan.py
+python3 gen/gndfan.py
 F405_ROUTES=route_all.json python3 gen/rapply.py
 python3 gen/gndfan.py
 [ "${NUDGE:-1}" = 1 ] && python3 gen/vianudge.py
