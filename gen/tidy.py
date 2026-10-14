@@ -24,6 +24,69 @@ def key(p):
     return (round(p[0] / RES * 2), round(p[1] / RES * 2))
 
 
+def split_tees(tracks, on_pad=lambda l, p: False):
+    """Router T-junctions can end a branch part-way along another segment (copper overlap, no shared end point). Split such
+    segments at the projection of the branch end and snap the end onto it, so the junction is a real node (degree 3) and the
+    string-pull below keeps it."""
+    # branch ends that sit near (not on) another segment's vertex: snap them onto it
+    for t in tracks:
+        for end in ("a", "b"):
+            p = t[end]
+            best = None
+            for o in tracks:
+                if o is t or o["l"] != t["l"]:
+                    continue
+                for v in (o["a"], o["b"]):
+                    if key(v) == key(p):
+                        best = None
+                        break
+                    d = math.hypot(p[0] - v[0], p[1] - v[1])
+                    if d <= (o["w"] + t["w"]) / 2 and (best is None or d < best[0]):
+                        best = (d, v)
+                else:
+                    continue
+                break
+            if best and not on_pad(t["l"], p) and not any(key(x) == key(p) for o in tracks if o is not t and o["l"] == t["l"]
+                                                          for x in (o["a"], o["b"])):
+                t[end] = best[1]
+    changed = True
+    while changed:
+        changed = False
+        ends = [(t["l"], p) for t in tracks for p in (t["a"], t["b"])]
+        for k, t in enumerate(tracks):
+            ax, ay = t["a"]
+            bx, by = t["b"]
+            dx, dy = bx - ax, by - ay
+            L2 = dx * dx + dy * dy
+            if L2 < 1e-9:
+                continue
+            for l, p in ends:
+                if l != t["l"] or key(p) in (key(t["a"]), key(t["b"])):
+                    continue
+                u = ((p[0] - ax) * dx + (p[1] - ay) * dy) / L2
+                if not 0.0 < u < 1.0:
+                    continue
+                q = (ax + u * dx, ay + u * dy)
+                if math.hypot(p[0] - q[0], p[1] - q[1]) > t["w"] / 2 + 0.07:
+                    continue
+                if key(q) in (key(t["a"]), key(t["b"])):
+                    continue
+                # snap the branch end onto the segment and split it there
+                for o in tracks:
+                    if o["l"] == l:
+                        if key(o["a"]) == key(p):
+                            o["a"] = q
+                        if key(o["b"]) == key(p):
+                            o["b"] = q
+                tracks[k] = dict(t, b=q)
+                tracks.append(dict(t, a=q, b=(bx, by)))
+                changed = True
+                break
+            if changed:
+                break
+    return tracks
+
+
 def main():
     P = pf.PF(json.load(open(pf.GEOM)))
     r = json.load(open(pf.OUT))
@@ -34,6 +97,7 @@ def main():
     for n, rs in P.routes.items():
         P.occupy(n, rs, +1)
     before = sum(1 for rs in P.routes.values() for x in rs if x["t"] == "t")
+    reverted = []
     for n in list(P.routes):
         net = P.names[n]
         rs = P.routes[n]
@@ -42,6 +106,11 @@ def main():
             continue
         w, c = cls(net)
         P.occupy(n, rs, -1)
+
+        def on_pad(l, p):
+            i, j = min(N - 1, int(p[1] / RES)), min(N - 1, int(p[0] / RES))
+            return bool(P.base[l][i, j] == n) or any(math.hypot(p[0] - v["x"], p[1] - v["y"]) < 0.31 for v in rs if v["t"] == "v")
+        tracks = split_tees([dict(t) for t in tracks], on_pad)
         hard, _vh = P.hard(n)
         others = {l: P.occ[l] > 0 for l in pf.RL}
         # fixed nodes: vias, pad copper of this net, ends shared by != 2 segments on a layer
@@ -147,11 +216,15 @@ def main():
             for a, b in zip(out, out[1:]):
                 if key(a) != key(b):
                     new_tracks.append({"t": "t", "l": l, "a": tuple(a), "b": tuple(b), "w": width})
-        P.routes[n] = new_tracks + [x for x in rs if x["t"] == "v"]
+        cand = new_tracks + [x for x in rs if x["t"] == "v"]
+        if len(P.islands(n, cand)) > len(P.islands(n, rs)):     # never trade connectivity for looks: keep the router's copper
+            reverted.append(net)
+            cand = rs
+        P.routes[n] = cand
         P.occupy(n, P.routes[n], +1)
     after = sum(1 for rs in P.routes.values() for x in rs if x["t"] == "t")
     pf.save(P, pf.OUT)
-    print(f"tidy: track segments {before} -> {after}")
+    print(f"tidy: track segments {before} -> {after}; kept as routed (tidy would split them): {reverted or 'none'}")
 
 
 if __name__ == "__main__":

@@ -14,7 +14,7 @@ TARGET = 0.10
 MM = pcbnew.FromMM
 VR = MM(0.3)          # via copper radius
 HR = MM(0.15)         # via hole radius
-HOLE_CLR = MM(0.20)
+HOLE_CLR = MM(0.25)   # board hole-to-hole minimum (m_HoleToHoleMin)
 EDGE = (MM(100.0 + 0.6), MM(100.0 + 0.6), MM(136.0 - 0.6), MM(136.0 - 0.6))   # via centre box: 0.3 copper-to-edge
 
 
