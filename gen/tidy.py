@@ -1,6 +1,6 @@
 #!/usr/bin/python3.13
 """Tidy the routed tracks (cosmetic + segment count): every chain of track segments between two junctions (pad, via, branch
-point, layer change) is string-pulled: the longest straight replacements whose copper stays clear of fixed copper and of
+point, layer change) is string-pulled: the longest octilinear (0/45/90 degree, at most one bend) replacements whose copper stays clear of fixed copper and of
 every other net's routed copper (the router's own clearance model) replace the grid staircase. Junctions never move, so
 connectivity is unchanged. Run on kicad/route_all.json before gen/route_finish.sh; KiCad DRC re-checks the result.
 
@@ -11,6 +11,8 @@ import json
 import math
 import os
 import sys
+
+OCT = os.environ.get("OCT", "1") == "1"   # 0/45/90-degree output (routing appearance)
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import numpy as np  # noqa: E402
@@ -110,13 +112,37 @@ def main():
                     return False
                 fp = seg_mask(a, b, width / 2 + pf.occ_k(c))
                 return not (others[l] & fp).any()
+            def octo(a, b):
+                """Candidate 0/45/90-degree paths a -> b: straight when already octilinear, else a 45-degree leg plus an
+                axis-aligned leg (both orders). Each is a list of points after a."""
+                dx, dy = b[0] - a[0], b[1] - a[1]
+                if abs(dx) < 1e-6 or abs(dy) < 1e-6 or abs(abs(dx) - abs(dy)) < 1e-6:
+                    return [[b]]
+                d = min(abs(dx), abs(dy))
+                sx, sy = math.copysign(d, dx), math.copysign(d, dy)
+                return [[(a[0] + sx, a[1] + sy), b], [(b[0] - sx, b[1] - sy), b]]
+
+            def path_ok(a, cand):
+                q = a
+                for r in cand:
+                    if not legal(q, r):
+                        return False
+                    q = r
+                return True
             out = [pts[0]]
             i = 0
             while i < len(pts) - 1:
                 j = len(pts) - 1
-                while j > i + 1 and not legal(pts[i], pts[j]):
+                got = None
+                while j > i:
+                    for cand in (octo(pts[i], pts[j]) if OCT else [[pts[j]]]):
+                        if path_ok(pts[i], cand):
+                            got = cand
+                            break
+                    if got or j == i + 1:
+                        break
                     j -= 1
-                out.append(pts[j])
+                out += got if got else [pts[j]]
                 i = j
             for a, b in zip(out, out[1:]):
                 if key(a) != key(b):
