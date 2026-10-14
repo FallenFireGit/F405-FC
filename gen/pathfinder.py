@@ -50,6 +50,9 @@ RL = ["F", "In1", "In2", "In3", "B"] if IN1 else ["F", "In2", "In3", "B"]   # ro
 ALL = ["F", "In1", "In2", "In3", "In4", "B"]
 LCOST = {"F": 1.0, "In1": float(os.environ.get("IN1_COST", "10")), "In2": 1.1, "In3": 1.15, "In4": 1e9, "B": 1.0}
 VIA_COST = 25.0
+# per-net layer cost overrides, e.g. NET_LCOST="BEEPER:F=4,MOTOR2:B=3" (a net whose pins force a crossing on one layer)
+NET_LCOST = {(a.split(":")[0], a.split(":")[1].split("=")[0]): float(a.split("=")[1])
+             for a in os.environ.get("NET_LCOST", "").split(",") if a}
 MOVES = [(-1, 0, 1.0), (1, 0, 1.0), (0, -1, 1.0), (0, 1, 1.0), (-1, -1, 1.414), (-1, 1, 1.414), (1, -1, 1.414), (1, 1, 1.414)]
 DISK = {}
 
@@ -288,7 +291,7 @@ class PF:
             o = self.occ[l][sl] > 0
             near = ndimage.binary_dilation(o, structure=hf) if o.any() else o
             vnear = ndimage.binary_dilation(o, structure=vf) if o.any() else o
-            cost[l] = (LCOST[l] + self.hist[l][sl]) * (1.0 + pres * near)
+            cost[l] = (NET_LCOST.get((self.names[n], l), LCOST[l]) + self.hist[l][sl]) * (1.0 + pres * near)
             nearm[l] = near
             vcost += (self.hist[l][sl] + pres * vnear * 3.0)
         hd = {l: hard[l][sl] for l in RL}
