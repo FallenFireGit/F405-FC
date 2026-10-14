@@ -32,8 +32,8 @@ def components(P, n, isl):
             a = parent[a]
         return a
     vok = ~vh
-    for a_l in range(3):
-        for b_l in range(a_l + 1, 3):
+    for a_l in range(len(pf.RL)):
+        for b_l in range(a_l + 1, len(pf.RL)):
             la, lb = labs[pf.RL[a_l]], labs[pf.RL[b_l]]
             sel = vok & (la > 0) & (lb > 0)
             pairs = np.unique(np.stack([la[sel] + offs[pf.RL[a_l]], lb[sel] + offs[pf.RL[b_l]]], 1), axis=0)

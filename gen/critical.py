@@ -14,7 +14,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PCB = os.environ.get("F405_PCB", os.path.join(ROOT, "kicad", "F405FC.kicad_pcb"))
 OX = OY = 100.0
 
-B, F, IN2 = "B.Cu", "F.Cu", "In2.Cu"
+B, F, IN2 = "B.Cu", "F.Cu", "In3.Cu"   # IN2 = the VBAT power layer (In3 on the 6-layer rev D)
 # (layer, width mm, net, [points])
 TRACKS = [
     # ---- U1 (5 V) ----
@@ -82,7 +82,7 @@ def stage(name):
         for layer, w, net, pts in TRACKS:
             ni = board.FindNet(net)
             assert ni is not None, net
-            lid = {B: pcbnew.B_Cu, F: pcbnew.F_Cu, IN2: pcbnew.In2_Cu}[layer]
+            lid = {B: pcbnew.B_Cu, F: pcbnew.F_Cu, IN2: pcbnew.In3_Cu}[layer]
             for a, b in zip(pts, pts[1:]):
                 t = pcbnew.PCB_TRACK(board)
                 t.SetStart(pt(*a)); t.SetEnd(pt(*b)); t.SetWidth(pcbnew.FromMM(w))

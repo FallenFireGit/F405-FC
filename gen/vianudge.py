@@ -25,7 +25,7 @@ def main():
     tracks = [t for t in b.GetTracks() if t.GetClass() == "PCB_TRACK"]
     vias = [t for t in b.GetTracks() if t.GetClass() == "PCB_VIA"]
     holes = [(p.GetPosition(), max(p.GetDrillSize().x, p.GetDrillSize().y) // 2) for p in pads if p.GetDrillSize().x > 0]
-    layers = [pcbnew.F_Cu, pcbnew.In1_Cu, pcbnew.In2_Cu, pcbnew.B_Cu]
+    layers = [pcbnew.F_Cu, pcbnew.In1_Cu, pcbnew.In2_Cu, pcbnew.In3_Cu, pcbnew.In4_Cu, pcbnew.B_Cu]
 
     def near(item_pos, pos, r=MM(4)):
         return (item_pos - pos).EuclideanNorm() < r

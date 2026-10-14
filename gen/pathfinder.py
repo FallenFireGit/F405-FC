@@ -45,9 +45,10 @@ KDIR = os.path.dirname(os.environ.get("F405_PCB", os.path.join(ROOT, "kicad", "F
 GEOM = os.path.join(KDIR, "route_geom.json")
 OUT = os.path.join(KDIR, "route_all.json")
 IN1 = os.environ.get("IN1", "0") == "1"      # last-resort hops on the In1 GND plane (high cost; the pour carves around them)
-RL = ["F", "In1", "In2", "B"] if IN1 else ["F", "In2", "B"]   # routing layers
-ALL = ["F", "In1", "In2", "B"]
-LCOST = {"F": 1.0, "In1": float(os.environ.get("IN1_COST", "10")), "In2": 1.15, "B": 1.0}
+# rev D, 6 layers: In1 and In4 are solid GND planes and never routed; In2/In3 are inner signal layers (In3 also holds VBAT)
+RL = ["F", "In1", "In2", "In3", "B"] if IN1 else ["F", "In2", "In3", "B"]   # routing layers
+ALL = ["F", "In1", "In2", "In3", "In4", "B"]
+LCOST = {"F": 1.0, "In1": float(os.environ.get("IN1_COST", "10")), "In2": 1.1, "In3": 1.15, "In4": 1e9, "B": 1.0}
 VIA_COST = 25.0
 MOVES = [(-1, 0, 1.0), (1, 0, 1.0), (0, -1, 1.0), (0, 1, 1.0), (-1, -1, 1.414), (-1, 1, 1.414), (1, -1, 1.414), (1, 1, 1.414)]
 DISK = {}
@@ -587,7 +588,7 @@ def gnd_force(P, pres=20.0):
         if not frag:
             continue
         # a new via site, or GND copper on the same layer that already reaches the plane (no via needed then)
-        dst = {l: (site0 | tied[l]) if l in ("F", "B", "In2") else np.zeros((N, N), bool) for l in ALL}
+        dst = {l: (site0 | tied[l]) if l in ("F", "B", "In2", "In3") else np.zeros((N, N), bool) for l in ALL}
         src = {l: m[l] for l in ALL}
         r = None
         for win in (1.5, 3.0):

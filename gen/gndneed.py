@@ -13,7 +13,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PCB = os.environ.get("F405_PCB", os.path.join(ROOT, "kicad", "F405FC.kicad_pcb"))
 OUT = os.path.join(os.path.dirname(PCB), "gnd_need.json")
 OX = OY = 100.0
-LN = {pcbnew.F_Cu: "F", pcbnew.In2_Cu: "In2", pcbnew.B_Cu: "B"}
+LN = {pcbnew.F_Cu: "F", pcbnew.In2_Cu: "In2", pcbnew.In3_Cu: "In3", pcbnew.B_Cu: "B"}
 
 
 def main():

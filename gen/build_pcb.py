@@ -62,7 +62,7 @@ def hole_keepouts(board):
     if any(z.GetIsRuleArea() and z.GetZoneName().startswith("HOLE_KEEPOUT") for z in board.Zones()):
         return  # already present (board.Remove + python GC of the zone segfaults in 10.0.6, so never remove)
     ls = pcbnew.LSET()
-    for l in (pcbnew.F_Cu, pcbnew.In1_Cu, pcbnew.In2_Cu, pcbnew.B_Cu):
+    for l in (pcbnew.F_Cu, pcbnew.In1_Cu, pcbnew.In2_Cu, pcbnew.In3_Cu, pcbnew.In4_Cu, pcbnew.B_Cu):
         ls.AddLayer(l)
     polys = _KEEP_ALIVE  # ZONE.SetOutline takes ownership of the pointer: python must never free these
     for hx, hy in ((2.75, 2.75), (33.25, 2.75), (2.75, 33.25), (33.25, 33.25)):
@@ -111,7 +111,7 @@ def hole_keepouts(board):
 
 def rules(board):
     ds = board.GetDesignSettings()
-    board.SetCopperLayerCount(4)
+    board.SetCopperLayerCount(6)   # rev D: F / GND / sig / sig+VBAT / GND / B (D-27)
     ds.SetBoardThickness(mm(1.6))
     ds.m_TrackMinWidth = mm(0.127)
     ds.m_MinClearance = mm(0.127)
@@ -125,7 +125,9 @@ def rules(board):
     nc.SetClearance(mm(0.127)); nc.SetTrackWidth(mm(0.15)); nc.SetViaDiameter(mm(0.6)); nc.SetViaDrill(mm(0.3))
     ds.SetAuxOrigin(pt(0, H))  # drill/place origin = board bottom-left corner (Gerber, drill and CPL share it)
     board.SetLayerName(pcbnew.In1_Cu, "In1.GND")
-    board.SetLayerName(pcbnew.In2_Cu, "In2.PWR")
+    board.SetLayerName(pcbnew.In2_Cu, "In2.SIG")
+    board.SetLayerName(pcbnew.In3_Cu, "In3.PWR")
+    board.SetLayerName(pcbnew.In4_Cu, "In4.GND")
 
 
 def tidy_fields(board):

@@ -7,7 +7,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 rm -rf fab && mkdir -p fab/gerbers fab/stencil docs/renders
 kc 'set -e; cd /work/kicad
-L="F.Cu,In1.Cu,In2.Cu,B.Cu,F.Paste,B.Paste,F.Silkscreen,B.Silkscreen,F.Mask,B.Mask,Edge.Cuts"
+L="F.Cu,In1.Cu,In2.Cu,In3.Cu,In4.Cu,B.Cu,F.Paste,B.Paste,F.Silkscreen,B.Silkscreen,F.Mask,B.Mask,Edge.Cuts"
 kicad-cli pcb export gerbers --layers "$L" --subtract-soldermask --use-drill-file-origin -o /work/fab/gerbers/ F405FC.kicad_pcb >/dev/null
 kicad-cli pcb export drill --format excellon --excellon-units mm --excellon-separate-th --generate-map --map-format gerberx2 \
     --drill-origin plot -o /work/fab/gerbers/ F405FC.kicad_pcb >/dev/null

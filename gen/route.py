@@ -24,7 +24,7 @@ OX = OY = 100.0
 W = H = 36.0
 _KEEP = []
 VBAT_ZONE = [(0.5, 21.6), (8.8, 21.6), (8.8, 33.6), (16.7, 33.6), (16.7, 23.5), (23.0, 23.5), (23.0, 25.1), (18.3, 25.1),
-             (18.3, 35.5), (0.5, 35.5)]   # 1.6 mm riser on In2 (G3R-02) to the three U2-input vias on the C10-C12-U2 VIN track
+             (18.3, 35.5), (0.5, 35.5)]   # 1.6 mm riser on In3 (G3R-02; In2 on the 4-layer rev C) to the three U2-input vias on the C10-C12-U2 VIN track
 
 
 def stage(name, passes):
@@ -35,7 +35,7 @@ def stage(name, passes):
 
     board = pcbnew.LoadBoard(PCB)
     if name in ("zones", "pours"):
-        layers = (pcbnew.In1_Cu,) if name == "zones" else (pcbnew.In2_Cu, pcbnew.F_Cu, pcbnew.B_Cu)
+        layers = (pcbnew.In1_Cu, pcbnew.In4_Cu) if name == "zones" else (pcbnew.In2_Cu, pcbnew.In3_Cu, pcbnew.F_Cu, pcbnew.B_Cu)
         have = {z.GetLayer() for z in board.Zones() if (not z.GetIsRuleArea()) and z.GetZoneName().startswith("GND_")}
         layers = [l for l in layers if l not in have]
         if not layers:
@@ -58,7 +58,7 @@ def stage(name, passes):
             polys.append((layer, ps))
         if vbat_ps is not None:
             z = pcbnew.ZONE(board)
-            z.SetLayer(pcbnew.In2_Cu)
+            z.SetLayer(pcbnew.In3_Cu)
             z.SetNet(board.FindNet("VBAT"))
             z.SetZoneName("VBAT_In2")
             z.SetLocalClearance(mm(0.2))
