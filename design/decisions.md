@@ -283,3 +283,19 @@ Routing method changes: GND fanout vias are placed before routing (signals route
 router's fixed copper from `kicad/route_geom.json` (`gen/geomreplay.py`) because GND fanout plans differ between runs; per-net layer
 cost overrides (`NET_LCOST`) for pin-order crossings (BEEPER/MOTOR2); 5V may use the inner layers at 4x cost (`PWR_OUTER_EXEMPT`)
 for its feedback-sense branch to R4 (every inner 5V segment is listed in review/summary.md with the current it can carry).
+
+Further rev D placement and routing changes (after the moves above):
+- **R18** (GYRO1_CS pull-up) and **R20** (FLASH_CS pull-up) to the bottom; **U8** (BMP390, with C43/C44) 1.2 mm right; **R16**
+  (BOOT0 pull-down) up under J3; **TP1-TP3** (SWD) to the top-right bottom-side corner, **TP4/TP5** under the MCU left edge;
+  **U5/C22/C23** into the space the test pads freed. All of these clear via strips beside the MCU pin rows.
+- Placement freeze (`kicad/placement_frozen.json`): the legalizer no longer moves parts under fixed copper; only the parts listed in
+  `placement.UNFREEZE` may move.
+- Router escape lanes off (`ESCAPE_LANES=0`) and the fixed ESC_TLM fanout removed: this closed the last conflicts.
+- GND ties: U3.18 and J3.2 sat in pour islands with no free via site. J3.2 was tied by a forced router tie; U3.18 by a hand
+  dog-leg F.Cu track to a free via site at (12.83, 20.88) mm, added to `kicad/route_all.json` and checked by KiCad DRC.
+- J1 shell slots: `kicad/F405FC.kicad_dru` accepts one resolved thermal spoke on the shell slots (B.Cu has room for only one).
+- Result: DRC 0 errors, 0 unconnected, 0 schematic parity. Warnings: 16 dangling signal vias (unused fanout vias; trimming them
+  automatically cut used stubs, so they stay) and one silk overlap (C44 bar against U8's pin-1 mark).
+- HSE_OUT on rev D is 3.6 mm on F.Cu with no vias (the rev C G4C-01 problem does not occur), although `placement.py` still anchors
+  C37 to Y1 pad 2.
+

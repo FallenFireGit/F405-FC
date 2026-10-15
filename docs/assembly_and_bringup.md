@@ -1,6 +1,6 @@
 # F405-FC hand assembly and bring-up guide
 
-Board: 36 x 36 mm, 4 layers, 1.6 mm, parts on both sides (0402 minimum, no BGA). Reference designators and nets below come from
+Board (rev D): 36 x 36 mm, 6 layers, 1.6 mm, parts on both sides (0402 minimum, no BGA). Reference designators and nets below come from
 `kicad/F405FC.kicad_pcb`; the interactive BOM (`bom/F405FC_ibom.html`) shows every part's location per side.
 Power design and limits: `design/power.md`. Decisions and deviations: `design/decisions.md`.
 
@@ -20,14 +20,14 @@ current-limited bench supply.**
 
 | Setting | Value |
 |---|---|
-| Layers / thickness | 4 layers, 1.6 mm, stackup **JLC04161H-7628** (In1 = GND, In2 = PWR as in the Gerber names) |
+| Layers / thickness | 6 layers, 1.6 mm, a JLC 6-layer 1.6 mm stackup (pick it on the JLC order page; the name and dielectric thicknesses were not verified here). Gerber names give the layer roles: In1 = GND, In2 = SIG, In3 = PWR (signals + VBAT), In4 = GND |
 | Copper | 1 oz outer, 0.5 oz inner |
 | Surface finish | **ENIG** (HASL is uneven on 0.25 mm LGA and 0.5 mm LQFP pads) |
 | Via covering | **Epoxy filled and capped (POFV): required.** Many fanout vias sit < 0.10 mm (rev C: 48, closest 0.024 mm) from same-net fine-pitch or 0402 pads (U3, U6-U8, U10) and a few VBAT vias touch the C10/C12/C8/D1 pads; filled vias stop solder wicking there (Gate 5 M-3, D-26) |
 | Min track / space, via | 0.127 / 0.127 mm, 0.3 / 0.6 mm |
 | Mask / silk | any colour; silk text height 0.8 mm |
 
-This option and its cost on 4-layer boards were not checked against the live JLC page.
+This option and its cost on 6-layer boards were not checked against the live JLC page.
 - ST-LINK (SWD) is optional; USB DFU works.
 - Electronic load (or power resistors) for the full-load test: 5 V at 1.7 A (≈ 3 Ω, 10 W) and 10 V at 1.3 A (≈ 7.5 Ω, 15 W).
 - A fan for every full-load or thermal test (the board is not rated for full load in still air, `design/power.md` §12.5, D-12).
@@ -115,7 +115,7 @@ Fit U3 (STM32F405RGT6, LQFP-64, **top**: drag-solder with flux, then inspect eve
 the top MCU decoupling (C25-C29, C31-C34, C53), R14/R15 (VBAT divider), R16 (BOOT0 pull-down), FB1, U13 (USB ESD), J1 (USB-C), SW1 (BOOT)
 (the bottom-side parts, U10 flash, LEDs D10-D12 and C24/C30/C35/C52 went on in A1; TP1-TP5 are bare pads).
 
-J1 shell: the four shell slots have thermal reliefs (Gate 5 M-1) but still sit in four GND layers. Use a ≥ 60 W iron with a 2-3 mm
+J1 shell: the four shell slots have thermal reliefs (Gate 5 M-1) but still sit in five GND copper layers (F, In1, In3 pour, In4, B). Use a ≥ 60 W iron with a 2-3 mm
 chisel tip and preheat the board from the top with hot air (≈ 150 °C) before soldering the shell; fill each slot from the top
 until solder shows at the bottom. These four joints hold the connector. Check the bottom side afterwards: R7 (10 V buck enable) sits
 0.35 mm from a shell slot, and a bridge there disables the 10 V rail.
