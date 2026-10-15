@@ -16,3 +16,4 @@ kicad/*.dsn
 kicad/*.ses
 kicad/route_geom.json
 kicad/route_add.json
+kicad/route_best.json
