@@ -301,3 +301,8 @@ Further rev D placement and routing changes (after the moves above):
 - HSE_OUT on rev D is 3.6 mm on F.Cu with no vias (the rev C G4C-01 problem does not occur), although `placement.py` still anchors
   C37 to Y1 pad 2.
 
+
+Rev D review fixes (Gate 4/5/6 rev D): the router keeps foreign nets off B.Cu inside the buck courtyards with `AVOID` boxes
+(router-only; the values are in `gen/route_env.sh`, which every re-route must source); CURR_ADC re-routed (14.2 mm pin to C52, was
+71.6 mm), SPI1_MOSI/LED_DIN/MOTOR8 moved out of the buck footprints (SPI1_MOSI is now 43 mm with 5 vias, Gate 4 re-review G4D2-02).
+Gate 4 re-review: PASS (0 MAJOR, 16 MINOR).
