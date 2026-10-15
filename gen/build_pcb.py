@@ -181,6 +181,9 @@ def silk_labels(board):
             for sd, lay in (("T", pcbnew.F_Cu), ("B", pcbnew.B_Cu)):
                 if ls.Contains(lay):
                     pads[sd].append(rmm(p.GetBoundingBox()))
+        if fp.GetReference().startswith("TP"):
+            # test-point silk rings: labels must clear them too (rev D DRC silk_overlap)
+            pads[side] += [rmm(g.GetBoundingBox()) for g in fp.GraphicalItems() if g.GetLayer() in (pcbnew.F_SilkS, pcbnew.B_SilkS)]
         if fp.GetReference()[0] == "J" or fp.GetReference().startswith("SW"):
             # connector / button bodies hide silk after assembly (Gate 5 M-5): labels stay off them
             pads[side].append(rmm(fp.GetBoundingBox(False)))
@@ -250,7 +253,7 @@ def silk_labels(board):
             t.SetMirrored(True)
         board.Add(t)
     # board name and revision (Gate 5 m-4): first free spot on the bottom, then the top
-    mark, size = "F405-FC rev C", 0.8
+    mark, size = "F405-FC rev D", 0.8
     tw, th = 0.85 * size * len(mark) + 0.15, size + 0.1
     for side in "BT":
         spot = None
