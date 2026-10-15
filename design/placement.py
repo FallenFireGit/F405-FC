@@ -67,7 +67,7 @@ put("R27", 10.6, 3.0, 0, "B")
 put("D12", 13.0, 4.4, 0, "B")
 put("R28", 10.6, 4.4, 0, "B")
 # baro + mag top-left, away from power on the bottom-right
-put("U8", 14.8, 8.9, 0)
+put("U8", 16.0, 8.9, 0)   # rev D: 1.2 mm right, frees the strip above U3 pins 61-63 for the I2C vias
 put("C43", 11.4, 7.0, 90)
 put("C44", 7.8, 7.6, 90)
 put("U9", 9.55, 7.7, 0)
