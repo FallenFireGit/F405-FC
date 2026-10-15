@@ -267,6 +267,8 @@ re-routed with overlap forbidden (every routing order tried), then the remaining
 ## D-27 Rev C (4-layer) release branch
 
 The 4-layer rev C board is kept as a release candidate on branch `rev-c` while the 6-layer rev D (D-27 on master) is routed.
-Rev C carries every D-26 (Gate 5) fix and the Gate 4 G4-01 fix: C37 (HSE_OUT load cap) beside Y1, 3.3 mm pad-to-pad, with
-HSE_OUT/NRST/MOTOR4 re-routed. The other Gate 4 findings (In1 used as a routing layer, MCU decoupling paths, routes under the
+Rev C carries every D-26 (Gate 5) fix and only a partial G4-01 fix: C37 (HSE_OUT load cap) now sits 3.3 mm from Y1 and HSE_OUT
+no longer crosses the 5 V buck, but C37 was anchored to Y1 pad 2 (GND) rather than pad 3, so the routed HSE_OUT path to C37 is
+11.8 mm with 2 vias and 5V_SYS on In1 passes under C37/Y1 (Gate 4 re-review G4C-01, review/gate-4-si-pi-revc.md). The Gate 4
+re-review FAILED rev C (6 MAJOR); the new G4C-02 (3V3 In2 track over U2's hot loop) is also unfixed. The other Gate 4 findings (In1 used as a routing layer, MCU decoupling paths, routes under the
 BMI270) are not fixed on rev C: they need the 6-layer stackup and are listed as residual risks in review/summary.md.
