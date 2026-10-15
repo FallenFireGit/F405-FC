@@ -1,7 +1,7 @@
 Qty per board,Refs,Value,MPN,Manufacturer,DigiKey PN,Footprint,Datasheet
 20,C5 C9 C13 C24 C25 C26 C27 C28 C30 C32 C35 C38 C41 C42 C43 C44 C46 C48 C49 C50,100nF X7R 16V,CL05B104KO5NNNC,Samsung Electro-Mechanics,1276-1001-1-ND,C_0402_1005Metric,https://product.samsungsem.com/mlcc/CL05B104KO5NNNC.do
 6,C6 C7 C8 C14 C15 C16,22uF X5R 25V,CL31A226KAHNNNE,Samsung Electro-Mechanics,1276-3047-1-ND,C_1206_3216Metric,https://product.samsungsem.com/mlcc/CL31A226KAHNNNE.do
-4,C2 C3 C10 C11,4.7uF X7S 100V 2.0mm,C3225X7S2A475K200AB,TDK,445-6042-1-ND,C_1210_3225Metric,https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/catalog/mlcc_commercial_midvoltage_en.pdf
+4,C2 C3 C10 C11,4.7uF X7S 100V 2.0mm,C3225X7S2A475K200AB,TDK,445-6042-1-ND (verify: K200AB cut tape),C_1210_3225Metric,https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/catalog/mlcc_commercial_midvoltage_en.pdf
 4,C19 C22 C31 C51,1uF X5R 25V,CL10A105KA8NNNC,Samsung Electro-Mechanics,1276-1102-1-ND (verify),C_0603_1608Metric,https://product.samsungsem.com/mlcc/CL10A105KA8NNNC.do
 3,C40 C52 C53,10nF X7R 50V,CL05B103KB5NNNC,Samsung Electro-Mechanics,1276-1028-1-ND,C_0402_1005Metric,https://product.samsungsem.com/mlcc/CL05B103KB5NNNC.do
 3,C20 C33 C34,2.2uF X5R 16V,CL10A225KO8NNNC,Samsung Electro-Mechanics,1276-1040-1-ND,C_0603_1608Metric,https://product.samsungsem.com/mlcc/CL10A225KO8NNNC.do
@@ -21,7 +21,7 @@ Qty per board,Refs,Value,MPN,Manufacturer,DigiKey PN,Footprint,Datasheet
 1,J5,ELRS,SM04B-SRSS-TB(LF)(SN),JST,455-1804-1-ND,JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal,https://www.jst-mfg.com/product/pdf/eng/eSH.pdf
 1,J2,ESC,SM08B-SRSS-TB(LF)(SN),JST,455-1808-1-ND,JST_SH_SM08B-SRSS-TB_1x08-1MP_P1.00mm_Horizontal,https://www.jst-mfg.com/product/pdf/eng/eSH.pdf
 1,J1,USB4105-GF-A,USB4105-GF-A,GCT,2073-USB4105-GF-ACT-ND,USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal,https://gct.co/files/drawings/usb4105.pdf
-2,L1 L2,5.6uH,74438356056,Würth Elektronik,not confirmed; alt 78438356056 = 732-11317-1-ND,L_Wuerth_MAPI-4020,https://www.we-online.com/components/products/datasheet/74438356056.pdf
+2,L1 L2,5.6uH,78438356056,Würth Elektronik,732-11317-1-ND,L_Wuerth_MAPI-4020,https://www.we-online.com/components/products/datasheet/78438356056.pdf
 1,Q2,NX7002AK,"NX7002AK,215",Nexperia,1727-1289-1-ND,SOT-23,https://assets.nexperia.com/documents/data-sheet/NX7002AK.pdf
 1,Q1,PMV40UN2,PMV40UN2R,Nexperia,1727-1900-1-ND,SOT-23,https://assets.nexperia.com/documents/data-sheet/PMV40UN2.pdf
 9,R16 R17 R18 R19 R20 R29 R30 R38 R39,10.0K,RC0402FR-0710KL,Yageo,311-10.0KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf

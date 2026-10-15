@@ -318,7 +318,7 @@ part(MCU, "SW1", "Switch:SW_Push", "BOOT", FP["SW"], {"1": "3V3", "2": "BOOT0"},
      "https://www.ckswitches.com/media/1476/pts810.pdf", desc="BOOT button (BOOT0 high)")
 R(MCU, "R10k", "BEEPER", "GND")  # PB2 = BOOT1 strap + beeper FET gate pulldown
 part(MCU, "Y1", "Device:Crystal_GND24", "8MHz", FP["XTAL"], {"1": "HSE_IN", "3": "HSE_OUT", "2": "GND", "4": "GND"},
-     "ECS-80-8-33-JEN-TR3", "ECS Inc.", "50-ECS-80-8-33-JEN-TR3CT-ND (verify)",
+     "ECS-80-8-33-JEN-TR3", "ECS Inc.", "50-ECS-80-8-33-JEN-TR3CT-ND",
      "https://ecsxtal.com/store/pdf/ECX-32.pdf", desc="8 MHz HSE crystal, CL 8 pF")
 C(MCU, "C8p2", "HSE_IN")   # 8.2 pF: CL 8 pF crystal with 3-5 pF stray (Gate 1 G1M2-01/03)
 C(MCU, "C8p2", "HSE_OUT")

@@ -53,6 +53,10 @@ VIA_COST = 25.0
 # per-net layer cost overrides, e.g. NET_LCOST="BEEPER:F=4,MOTOR2:B=3" (a net whose pins force a crossing on one layer)
 NET_LCOST = {(a.split(":")[0], a.split(":")[1].split("=")[0]): float(a.split("=")[1])
              for a in os.environ.get("NET_LCOST", "").split(",") if a}
+# router-only no-go boxes, e.g. AVOID="B:6.42,22.86,13.97,28.34:BST_5V|SW_5V" (Gate 4 G4D-02: no foreign signal on B.Cu inside the
+# buck footprints): on that layer only the listed nets (and GND) may route inside the box, and no foreign via may sit in it
+AVOID = [(a.split(":")[0], tuple(float(v) for v in a.split(":")[1].split(",")), set(a.split(":")[2].split("|")) | {"GND"})
+         for a in os.environ.get("AVOID", "").split(";") if a]
 MOVES = [(-1, 0, 1.0), (1, 0, 1.0), (0, -1, 1.0), (0, 1, 1.0), (-1, -1, 1.414), (-1, 1, 1.414), (1, -1, 1.414), (1, 1, 1.414)]
 DISK = {}
 
@@ -297,6 +301,12 @@ class PF:
             vcost += (self.hist[l][sl] + pres * vnear * 3.0)
         hd = {l: hard[l][sl] for l in RL}
         vh = vhard[sl]
+        for al, (x0, y0, x1, y1), allowed in AVOID:
+            if self.names[n] in allowed or al not in RL:
+                continue
+            am = ((CX >= x0) & (CX <= x1) & (CY >= y0) & (CY <= y1))[sl]
+            hd[al] = hd[al] | am
+            vh = vh | am
         goal = np.stack([dst[l][sl] for l in RL])
         srcm = np.stack([src[l][sl] for l in RL])
         # In1 copper of the source/destination (PTH pads, vias) is reachable on any layer through its drill

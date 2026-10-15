@@ -6,7 +6,7 @@ Quadcopter flight controller, Betaflight (and INAV) compatible, built around the
 ## Mechanical
 - 36 x 36 mm board, 30.5 x 30.5 mm M3 mounting holes (3.2 mm NPTH or PTH, rounded corners)
 - Corner holes take soft-mount grommets, so a 4.6 mm keepout diameter around each hole
-- 4-layer, 1.6 mm, JLCPCB JLC04161H-7628 stackup, 1 oz outer / 0.5 oz inner
+- 6-layer, 1.6 mm, JLCPCB 6-layer stackup (rev D; changed from 4-layer JLC04161H-7628 at the owner's request on 2026-10-15, "6 layer would be best", D-27; the 4-layer rev C stays on branch `rev-c`), 1 oz outer / 0.5 oz inner
 - Height: top side max 3.5 mm (except USB-C), bottom side max 2.5 mm
 - USB-C at a board edge
 

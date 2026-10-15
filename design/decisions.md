@@ -258,7 +258,9 @@ re-routed with overlap forbidden (every routing order tried), then the remaining
   ordering epoxy-filled, capped vias (fab settings in the guide, §0.1). Not verified: the option and its price for 4/6-layer boards.
 - **M-4 BOM:** Y1 DigiKey PN filled (50-ECS-80-8-33-JEN-TR3CT-ND, DigiKey listing 15282973). 445-6042-1-ND for C2/C3/C10/C11 seen
   only on a distributor aggregator. **L1/L2 (Würth 74438356056): no DigiKey PN found** (DigiKey lists the MPN only as a related part);
-  order by MPN in BOM Manager. Still open.
+  order by MPN in BOM Manager. **Closed in rev C/D:** L1/L2 changed to WE-MAIA 78438356056 (DigiKey 732-11317-1-ND, listing
+  6833655); circuit, schematic, both BOM CSVs and the iBOM carry it (rev D Gate 5 G5D-01 found the upload CSV stale; fixed). Its land
+  pattern against the WE-MAPI 4020 footprint is **not verified** (we-online.com unreachable): check the WE-MAIA drawing before ordering.
 - **M-5 hidden labels:** silk labels may no longer sit on connector or button bodies; where there is no room beside a part the label
   goes to the far side, prefixed with the reference ("J3 VTX 10V"). Board name and revision on the silk; the Pad_SMD silk rings are
   gone (they struck through the labels).

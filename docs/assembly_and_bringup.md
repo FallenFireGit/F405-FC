@@ -23,7 +23,7 @@ current-limited bench supply.**
 | Layers / thickness | 6 layers, 1.6 mm, a JLC 6-layer 1.6 mm stackup (pick it on the JLC order page; the name and dielectric thicknesses were not verified here). Gerber names give the layer roles: In1 = GND, In2 = SIG, In3 = PWR (signals + VBAT), In4 = GND |
 | Copper | 1 oz outer, 0.5 oz inner |
 | Surface finish | **ENIG** (HASL is uneven on 0.25 mm LGA and 0.5 mm LQFP pads) |
-| Via covering | **Epoxy filled and capped (POFV): required.** Many fanout vias sit < 0.10 mm (rev C: 48, closest 0.024 mm) from same-net fine-pitch or 0402 pads (U3, U6-U8, U10) and a few VBAT vias touch the C10/C12/C8/D1 pads; filled vias stop solder wicking there (Gate 5 M-3, D-26) |
+| Via covering | **Epoxy filled and capped (POFV): required.** About 51 vias (15 of them in-pad) sit < 0.10 mm (closest 0.018 mm, U3 pin 48; rev D Gate 5 count) from same-net fine-pitch or 0402 pads (U3, U6-U8, U10) and a few VBAT vias touch the C10/C12/C8/D1 pads; filled vias stop solder wicking there (Gate 5 M-3, D-26). POFV on JLC 6-layer boards was not checked on the live JLC page |
 | Min track / space, via | 0.127 / 0.127 mm, 0.3 / 0.6 mm |
 | Mask / silk | any colour; silk text height 0.8 mm |
 
@@ -59,11 +59,11 @@ D-11/D-16). Nothing else on the top yet.
 
 Every bottom logic part is supplied only from 3V3 (U4) or 3V3_IMU (U5), which in turn are fed only through D5 (5V_SYS). With D5, U4
 and U5 left off they cannot see a rail during the power checks: a wrong or open feedback resistor that drives 5 V towards VIN cannot
-reach them (Gate 6 G6S-02). **A2** (step 2.1.9) fits D5, U4 and U5 (SOD-123 / SOT-223 / SOT-23-5) by hot air or iron once the
+reach them (Gate 6 G6S-02). **A2** (step 2.1.8) fits D5, U4 and U5 (SOD-123 / SOT-223 / SOT-23-5) by hot air or iron once the
 5 V and 10 V rails are verified; they sit away from U6/U7/U10.
 
 Notes for U1/U2 (TI HSOIC-8 PowerPAD): the exposed pad needs solder. Print paste through the stencil (three windows per pad,
-`fab/F405FC_stencil.zip`), then reflow. Check pin 1 orientation against the silk dot before reflow. Use a **0.10 mm** stencil (the
+`fab/F405FC_stencil.zip`), then reflow. Check pin 1 orientation against the silk pin-1 triangle before reflow. Use a **0.10 mm** stencil (the
 BMP390/BMI270 apertures need it, see §0) and inspect the LGA parts (U6/U7) and the WSON flash (U10) for bridging at the outer pads
 under magnification; their joints cannot be reworked once the top is populated, so get them right in this pass.
 Part heights against vendor drawings were not verified (see review/summary.md); check them with calipers before closing a stack.
@@ -98,9 +98,6 @@ Part heights against vendor drawings were not verified (see review/summary.md); 
 | 3V3 | TP4 | 3.25-3.35 V | LP38692 |
 | 3V3_IMU | U5 output cap | 3.25-3.35 V | LP5907 |
 
-10. USB only (battery disconnected): plug USB-C into a current-limited USB port or a USB power meter. 5V_SYS ≈ 4.6-4.7 V (via D4),
-   3V3 present, **5V and 10V must stay at 0 V** (GPS/LED/camera rails are battery-only by design).
-
 ### 2.2 Loaded checks (fan running)
 
 1. 16.8 V in, limit 3 A. Load 5V with 1.7 A: 5V stays above 4.96 V. Ripple at C8 < 50 mV p-p (scope, short ground spring).
@@ -112,20 +109,26 @@ Part heights against vendor drawings were not verified (see review/summary.md); 
 ## 3. Stage B: MCU and USB
 
 Fit U3 (STM32F405RGT6, LQFP-64, **top**: drag-solder with flux, then inspect every pin under magnification; check pin 1), Y1 + C36/C37,
-the top MCU decoupling (C25-C29, C31-C34, C53), R14/R15 (VBAT divider), R16 (BOOT0 pull-down), FB1, U13 (USB ESD), J1 (USB-C), SW1 (BOOT)
+the top MCU decoupling (C25-C29, C31-C34), C53 (RSSI filter), R14/R15 (VBAT divider), R16 (BOOT0 pull-down), **R17 (BOOT1/PB2
+pull-down: the ROM bootloader needs BOOT1 low, so DFU can fail without it)**, R19 (GYRO2_CS pull-up), **R34/R35 (USB-C CC 5.1k
+pull-downs: without them a C-to-C cable supplies no VBUS)**, R36/C51 (VBUS sense), FB1, U13 (USB ESD), J1 (USB-C), SW1 (BOOT)
 (the bottom-side parts, U10 flash, LEDs D10-D12 and C24/C30/C35/C52 went on in A1; TP1-TP5 are bare pads).
 
-J1 shell: the four shell slots have thermal reliefs (Gate 5 M-1) but still sit in five GND copper layers (F, In1, In3 pour, In4, B). Use a ≥ 60 W iron with a 2-3 mm
+J1 shell: the four shell slots have thermal reliefs (Gate 5 M-1) but still connect to GND on all six copper layers. Use a ≥ 60 W iron with a 2-3 mm
 chisel tip and preheat the board from the top with hot air (≈ 150 °C) before soldering the shell; fill each slot from the top
 until solder shows at the bottom. These four joints hold the connector. Check the bottom side afterwards: R7 (10 V buck enable) sits
-0.35 mm from a shell slot, and a bridge there disables the 10 V rail.
+0.35 mm from a shell slot, and a bridge there disables the 10 V rail; R6 pad 1 is **VBAT** 0.74 mm from a GND slot ring, and a bridge
+there shorts the battery (check R6 pad 1 to P2 reads open before any power).
 
-1. Before power: SW1 open = BOOT0 low (measure BOOT0 to 3V3: open circuit unless the button is pressed).
-2. Bench 8.4 V, limit 200 mA. Expect ≈ 40-80 mA more than Stage A. 3V3 stays at 3.3 V.
-3. DFU (USB power only, pinmap R-08): **switch the bench supply off**, hold BOOT, then plug USB (BOOT0 is sampled only at reset;
+1. Before power (DMM, unpowered): across the two SW1 pads on the BOOT0 side: open with the button released, ≈ 0 Ω pressed.
+   BOOT0 (U3 pin 60) to GND ≈ 10 kΩ (R16); PB2 (U3 pin 28) to GND ≈ 10 kΩ (R17); J1 CC1 and CC2 pins to GND ≈ 5.1 kΩ each (R34/R35).
+2. USB only (battery disconnected): plug USB-C into a current-limited USB port or a USB power meter. 5V_SYS ≈ 4.6-4.7 V (via D4),
+   3V3 present, **5V and 10V must stay at 0 V** (GPS/LED/camera rails are battery-only by design).
+3. Bench 8.4 V, limit 200 mA. Expect ≈ 40-80 mA more than Stage A. 3V3 stays at 3.3 V.
+4. DFU (USB power only, pinmap R-08): **switch the bench supply off**, hold BOOT, then plug USB (BOOT0 is sampled only at reset;
    alternatively hold BOOT and short TP3 NRST to P2 GND briefly). The PC must enumerate "STM32 BOOTLOADER" (0483:DF11). Flash Betaflight (STM32F405 target), then apply
    `design/betaflight_config.txt` in the CLI (paste, `save`). Alternative: SWD via TP1 SWDIO, TP2 SWCLK, TP3 NRST, TP5 GND (check TP5 to P2 continuity first), TP4 3V3 sense.
-4. USB-only DFU note: on USB power the 5 V rail is off, so GPS/LEDs/cameras stay dark. This is intended. The Betaflight `bl`
+5. USB-only DFU note: on USB power the 5 V rail is off, so GPS/LEDs/cameras stay dark. This is intended. The Betaflight `bl`
    command enters the same ROM bootloader, so use it on USB power only too: with a battery the VTX/GPS UARTs can capture it.
 
 ## 4. Stage C: top-side sensors and remaining parts
@@ -135,8 +138,10 @@ D9, Q1, the remaining top passives and the connectors J2-J5. U6/U7 (IMUs) and U1
 **Do not fit R32 or R37** (DNP 0R links; the iBOM omits them). R32 shorts the MCU LED_STRIP pin to the 5 V output of U12; fit it only
 with U12 removed. R37 links the HD-VTX R2 pin to UART5_RX (non-inverted SBUS option only).
 
-Paste on the top side after the bottom is populated: the stencil cannot lie flat any more. Dispense paste from a syringe
-(fine needle, type 4/5 paste) on U8, U9 and Y1, or tin their pads with the iron and reflow with hot air and flux.
+Paste on the top side after the bottom is populated: either print through the stencil with the board on a support carrier
+(a plate with pockets for the bottom parts, so the board sits flat), or dispense paste from a syringe (fine needle, type 4/5
+paste) on U8 and U9, or tin their pads with the iron and reflow with hot air and flux. Preheat from below (≈ 120-150 °C) for
+top-side hot air: most top GND pads are poured solid into the planes (incl. U8 pads 3 and 8). Y1 went on in Stage B.
 
 In the Betaflight CLI:
 - `status`: gyro and accelerometer detected, CPU load normal, no I2C errors.
@@ -150,7 +155,11 @@ In the Betaflight CLI:
 - Magnetometer: `align_mag` is not derived (IIS2MDC datasheet not on file). Calibrate and check the heading in the Setup tab;
   set `align_mag` on the bench if the heading moves the wrong way.
 - VBAT and current ADC inputs have 10k + 10 nF RC filters but no diode clamps (D-23): do not drive the CURR pad above 3.3 V.
-- Baro (`status` lists BMP390 on I2C) and magnetometer (IIS2MDC) detected.
+- Baro and magnetometer detected: Betaflight reports the BMP390 as **BMP388** and the IIS2MDC as **LIS2MDL** (same drivers).
+- Board front: the **J3 (VTX) edge**, marked "FRONT" with an arrow on both silk layers. Mount it facing forward or set `align_board_yaw`.
+- Before the first flight, also check: blackbox (`flash_info`, record and download a short log), motors in the Motors tab with
+  props off (DShot, direction), ESC telemetry if wired, OSD/MSP on the VTX, LED strip, beeper, VBAT reading against a DMM and the
+  current-sensor scale, and assign USER1/USER2 (PINIO1/2) modes in the Modes tab.
 - PINIO1 (VTX power) and PINIO2 (camera switch): toggle with the mode switch and confirm 10V and the camera source change.
 
 ## 5. Installation notes for users
