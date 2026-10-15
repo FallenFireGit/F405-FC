@@ -103,11 +103,11 @@ put("P7", 1.6, 17.4, 90, "B")          # VTX video
 put("P8", 1.6, 9.0, 90, "B")          # cam 5V
 put("P9", 1.6, 11.1, 90, "B")          # cam GND
 # SWD test pads on top, right of the MCU
-put("TP1", 14.0, 4.4, 0, "B")            # SWDIO
-put("TP2", 16.4, 4.4, 0, "B")            # SWCLK
-put("TP3", 18.8, 4.4, 0, "B")             # NRST
-put("TP4", 14.0, 7.2, 0, "B")            # 3V3
-put("TP5", 16.4, 7.2, 0, "B")            # GND
+put("TP1", 28.9, 6.4, 0, "B")            # SWDIO (rev D: top-right corner, next to the SWD pins)
+put("TP2", 31.0, 6.4, 0, "B")            # SWCLK
+put("TP3", 33.1, 6.4, 0, "B")             # NRST
+put("TP4", 8.1, 16.0, 0, "B")           # 3V3 (rev D: under the MCU left edge, next to TP5)
+put("TP5", 12.4, 18.0, 0, "B")           # GND (rev D: under the MCU left edge)
 
 # ---------------------------------------------------------------- BOTTOM: IMUs at the centroid
 put("U6", 15.4, 17.0, 0, "B")
@@ -117,9 +117,9 @@ put("C40", 14.2, 17.0, 90, "B")
 put("U7", 19.2, 17.0, 0, "B")   # rev D: 1.6 mm in from under the MCU right pin row (escape vias, Gate 4 G4-05)
 put("C41", 20.0, 19.2, 0, "B")
 put("C42", 22.0, 17.0, 90, "B")
-put("U5", 18.55, 10.4, 0, "B")     # LP5907 for 3V3_IMU
-put("C22", 21.0, 13.2, 90, "B")
-put("C23", 15.6, 13.2, 90, "B")
+put("U5", 15.5, 5.2, 0, "B")       # LP5907 for 3V3_IMU; rev D: where TP1-TP3 were, clear of the via strip above the U3 top pins
+put("C22", 14.9, 8.0, 0, "B")      # U5 input cap
+put("C23", 19.1, 4.0, 0, "B")      # U5 output cap
 
 # ---------------------------------------------------------------- BOTTOM: upper half (flash, 3V3 LDO, video, USB support)
 put("U10", 8.5, 8.0, 90, "B")     # W25N01GV WSON-8 8x6
@@ -211,7 +211,7 @@ RESERVED = [("B", (2.6, 8.0, 4.6, 18.4)),      # video/camera pad column labels
             ("B", (12.8, 2.3, 20.2, 3.5)),     # SWD test-point row labels (above)
             ("B", (13.2, 8.1, 17.6, 9.3))]     # 3V3 / GND test-point labels (below)
 
-FIXED = ["U13", "D9", "P13", "P14", "P22", "P23", "P10", "P11", "P24", "P21", "P25", "P5", "P6", "P7", "P8", "P9", "P20", "P17", "P19", "P18", "TP1", "TP2", "TP3", "TP4", "TP5", "H1", "H2", "H3", "H4", "J1", "J2", "J3", "J4", "J5", "U3", "U1", "U2", "L1", "L2", "U4", "U10",
+FIXED = ["C22", "C23", "U13", "D9", "P13", "P14", "P22", "P23", "P10", "P11", "P24", "P21", "P25", "P5", "P6", "P7", "P8", "P9", "P20", "P17", "P19", "P18", "TP1", "TP2", "TP3", "TP4", "TP5", "H1", "H2", "H3", "H4", "J1", "J2", "J3", "J4", "J5", "U3", "U1", "U2", "L1", "L2", "U4", "U10",
          "P1", "P2", "P3", "P4", "D1", "C1", "U6", "U7", "U5", "Y1", "U8", "U9", "U11", "U12"]
 
 # Pin-anchored parts (Gate 3 G3-02/03/05/08/09): ref -> (anchor ref, anchor pad, dx, dy, rotation, side).
@@ -254,8 +254,6 @@ ANCHOR = {
     "C41": ("U7", 8, 1.2, 0.25, 90, "B"),
     "C42": ("U7", 5, 0.0, -1.1, 0, "B"),
     # LDOs
-    "C22": ("U5", 2, -1.9, 0.0, 90, "B"),
-    "C23": ("U5", 5, 0.0, 1.65, 0, "B"),       # below U5 (U4 is to the right)
     "C20": ("U4", 3, 0.0, 2.2, 0, "B"),
     "C19": ("U4", 1, 0.0, 2.2, 0, "B"),
     # MCU decoupling (top) — outside the LQFP courtyard (13.5 mm), closest to their pins
@@ -295,4 +293,4 @@ PRIORITY.update({r: -9 for r in ("U13", "C24", "C52", "C53", "R38", "R39", "C48"
                                  "C49", "C50", "C18")})
 
 # rev D placement freeze (gen/build_pcb.py): every other part keeps its position from kicad/placement_frozen.json
-UNFREEZE = ()
+UNFREEZE = ("U5", "C22", "C23", "TP1", "TP2", "TP3", "TP4", "TP5")
