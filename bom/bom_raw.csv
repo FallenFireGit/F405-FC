@@ -21,7 +21,7 @@ Qty per board,Refs,Value,MPN,Manufacturer,DigiKey PN,Footprint,Datasheet
 1,J5,ELRS,SM04B-SRSS-TB(LF)(SN),JST,455-1804-1-ND,JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal,https://www.jst-mfg.com/product/pdf/eng/eSH.pdf
 1,J2,ESC,SM08B-SRSS-TB(LF)(SN),JST,455-1808-1-ND,JST_SH_SM08B-SRSS-TB_1x08-1MP_P1.00mm_Horizontal,https://www.jst-mfg.com/product/pdf/eng/eSH.pdf
 1,J1,USB4105-GF-A,USB4105-GF-A,GCT,2073-USB4105-GF-ACT-ND,USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal,https://gct.co/files/drawings/usb4105.pdf
-2,L1 L2,5.6uH,74438356056,Würth Elektronik,not confirmed; alt 78438356056 = 732-11317-1-ND,L_Wuerth_MAPI-4020,https://www.we-online.com/components/products/datasheet/74438356056.pdf
+2,L1 L2,5.6uH,78438356056,Würth Elektronik,732-11317-1-ND,L_Wuerth_MAPI-4020,https://www.we-online.com/components/products/datasheet/74438356056.pdf
 1,Q2,NX7002AK,"NX7002AK,215",Nexperia,1727-1289-1-ND,SOT-23,https://assets.nexperia.com/documents/data-sheet/NX7002AK.pdf
 1,Q1,PMV40UN2,PMV40UN2R,Nexperia,1727-1900-1-ND,SOT-23,https://assets.nexperia.com/documents/data-sheet/PMV40UN2.pdf
 9,R16 R17 R18 R19 R20 R29 R30 R38 R39,10.0K,RC0402FR-0710KL,Yageo,311-10.0KLRCT-ND,R_0402_1005Metric,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf

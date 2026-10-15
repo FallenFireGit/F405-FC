@@ -23,7 +23,7 @@ current-limited bench supply.**
 | Layers / thickness | 4 layers, 1.6 mm, stackup **JLC04161H-7628** (In1 = GND, In2 = PWR as in the Gerber names) |
 | Copper | 1 oz outer, 0.5 oz inner |
 | Surface finish | **ENIG** (HASL is uneven on 0.25 mm LGA and 0.5 mm LQFP pads) |
-| Via covering | **Epoxy filled and capped** (POFV) preferred; else tented. About 26 fanout vias sit 0.03-0.09 mm from fine-pitch pads (U3, U6-U8, U10) and a few VBAT vias touch the C10/C12/C8/D1 pads; filled vias stop solder wicking there (Gate 5 M-3, D-26) |
+| Via covering | **Epoxy filled and capped (POFV): required.** About 48 vias sit < 0.10 mm (closest 0.024 mm) from same-net fine-pitch or 0402 pads (U3, U6-U8, U10) and a few VBAT vias touch the C10/C12/C8/D1 pads; filled vias stop solder wicking there (Gate 5 M-3, D-26) |
 | Min track / space, via | 0.127 / 0.127 mm, 0.3 / 0.6 mm |
 | Mask / silk | any colour; silk text height 0.8 mm |
 
@@ -90,7 +90,7 @@ Part heights against vendor drawings were not verified (see review/summary.md); 
 6. UVLO: lower the input slowly from 8 V. Both bucks switch off between 3.8 V and 4.9 V and restart between 4.4 V and 5.6 V.
 7. VTX power switch: with 16.8 V in, apply 3.3 V through a 1 kΩ resistor to the VTX_PWR_EN node (or, after Stage B, toggle PINIO1):
    10V must drop to 0 V. Remove it: 10V returns within about 5 ms (soft start).
-9. Switch off, fit D4 (top), D5, U4 and U5 (A2; their caps went on in A1), then repeat steps 1-3 at 8.4 V and also check:
+8. Switch off, fit D4 (top), D5, U4 and U5 (A2; their caps went on in A1), then repeat steps 1-3 at 8.4 V and also check:
 
 | Rail | Where | Expected | Notes |
 |---|---|---|---|
@@ -117,7 +117,8 @@ the top MCU decoupling (C25-C29, C31-C34, C53), R14/R15 (VBAT divider), R16 (BOO
 
 J1 shell: the four shell slots have thermal reliefs (Gate 5 M-1) but still sit in four GND layers. Use a ≥ 60 W iron with a 2-3 mm
 chisel tip and preheat the board from the top with hot air (≈ 150 °C) before soldering the shell; fill each slot from the top
-until solder shows at the bottom. These four joints hold the connector.
+until solder shows at the bottom. These four joints hold the connector. Check the bottom side afterwards: R7 (10 V buck enable) sits
+0.35 mm from a shell slot, and a bridge there disables the 10 V rail.
 
 1. Before power: SW1 open = BOOT0 low (measure BOOT0 to 3V3: open circuit unless the button is pressed).
 2. Bench 8.4 V, limit 200 mA. Expect ≈ 40-80 mA more than Stage A. 3V3 stays at 3.3 V.
@@ -131,6 +132,11 @@ until solder shows at the bottom. These four joints hold the connector.
 
 Fit (top side, hot air with a 3-5 mm nozzle, Kapton over the neighbours, or iron): U8 (BMP390), U9 (IIS2MDC), U12 (LED buffer),
 D9, Q1, the remaining top passives and the connectors J2-J5. U6/U7 (IMUs) and U11 are already on (A1).
+**Do not fit R32 or R37** (DNP 0R links; the iBOM omits them). R32 shorts the MCU LED_STRIP pin to the 5 V output of U12; fit it only
+with U12 removed. R37 links the HD-VTX R2 pin to UART5_RX (non-inverted SBUS option only).
+
+Paste on the top side after the bottom is populated: the stencil cannot lie flat any more. Dispense paste from a syringe
+(fine needle, type 4/5 paste) on U8, U9 and Y1, or tin their pads with the iron and reflow with hot air and flux.
 
 In the Betaflight CLI:
 - `status`: gyro and accelerometer detected, CPU load normal, no I2C errors.
@@ -152,7 +158,7 @@ In the Betaflight CLI:
 - Solder the battery leads to the **P1 (VBAT) / P2 (GND)** bottom pads, or check the ESC harness current rating (JST-SH pins are 1 A).
 - Fit a low-ESR electrolytic of 470-1000 uF, ≥ 35 V across the ESC battery pads.
 - 10 V rail: 1.3 A continuous (DJI O3 / Walksnail / HDZero OK). On 2S, HD VTXs must be powered from VBAT and R41 removed (D-11).
-- **J3 (front, silk "VTX 10V") carries 10 V** for the VTX: never plug a GPS or other 5 V device into it (D-15). GPS goes to J4.
+- **J3 (front; its silk warning "J3 VTX 10V" is on the back, there is no room beside the connector on the front) carries 10 V** for the VTX: never plug a GPS or other 5 V device into it (D-15). GPS goes to J4.
 - Connect the battery before USB, or reboot after plugging the battery: on USB alone the 5 V/10 V peripherals are unpowered and
   are not detected (D-15).
 - LED strip wiring: DIN to P10, 5 V to P11, GND to P4 (the 10 V VTX GND pad, shared; D-21). P4 sits next to the 10 V pad P3:

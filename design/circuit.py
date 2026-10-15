@@ -215,8 +215,8 @@ part(PWR, "D1", "Device:D_Zener", "SMBJ26A", FP["SMB"], {"K": "VBAT", "A": "GND"
 C(PWR, "C10u_50V", "VBAT")  # entry cap C1
 
 for rail, vout, rfbb_key, lval, lmpn, ldk, en_net in (
-        ("5V", "5V", "R24k3", "5.6uH", "74438356056", "not confirmed; alt 78438356056 = 732-11317-1-ND", "EN_5V"),
-        ("10V", "10V", "R11k", "5.6uH", "74438356056", "not confirmed; alt 78438356056 = 732-11317-1-ND", "EN_10V")):
+        ("5V", "5V", "R24k3", "5.6uH", "78438356056", "732-11317-1-ND", "EN_5V"),
+        ("10V", "10V", "R11k", "5.6uH", "78438356056", "732-11317-1-ND", "EN_10V")):
     # WE-MAPI 4020 (2.1 mm max): the bottom side is limited to 2.5 mm (Gate 3 G3-01); one part type for both rails
     u = "U1" if rail == "5V" else "U2"
     l = "L1" if rail == "5V" else "L2"

@@ -19,7 +19,7 @@ for s in top bottom; do kicad-cli pcb render --side $s --width 1600 --height 160
 kicad-cli pcb render --rotate "-45,0,45" --width 1600 --height 1200 --quality high -o /work/docs/renders/board_iso.png F405FC.kicad_pcb >/dev/null 2>&1
 cd /opt/ibom/interactivehtmlbom-2.12.0 && INTERACTIVE_HTML_BOM_NO_DISPLAY=1 python3 -m InteractiveHtmlBom.generate_interactive_bom --no-browser --dest-dir /work/bom \
     --name-format F405FC_ibom --group-fields "Value,Footprint,MPN" \
-    --show-fields "Value,Footprint,MPN,Manufacturer,DigiKey" --blacklist "H*,P*,TP*" /work/kicad/F405FC.kicad_pcb >/dev/null 2>&1 || echo "iBOM failed"
+    --show-fields "Value,Footprint,MPN,Manufacturer,DigiKey" --blacklist "H*,P*,TP*,R32,R37" /work/kicad/F405FC.kicad_pcb >/dev/null 2>&1 || echo "iBOM failed"
 '
 python3 - <<'EOF'
 import csv
