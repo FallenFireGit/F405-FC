@@ -58,16 +58,6 @@
 		(layer "F.Fab")
 	)
 	(fp_rect
-		(start -0.86 -1.06)
-		(end 0.86 1.06)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(fill no)
-		(layer "F.SilkS")
-	)
-	(fp_rect
 		(start -0.97 -1.17)
 		(end 0.97 1.17)
 		(stroke

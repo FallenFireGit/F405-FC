@@ -164,14 +164,23 @@ def silk_labels(board):
     def hit(a, b, g):
         return a[0] < b[2] + g and b[0] < a[2] + g and a[1] < b[3] + g and b[1] < a[3] + g
     pads = {"T": [], "B": []}
+    bodies = {"T": [], "B": []}
+    silk = {"T": [], "B": []}
     centres = {"T": {}, "B": {}}
     for fp in board.GetFootprints():
         side = "B" if fp.IsFlipped() else "T"
+        bodies[side].append(rmm(fp.GetBoundingBox(False)))
+        for g in fp.GraphicalItems():
+            if g.GetLayer() in (pcbnew.F_SilkS, pcbnew.B_SilkS):
+                silk["B" if g.GetLayer() == pcbnew.B_SilkS else "T"].append(rmm(g.GetBoundingBox()))
         for p in fp.Pads():
             ls = p.GetLayerSet()
             for sd, lay in (("T", pcbnew.F_Cu), ("B", pcbnew.B_Cu)):
                 if ls.Contains(lay):
                     pads[sd].append(rmm(p.GetBoundingBox()))
+        if fp.GetReference()[0] == "J" or fp.GetReference().startswith("SW"):
+            # connector / button bodies hide silk after assembly (Gate 5 M-5): labels stay off them
+            pads[side].append(rmm(fp.GetBoundingBox(False)))
         if fp.GetReference() in LABELS:
             r = rmm(fp.GetBoundingBox(False))
             if fp.GetReference()[0] in "PT":       # solder pads / test points: measure from the copper, not the courtyard
@@ -188,32 +197,39 @@ def silk_labels(board):
         cx, cy, r = centres[side][ref]
         hw, hh = (r[2] - r[0]) / 2, (r[3] - r[1]) / 2
         is_pad = ref.startswith("P") or ref.startswith("TP")
-        best = None
-        for size in (0.8,):
-            tw, th = 0.85 * size * len(lab) + 0.15, size + 0.1   # stroke-font ink extents (verified by DRC silk_over_copper = 0)
-            for gap in (0.2, 0.45, 0.8):
-                cands = [(cx + dx * (hw + tw / 2 + gap), cy + dy * (hh + th / 2 + gap))
-                         for dx, dy in ((0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (-1, 1), (1, -1), (-1, -1))]
-                if ref.startswith("J"):     # connectors: the label may sit on the connector body where there is no copper
-                    cands += [(cx, cy + k * 0.25) for k in range(-12, 13)]
-                for tx, ty in cands:
-                    rect = [tx - tw / 2, ty - th / 2, tx + tw / 2, ty + th / 2]
-                    if rect[0] < 0.4 or rect[1] < 0.4 or rect[2] > W - 0.4 or rect[3] > H - 0.4:
-                        continue
-                    if any(math.hypot(tx - hx, ty - hy) < 2.4 for hx, hy in ((2.75, 2.75), (33.25, 2.75), (2.75, 33.25), (33.25, 33.25))):
-                        continue
-                    if any(hit(rect, pr, 0.1) for pr in pads[side]) or any(hit(rect, q, 0.1) for q in placed[side]):
-                        continue
-                    own = math.hypot(tx - cx, ty - cy)
-                    gap_used = gap
-                    if is_pad:
-                        others = [math.hypot(tx - ox_, ty - oy_) for k, (ox_, oy_, _) in centres[side].items()
-                                  if k != ref and (k.startswith("P") or k.startswith("TP"))]
-                        if others and min(others) - own < 0.6:
+        home = side
+        for side in (home, "B" if home == "T" else "T"):
+            if side != home:            # no room beside the part: label it on the far side, ref first (Gate 5 M-5)
+                lab = ref + " " + LABELS[ref]
+            best = None
+            for size in (0.8,):
+                tw, th = 0.85 * size * len(lab) + 0.15, size + 0.1   # stroke-font ink extents (verified by DRC silk_over_copper = 0)
+                for gap in (0.2, 0.45, 0.8, 1.2, 1.6, 2.0, 2.5):
+                    cands = [(cx + dx * (hw + tw / 2 + gap), cy + dy * (hh + th / 2 + gap))
+                             for dx, dy in ((0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (-1, 1), (1, -1), (-1, -1))]
+                    if side != home:        # far side: any free spot within 6 mm
+                        cands = [(cx + 0.25 * i, cy + 0.25 * k) for i in range(-24, 25) for k in range(-24, 25)]
+                    for tx, ty in cands:
+                        rect = [tx - tw / 2, ty - th / 2, tx + tw / 2, ty + th / 2]
+                        if rect[0] < 0.4 or rect[1] < 0.4 or rect[2] > W - 0.4 or rect[3] > H - 0.4:
                             continue
-                    score = own + gap + (0.5 if size < 0.8 else 0)
-                    if best is None or score < best[0]:
-                        best = (score, tx, ty, size, rect)
+                        if any(math.hypot(tx - hx, ty - hy) < 2.4 for hx, hy in ((2.75, 2.75), (33.25, 2.75), (2.75, 33.25), (33.25, 33.25))):
+                            continue
+                        obst = pads[side] + (silk[side] if side != home else [])
+                        if any(hit(rect, pr, 0.1) for pr in obst) or any(hit(rect, q, 0.1) for q in placed[side]):
+                            continue
+                        own = math.hypot(tx - cx, ty - cy)
+                        gap_used = gap
+                        if is_pad:
+                            others = [math.hypot(tx - ox_, ty - oy_) for k, (ox_, oy_, _) in centres[side].items()
+                                      if k != ref and (k.startswith("P") or k.startswith("TP"))]
+                            if others and min(others) - own < 0.6:
+                                continue
+                        score = own + gap + (0.5 if size < 0.8 else 0)
+                        if best is None or score < best[0]:
+                            best = (score, tx, ty, size, rect)
+                if best:
+                    break
             if best:
                 break
         if best is None:
@@ -230,6 +246,38 @@ def silk_labels(board):
         if side == "B":
             t.SetMirrored(True)
         board.Add(t)
+    # board name and revision (Gate 5 m-4): first free spot on the bottom, then the top
+    mark, size = "F405-FC rev C", 0.8
+    tw, th = 0.85 * size * len(mark) + 0.15, size + 0.1
+    for side in "BT":
+        spot = None
+        for ty in [0.6 + th / 2 + 0.25 * k for k in range(int((H - 1.2) / 0.25))]:
+            for tx in [0.6 + tw / 2 + 0.25 * k for k in range(int((W - 1.2 - tw) / 0.25))]:
+                rect = [tx - tw / 2, ty - th / 2, tx + tw / 2, ty + th / 2]
+                if rect[2] > W - 0.6 or rect[3] > H - 0.6:
+                    continue
+                if any(math.hypot(min(max(hx, rect[0]), rect[2]) - hx, min(max(hy, rect[1]), rect[3]) - hy) < 2.4
+                       for hx, hy in ((2.75, 2.75), (33.25, 2.75), (2.75, 33.25), (33.25, 33.25))):
+                    continue
+                if any(hit(rect, pr, 0.15) for pr in pads[side] + bodies[side]) or any(hit(rect, q, 0.15) for q in placed[side]):
+                    continue
+                spot = (tx, ty)
+                break
+            if spot:
+                break
+        if spot:
+            t = pcbnew.PCB_TEXT(board)
+            t.SetText(mark)
+            t.SetPosition(pt(*spot))
+            t.SetLayer(pcbnew.B_SilkS if side == "B" else pcbnew.F_SilkS)
+            t.SetTextSize(pcbnew.VECTOR2I(mm(size), mm(size)))
+            t.SetTextThickness(mm(0.15))
+            if side == "B":
+                t.SetMirrored(True)
+            board.Add(t)
+            break
+    else:
+        print("BOARD MARK: no free spot")
 
 
 def place(board, table):

@@ -85,6 +85,14 @@ def stage(name, passes):
             ps.thisown = False
             _KEEP.append(ps)
             board.Add(z)
+        # USB-C shell slots: thermal reliefs so an iron can wet the barrels through four planes (Gate 5 M-1)
+        for fp in board.GetFootprints():
+            if fp.GetReference() != "J1":
+                continue
+            for p in fp.Pads():
+                if p.GetDrillSize().x > 0 and p.GetNetname() == "GND":
+                    p.SetLocalZoneConnection(pcbnew.ZONE_CONNECTION_THERMAL)
+                    p.SetThermalGap(mm(0.25))      # spokes: the zone's 0.3 mm (the SWIG optional<int> overrides do not bind)
     elif name == "dsn":
         ok = pcbnew.ExportSpecctraDSN(board, DSN)
         # In1 is the solid GND plane: no net class may route traces on it (GND reaches it through gen/gndfan.py vias)
