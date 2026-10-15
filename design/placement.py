@@ -277,7 +277,7 @@ ANCHOR = {
     "C53": ("R39", 2, -1.0, 0.0, 90, "T"),   # RSSI RC filter cap next to its series resistor (frees MCU under-body via sites)
     # crystal load caps
     "C36": ("Y1", 1, 0.0, -1.4, 0, "T"),
-    "C37": ("Y1", 3, 0.0, 1.45, 0, "T"),
+    "C37": ("Y1", 2, -1.95, -0.05, 180, "T"),   # left of Y1 between J4/J5 (FB1 holds the spot under pin 3; Gate 4 G4-01)
     # sensors / flash / video switch / LED buffer
     "C43": ("U8", 10, 1.0, 0.0, 90, "T"),
     "C44": ("U8", 1, 0.0, -1.0, 0, "T"),
