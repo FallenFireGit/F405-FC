@@ -54,7 +54,7 @@ put("C29", 15.2, 25.3, 90)        # bulk 4.7u
 put("C33", 20.4, 25.0, 90)        # VCAP1 (pin 31)
 put("C34", 23.9, 11.6, 0)         # VCAP2 (pin 47)
 # pull-ups / pull-downs
-put("R16", 19.6, 9.9, 90)         # BOOT0 pulldown (pin 60)
+put("R16", 19.5, 7.7, 0)          # BOOT0 pulldown (pin 60); rev D: up under J3, frees the via strip above U3 pins 51-54
 put("R17", 18.6, 25.0, 90)        # BEEPER/BOOT1 pulldown (pin 28)
 put("R18", 13.25, 19.55, 0, "B")   # GYRO1_CS pull-up; rev D: bottom beside U6 (its top-side branch forced GYRO1_CS across 3V3 at pin 19)
 put("R19", 24.55, 13.55, 90)      # GYRO2_CS pull-up (moved off the MCU top-row corridor, routing)
