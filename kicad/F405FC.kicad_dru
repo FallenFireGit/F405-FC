@@ -1,0 +1,6 @@
+(version 1)
+# USB-C shell slots (J1): thermal reliefs so an iron can wet the barrels (Gate 5 M-1). On B.Cu the fan-out around the shell
+# leaves room for one spoke; the slots are also tied on F.Cu and the inner planes, so one resolved spoke per layer is accepted.
+(rule "J1 shell spokes"
+  (constraint min_resolved_spokes 1)
+  (condition "A.Parent == 'J1' && A.isPlated() && A.Type == 'Pad'"))
