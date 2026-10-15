@@ -1,4 +1,4 @@
-# F405-FC power architecture (Gate 0 design, rev B; rev C changes from Gate 3 and later)
+# F405-FC power architecture (Gate 0 design, rev B; rev C changes from Gate 3 and later; rev D = 6-layer board, D-27)
 
 Source of truth for requirements: `design/requirements.md`. Datasheets are in `datasheets/` (file name in brackets).
 Rev B (2026-10-11) replaces both TPS54360B non-synchronous bucks with the synchronous TI **LMR38020FSDDAR**, removes the
@@ -240,7 +240,7 @@ The ESC JST-SH VBAT pin is rated 1 A (JST SH, AWG 28). Rev B adds:
 | 5V (P11) + GND (P4) | 1.5 x 2.0 mm | 5V / GND | WS2812 strip power; the LED strip shares P4 for GND (rev C, D-21) |
 
 Current check: 6S worst-case board input is about 1.06 A (section 12.4), 2S worst case about 2.95 A. A 2.5 x 4 mm pad with 20 AWG carries
-that easily. Rev C: P1 is stitched by 4 vias to D1/C1 on the top and to a VBAT copper zone on In2 (8 mm wide from P1 to the U1 input
+that easily. Rev C: P1 is stitched by 4 vias to D1/C1 on the top and to a VBAT copper zone on In2 (rev D: on In3; 8 mm wide from P1 to the U1 input
 caps, a 1.6 mm drawn riser (about 1.5 mm filled) to three vias on the U2 input track C10-C12-U2 VIN, `gen/route.py` and
 `gen/critical.py`, Gate 3 G3R-02 and Gate 6 G6S-01 review), plus the 0.8 mm B.Cu hot-loop copper at each buck. Routed power branches
 (VBAT, 5V, 10V, VTX_PWR) stay on the 1 oz outer layers (Gate 6 G6S-04: 0.45 mm on 0.5 oz In2 would rise ~60-80 °C at 1 A per
@@ -357,7 +357,7 @@ Why:
 
 ### 10.2 Current sense (ESC CURR pin) and RSSI input (pin-map G0-09: mandatory protection)
 - Series **10.0 kOhm** + **10 nF** to GND at the ADC pin (fc = 1.59 kHz), plus a **BAT54S** clamp (common node on the ADC pin, one diode
-  to 3V3, one to GND).
+  to 3V3, one to GND). **Removed in rev C (D-23): no clamp is fitted; the BAT54S text below is history.**
 - The 10 kOhm alone limits injection to (25.2 − 3.6)/10k = 2.16 mA if VBAT is mis-wired onto CURR/RSSI. The BAT54S keeps the pin within
   about −0.3 / 3.6 V so the injection goes through the Schottky rather than the MCU's ESD structure.
 - BAT54S leakage (≤ 2 uA at 25 V, far less at 3.3 V) x 10 kOhm < 20 mV error. The 10 nF is 2500x the ADC sample cap.
@@ -511,7 +511,7 @@ DigiKey PNs and evidence: `design/parts_signal.md`, `review/sourcing_research_no
 | U4 | 1 | LDO 3.3 V 1 A | LP38692MP-3.3/NOPB (TI) | SOT-223-5 |
 | U5 | 1 | LDO 3.3 V low-noise | LP5907MFX-3.3/NOPB (TI) | SOT-23-5 |
 | D4, D5, D9 | 3 | Schottky 40 V 3 A (USB OR, 5V OR, buzzer flyback) | PMEG4030ER,115 (Nexperia) | SOD-123W |
-| D7, D8 | 2 | ADC clamp | BAT54S-7-F (Diodes Inc.) | SOT-23 |
+| ~~D7, D8~~ | 0 | ADC clamp, removed (D-23) | ~~BAT54S-7-F~~ | - |
 | Q1 | 1 | Buzzer N-FET | PMV40UN2R (Nexperia) | SOT-23 |
 
 ---

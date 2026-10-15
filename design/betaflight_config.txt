@@ -153,7 +153,7 @@ set gyro_2_spibus = 1
 set gyro_2_sensor_align = CW0FLIP
 set gyro_to_use = FIRST
 # gyro_1 = ICM-42688-P (CS A04 / EXTI C04), gyro_2 = BMI270 (CS A15 / EXTI C14)
-# Alignment (PROVISIONAL, Gate 3 G3-13): both IMUs on the bottom side, rot 0; board front = J3 (VTX) edge, marked "FRONT" on silk.
+# Alignment (PROVISIONAL, Gate 3 G3-13): both IMUs on the bottom side, rot 0; board front = J3 (VTX) edge, marked by silk arrows ("FRONT" on the bottom, "FWD" on the top).
 # Derived from datasheet axis figures, not yet bench-verified: confirm with the tilt test in docs/assembly_and_bringup.md §4.
 
 # Barometer BMP390 (BF BMP388 driver) on I2C1, SDO strapped to GND -> 0x76

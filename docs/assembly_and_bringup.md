@@ -4,8 +4,11 @@ Board (rev D): 36 x 36 mm, 6 layers, 1.6 mm, parts on both sides (0402 minimum, 
 `kicad/F405FC.kicad_pcb`; the interactive BOM (`bom/F405FC_ibom.html`) shows every part's location per side.
 Power design and limits: `design/power.md`. Decisions and deviations: `design/decisions.md`.
 
-**Rule for the whole procedure: the MCU (U3) and the sensors are fitted only after every power rail has been checked on a
-current-limited bench supply.**
+**Rule for the whole procedure: no logic part sees a rail that has not been checked on a current-limited bench supply.** The MCU
+(U3) and the top-side sensors are fitted after all rail checks. The bottom IMUs (U6/U7), flash (U10) and video switch (U11) must go
+on in the single bottom reflow (A1, side order), so they are protected differently: their LDOs (U4/U5) and D5 are fitted only after
+the bucks are verified, and the LDOs are first powered from a 3.6 V / 30 mA source (step 2.1.8), so no LDO fault can exceed the
+IMUs' 4.0 V absolute maximum.
 
 ## 0. What you need
 
@@ -36,6 +39,9 @@ This option and its cost on 6-layer boards were not checked against the live JLC
 
 Measure resistance to GND (P2) with the DMM. All must read open (> 1 MΩ) on a bare board:
 VBAT (P1), 5V (P8 / P11), 10V (P3), 5V_SYS (J5 pin 1), 3V3 (TP4), VBUS (USB-C), SW nodes (L1/L2 pad 1 lands).
+Then rail to rail (these vias sit 0.13-0.21 mm from pads of another rail, Gate 6 G6S-12; all must read open): VBAT-3V3, VBAT-5V,
+VBAT-10V, 5V-3V3, 10V-5V, 5V_SYS-3V3. Repeat these rail-to-rail checks after A1 and after Stage B (expect high resistances
+through parts, never < 1 kΩ).
 Any short here is a fab defect: do not populate.
 
 ## 2. Stage A: bottom side in one hot-plate pass, then the power checks
@@ -90,7 +96,11 @@ Part heights against vendor drawings were not verified (see review/summary.md); 
 6. UVLO: lower the input slowly from 8 V. Both bucks switch off between 3.8 V and 4.9 V and restart between 4.4 V and 5.6 V.
 7. VTX power switch: with 16.8 V in, apply 3.3 V through a 1 kΩ resistor to the VTX_PWR_EN node (or, after Stage B, toggle PINIO1):
    10V must drop to 0 V. Remove it: 10V returns within about 5 ms (soft start).
-8. Switch off, fit D4 (top), D5, U4 and U5 (A2; their caps went on in A1), then repeat steps 1-3 at 8.4 V and also check:
+8. Switch off, fit D4 (top), D5, U4 and U5 (A2; their caps went on in A1). Unpowered checks first (DMM): U4 tab and U5 pin 2 to
+   P2 GND < 1 Ω (U4's only ground is its tab: an unwetted tab lets 3V3 rise towards 5V_SYS); 5V_SYS-3V3, 5V_SYS-3V3_IMU and
+   3V3-3V3_IMU not shorted. Then power **5V_SYS directly at J5 pin 1 (+) / P2 (−) with 3.6 V, limit 30 mA** (D5 and D4 block
+   back-feed): 3V3 and 3V3_IMU must read 3.2-3.6 V and never more; current a few mA. Only then repeat steps 1-3 at 8.4 V and
+   also check:
 
 | Rail | Where | Expected | Notes |
 |---|---|---|---|
@@ -156,7 +166,7 @@ In the Betaflight CLI:
   set `align_mag` on the bench if the heading moves the wrong way.
 - VBAT and current ADC inputs have 10k + 10 nF RC filters but no diode clamps (D-23): do not drive the CURR pad above 3.3 V.
 - Baro and magnetometer detected: Betaflight reports the BMP390 as **BMP388** and the IIS2MDC as **LIS2MDL** (same drivers).
-- Board front: the **J3 (VTX) edge**, marked "FRONT" with an arrow on both silk layers. Mount it facing forward or set `align_board_yaw`.
+- Board front: the **J3 (VTX) edge**, marked with an arrow pointing at it: "FRONT" on the bottom silk at that edge, "FWD" on the top silk (bottom-right corner). Mount it facing forward or set `align_board_yaw`.
 - Before the first flight, also check: blackbox (`flash_info`, record and download a short log), motors in the Motors tab with
   props off (DShot, direction), ESC telemetry if wired, OSD/MSP on the VTX, LED strip, beeper, VBAT reading against a DMM and the
   current-sensor scale, and assign USER1/USER2 (PINIO1/2) modes in the Modes tab.
@@ -165,6 +175,9 @@ In the Betaflight CLI:
 ## 5. Installation notes for users
 
 - Solder the battery leads to the **P1 (VBAT) / P2 (GND)** bottom pads, or check the ESC harness current rating (JST-SH pins are 1 A).
+- **ESC harness pin order:** before the first battery connection, check with the DMM that the ESC's VBAT wire lands on J2 pin 1
+  (VBAT) and its GND on J2 pin 2 (GND), and every signal on the matching pad. ESC harnesses are not standardised; a swapped
+  VBAT/GND is reverse polarity straight from the battery (the board has no reverse-polarity protection, G6S-20).
 - Fit a low-ESR electrolytic of 470-1000 uF, ≥ 35 V across the ESC battery pads.
 - 10 V rail: 1.3 A continuous (DJI O3 / Walksnail / HDZero OK). On 2S, HD VTXs must be powered from VBAT and R41 removed (D-11).
 - **J3 (front; its silk warning "J3 VTX 10V" is on the back, there is no room beside the connector on the front) carries 10 V** for the VTX: never plug a GPS or other 5 V device into it (D-15). GPS goes to J4.

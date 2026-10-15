@@ -6,7 +6,7 @@
 	(paper "A3")
 	(title_block
 		(title "F405-FC flight controller - MCU")
-		(rev "C")
+		(rev "D")
 		(company "F405-FC")
 	)
 	(lib_symbols
@@ -5867,7 +5867,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey" "50-ECS-80-8-33-JEN-TR3CT-ND (verify)"
+		(property "DigiKey" "50-ECS-80-8-33-JEN-TR3CT-ND"
 			(at 261.62 30.48 0)
 			(effects
 				(font

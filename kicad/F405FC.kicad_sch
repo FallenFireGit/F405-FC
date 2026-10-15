@@ -6,7 +6,7 @@
 	(paper "A4")
 	(title_block
 		(title "F405-FC flight controller")
-		(rev "C")
+		(rev "D")
 		(company "F405-FC")
 	)
 	(lib_symbols)

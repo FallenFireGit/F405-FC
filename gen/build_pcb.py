@@ -210,18 +210,18 @@ def silk_labels(board):
             best = None
             for size in (0.8,):
                 tw, th = 0.85 * size * len(lab) + 0.15, size + 0.1   # stroke-font ink extents (verified by DRC silk_over_copper = 0)
-                for gap in (0.2, 0.45, 0.8, 1.2, 1.6, 2.0, 2.5):
+                for gap in (0.2, 0.45, 0.8, 1.2, 1.6, 2.0, 2.5, 3.0, 3.5):   # wide gaps: P6, J5 (Gate 6 G6B-03)
                     cands = [(cx + dx * (hw + tw / 2 + gap), cy + dy * (hh + th / 2 + gap))
                              for dx, dy in ((0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (-1, 1), (1, -1), (-1, -1))]
-                    if side != home:        # far side: any free spot within 6 mm
-                        cands = [(cx + 0.25 * i, cy + 0.25 * k) for i in range(-24, 25) for k in range(-24, 25)]
+                    if side != home:        # far side: any free spot within 8 mm
+                        cands = [(cx + 0.25 * i, cy + 0.25 * k) for i in range(-32, 33) for k in range(-32, 33)]
                     for tx, ty in cands:
                         rect = [tx - tw / 2, ty - th / 2, tx + tw / 2, ty + th / 2]
                         if rect[0] < 0.4 or rect[1] < 0.4 or rect[2] > W - 0.4 or rect[3] > H - 0.4:
                             continue
                         if any(math.hypot(tx - hx, ty - hy) < 2.4 for hx, hy in ((2.75, 2.75), (33.25, 2.75), (2.75, 33.25), (33.25, 33.25))):
                             continue
-                        obst = pads[side] + (silk[side] if side != home else [])
+                        obst = pads[side] + silk[side]
                         if any(hit(rect, pr, 0.1) for pr in obst) or any(hit(rect, q, 0.1) for q in placed[side]):
                             continue
                         own = math.hypot(tx - cx, ty - cy)
@@ -281,10 +281,56 @@ def silk_labels(board):
             if side == "B":
                 t.SetMirrored(True)
             board.Add(t)
+            placed[side].append([spot[0] - tw / 2, spot[1] - th / 2, spot[0] + tw / 2, spot[1] + th / 2])
             break
     else:
         print("BOARD MARK: no free spot")
+    # board front = the J3 (VTX) edge, y = 0 (Gate 6 G6B-01: the gyro alignment depends on it): "FRONT" plus an arrow pointing at
+    # that edge, on both sides, at the first free spot within 9 mm of the edge (anywhere on that side if there is none)
+    aw = 0.9                                    # arrow box width, left of the text
 
+    def front_spot(side, size, reach, word):
+        tw, th = 0.85 * size * len(word) + 0.15, size + 0.1
+        for ty in [0.6 + th / 2 + 0.25 * k for k in range(int((reach - 0.6 - th) / 0.25))]:
+            for tx in sorted([0.6 + aw + tw / 2 + 0.25 * k for k in range(int((W - 1.2 - tw - aw) / 0.25))],
+                             key=lambda x: abs(x - W / 2)):
+                rect = [tx - tw / 2 - aw, ty - th / 2, tx + tw / 2, ty + th / 2]
+                if rect[2] > W - 0.6:
+                    continue
+                if any(math.hypot(min(max(hx, rect[0]), rect[2]) - hx, min(max(hy, rect[1]), rect[3]) - hy) < 2.4
+                       for hx, hy in ((2.75, 2.75), (33.25, 2.75), (2.75, 33.25), (33.25, 33.25))):
+                    continue
+                if any(hit(rect, pr, 0.15) for pr in pads[side] + bodies[side] + silk[side]) or \
+                        any(hit(rect, q, 0.15) for q in placed[side]):
+                    continue
+                return tx, ty, tw, th, rect, word
+        return None
+    for side in "TB":
+        size, found = next(((sz, f) for word in ("FRONT", "FWD") for reach in (9.0, H - 0.6) for sz in (0.8,)
+                            for f in [front_spot(side, sz, reach, word)] if f), (None, None))
+        if found is None:
+            print("FRONT MARK: no free spot on", side)
+            continue
+        tx, ty, tw, th, rect, word = found
+        lay = pcbnew.B_SilkS if side == "B" else pcbnew.F_SilkS
+        t = pcbnew.PCB_TEXT(board)
+        t.SetText(word)
+        t.SetPosition(pt(tx, ty))
+        t.SetLayer(lay)
+        t.SetTextSize(pcbnew.VECTOR2I(mm(size), mm(size)))
+        t.SetTextThickness(mm(0.15 if size >= 0.8 else 0.12))
+        if side == "B":
+            t.SetMirrored(True)
+        board.Add(t)
+        placed[side].append(rect)
+        ax = tx - tw / 2 - aw / 2
+        for (x0, y0), (x1, y1) in (((ax, ty + th / 2), (ax, ty - th / 2)), ((ax, ty - th / 2), (ax - 0.3, ty - th / 2 + 0.35)),
+                                   ((ax, ty - th / 2), (ax + 0.3, ty - th / 2 + 0.35))):
+            g = pcbnew.PCB_SHAPE(board)
+            g.SetShape(pcbnew.SHAPE_T_SEGMENT)
+            g.SetStart(pt(x0, y0)); g.SetEnd(pt(x1, y1))
+            g.SetWidth(mm(0.15)); g.SetLayer(lay)
+            board.Add(g)
 
 def place(board, table):
     fps = {fp.GetReference(): fp for fp in board.GetFootprints()}

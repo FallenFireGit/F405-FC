@@ -20,7 +20,7 @@ from sexpr import Sym, dump  # noqa: E402
 OUT = os.path.join(ROOT, "kicad")
 LIB = os.path.join(ROOT, "lib")
 
-c = schgen.Circuit("F405FC", "F405-FC flight controller", rev="C")
+c = schgen.Circuit("F405FC", "F405-FC flight controller", rev="D")
 PWR, MCU, SEN, VID, CON = (c.sheet(s) for s in ("Power", "MCU", "Sensors", "Video", "Connectors"))
 
 # --------------------------------------------------------------------------------------------
