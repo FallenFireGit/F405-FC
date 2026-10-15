@@ -56,7 +56,7 @@ put("C34", 23.9, 11.6, 0)         # VCAP2 (pin 47)
 # pull-ups / pull-downs
 put("R16", 19.6, 9.9, 90)         # BOOT0 pulldown (pin 60)
 put("R17", 18.6, 25.0, 90)        # BEEPER/BOOT1 pulldown (pin 28)
-put("R18", 14.6, 27.2, 90)        # GYRO1_CS pullup
+put("R18", 13.25, 19.55, 0, "B")   # GYRO1_CS pull-up; rev D: bottom beside U6 (its top-side branch forced GYRO1_CS across 3V3 at pin 19)
 put("R19", 24.55, 13.55, 90)      # GYRO2_CS pull-up (moved off the MCU top-row corridor, routing)
 put("R20", 13.55, 12.0, 90, "B")   # FLASH_CS pull-up; rev D: bottom, between the pin-58 escape via and U10 (no top-side branch across SPI3_MISO)
 put("R25", 7.6, 4.8, 0)           # I2C SCL pullup, west of the MCU next to the I2C sensors (routing)
