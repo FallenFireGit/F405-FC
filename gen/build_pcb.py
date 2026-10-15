@@ -4,6 +4,7 @@ Run inside the KiCad chroot:  kc 'python3 gen/build_pcb.py'
 Placement table: design/placement.py (ref -> x, y, rotation, side). Coordinates in mm, origin = board top-left.
 """
 import importlib
+import json
 import os
 import sys
 
@@ -342,8 +343,25 @@ def _stage(name):
         missing = [r for r in missing if r not in getattr(placement, "ANCHOR", {})]
         if missing:
             print("UNPLACED:", " ".join(sorted(missing)))
+        # placement freeze (rev D): every part keeps its position from kicad/placement_frozen.json (the last routed board)
+        # except placement.UNFREEZE, so a local placement change cannot re-shuffle the legalized neighbours under fixed copper
+        frozen = {}
+        fz = os.path.join(ROOT, "kicad", "placement_frozen.json")
+        if os.path.exists(fz) and os.environ.get("NO_FREEZE") != "1":
+            unf = set(getattr(placement, "UNFREEZE", ()))
+            fps = {fp.GetReference(): fp for fp in board.GetFootprints()}
+            for ref, (x, y, rot, side) in json.load(open(fz)).items():
+                fp = fps.get(ref)
+                if fp is None or ref in unf:
+                    continue
+                if fp.IsFlipped() != (side == "B"):
+                    fp.Flip(fp.GetPosition(), pcbnew.FLIP_DIRECTION_LEFT_RIGHT)
+                fp.SetPosition(pt(x, y))
+                fp.SetOrientationDegrees(rot)
+                frozen[ref] = True
+            print("frozen", len(frozen), "parts; free:", " ".join(sorted(unf)))
         import legalize
-        moves = legalize.legalize(board, list(placement.FIXED), OX, OY, W, H, placement.PRIORITY,
+        moves = legalize.legalize(board, list(placement.FIXED) + list(frozen), OX, OY, W, H, placement.PRIORITY,
                                   tight=list(getattr(placement, "ANCHOR", {})), reserved=getattr(placement, "RESERVED", ()))
         for ref, mv in moves:
             if mv is None or mv[0] > 1.5:

@@ -293,3 +293,6 @@ PRIORITY = {r: -10 for r in ("Y1", "C36", "C37", "C25", "C26", "C27", "C28", "C3
                              "C31", "C29")}
 PRIORITY.update({r: -9 for r in ("U13", "C24", "C52", "C53", "R38", "R39", "C48", "C46", "C45", "C43",
                                  "C49", "C50", "C18")})
+
+# rev D placement freeze (gen/build_pcb.py): every other part keeps its position from kicad/placement_frozen.json
+UNFREEZE = ()
