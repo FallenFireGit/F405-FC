@@ -38,10 +38,11 @@ This option and its cost on 6-layer boards were not checked against the live JLC
 ## 1. Bare-board checks (before any part)
 
 Measure resistance to GND (P2) with the DMM. All must read open (> 1 MΩ) on a bare board:
-VBAT (P1), 5V (P8 / P11), 10V (P3), 5V_SYS (J5 pin 1), 3V3 (TP4), VBUS (USB-C), SW nodes (L1/L2 pad 1 lands).
+VBAT (P1), 5V (P8 / P11), 10V (P3), 5V_SYS (J5 pin 1), 3V3 (TP4), 3V3_IMU and 3V3A (U5 / FB1 output pads), VTX_PWR (J3 pin 1),
+VBUS (USB-C), SW nodes (L1/L2 pad 1 lands).
 Then rail to rail (these vias sit 0.13-0.21 mm from pads of another rail, Gate 6 G6S-12; all must read open): VBAT-3V3, VBAT-5V,
-VBAT-10V, 5V-3V3, 10V-5V, 5V_SYS-3V3. Repeat these rail-to-rail checks after A1 and after Stage B (expect high resistances
-through parts, never < 1 kΩ).
+VBAT-10V, 5V-3V3, 10V-5V, 5V_SYS-3V3, VBAT to each J2 signal pin. Repeat them after A1 and after Stage B: readings through
+parts vary (e.g. VBAT-5V through U1's internal diode in one polarity), so compare both probe polarities; a reading near 0 Ω is a short.
 Any short here is a fab defect: do not populate.
 
 ## 2. Stage A: bottom side in one hot-plate pass, then the power checks
@@ -96,17 +97,18 @@ Part heights against vendor drawings were not verified (see review/summary.md); 
 6. UVLO: lower the input slowly from 8 V. Both bucks switch off between 3.8 V and 4.9 V and restart between 4.4 V and 5.6 V.
 7. VTX power switch: with 16.8 V in, apply 3.3 V through a 1 kΩ resistor to the VTX_PWR_EN node (or, after Stage B, toggle PINIO1):
    10V must drop to 0 V. Remove it: 10V returns within about 5 ms (soft start).
-8. Switch off, fit D4 (top), D5, U4 and U5 (A2; their caps went on in A1). Unpowered checks first (DMM): U4 tab and U5 pin 2 to
+8. Switch off, fit D4 (top), D5, U4 and U5 (A2; their caps went on in A1). Unpowered checks first (DMM, probe on the part's tab or lead, not the pad): U4 tab and U5 pin 2 to
    P2 GND < 1 Ω (U4's only ground is its tab: an unwetted tab lets 3V3 rise towards 5V_SYS); 5V_SYS-3V3, 5V_SYS-3V3_IMU and
    3V3-3V3_IMU not shorted. Then power **5V_SYS directly at J5 pin 1 (+) / P2 (−) with 3.6 V, limit 30 mA** (D5 and D4 block
-   back-feed): 3V3 and 3V3_IMU must read 3.2-3.6 V and never more; current a few mA. Only then repeat steps 1-3 at 8.4 V and
+   back-feed): 3V3 and 3V3_IMU must read 3.22-3.38 V (regulating, not just passing the input through) and never more; current a
+   few mA. Then raise the 5V_SYS supply to 5.0 V (same limit): both rails unchanged. Only then repeat steps 1-3 at 8.4 V and
    also check:
 
 | Rail | Where | Expected | Notes |
 |---|---|---|---|
-| 5V_SYS | J5 pin 1 | ≈ 4.7-4.9 V | 5V through D5 |
-| 3V3 | TP4 | 3.25-3.35 V | LP38692 |
-| 3V3_IMU | U5 output cap | 3.25-3.35 V | LP5907 |
+| 5V_SYS | J5 pin 1 | ≈ 4.6-5.0 V | 5V through D5 (Schottky drop) |
+| 3V3 | TP4 | 3.22-3.38 V | LP38692 |
+| 3V3_IMU | U5 output cap | 3.22-3.38 V | LP5907 |
 
 ### 2.2 Loaded checks (fan running)
 
@@ -130,7 +132,8 @@ until solder shows at the bottom. These four joints hold the connector. Check th
 0.35 mm from a shell slot, and a bridge there disables the 10 V rail; R6 pad 1 is **VBAT** 0.74 mm from a GND slot ring, and a bridge
 there shorts the battery (check R6 pad 1 to P2 reads open before any power).
 
-1. Before power (DMM, unpowered): across the two SW1 pads on the BOOT0 side: open with the button released, ≈ 0 Ω pressed.
+1. Before power (DMM, unpowered): between an SW1 pad 1 (3V3) and an SW1 pad 2 (BOOT0) - the two pads of one side are the same
+   pin, so measure across the button: ≈ 0 Ω pressed, clearly not 0 Ω released (kΩ or more through R16 and the rails).
    BOOT0 (U3 pin 60) to GND ≈ 10 kΩ (R16); PB2 (U3 pin 28) to GND ≈ 10 kΩ (R17); J1 CC1 and CC2 pins to GND ≈ 5.1 kΩ each (R34/R35).
 2. USB only (battery disconnected): plug USB-C into a current-limited USB port or a USB power meter. 5V_SYS ≈ 4.6-4.7 V (via D4),
    3V3 present, **5V and 10V must stay at 0 V** (GPS/LED/camera rails are battery-only by design).

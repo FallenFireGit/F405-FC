@@ -134,7 +134,7 @@ parametric equivalent (1,401 pcs, $4.55, Oct 2026 web snapshot; re-check at orde
   maximum duty cycle the rail regulates down to VIN ≈ **6.25-6.4 V** at 1.8 A (audit P0-04); below that it tracks
   VOUT ≈ 0.97·VIN − IOUT·(RDS,HS,hot + DCR). A 2S pack under load (6.0 V) gives about 4.76-4.87 V at 1.8 A (power re-audit P0-04). `gen/power_calc_lmr.py` models 100 % duty and therefore overstates dropout outputs; the 97 % figures in this document are authoritative.
 
-### 2.2 Inductor: Würth WE-MAPI 4020 74438356056 (5.6 uH, 4.1 x 4.1 x 2.1 mm max) — rev C (D-19)
+### 2.2 Inductor: Würth WE-MAPI 4020 74438356056 (5.6 uH, 4.1 x 4.1 x 2.1 mm max) — rev C (D-19); **ordered part since rev C Gate 5: WE-MAIA 78438356056** (DigiKey 732-11317-1-ND; ratings and land pattern not verified against its drawing; the analysis below uses the WE-MAPI figures)
 - Rev B used the 4030 74438357068 (6.8 uH, 3.1 mm). Gate 3 (G3-01) found it breaks the **2.5 mm bottom-side limit**; the bucks sit on the
   bottom, so both rails now use the 2.1 mm max WE-MAPI 4020 74438356056. 5.6 uH is the largest 4020 value found in distributor listings.
 - Würth figures (from distributor/search snippets quoting the datasheet; the PDF itself could not be downloaded): 5.6 uH ±20 %,
@@ -493,7 +493,7 @@ DigiKey PNs and evidence: `design/parts_signal.md`, `review/sourcing_research_no
 |---|---|---|---|---|
 | D1 | 1 | TVS 26 V uni 600 W | SMBJ26A (Littelfuse) | SMB |
 | U1, U2 | 2 | 80 V 2 A sync buck, FPWM + SS | LMR38020FSDDAR (TI) | HSOIC-8 PowerPAD |
-| L1, L2 | 2 | 5.6 uH 2.8 A 81 mOhm (rev C) | 74438356056 (Würth WE-MAPI) | 4020 |
+| L1, L2 | 2 | 5.6 uH (rev C; figures of the WE-MAPI) | 78438356056 (Würth WE-MAIA; was 74438356056 WE-MAPI) | 4020 |
 | C1 (VBAT entry) | 1 | 10 uF 50 V X7R | CL32B106KBJNNNE (Samsung) | 1210 |
 | C2 C3 C10 C11 (2 per IC) | 4 | 4.7 uF 100 V X7S | C3225X7S2A475K200AB (TDK, rev C) | 1210 (2.0 mm) |
 | C4, C12, C17 | 3 | 100 nF 100 V X7R (VIN HF ×2, 10 V out HF) | GRM188R72A104KA35D (Murata) | 0603 |

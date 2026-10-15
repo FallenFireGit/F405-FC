@@ -4,7 +4,7 @@ Date 2026-10-15. This summary covers two boards built from the same circuit:
 
 | Board | Where | Layers | Status |
 |---|---|---|---|
-| **Rev D** (recommended build) | branch `master` | 6 (F / In1 GND / In2 SIG / In3 SIG + VBAT / In4 GND / B) | DRC clean; Gate 4/5/6 reviewed; MAJOR fixes made; re-review results below |
+| **Rev D** (recommended build) | branch `master` | 6 (F / In1 GND / In2 SIG / In3 SIG + VBAT / In4 GND / B) | DRC clean; Gates 4/5/6: every MAJOR fixed and re-reviewed PASS; MINORs open (§5) |
 | Rev C (fallback) | branch `rev-c` | 4 (JLC04161H-7628) | DRC clean; **Gate 4 re-review FAIL (6 MAJOR)**: not recommended |
 
 The owner chose 6 layers on 2026-10-15 ("6 layer would be best"), kept 0.3/0.6 mm vias, and asked for the top side to be
@@ -38,15 +38,32 @@ that was not run; the "Not verified" section lists what was not.
 | 3 Placement | gate-3-placement, -rereview | FAIL -> FAIL (4 MAJOR) -> fixes in D-21. **No fresh Gate 3 re-review after D-21**; the rev D Gate 4/5/6 reviews covered the resulting board |
 | 4 SI/PI | gate-4-si-pi (rev B) | FAIL -> led to rev C fixes and to the 6-layer rev D |
 | 4 SI/PI rev C | rev-c: gate-4-si-pi-revc | **FAIL** (6 MAJOR) - rev C not fixed further (needs 6 layers) |
-| 4 SI/PI rev D | gate-4-si-pi-revd, gate-4-si-pi-revd-rereview | FAIL (2 MAJOR: CURR_ADC detour, signals inside the buck footprints) -> fixed in 176113f -> re-review: see §3 |
+| 4 SI/PI rev D | gate-4-si-pi-revd, gate-4-si-pi-revd-rereview | FAIL (2 MAJOR) -> fixed in 176113f -> **re-review PASS** (0 MAJOR, 16 MINOR) |
 | 5 DFM | gate-5-dfm (rev B), rev-c: gate-5-dfm-revc | FAIL -> fixes (D-26) -> rev C FAIL (2 MAJOR) -> fixed |
-| 5 DFM rev D | gate-5-dfm-revd, gate-5-6-revd-recheck | FAIL (2 MAJOR: stale DigiKey upload BOM, guide part order) -> fixed in c1f81bb -> re-check: see §3 |
-| 6 Smoke red team | gate-6-smoke-redteam, -revd | FAIL -> rev D FAIL (1 MAJOR, guide only: LDO first power) -> fixed in 176113f -> re-check: see §3 |
-| 6 Betaflight red team | gate-6-betaflight-redteam, -revd | FAIL -> rev D FAIL (2 MAJOR: no front mark, DFU parts fitted late) -> fixed -> re-check: see §3 |
+| 5 DFM rev D | gate-5-dfm-revd, gate-5-6-revd-recheck | FAIL (2 MAJOR) -> fixed in c1f81bb -> **re-check PASS** (0 MAJOR, 7 MINOR) |
+| 6 Smoke red team | gate-6-smoke-redteam, -revd | FAIL -> rev D FAIL (1 MAJOR, guide only) -> fixed in 176113f -> **re-check PASS** (in gate-5-6-revd-recheck) |
+| 6 Betaflight red team | gate-6-betaflight-redteam, -revd | FAIL -> rev D FAIL (2 MAJOR) -> fixed -> **re-check PASS** (in gate-5-6-revd-recheck) |
 
 ## 3. Rev D MAJOR fixes and their re-review
 
-Re-reviews of the fixes are in progress (fresh agents); this section is filled in when they report.
+Two fresh agents re-checked the fixes on the board at 176113f (byte-identical to the released board):
+
+- **Gate 4 re-review (`gate-4-si-pi-revd-rereview.md`): PASS** - 0 BLOCKER, 0 MAJOR, 16 MINOR, 4 INFO.
+  - G4D-02 fixed: no foreign track on B.Cu inside either buck courtyard (was 5.35 / 6.16 mm), LED_DIN ≥ 0.97 mm from FB_10V,
+    the B GND pour around the bucks is one piece again (650 mm², 51 vias).
+  - G4D-01 downgraded to MINOR (G4D2-01): CURR_ADC pin to C52 is 14.2 mm / 2 vias (was 71.6 mm / 3), but C52 still sits at the
+    R38 end, not at the pin; the reviewer's own target was ≤ 3 mm.
+  - New MINORs: SPI1_MOSI re-route is 43 mm / 5 vias with new neighbours (MOTOR8 broadside 3.4 mm, MOTOR1/4 at 0.16-0.19 mm,
+    over the In3 VBAT zone 4.7 mm; G4D2-02); the buck keep-out is router-only (`gen/route_env.sh` records it, G4D2-03).
+  - In1/In4 still one solid piece each; DRC 0/0/0.
+- **Gate 5/6 re-check (`gate-5-6-revd-recheck.md`): PASS** - 0 BLOCKER, 0 MAJOR, 7 MINOR.
+  - G5D-01, G5D-02/G6B-02 and G6B-01 fixed; G6S-11 fixed except the residuals of R56-01.
+  - Fab outputs re-exported by the reviewer match `fab/` apart from dates; the schematic regenerates byte for byte; ERC 0.
+  - Fixed after the re-check (docs only): R56-01 (tighter LDO window, added 5.0 V step, probe on the lead), R56-02 (SW1 check),
+    R56-04 (release copy of the Betaflight config), R56-05 (power.md names the WE-MAIA part), R56-06 (more rails in the bare-board
+    and rail-to-rail checks, polarity note), R56-07 (3V3 and 5V_SYS windows). Still open: R56-03 (P6 label on the top while P6 is a
+    bottom pad, J5 labelled only on the bottom; BOOT/USB labels far from their parts; BZ- and GPS 5V labels under the mounting
+    hardware) and the FWD/FRONT arrows crowding neighbouring text (R56-07, silk only).
 
 ## 4. DigiKey BOM cost
 
@@ -75,8 +92,11 @@ Design / layout (from the rev D Gate 4/5/6 reports; MINOR unless noted):
 - No reverse-polarity protection; a U1/U2 high-side short puts VBAT on the 5 V/10 V rail; R41 back-drive; J3 (10 V) and J4 (5 V
   GPS) are both 6-pin (accepted risks, D-11/D-15, G6S-20). The guide adds an ESC harness pin-order check.
 - Gyro alignment (U6 CW270FLIP, U7 CW0FLIP) derived on paper only; `align_mag` not derived (no IIS2MDC datasheet). Bench-verify.
-- Silk: the top "FWD" arrow sits near the bottom-right corner (no room at the front edge on the top side); the P6 and J5 labels
-  are ref-prefixed ("P6 C2", "J5 RX") because there is no legal spot beside them; C44/U8 silk overlap.
+- Silk: the top "FWD" arrow sits near the bottom-right corner (no room at the front edge on the top side) and crowds the P11
+  label; the P6 label ("P6 C2") is on the top although P6 is a bottom pad, and J5 ("J5 RX") is labelled only on the bottom, next to
+  the identical J4 on the top: use the iBOM; BOOT/USB labels far from their parts; BZ- and GPS 5V labels under the mounting
+  hardware; C44/U8 silk overlap (R56-03/07).
+- CURR_ADC filter cap C52 at the far end of a 14.2 mm run; SPI1_MOSI 43 mm with 5 vias (G4D2-01/02).
 - L1/L2 are Würth WE-MAIA 78438356056 on the WE-MAPI 4020 footprint: **land pattern not verified** against the WE-MAIA drawing.
 - 445-6042-1-ND (C2/C3/C10/C11) seen only on a distributor aggregator ("verify" in the BOM).
 
